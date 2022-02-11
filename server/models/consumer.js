@@ -46,8 +46,8 @@ const ConsumerSchema = Schema({
   password: {
     type: String,
     required: true,
-    min: [8, "Min Length is 8 characters"],
-    max: [15, "Max Length is 15 characters"],
+    minLength: [8, "Min Length is 8 characters"],
+    maxLength: [15, "Max Length is 15 characters"],
   },
 });
 

@@ -2,17 +2,18 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const bodyParser = require('body-parser')
 const app = express();
+
+const jobTypeCategoryRouter = require('./routes/jobTypeCategoryRoute');
 
 app.use(cors());
 app.use(morgan("tiny"));
 
-
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
 const connectDB = require("./database/connection");
 
-app.get('/', (req, res) => res.send('Hello world!'));
-
+app.use('/jobTypeCategory',jobTypeCategoryRouter);
 
 app.listen(5000, () =>
   connectDB()

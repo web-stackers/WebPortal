@@ -6,6 +6,7 @@ const JobTypeCategorySchema = Schema({
   jobType: {
     type: String,
     required: true,
+    unique: true,
   },
   category: {
     type: String,
@@ -14,3 +15,4 @@ const JobTypeCategorySchema = Schema({
 });
 
 module.exports = mongoose.model("JobTypeCategory", JobTypeCategorySchema);
+
