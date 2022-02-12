@@ -1,7 +1,7 @@
 const jobTypeCategory = require("../models/jobTypeCategory");
 
 // create and save new job type
-const jobType_post = async (req,res)=>{
+const post_jobType = async (req,res)=>{
     const newType = new jobTypeCategory ({
         jobType: req.body.jobType,
         category: req.body.category,        
@@ -19,7 +19,7 @@ const jobType_post = async (req,res)=>{
 
 
 module.exports = {
-  jobType_post
+    post_jobType
 }
 
 

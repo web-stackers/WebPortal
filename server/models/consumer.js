@@ -42,7 +42,10 @@ const ConsumerSchema = Schema({
     default: new Date(),
     required: true,
   },
-  isDisabled: Boolean,
+  isDisabled: {
+    type: Boolean,
+    default: false
+  },
   password: {
     type: String,
     required: true,

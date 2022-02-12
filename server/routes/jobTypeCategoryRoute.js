@@ -4,6 +4,6 @@ const router = express.Router();
 const jobTypeCategoryController = require("../controllers/jobTypeCategoryController");
 
 //post to job type
-router.post('/',jobTypeCategoryController.jobType_post);
+router.post('/',jobTypeCategoryController.post_jobType);
 
 module.exports = router;
