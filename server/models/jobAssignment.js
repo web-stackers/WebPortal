@@ -35,18 +35,15 @@ const JobAssignmentSchema = new Schema({
       adminResponse: String,
     },
   ],
-  providerId: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Provider",
-    },
-  ],
-  jobId: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Job",
-    },
-  ],
+  providerId: {
+    type: Schema.Types.ObjectId,
+    ref: "Provider",
+  },
+
+  jobId: {
+    type: Schema.Types.ObjectId,
+    ref: "Job",
+  },
 });
 
 module.exports = mongoose.model("JobAssignment", JobAssignmentSchema);

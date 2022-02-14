@@ -7,20 +7,27 @@ const ConsumerSchema = Schema({
     fName: {
       type: String,
       required: true,
+      max: [127, "Max Length is 127 characters"],
     },
     lName: {
       type: String,
       required: true,
+      max: [127, "Max Length is 127 characters"],
     },
   },
   contact: {
     mobile: {
       type: String,
       required: true,
+      unique: true,
+      maxLength: [10, "Max Length is 10 characters"],
+      minLength: [10, "Min Length is 10 characters"],
     },
     email: {
       type: String,
       required: true,
+      unique: true,
+      maxLength: [127, "Max Length is 127 characters"],
     },
   },
   address: {
@@ -34,8 +41,8 @@ const ConsumerSchema = Schema({
     },
   },
   profilePicture: {
-    type: String,
-    required: true,
+    type: Buffer,
+    contentType: String,
   },
   registeredDate: {
     type: Date,
@@ -44,7 +51,7 @@ const ConsumerSchema = Schema({
   },
   isDisabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   password: {
     type: String,
