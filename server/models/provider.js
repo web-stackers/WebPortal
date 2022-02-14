@@ -1,8 +1,8 @@
 //provider model
 const mongoose = require("mongoose");
-const provider = mongoose.provider;
+const Schema = mongoose.Schema;
 
-const serviceprovider = new provider({
+const providerSchema = Schema({
   name: {
     fName: {
       type: String,
@@ -62,12 +62,12 @@ const serviceprovider = new provider({
   },
   document: {
     profilePicture: {
-      data: Buffer,
+      type: Buffer,
       contentType: String,
       required: true,
     },
     NIC_Scanned: {
-      data: Buffer,
+      type: Buffer,
       contentType: String,
       required: true,
     },
@@ -77,7 +77,7 @@ const serviceprovider = new provider({
         required: true,
       },
       doc: {
-        data: Buffer,
+        type: Buffer,
         contentType: String,
         required: true,
       },
@@ -96,16 +96,13 @@ const serviceprovider = new provider({
   verification: {
     isAccepted: {
       type: Boolean,
-      required: true,
     },
     date: {
       type: Date,
-      required: true,
     },
     thirdParty: {
       type: mongoose.Types.ObjectId,
-      ref: "thirdParty",
-      required: true,
+      ref: "SecondaryUser",
     },
   },
   availability: {
@@ -124,4 +121,4 @@ const serviceprovider = new provider({
   },
 });
 
-module.exports = mongoose.model("provider", serviceprovider);
+module.exports = mongoose.model("provider", providerSchema);
