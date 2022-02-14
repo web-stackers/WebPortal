@@ -4,20 +4,21 @@ const Schema = mongoose.Schema;
 // Creating collection for secondary user
 const SecondaryUserSchema = new Schema({
   role: {
-    type: Number,
+    type: String,
     required: true,
-    max: [12, "Max Length is 12 characters"],
+    default: "Third Party",
+    maxLength: [12, "Max Length is 12 characters"],
   },
   name: {
     fName: {
       type: String,
       required: true,
-      max: [127, "Max Length is 127 characters"],
+      maxLength: [127, "Max Length is 127 characters"],
     },
     lName: {
       type: String,
       required: true,
-      max: [127, "Max Length is 127 characters"],
+      maxLength: [127, "Max Length is 127 characters"],
     },
   },
   contact: {
@@ -46,17 +47,17 @@ const SecondaryUserSchema = new Schema({
     data: Buffer,
     contentType: String,
   },
-  registeredDate: { 
-    type: Date, 
-    default: Date.now 
+  registeredDate: {
+    type: Date,
+    default: Date.now,
   },
-  verifyDocType: { 
-    type: String, 
-    required: true
+  verifyDocType: {
+    type: String,
+    required: true,
   },
-  isDisabled: { 
-    type: Boolean, 
-    default: false 
+  isDisabled: {
+    type: Boolean,
+    default: false,
   },
 });
 
