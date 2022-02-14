@@ -14,10 +14,21 @@ const fetch_jobs = async (req, res) => {
 const post_job = async (req, res) => {
   const newJob = new job({
     jobType: req.body.jobType,
+    address: {
+      longitude: req.body.longitude,
+      latitude: req.body.latitude,
+    },
     requestedTime: req.body.requestedTime,
     description: req.body.description,
     jobPhoto: req.body.jobPhoto,
+    consumerId: req.body.consumerId,
   });
+  try {
+    await newJob.save();
+    res.status(201).json(newJob);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 // Fetch job by id

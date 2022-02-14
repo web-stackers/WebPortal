@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 const jobTypeCategoryRouter = require('./routes/jobTypeCategoryRoute');
+const jobRouter = require('./routes/jobRoute');
 const consumerRouter = require('./routes/consumerRoute');
 
 app.use(cors());
@@ -16,6 +17,7 @@ const connectDB = require("./database/connection");
 
 app.use('/consumer',consumerRouter);
 app.use('/jobTypeCategory',jobTypeCategoryRouter);
+app.use('/job',jobRouter);
 
 app.listen(5000, () =>
   connectDB()
