@@ -1,4 +1,5 @@
 const job = require("../models/job");
+const provider = require("../models/provider");
 
 // Fetch all jobs
 const fetch_jobs = async (req, res) => {
