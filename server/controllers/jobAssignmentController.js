@@ -88,6 +88,7 @@ const withdrawl_pending = async (req, res) => {
         withdrawn: {
           arisedBy: req.body.arisedBy,
           reason: req.body.reason,
+          adminResponse: "Pending",
         },
       },
       { new: true }
@@ -109,10 +110,12 @@ const withdrawl_accepted = async (req, res) => {
       {
         state: "Job withdrawed",
         withdrawn: {
+          arisedBy: requiredJobAssignment.withdrawn.arisedBy,
+          reason: requiredJobAssignment.withdrawn.reason,
           adminResponse: "Accepted",
         },
       },
-      { new: true }
+      { upsert: true, new: true }
     );
     res.status(200).json(updatedJobWithdrawn);
   } catch (error) {
@@ -131,6 +134,8 @@ const withdrawl_rejected = async (req, res) => {
       {
         state: "Job pending",
         withdrawn: {
+          arisedBy: requiredJobAssignment.withdrawn.arisedBy,
+          reason: requiredJobAssignment.withdrawn.reason,
           adminResponse: req.body.adminResponse,
         },
       },
@@ -154,7 +159,11 @@ const insert_quotation = async (req, res) => {
   };
 
   try {
-    const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(id,{quotation: newQuotation},{ new: true });
+    const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(
+      id,
+      { quotation: newQuotation },
+      { new: true }
+    );
     res.status(200).json(updatedJobAssignment);
   } catch (error) {
     res.status(400).json({ message: error.message });
