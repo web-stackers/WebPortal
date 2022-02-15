@@ -8,38 +8,31 @@ const JobAssignmentSchema = new Schema({
     required: true,
   },
   reason: String,
-  quotation: [
-    {
-      approximatedDuration: [
-        {
-          days: {
-            type: Number,
-            min: 0,
-          },
-          minutes: {
-            type: Number,
-            min: 0,
-          },
-        },
-      ],
-      amount: {
+  quotation: {
+    approximatedDuration: {
+      days: {
+        type: Number,
+        min: 0,
+      },
+      minutes: {
         type: Number,
         min: 0,
       },
     },
-  ],
-  withdrawn: [
-    {
-      arisedBy: String,
-      reason: String,
-      adminResponse: String,
+    amount: {
+      type: Number,
+      min: 0,
     },
-  ],
+  },
+  withdrawn: {
+    arisedBy: String,
+    reason: String,
+    adminResponse: String,
+  },
   providerId: {
     type: Schema.Types.ObjectId,
     ref: "Provider",
   },
-
   jobId: {
     type: Schema.Types.ObjectId,
     ref: "Job",

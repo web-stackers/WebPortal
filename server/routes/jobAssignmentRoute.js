@@ -6,7 +6,31 @@ const jobAssignmentController = require("../controllers/jobAssignmentController"
 //Get job Assignment
 router.get("/", jobAssignmentController.fetch_jobAssignments);
 router.get("/:id", jobAssignmentController.fetch_jobAssignment);
-//post to job assignment
+//post job assignment
 router.post("/", jobAssignmentController.post_jobAssignment);
-
+//update job assignment when quotation is accepted
+router.patch(
+  "/quotationAccepted/:id",
+  jobAssignmentController.quotation_accepted
+);
+//update job assignment when quotation is rejected
+router.patch(
+  "/quotationRejected/:id",
+  jobAssignmentController.quotation_rejected
+);
+//update job assignment when withdrawl is pending
+router.patch(
+  "/withdrawlPending/:id",
+  jobAssignmentController.withdrawl_pending
+);
+//update job assignment when withdrawl is accepted by admin
+router.patch(
+  "/withdrawlAccepted/:id",
+  jobAssignmentController.withdrawl_accepted
+);
+//update job assignment when withdrawl is rejected by admin
+router.patch(
+  "/withdrawlRejected/:id",
+  jobAssignmentController.withdrawl_rejected
+);
 module.exports = router;

@@ -38,8 +38,117 @@ const fetch_jobAssignment = async (req, res) => {
   }
 };
 
+// Update state when quotation is accepted
+const quotation_accepted = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const requiredJobAssignment = await jobAssignment.findById(id);
+    const updatedJobPending = await jobAssignment.findByIdAndUpdate(
+      id,
+      { state: "Job Pending" },
+      { new: true }
+    );
+    res.status(200).json(updatedJobPending);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Update state and reason when quotation is rejected
+const quotation_rejected = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const requiredJobAssignment = await jobAssignment.findById(id);
+    const updatedQuotationRejected = await jobAssignment.findByIdAndUpdate(
+      id,
+      {
+        state: "Quotation rejected",
+        reason: req.body.reason,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedQuotationRejected);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Update when job is withdrawn
+const withdrawl_pending = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const requiredJobAssignment = await jobAssignment.findById(id);
+    const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
+      id,
+      {
+        state: "Withdrawl Pending",
+        withdrawn: {
+          arisedBy: req.body.arisedBy,
+          reason: req.body.reason,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedJobWithdrawn);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Update when withdrawl request is accepted by admin
+const withdrawl_accepted = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const requiredJobAssignment = await jobAssignment.findById(id);
+    const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
+      id,
+      {
+        state: "Job withdrawed",
+        withdrawn: {
+          adminResponse: "Accepted",
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedJobWithdrawn);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Update when withdrawl request is rejected by admin
+const withdrawl_rejected = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const requiredJobAssignment = await jobAssignment.findById(id);
+    const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
+      id,
+      {
+        state: "Job pending",
+        withdrawn: {
+          adminResponse: req.body.adminResponse,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedJobWithdrawn);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_jobAssignment,
   fetch_jobAssignments,
   fetch_jobAssignment,
+  quotation_accepted,
+  quotation_rejected,
+  withdrawl_pending,
+  withdrawl_accepted,
+  withdrawl_rejected,
 };
