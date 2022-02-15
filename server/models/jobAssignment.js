@@ -9,19 +9,41 @@ const JobAssignmentSchema = new Schema({
   },
   reason: String,
   quotation: {
+<<<<<<< HEAD
     approximatedDuration: {
       days: {
         type: Number,
         min: 0,
       },
       minutes: {
+=======
+      approximatedDuration: {
+          days: {
+            type: Number,
+            min: 0,
+          },
+          minutes: {
+            type: Number,
+            min: 0,
+          },
+        },
+      amount: {
+>>>>>>> b1709e63058af95d85a8e7e2006b4e0061469615
         type: Number,
         min: 0,
       },
     },
+<<<<<<< HEAD
     amount: {
       type: Number,
       min: 0,
+=======
+  withdrawn: [
+    {
+      arisedBy: String,
+      reason: String,
+      adminResponse: String,
+>>>>>>> b1709e63058af95d85a8e7e2006b4e0061469615
     },
   },
   withdrawn: {

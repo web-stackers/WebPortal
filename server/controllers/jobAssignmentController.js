@@ -38,6 +38,7 @@ const fetch_jobAssignment = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // Update state when quotation is accepted
 const quotation_accepted = async (req, res) => {
   const { id } = req.params;
@@ -141,14 +142,42 @@ const withdrawl_rejected = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+=======
+// Update provider's quotation
+const update_quotation = async (req, res) => {
+  const { id } = req.params;
+  const timeInMinutes = req.body.hours*60 + req.body.minutes; 
+
+  try{
+    const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(id, {
+      quotation: {
+        approximateDuration: {
+          days: req.body.days,
+          minutes: timeInMinutes,
+        },
+        amount: req.body.amount
+      }   
+    }, 
+    {new:true});
+    res.status(200).json(updatedJobAssignment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log(error.message);
+  }
+}
+>>>>>>> b1709e63058af95d85a8e7e2006b4e0061469615
 
 module.exports = {
   post_jobAssignment,
   fetch_jobAssignments,
   fetch_jobAssignment,
+<<<<<<< HEAD
   quotation_accepted,
   quotation_rejected,
   withdrawl_pending,
   withdrawl_accepted,
   withdrawl_rejected,
+=======
+  update_quotation
+>>>>>>> b1709e63058af95d85a8e7e2006b4e0061469615
 };
