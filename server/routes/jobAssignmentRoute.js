@@ -33,7 +33,7 @@ router.patch(
   "/withdrawlRejected/:id",
   jobAssignmentController.withdrawl_rejected
 );
-// Update quotation
-router.patch("/quotation/:id", jobAssignmentController.update_quotation);
+// Insert provider's quotation
+router.patch("/quotation/:id", jobAssignmentController.insert_quotation);
 
 module.exports = router;

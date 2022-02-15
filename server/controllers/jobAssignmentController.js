@@ -141,25 +141,20 @@ const withdrawl_rejected = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-// Update provider's quotation
-const update_quotation = async (req, res) => {
+
+// Insert provider's quotation
+const insert_quotation = async (req, res) => {
   const { id } = req.params;
-  const timeInMinutes = req.body.hours * 60 + req.body.minutes;
+  const newQuotation = {
+    approximatedDuration: {
+      days: req.body.days,
+      minutes: parseInt(req.body.hours) * 60 + parseInt(req.body.minutes),
+    },
+    amount: req.body.amount,
+  };
 
   try {
-    const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(
-      id,
-      {
-        quotation: {
-          approximateDuration: {
-            days: req.body.days,
-            minutes: timeInMinutes,
-          },
-          amount: req.body.amount,
-        },
-      },
-      { new: true }
-    );
+    const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(id,{quotation: newQuotation},{ new: true });
     res.status(200).json(updatedJobAssignment);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -176,5 +171,5 @@ module.exports = {
   withdrawl_pending,
   withdrawl_accepted,
   withdrawl_rejected,
-  update_quotation,
+  insert_quotation,
 };
