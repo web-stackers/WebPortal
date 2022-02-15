@@ -31,17 +31,18 @@ const JobSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: "Consumer",
   },
-  jobPhoto: [{ type: Buffer, contentType: String }],
-  ratingAndReview: {
-    rating: {
-      consumer: { type: Number },
-      provider: { type: Number },
-    },
-    reviews: {
-      consumer: { type: String },
-      provider: { type: String },
-    },
+  providerId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Provider",
   },
+  jobPhoto: [{ type: Buffer, contentType: String }],
+  ratingAndReview: [
+    {
+      by: { type: String },
+      rating: { type: Number },
+      review: { type: String },
+    },
+  ],
   complaint: [
     {
       by: { type: String },

@@ -59,6 +59,14 @@ const ConsumerSchema = Schema({
     minLength: [8, "Min Length is 8 characters"],
     maxLength: [15, "Max Length is 15 characters"],
   },
+  totalRating: {
+    type: Number,
+    default: 0,
+  },
+  ratingCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Consumer", ConsumerSchema);

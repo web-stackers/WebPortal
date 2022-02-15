@@ -1,5 +1,6 @@
 const job = require("../models/job");
 const provider = require("../models/provider");
+const consumer = require("../models/consumer");
 
 // Fetch all jobs
 const fetch_jobs = async (req, res) => {
@@ -90,6 +91,29 @@ const complaint_handled = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+// Update rating and review
+const update_ratingAndReview = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedRatingAndReview = await job.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          ratingAndReview: {
+            by: req.body.by,
+            rating: req.body.rating,
+            review: req.body.review,
+          },
+        },
+      },
+      { upsert: true, new: true }
+    );
+    res.status(200).json(updatedRatingAndReview);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log(error.message);
+  }
+};
 
 module.exports = {
   fetch_jobs,
@@ -97,4 +121,5 @@ module.exports = {
   fetch_job,
   update_complaint,
   complaint_handled,
+  update_ratingAndReview,
 };

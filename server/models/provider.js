@@ -119,6 +119,14 @@ const providerSchema = Schema({
     type: String,
     required: true,
   },
+  totalRating: {
+    type: Number,
+    default: 0,
+  },
+  ratingCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("provider", providerSchema);
