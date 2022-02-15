@@ -45,6 +45,13 @@ const quotation_accepted = async (req, res) => {
 
   try {
     const requiredJobAssignment = await jobAssignment.findById(id);
+    //const requiredJob = await job.findById(requiredJobAssignment.jobId);
+
+    const updatedJobProvider = await job.findByIdAndUpdate(
+      requiredJobAssignment.jobId,
+      { providerId: requiredJobAssignment.providerId },
+      { new: true }
+    );
     const updatedJobPending = await jobAssignment.findByIdAndUpdate(
       id,
       { state: "Job Pending" },
