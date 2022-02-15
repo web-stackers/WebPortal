@@ -44,50 +44,26 @@ const fetch_job = async (req, res) => {
   }
 };
 
-// Update Complaint of providers
-const update_complaint_provider = async (req, res) => {
+// Update complaint
+const update_complaint = async (req, res) => {
   const { id } = req.params;
   try {
-    const updatedComplaintProvider = await job.findByIdAndUpdate(
+    const updatedComplain = await job.findByIdAndUpdate(
       id,
       {
-        complaint: {
-          provider: {
+        $push: {
+          complaint: {
+            by: req.body.by,
             category: req.body.category,
             description: req.body.description,
             date: new Date(),
+            adminResponse: "pending",
           },
         },
       },
-      { new: true }
-      //{ upsert: true }
+      { upsert: true, new: true }
     );
-    res.status(200).json(updatedComplaintProvider);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-    console.log(error.message);
-  }
-};
-
-// Update Complaint of consumer
-const update_complaint_consumer = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updatedComplaintConsumer = await job.findByIdAndUpdate(
-      id,
-      {
-        complaint: {
-          consumer: {
-            category: req.body.category,
-            description: req.body.description,
-            date: new Date(),
-          },
-        },
-        //{ upsert: true }
-      },
-      { new: true }
-    );
-    res.status(200).json(updatedComplaintConsumer);
+    res.status(200).json(updatedComplain);
   } catch (error) {
     res.status(400).json({ message: error.message });
     console.log(error.message);
@@ -98,6 +74,5 @@ module.exports = {
   fetch_jobs,
   post_job,
   fetch_job,
-  update_complaint_provider,
-  update_complaint_consumer,
+  update_complaint,
 };
