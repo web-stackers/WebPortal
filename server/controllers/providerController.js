@@ -87,9 +87,32 @@ const disable_provider = async (req, res) => {
   }
 };
 
+// Update verification details
+const update_verification = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedVerification = await provider.findByIdAndUpdate(
+      id,
+      {
+        verification: {
+          isAccepted: req.body.isAccepted,
+          date: new Date(),
+          thirdParty: req.body.thirdParty,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedVerification);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_providerType,
   fetch_providers,
   fetch_provider,
   disable_provider,
+  update_verification,
 };
