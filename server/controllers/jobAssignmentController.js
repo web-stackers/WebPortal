@@ -1,4 +1,5 @@
 const jobAssignment = require("../models/jobAssignment");
+const job = require("../models/job");
 
 // Fetch all job assignment
 const fetch_jobAssignments = async (req, res) => {

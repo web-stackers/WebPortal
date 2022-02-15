@@ -95,6 +95,19 @@ const complaint_handled = async (req, res) => {
 const update_ratingAndReview = async (req, res) => {
   const { id } = req.params;
   try {
+    const requiredJob = await job.findById(id);
+    const requiredConsumer = await consumer.findById(requiredJob.consumerId);
+    // const requiredProvider = await provider.findById(requiredJob.providerId);
+
+    if (req.body.by === "provider") {
+      const updatedConsumerRating = await consumer.findByIdAndUpdate(
+        requiredJob.consumerId,
+        {
+          ratingCount: requiredConsumer.ratingCount + 1,
+          totalRating: requiredConsumer.totalRating + req.body.rating,
+        }
+      );
+    }
     const updatedRatingAndReview = await job.findByIdAndUpdate(
       id,
       {
