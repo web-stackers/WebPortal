@@ -70,9 +70,31 @@ const update_complaint = async (req, res) => {
   }
 };
 
+// Update when complaint handled by admin
+const complaint_handled = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const requiredJob = await job.findById(id);
+    const updatedJob = await job.updateOne(
+      { "complaint.by": "consumer" },
+      {
+        $set: {
+          "complaint.$.adminResponse": req.body.adminResponse,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedJob);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   fetch_jobs,
   post_job,
   fetch_job,
   update_complaint,
+  complaint_handled,
 };

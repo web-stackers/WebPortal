@@ -7,5 +7,6 @@ router.get("/", jobController.fetch_jobs);
 router.get("/:id", jobController.fetch_job);
 router.post("/", jobController.post_job);
 router.patch("/complaint/:id", jobController.update_complaint);
+router.patch("/complaintHandled/:id", jobController.complaint_handled);
 
 module.exports = router;
