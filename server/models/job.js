@@ -42,24 +42,15 @@ const JobSchema = new Schema({
       provider: { type: String },
     },
   },
-  complaint: {
-    consumer: {
+  complaint: [
+    {
+      by: { type: String },
       category: { type: String },
-      date: {
-        type: Date,
-      },
+      date: { type: Date },
       description: { type: String },
       adminResponse: { type: String },
     },
-    provider: {
-      category: { type: String },
-      date: {
-        type: Date,
-      },
-      description: { type: String },
-      adminResponse: { type: String },
-    },
-  },
+  ],
 });
 
 module.exports = mongoose.model("Job", JobSchema);
