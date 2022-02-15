@@ -8,10 +8,8 @@ const JobAssignmentSchema = new Schema({
     required: true,
   },
   reason: String,
-  quotation: [
-    {
-      approximatedDuration: [
-        {
+  quotation: {
+      approximatedDuration: {
           days: {
             type: Number,
             min: 0,
@@ -21,13 +19,11 @@ const JobAssignmentSchema = new Schema({
             min: 0,
           },
         },
-      ],
       amount: {
         type: Number,
         min: 0,
       },
     },
-  ],
   withdrawn: [
     {
       arisedBy: String,

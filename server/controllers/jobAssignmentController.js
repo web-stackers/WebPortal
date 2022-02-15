@@ -38,8 +38,32 @@ const fetch_jobAssignment = async (req, res) => {
   }
 };
 
+// Update provider's quotation
+const update_quotation = async (req, res) => {
+  const { id } = req.params;
+  const timeInMinutes = req.body.hours*60 + req.body.minutes; 
+
+  try{
+    const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(id, {
+      quotation: {
+        approximateDuration: {
+          days: req.body.days,
+          minutes: timeInMinutes,
+        },
+        amount: req.body.amount
+      }   
+    }, 
+    {new:true});
+    res.status(200).json(updatedJobAssignment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log(error.message);
+  }
+}
+
 module.exports = {
   post_jobAssignment,
   fetch_jobAssignments,
   fetch_jobAssignment,
+  update_quotation
 };
