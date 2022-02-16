@@ -1,7 +1,5 @@
 import { makeStyles } from "@mui/styles";
-import { ThemeContext } from "@emotion/react";
 import TextField from "@mui/material/TextField";
-import { palette } from "@mui/system";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -12,19 +10,20 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const StextField = ({ label, name, value, onChange, type }) => {
+const StextField = ({ label, name, value, onChange }) => {
   const classes = useStyles();
   return (
     <div className={classes.textField}>
       <TextField
+        autoComplete="off"
         required
+        sx={{ width: "70ch" }}
         variant="outlined"
         color="primary"
         name={name}
         label={label}
         value={value}
         onChange={onChange}
-        type={type}
       />
     </div>
   );

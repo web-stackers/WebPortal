@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import Sbutton from "../Sbutton";
-import StextField from "../StextField";
+import StextField from "../formComponents/StextField";
 
 const useStyles = makeStyles((theme) => {
   return {

@@ -1,4 +1,6 @@
-import StextField from "../../components/StextField";
+import StextField from "../../components/formComponents/StextField";
+import Spassword from "../../components/formComponents/Spassword";
+import Sselect from "../../components/formComponents/Sselect";
 import Sbutton from "../../components/Sbutton";
 import axios from "axios";
 import { useState } from "react";
@@ -20,7 +22,6 @@ const AddNewThirdParty = () => {
           name="firstName"
           value={inputs.firstName || ""}
           onChange={handleChange}
-          type="text"
         />
 
         <StextField
@@ -28,8 +29,30 @@ const AddNewThirdParty = () => {
           name="lastName"
           value={inputs.lastName || ""}
           onChange={handleChange}
-          type="text"
         />
+
+        <StextField
+          label="Email"
+          name="email"
+          value={inputs.email || ""}
+          onChange={handleChange}
+        />
+
+        <StextField
+          label="Mobile Number"
+          name="mobileNumber"
+          value={inputs.mobileNumber || ""}
+          onChange={handleChange}
+        />
+
+        <StextField
+          label="Address"
+          name="address"
+          value={inputs.address || ""}
+          onChange={handleChange}
+        />
+        <Spassword />
+        <Sselect value={inputs.docType || ""} onChange={handleChange} />
 
         <Sbutton text="Submit" type="submit" />
       </form>

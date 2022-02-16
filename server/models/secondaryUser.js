@@ -43,10 +43,11 @@ const SecondaryUserSchema = new Schema({
     minLength: [8, "Min Length is 8 characters"],
     maxLength: [15, "Max Length is 15 characters"],
   },
+  //I have temporarily make required field as comment
   profilePicture: {
     type: Buffer,
     contentType: String,
-    required: true,
+    //required: true,
   },
   registeredDate: {
     type: Date,
@@ -54,7 +55,6 @@ const SecondaryUserSchema = new Schema({
   },
   verifyDocType: {
     type: String,
-    required: true,
   },
   isDisabled: {
     type: Boolean,
