@@ -76,9 +76,9 @@ const complaint_handled = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const requiredJob = await job.findById(id);
+    //const requiredJob = await job.findById(id);
     const updatedJob = await job.updateOne(
-      { "complaint.by": "consumer" },
+      { _id: id, "complaint.by": "consumer" },
       {
         $set: {
           "complaint.$.adminResponse": req.body.adminResponse,
