@@ -1,6 +1,12 @@
+import Topbar from "../components/Users/Topbar";
+import Userlist from "../components/Users/Userlist";
+
 const Users = () => {
     return ( 
-        <div>Users</div>
+        <>
+            <Topbar />
+            <Userlist />
+        </>
      );
 }
  
