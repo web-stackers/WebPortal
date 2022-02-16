@@ -39,17 +39,16 @@ const fetch_jobAssignment = async (req, res) => {
   }
 };
 
-// Update state when quotation is accepted
+// Update when quotation is accepted
 const quotation_accepted = async (req, res) => {
   const { id } = req.params;
 
   try {
     const requiredJobAssignment = await jobAssignment.findById(id);
-    //const requiredJob = await job.findById(requiredJobAssignment.jobId);
-
+    //update the derived attribute provider when quotation is accepted.
     const updatedJobProvider = await job.findByIdAndUpdate(
       requiredJobAssignment.jobId,
-      { providerId: requiredJobAssignment.providerId },
+      { providerId: requiredJobAssignment.providerId }, //set the job collection provider id attribute with the id taken from job assignment provider ID
       { new: true }
     );
     const updatedJobPending = await jobAssignment.findByIdAndUpdate(
@@ -118,6 +117,7 @@ const withdrawl_accepted = async (req, res) => {
       {
         state: "Job withdrawed",
         withdrawn: {
+          //If we didn't update the fields of object again, those will be deleted. So we fetch them from the database and update with the same.
           arisedBy: requiredJobAssignment.withdrawn.arisedBy,
           reason: requiredJobAssignment.withdrawn.reason,
           adminResponse: "Accepted",
