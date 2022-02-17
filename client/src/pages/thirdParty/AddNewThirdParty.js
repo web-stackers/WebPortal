@@ -2,7 +2,7 @@ import StextField from "../../components/formComponents/StextField";
 import Spassword from "../../components/formComponents/Spassword";
 import Sselect from "../../components/formComponents/Sselect";
 import Sbutton from "../../components/Sbutton";
-import axios from "axios";
+
 import { useState } from "react";
 
 const AddNewThirdParty = () => {
