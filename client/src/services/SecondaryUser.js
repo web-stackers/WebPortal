@@ -6,4 +6,4 @@ class SecondaryUserDataService {
   }
 }
 
-export default SecondaryUserDataService;
+export default new SecondaryUserDataService();
