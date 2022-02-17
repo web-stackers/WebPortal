@@ -22,9 +22,10 @@ const SecondaryUserSchema = new Schema({
     },
   },
   contact: {
+    //I have temporarily make required field as comment
     mobile: {
       type: String,
-      required: true,
+      //required: true,
       unique: true,
       maxLength: [10, "Max Length is 10 characters"],
       minLength: [10, "Min Length is 10 characters"],
@@ -36,10 +37,15 @@ const SecondaryUserSchema = new Schema({
       maxLength: [127, "Max Length is 127 characters"],
     },
   },
-  address: { type: String, required: true },
+  //I have temporarily make required field as comment
+  address: {
+    type: String,
+    //required: true
+  },
+  //I have temporarily make required field as comment
   password: {
     type: String,
-    required: true,
+    //required: true,
     minLength: [8, "Min Length is 8 characters"],
     maxLength: [15, "Max Length is 15 characters"],
   },

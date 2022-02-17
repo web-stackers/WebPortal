@@ -2,7 +2,7 @@ import http from "./http-secondaryUser";
 
 class SecondaryUserDataService {
   createSecondaryUser(data) {
-    return http.post("/", data);
+    return http.post("/secondaryUser", data);
   }
 }
 
