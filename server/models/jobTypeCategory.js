@@ -15,4 +15,3 @@ const JobTypeCategorySchema = Schema({
 });
 
 module.exports = mongoose.model("JobTypeCategory", JobTypeCategorySchema);
-
