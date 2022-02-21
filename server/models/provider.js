@@ -60,29 +60,16 @@ const providerSchema = Schema({
     type: Date,
     required: true,
   },
-  document: {
-    profilePicture: {
-      type: Buffer,
-      contentType: String,
-      required: true,
+  document: [
+    {
+      type: { type: String },
+      isAccepted: { type: Boolean },
+      qualificationDocType: { type: String },
+      reasonForRejection: { type: String },
+      doc: { type: Buffer },
     },
-    NIC_Scanned: {
-      type: Buffer,
-      contentType: String,
-      required: true,
-    },
-    qualificationDoc: {
-      type: {
-        type: String,
-        required: true,
-      },
-      doc: {
-        type: Buffer,
-        contentType: String,
-        required: true,
-      },
-    },
-  },
+  ],
+
   address: {
     longitude: {
       type: mongoose.Types.Decimal128,
