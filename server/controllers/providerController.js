@@ -1,15 +1,5 @@
 const provider = require("../models/provider");
 
-// Fetch all providers
-const fetch_providers = async (req, res) => {
-  try {
-    const providers = await provider.find();
-    res.status(200).json(providers);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
 // create and save new provider type
 const post_providerType = async (req, res) => {
   const newserviceprovider = new provider({
@@ -55,6 +45,16 @@ const post_providerType = async (req, res) => {
     res.status(201).json(newserviceprovider);
   } catch (error) {
     res.status(409).json({ message: error.message });
+  }
+};
+
+// Fetch all providers
+const fetch_providers = async (req, res) => {
+  try {
+    const providers = await provider.find();
+    res.status(200).json(providers);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 

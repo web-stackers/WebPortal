@@ -91,6 +91,7 @@ const complaint_handled = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 // Update rating and review
 const update_ratingAndReview = async (req, res) => {
   const { id } = req.params;
