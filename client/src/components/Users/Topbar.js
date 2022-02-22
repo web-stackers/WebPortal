@@ -1,8 +1,8 @@
 import { makeStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
-import Sbutton from "../Sbutton";
-import StextField from "../formComponents/StextField";
+import TextField from '@mui/material/TextField';
+import Typography from "@mui/material/Typography";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -11,38 +11,57 @@ const useStyles = makeStyles((theme) => {
       justifyContent: "space-between",
       fontSize: 18,
       height: "fit-content",
-      margin: "-5px 0 4px 0",
+      margin: "-5px 0 10px 0",
       borderBottom: "2px " + theme.palette.primary.light + " solid",
       padding: "0px 10px 8px 0",
     },
     type: {
       display: "flex",
-      justifyContent: "space-around",
       flexGrow: 2,
+      alignItems: 'center',
+      cursor: 'pointer'
     },
     search: {
       display: "flex",
-      justifyContent: "space-around",
       justifySelf: "flex-end",
     },
+    userType: {
+      width: '25%'
+    },
+    textBox: {
+      marginRight: '10px'
+    }
   };
 });
 
 const Topbar = () => {
   const classes = useStyles();
-  const handleClick = () => {
-    alert("Search button clicked !");
-  };
 
   return (
     <div className={classes.outline}>
       <div className={classes.type}>
-        <p>Consumers</p>
-        <p>Providers</p>
+        <Typography 
+          className={classes.userType}
+          onClick={() => alert('Consumers')}>
+          Consumers
+        </Typography>
+        <Typography 
+          className={classes.userType}
+          onClick={() => alert('Providers')}>
+          Providers
+        </Typography>
       </div>
+
       <div className={classes.search}>
-        <StextField />
-        <Button>
+        <TextField 
+          id="searchUser" 
+          label="Type username" 
+          variant="outlined"
+          className={classes.textBox}
+          size= "small"
+         />
+
+        <Button variant="contained">
           <SearchIcon />
         </Button>
       </div>

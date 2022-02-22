@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import {
   DashboardOutlined,
@@ -21,6 +21,7 @@ import useStyles from "../styles/styles";
 const Layout = ({ children }) => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = [
     {
@@ -87,6 +88,7 @@ const Layout = ({ children }) => {
               button
               key={item.text}
               onClick={() => navigate(item.path)}
+              className={location.pathname===item.path? classes.active:null}
             >
               <ListItemIcon style={{ color: "white" }}>
                 {item.icon}

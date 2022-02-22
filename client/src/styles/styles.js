@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => {
     avatar: {
       marginLeft: theme.spacing(2),
     },
+    active: {
+      backgroundColor: theme.palette.secondary.main + "!important",
+    }
   };
 });
 
