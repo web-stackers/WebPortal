@@ -20,9 +20,7 @@ const post_providerType = async (req, res) => {
     document: [
       {
         type: req.body.type,
-        isAccepted: req.body.isAccepted,
         qualificationDocType: req.body.qualificationDocType,
-        reasonForRejection: req.body.reasonForRejection,
         doc: req.body.doc,
       },
     ],
