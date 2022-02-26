@@ -17,14 +17,15 @@ const post_providerType = async (req, res) => {
     appliedDate: req.body.appliedDate,
     jobType: req.body.jobType,
     workStartedYear: req.body.workStartedYear,
-    document: {
-      profilePicture: req.body.profilePicture,
-      NIC_Scanned: req.body.NIC_Scanned,
-      qualificationDoc: {
+    document: [
+      {
         type: req.body.type,
+        isAccepted: req.body.isAccepted,
+        qualificationDocType: req.body.qualificationDocType,
+        reasonForRejection: req.body.reasonForRejection,
         doc: req.body.doc,
       },
-    },
+    ],
     address: {
       latitude: req.body.latitude,
       longitude: req.body.longitude,
