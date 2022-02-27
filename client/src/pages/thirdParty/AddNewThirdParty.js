@@ -14,6 +14,14 @@ const AddNewThirdParty = () => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!inputs.firstName) {
+      alert("Please add a task");
+      return;
+    }
+  };
+
   return (
     <div>
       <form>
@@ -54,10 +62,22 @@ const AddNewThirdParty = () => {
         <Spassword />
         <Sselect value={inputs.docType || ""} onChange={handleChange} />
 
-        <Sbutton text="Submit" type="submit" />
+        <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>
     </div>
   );
 };
 
 export default AddNewThirdParty;
+
+// const onSubmit = (e) => {
+//      e.preventDefault()
+//      if(!text){
+//          alert('Please add a task')
+//          return
+//      }
+//      onAdd({text, day, reminder})
+//      setText('')
+//      setDay('')
+//      setReminder(false)
+// }

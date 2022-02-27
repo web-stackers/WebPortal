@@ -1,7 +1,8 @@
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Jobs from "./pages/Jobs";
-import Complaints from "./pages/Complaints";
+import Complaints from "./pages/complaints/Complaints";
+import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
 import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
 import ThirdParty from "./pages/thirdParty/ThirdParty";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
@@ -37,6 +38,10 @@ function App() {
               <Route path="/thirdParty" element={<ThirdParty />} />
               <Route path="/addNewThirdParty" element={<AddNewThirdParty />} />
               <Route path="/withdrawals" element={<Withdrawal />} />
+              <Route
+                path="/ResponseToComplaint"
+                element={<ResponseToComplaint />}
+              />
             </Routes>
           </div>
         </Layout>
