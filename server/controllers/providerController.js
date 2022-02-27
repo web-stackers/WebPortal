@@ -86,6 +86,47 @@ const disable_provider = async (req, res) => {
   }
 };
 
+// Update when document is accepted
+const document_accepted = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedDocumentAccepted = await provider.updateOne(
+      { _id: id, "document.type": req.body.type },
+      {
+        $set: { "document.$.isAccepted": "true" },
+      },
+      { upsert: true, new: true }
+    );
+    res.status(200).json(updatedDocumentAccepted);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log(error.message);
+  }
+};
+
+// Update when document is rejected
+const document_rejected = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedDocumentRejected = await provider.updateOne(
+      { _id: id, "document.type": req.body.type },
+      {
+        $set: {
+          "document.$.isAccepted": "false",
+          "document.$.reasonForRejection": req.body.reasonForRejection,
+        },
+      },
+      { upsert: true, new: true }
+    );
+    res.status(200).json(updatedDocumentRejected);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log(error.message);
+  }
+};
+
 // Update verification details
 const update_verification = async (req, res) => {
   const { id } = req.params;
@@ -114,4 +155,6 @@ module.exports = {
   fetch_provider,
   disable_provider,
   update_verification,
+  document_accepted,
+  document_rejected,
 };

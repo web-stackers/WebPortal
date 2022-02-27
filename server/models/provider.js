@@ -66,7 +66,7 @@ const providerSchema = Schema({
       isAccepted: { type: Boolean },
       qualificationDocType: { type: String },
       reasonForRejection: { type: String },
-      doc: { type: Buffer },
+      doc: { type: Buffer, contentType: String },
     },
   ],
 
