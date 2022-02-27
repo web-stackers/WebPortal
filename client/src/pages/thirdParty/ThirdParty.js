@@ -31,7 +31,18 @@ const ThirdParty = () => {
       <div>
         <Sbutton text="Add New" onClick={routeChange}></Sbutton>
         {thirdParties.map((thirdParty) => (
-          <div key={thirdParty._id}>{thirdParty.name.fName}</div>
+          <div key={thirdParty._id}>
+            <h3>
+              {thirdParty.name.fName} {thirdParty.name.lName}
+            </h3>
+            {thirdParty.contact.mobile}
+            <br />
+            {thirdParty.contact.email}
+            <br />
+            {thirdParty.address}
+            <br />
+            {thirdParty.verifyDocType}
+          </div>
         ))}
       </div>
     </div>
