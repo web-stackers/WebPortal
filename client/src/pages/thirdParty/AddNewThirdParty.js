@@ -17,7 +17,6 @@ const AddNewThirdParty = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     SecondaryUser.addNew(inputs);
-    console.log(inputs);
   };
 
   return (
