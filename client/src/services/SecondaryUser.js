@@ -1,9 +1,9 @@
-import http from "./http-secondaryUser";
+import axios from "axios";
 
-class SecondaryUserDataService {
-  createSecondaryUser(data) {
-    return http.post("/secondaryUser", data);
-  }
-}
+const addNew = async (data) => {
+  return await axios.post("/secondaryUser", data);
+};
 
-export default new SecondaryUserDataService();
+export default {
+  addNew,
+};

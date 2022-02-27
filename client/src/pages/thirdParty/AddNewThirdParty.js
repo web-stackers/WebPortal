@@ -2,7 +2,7 @@ import StextField from "../../components/formComponents/StextField";
 import Spassword from "../../components/formComponents/Spassword";
 import Sselect from "../../components/formComponents/Sselect";
 import Sbutton from "../../components/Sbutton";
-
+import SecondaryUser from "../../services/SecondaryUser";
 import { useState } from "react";
 
 const AddNewThirdParty = () => {
@@ -16,10 +16,8 @@ const AddNewThirdParty = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!inputs.firstName) {
-      alert("Please add a task");
-      return;
-    }
+    SecondaryUser.addNew(inputs);
+    console.log(inputs);
   };
 
   return (
@@ -27,15 +25,15 @@ const AddNewThirdParty = () => {
       <form>
         <StextField
           label="First Name"
-          name="firstName"
-          value={inputs.firstName || ""}
+          name="fName"
+          value={inputs.fName || ""}
           onChange={handleChange}
         />
 
         <StextField
           label="Last Name"
-          name="lastName"
-          value={inputs.lastName || ""}
+          name="lName"
+          value={inputs.lName || ""}
           onChange={handleChange}
         />
 
@@ -48,8 +46,8 @@ const AddNewThirdParty = () => {
 
         <StextField
           label="Mobile Number"
-          name="mobileNumber"
-          value={inputs.mobileNumber || ""}
+          name="mobile"
+          value={inputs.mobile || ""}
           onChange={handleChange}
         />
 
@@ -59,8 +57,8 @@ const AddNewThirdParty = () => {
           value={inputs.address || ""}
           onChange={handleChange}
         />
-        <Spassword />
-        <Sselect value={inputs.docType || ""} onChange={handleChange} />
+        {/* <Spassword /> */}
+        {/* <Sselect value={inputs.docType || ""} onChange={handleChange} /> */}
 
         <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>
@@ -69,15 +67,3 @@ const AddNewThirdParty = () => {
 };
 
 export default AddNewThirdParty;
-
-// const onSubmit = (e) => {
-//      e.preventDefault()
-//      if(!text){
-//          alert('Please add a task')
-//          return
-//      }
-//      onAdd({text, day, reminder})
-//      setText('')
-//      setDay('')
-//      setReminder(false)
-// }
