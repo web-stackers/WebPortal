@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme) => {
       justifySelf: "flex-end",
     },
     userType: {
-      width: '25%'
+      width: '25%',
+      cursor: 'pointer'
     },
     textBox: {
       marginRight: '10px'
@@ -41,11 +42,13 @@ const Topbar = () => {
     <div className={classes.outline}>
       <div className={classes.type}>
         <Typography 
+          button
           className={classes.userType}
           onClick={() => alert('Consumers')}>
           Consumers
         </Typography>
         <Typography 
+          button
           className={classes.userType}
           onClick={() => alert('Providers')}>
           Providers

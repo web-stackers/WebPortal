@@ -1,5 +1,5 @@
 import Dashboard from "./pages/Dashboard";
-import Users from "./pages/Users";
+import Users from "./pages/users/Users";
 import Jobs from "./pages/Jobs";
 import Complaints from "./pages/complaints/Complaints";
 import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
@@ -7,6 +7,7 @@ import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
 import ThirdParty from "./pages/thirdParty/ThirdParty";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import Layout from "./components/Layout";
+import Profile from "./pages/users/Profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -42,6 +43,7 @@ function App() {
                 path="/ResponseToComplaint"
                 element={<ResponseToComplaint />}
               />
+              <Route path='/users/profile' element={<Profile />} /> 
             </Routes>
           </div>
         </Layout>
