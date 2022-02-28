@@ -5,6 +5,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 // import { makeStyles } from "@mui/styles";
 
 // const useStyles = makeStyles((theme) => {
@@ -40,57 +43,66 @@ const Jobs = () => {
     marginLeft: 20,
     marginBottom: 25,
   };
+
   return (
     <div>
-      <Typography gutterBottom variant="h4" component="div">
-        Event
-      </Typography>
-      {jobTypes.map((jobType) => (
-        <div key={jobType._id}>
-          {jobType.category === "Event" && (
-            <>
-              <Typography variant="h6" color="text.secondary">
-                {jobType.jobType}
-                <Button variant="contained" style={btnStyle}>
-                  <EditIcon />
-                </Button>
-                <Button variant="contained" style={btnStyle}>
-                  <DeleteIcon />
-                </Button>
-              </Typography>
-            </>
-          )}
-        </div>
-      ))}
-      <Sbutton text="ADD NEW" btnWidth="10%"></Sbutton>
-      <br />
+      <Card variant="outlined">
+        <CardContent>
+          <Typography gutterBottom variant="h4" component="div">
+            Event
+          </Typography>
+          {jobTypes.map((jobType) => (
+            <div key={jobType._id}>
+              {jobType.category === "Event" && (
+                <>
+                  <Typography variant="h6" color="text.secondary" gutterBottom>
+                    {jobType.jobType}
+                    <Button variant="contained" style={btnStyle}>
+                      <EditIcon />
+                    </Button>
+                    <Button variant="contained" style={btnStyle}>
+                      <DeleteIcon />
+                    </Button>
+                  </Typography>
+                </>
+              )}
+            </div>
+          ))}
+          <CardActions>
+            <Sbutton text="ADD NEW" btnWidth="10%"></Sbutton>
+          </CardActions>
+        </CardContent>
+      </Card>
       <br />
       <hr />
-
-      <Typography gutterBottom variant="h4" component="div">
-        Construction
-      </Typography>
-
-      {jobTypes.map((jobType) => (
-        <div key={jobType._id}>
-          {jobType.category === "Construction" && (
-            <>
-              <Typography variant="h6" color="text.secondary">
-                {jobType.jobType}
-
-                <Button variant="contained" style={btnStyle}>
-                  <EditIcon />
-                </Button>
-                <Button variant="contained" style={btnStyle}>
-                  <DeleteIcon />
-                </Button>
-              </Typography>
-            </>
-          )}
-        </div>
-      ))}
-      <Sbutton text="ADD NEW" btnWidth="10%"></Sbutton>
       <br />
+      <Card variant="outlined">
+        <CardContent>
+          <Typography gutterBottom variant="h4" component="div">
+            Construction
+          </Typography>
+          {jobTypes.map((jobType) => (
+            <div key={jobType._id}>
+              {jobType.category === "Construction" && (
+                <>
+                  <Typography variant="h6" color="text.secondary" gutterBottom>
+                    {jobType.jobType}
+                    <Button variant="contained" style={btnStyle}>
+                      <EditIcon />
+                    </Button>
+                    <Button variant="contained" style={btnStyle}>
+                      <DeleteIcon />
+                    </Button>
+                  </Typography>
+                </>
+              )}
+            </div>
+          ))}
+          <CardActions>
+            <Sbutton text="ADD NEW" btnWidth="10%"></Sbutton>
+          </CardActions>
+        </CardContent>
+      </Card>
       <br />
       <hr />
     </div>
