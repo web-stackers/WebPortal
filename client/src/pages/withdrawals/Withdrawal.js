@@ -8,6 +8,7 @@ const Withdrawal = () => {
     JobAssignment.fetchJobAssignment()
       .then((response) => {
         setWithdrawals(response.data);
+        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
