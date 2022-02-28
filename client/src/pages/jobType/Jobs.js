@@ -4,6 +4,7 @@ import Sbutton from "../../components/Sbutton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 // import { makeStyles } from "@mui/styles";
 
 // const useStyles = makeStyles((theme) => {
@@ -41,18 +42,22 @@ const Jobs = () => {
   };
   return (
     <div>
-      <h2>Event</h2>
+      <Typography gutterBottom variant="h4" component="div">
+        Event
+      </Typography>
       {jobTypes.map((jobType) => (
         <div key={jobType._id}>
           {jobType.category === "Event" && (
             <>
-              {jobType.jobType}
-              <Button variant="contained" style={btnStyle}>
-                <EditIcon />
-              </Button>
-              <Button variant="contained" style={btnStyle}>
-                <DeleteIcon />
-              </Button>
+              <Typography variant="h6" color="text.secondary">
+                {jobType.jobType}
+                <Button variant="contained" style={btnStyle}>
+                  <EditIcon />
+                </Button>
+                <Button variant="contained" style={btnStyle}>
+                  <DeleteIcon />
+                </Button>
+              </Typography>
             </>
           )}
         </div>
@@ -62,18 +67,24 @@ const Jobs = () => {
       <br />
       <hr />
 
-      <h2>Construction</h2>
+      <Typography gutterBottom variant="h4" component="div">
+        Construction
+      </Typography>
+
       {jobTypes.map((jobType) => (
         <div key={jobType._id}>
           {jobType.category === "Construction" && (
             <>
-              {jobType.jobType}
-              <Button variant="contained" style={btnStyle}>
-                <EditIcon />
-              </Button>
-              <Button variant="contained" style={btnStyle}>
-                <DeleteIcon />
-              </Button>
+              <Typography variant="h6" color="text.secondary">
+                {jobType.jobType}
+
+                <Button variant="contained" style={btnStyle}>
+                  <EditIcon />
+                </Button>
+                <Button variant="contained" style={btnStyle}>
+                  <DeleteIcon />
+                </Button>
+              </Typography>
             </>
           )}
         </div>
