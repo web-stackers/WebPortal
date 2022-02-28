@@ -23,7 +23,7 @@ const Withdrawal = () => {
       {withdrawals.map((withdrawal) => (
         <div key={withdrawal._id}>
           <h3>{withdrawal.state}</h3>
-          {/* <h3>{withdrawal.withdrawn.reason}</h3> */}
+          {withdrawal.withdrawn && <h3>{withdrawal.withdrawn.reason}</h3>}
         </div>
       ))}
     </div>
