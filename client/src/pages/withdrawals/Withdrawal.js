@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import JobAssignment from "../../services/JobAssignment";
+import Sbutton from "../../components/Sbutton";
 
 const Withdrawal = () => {
   const [withdrawals, setWithdrawals] = useState([]);
@@ -22,8 +23,15 @@ const Withdrawal = () => {
     <div>
       {withdrawals.map((withdrawal) => (
         <div key={withdrawal._id}>
-          <h3>{withdrawal.state}</h3>
-          {withdrawal.withdrawn && <h3>{withdrawal.withdrawn.reason}</h3>}
+          {withdrawal.withdrawn &&
+            withdrawal.withdrawn.adminResponse === "Pending" && (
+              <>
+                <h3>{withdrawal.withdrawn.arisedBy}</h3>
+                <h3>{withdrawal.withdrawn.reason}</h3>
+                <Sbutton text="Accept"></Sbutton>
+                <Sbutton text="Reject"></Sbutton>
+              </>
+            )}
         </div>
       ))}
     </div>
