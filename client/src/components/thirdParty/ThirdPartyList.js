@@ -27,16 +27,6 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     width: "20%",
   },
-  // btngrp: {
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   justifyContent: "space-around",
-  //   height: "50%",
-  //   alignSelf: "center",
-  // },
-  // btn: {
-  //   width: "200px",
-  // },
 }));
 
 const ThirdPartyList = () => {
@@ -69,7 +59,7 @@ const ThirdPartyList = () => {
               className={classes.cover}
               height="140"
               image="/static/images/cards/contemplative-reptile.jpg"
-              alt="green iguana"
+              alt="Profile Picture"
             />
             <div className={classes.details}>
               <CardContent>
@@ -90,8 +80,8 @@ const ThirdPartyList = () => {
             </div>
 
             <CardActions>
-              <Sbutton text="Edit"></Sbutton>
-              <Sbutton text="Disable"></Sbutton>
+              <Sbutton text="Edit" btnWidth="73%"></Sbutton>
+              <Sbutton text="Disable" btnWidth="73%"></Sbutton>
             </CardActions>
           </Card>
           <br />

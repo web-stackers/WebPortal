@@ -12,7 +12,7 @@ const ThirdParty = () => {
   return (
     <div>
       <div>
-        <Sbutton text="Add New" onClick={routeChange}></Sbutton>
+        <Sbutton text="Add New" onClick={routeChange} btnWidth="25%"></Sbutton>
         <br /> <br />
         <ThirdPartyList></ThirdPartyList>
       </div>

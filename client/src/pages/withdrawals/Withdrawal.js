@@ -33,12 +33,22 @@ const Withdrawal = () => {
             withdrawal.withdrawn.arisedBy === "consumer" && (
               <>
                 <h3>{withdrawal.withdrawn.reason}</h3>
-                <Sbutton text="Accept"></Sbutton>
-                <Sbutton text="Reject"></Sbutton>
+                <Sbutton
+                  text="Accept"
+                  btnWidth="10%"
+                  marginRight="1%"
+                ></Sbutton>
+                <Sbutton text="Reject" btnWidth="10%"></Sbutton>
+                <br />
+                <br />
+                <hr />
               </>
             )}
         </div>
       ))}
+      <br />
+      <br />
+      <Sbutton text="Load All Withdrawals" btnWidth="23%"></Sbutton>
     </div>
   );
 };
