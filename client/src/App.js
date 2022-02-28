@@ -1,6 +1,6 @@
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/users/Users";
-import Jobs from "./pages/Jobs";
+import Jobs from "./pages/jobType/Jobs";
 import Complaints from "./pages/complaints/Complaints";
 import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
 import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
@@ -43,7 +43,7 @@ function App() {
                 path="/ResponseToComplaint"
                 element={<ResponseToComplaint />}
               />
-              <Route path='/users/profile' element={<Profile />} /> 
+              <Route path="/users/profile" element={<Profile />} />
             </Routes>
           </div>
         </Layout>
