@@ -1,4 +1,6 @@
 const secondaryUser = require("../models/secondaryUser");
+const transporter = require("../send-email/sendEmail");
+// const sendEmail = require("../send-email/sendEmail");
 
 // Fetch all secondaryUsers
 const fetch_secondaryUsers = async (req, res) => {
@@ -27,8 +29,24 @@ const post_secondaryUser = async (req, res) => {
     verifyDocType: req.body.verifyDocType,
   });
 
+  var mailOptions = {
+    from: "webstackers19@gmail.com",
+    to: req.body.email,
+    subject: "Check email",
+    html: "<h1>Hi Gowsigan</h1><p>How is your girl friend? Could you able to introduce your girl friend? We are so exciting to meet her</p>",
+  };
+
   try {
-    await newSecondaryUser.save();
+    await newSecondaryUser.save().then(() =>
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      })
+    );
+
     res.status(201).json(newSecondaryUser);
   } catch (error) {
     res.status(400).json({ message: error.message });
