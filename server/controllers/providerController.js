@@ -57,6 +57,18 @@ const fetch_providers = async (req, res) => {
   }
 };
 
+// Get count of total providers
+const fetch_provider_count = async (req, res) => {
+  try {
+    const providerCount = await provider.aggregate([
+      { $group: { _id: 1, count: { $sum: 1 } } },
+    ]);
+    res.status(200).json(providerCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch provider by id
 const fetch_provider = async (req, res) => {
   const { id } = req.params;
@@ -157,4 +169,5 @@ module.exports = {
   update_verification,
   document_accepted,
   document_rejected,
+  fetch_provider_count,
 };
