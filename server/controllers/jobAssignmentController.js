@@ -83,7 +83,7 @@ const quotation_rejected = async (req, res) => {
   }
 };
 
-// Update when job is withdrawn
+// Update when any party applied for withdrawal of job
 const withdrawl_pending = async (req, res) => {
   const { id } = req.params;
 
@@ -113,6 +113,17 @@ const withdrawl_accepted = async (req, res) => {
 
   try {
     const requiredJobAssignment = await jobAssignment.findById(id);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: "theepanagovi01@gmail.com",
+      subject: "Rejection of withdrawal request",
+      html:
+        " Hi, <br> Sorry to inform you, your requested job has been withdrawn by " +
+        requiredJobAssignment.withdrawn.arisedBy +
+        ". Because " +
+        requiredJobAssignment.withdrawn.reason +
+        ". <br> Sorry for your inconvinience caused.",
+    };
     const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
       id,
       {
@@ -126,6 +137,13 @@ const withdrawl_accepted = async (req, res) => {
       },
       { upsert: true, new: true }
     );
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
     res.status(200).json(updatedJobWithdrawn);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -138,6 +156,15 @@ const withdrawl_rejected = async (req, res) => {
 
   try {
     const requiredJobAssignment = await jobAssignment.findById(id);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: "theepanagovi01@gmail.com",
+      subject: "Rejection of withdrawal request",
+      html:
+        " Hi, <br> Sorry, your withdrawal request has been rejected for the reason : " +
+        req.body.adminResponse +
+        ". <br> So you are requested to finished that accepted work as per your agreement. <br> Thank You",
+    };
     const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
       id,
       {
@@ -150,6 +177,13 @@ const withdrawl_rejected = async (req, res) => {
       },
       { new: true }
     );
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
     res.status(200).json(updatedJobWithdrawn);
   } catch (error) {
     res.status(400).json({ message: error.message });
