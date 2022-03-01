@@ -1,6 +1,8 @@
 const jobAssignment = require("../models/jobAssignment");
 const job = require("../models/job");
 const transporter = require("../send-email/sendEmail");
+const provider = require("../models/provider");
+const consumer = require("../models/consumer");
 
 // Fetch all job assignment
 const fetch_jobAssignments = async (req, res) => {
@@ -113,9 +115,17 @@ const withdrawl_accepted = async (req, res) => {
 
   try {
     const requiredJobAssignment = await jobAssignment.findById(id);
+    const requiredJob = await job.findById(requiredJobAssignment.jobId);
+    const requiredConsumer = await consumer.findById(requiredJob.consumerId);
+    const requiredProvider = await provider.findById(requiredJob.providerId);
+    if (requiredJobAssignment.withdrawn.arisedBy === "consumer") {
+      var ToMail = requiredProvider.contact.email;
+    } else {
+      var ToMail = requiredConsumer.contact.email;
+    }
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: "theepanagovi01@gmail.com",
+      to: ToMail,
       subject: "Rejection of withdrawal request",
       html:
         " Hi, <br> Sorry to inform you, your requested job has been withdrawn by " +
@@ -156,9 +166,17 @@ const withdrawl_rejected = async (req, res) => {
 
   try {
     const requiredJobAssignment = await jobAssignment.findById(id);
+    const requiredJob = await job.findById(requiredJobAssignment.jobId);
+    const requiredConsumer = await consumer.findById(requiredJob.consumerId);
+    const requiredProvider = await provider.findById(requiredJob.providerId);
+    if (requiredJobAssignment.withdrawn.arisedBy === "consumer") {
+      var ToMail = requiredConsumer.contact.email;
+    } else {
+      var ToMail = requiredProvider.contact.email;
+    }
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: "theepanagovi01@gmail.com",
+      to: ToMail,
       subject: "Rejection of withdrawal request",
       html:
         " Hi, <br> Sorry, your withdrawal request has been rejected for the reason : " +
