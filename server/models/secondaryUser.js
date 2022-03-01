@@ -42,10 +42,11 @@ const SecondaryUserSchema = new Schema({
     type: String,
     //required: true
   },
-  //I have temporarily make required field as comment
+
   password: {
     type: String,
-    //required: true,
+    required: true,
+    default: "@Helper#123",
     minLength: [8, "Min Length is 8 characters"],
     maxLength: [15, "Max Length is 15 characters"],
   },

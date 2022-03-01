@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
 import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const ThirdPartyList = () => {
   const [thirdParties, setThirdParties] = useState([]);
 
+  //Get all secondary users
   const fetchUsers = () => {
     SecondaryUser.fetchThirdParty()
       .then((response) => {
@@ -46,11 +48,17 @@ const ThirdPartyList = () => {
     fetchUsers();
   }, []);
 
+  const navigate = useNavigate();
+  const routeChange = () => {
+    let path = "/thirdPartyProfile";
+    navigate(path);
+  };
+
   const classes = useStyles();
 
   return (
     <div>
-      {" "}
+      {/* mapping every third party inside card structure */}
       {thirdParties.map((thirdParty) => (
         <div key={thirdParty._id}>
           <br />
@@ -80,7 +88,11 @@ const ThirdPartyList = () => {
             </div>
 
             <CardActions>
-              <Sbutton text="Edit" btnWidth="73%"></Sbutton>
+              <Sbutton
+                text="Edit"
+                btnWidth="73%"
+                onClick={routeChange}
+              ></Sbutton>
               <Sbutton text="Disable" btnWidth="73%"></Sbutton>
             </CardActions>
           </Card>

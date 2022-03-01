@@ -14,7 +14,8 @@ const ThirdParty = () => {
       <div>
         <Sbutton text="Add New" onClick={routeChange} btnWidth="25%"></Sbutton>
         <br /> <br />
-        <ThirdPartyList></ThirdPartyList>
+        {/* Retreiving card structure of third party created in thirdparty list */}
+        <ThirdPartyList />
       </div>
     </div>
   );

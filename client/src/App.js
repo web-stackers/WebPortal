@@ -5,6 +5,7 @@ import Complaints from "./pages/complaints/Complaints";
 import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
 import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
 import ThirdParty from "./pages/thirdParty/ThirdParty";
+import ThirdPartyProfile from "./pages/thirdParty/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import Layout from "./components/Layout";
 import Profile from "./pages/users/Profile";
@@ -38,6 +39,10 @@ function App() {
               <Route path="/complaints" element={<Complaints />} />
               <Route path="/thirdParty" element={<ThirdParty />} />
               <Route path="/addNewThirdParty" element={<AddNewThirdParty />} />
+              <Route
+                path="/thirdPartyProfile"
+                element={<ThirdPartyProfile />}
+              />
               <Route path="/withdrawals" element={<Withdrawal />} />
               <Route
                 path="/ResponseToComplaint"
