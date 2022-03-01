@@ -56,44 +56,49 @@ const ThirdPartyList = () => {
       {thirdParties.map((thirdParty) => (
         <div key={thirdParty._id}>
           <br />
-          <Card className={classes.root}>
-            <CardMedia
-              className={classes.cover}
-              height="140"
-              image="/static/images/cards/contemplative-reptile.jpg"
-              alt="Profile Picture"
-            />
-            <div className={classes.details}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {thirdParty.name.fName} {thirdParty.name.lName}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <b>Contact Number :</b> {thirdParty.contact.mobile}
-                  <br />
-                  <b>Email :</b> {thirdParty.contact.email}
-                  <br />
-                  <b>Address : </b>
-                  {thirdParty.address}
-                  <br />
-                  <b>Verification Document Type:</b> {thirdParty.verifyDocType}
-                </Typography>
-              </CardContent>
-            </div>
+          {thirdParty.role === "Third Party" && (
+            <>
+              <Card className={classes.root}>
+                <CardMedia
+                  className={classes.cover}
+                  height="140"
+                  image="/static/images/cards/contemplative-reptile.jpg"
+                  alt="Profile Picture"
+                />
+                <div className={classes.details}>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {thirdParty.name.fName} {thirdParty.name.lName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <b>Contact Number :</b> {thirdParty.contact.mobile}
+                      <br />
+                      <b>Email :</b> {thirdParty.contact.email}
+                      <br />
+                      <b>Address : </b>
+                      {thirdParty.address}
+                      <br />
+                      <b>Verification Document Type:</b>{" "}
+                      {thirdParty.verifyDocType}
+                    </Typography>
+                  </CardContent>
+                </div>
 
-            <CardActions>
-              <Link
-                to="/thirdPartyProfile"
-                className="link"
-                style={{ marginRight: "5%" }}
-              >
-                <Sbutton text="Edit" btnWidth="83%" />
-              </Link>
-              <Sbutton text="Disable" btnWidth="73%"></Sbutton>
-            </CardActions>
-          </Card>
-          <br />
-          <hr />
+                <CardActions>
+                  <Link
+                    to="/thirdPartyProfile"
+                    className="link"
+                    style={{ marginRight: "5%" }}
+                  >
+                    <Sbutton text="Edit" btnWidth="83%" />
+                  </Link>
+                  <Sbutton text="Disable" btnWidth="73%"></Sbutton>
+                </CardActions>
+              </Card>
+              <br />
+              <hr />
+            </>
+          )}
         </div>
       ))}
     </div>
