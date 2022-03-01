@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
 import { makeStyles } from "@mui/styles";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,12 +48,6 @@ const ThirdPartyList = () => {
     fetchUsers();
   }, []);
 
-  const navigate = useNavigate();
-  const routeChange = () => {
-    let path = "/thirdPartyProfile";
-    navigate(path);
-  };
-
   const classes = useStyles();
 
   return (
@@ -88,11 +82,13 @@ const ThirdPartyList = () => {
             </div>
 
             <CardActions>
-              <Sbutton
-                text="Edit"
-                btnWidth="73%"
-                onClick={routeChange}
-              ></Sbutton>
+              <Link
+                to="/thirdPartyProfile"
+                className="link"
+                style={{ marginRight: "5%" }}
+              >
+                <Sbutton text="Edit" btnWidth="83%" />
+              </Link>
               <Sbutton text="Disable" btnWidth="73%"></Sbutton>
             </CardActions>
           </Card>

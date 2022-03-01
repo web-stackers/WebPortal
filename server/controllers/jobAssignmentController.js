@@ -1,5 +1,6 @@
 const jobAssignment = require("../models/jobAssignment");
 const job = require("../models/job");
+const transporter = require("../send-email/sendEmail");
 
 // Fetch all job assignment
 const fetch_jobAssignments = async (req, res) => {

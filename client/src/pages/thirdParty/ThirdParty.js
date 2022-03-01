@@ -1,18 +1,14 @@
 import Sbutton from "../../components/Sbutton";
-import { useNavigate } from "react-router-dom";
 import ThirdPartyList from "../../components/thirdParty/ThirdPartyList";
+import { Link } from "react-router-dom";
 
 const ThirdParty = () => {
-  const navigate = useNavigate();
-  const routeChange = () => {
-    let path = "/addNewThirdParty";
-    navigate(path);
-  };
-
   return (
     <div>
       <div>
-        <Sbutton text="Add New" onClick={routeChange} btnWidth="25%"></Sbutton>
+        <Link to="/addNewThirdParty" className="link">
+          <Sbutton text="Add New" btnWidth="25%" />
+        </Link>
         <br /> <br />
         {/* Retreiving card structure of third party created in thirdparty list */}
         <ThirdPartyList />

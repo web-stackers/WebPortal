@@ -1,6 +1,5 @@
 const secondaryUser = require("../models/secondaryUser");
 const transporter = require("../send-email/sendEmail");
-// const sendEmail = require("../send-email/sendEmail");
 
 // Fetch all secondaryUsers
 const fetch_secondaryUsers = async (req, res) => {
@@ -25,15 +24,17 @@ const post_secondaryUser = async (req, res) => {
     },
     address: req.body.address,
     profilePicture: req.body.profilePicture,
-    password: req.body.password,
     verifyDocType: req.body.verifyDocType,
   });
 
   var mailOptions = {
     from: "webstackers19@gmail.com",
     to: req.body.email,
-    subject: "Check email",
-    html: "<h1>Hi Gowsigan</h1><p>How is your girl friend? Could you able to introduce your girl friend? We are so exciting to meet her</p>",
+    subject: "Registering as a Third party user of Helper app",
+    html:
+      "Hi " +
+      req.body.fName +
+      ",<br><br> We are warmly welcome you to our Helper App. <br>You have successfully registered as a Third party user. From now onwards you can able to verify the documents of provider on Helper webportal. When you are logging on web portal, please use the credentials. <br> UserName: Your email address <br> password:@Helper#123 Thereafter you can able to change the password for your account. Good Luck ",
   };
 
   try {
