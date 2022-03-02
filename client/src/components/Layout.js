@@ -35,6 +35,11 @@ const Layout = ({ children }) => {
       icon: <PeopleAltOutlined />,
     },
     {
+      text: "Third Party",
+      path: "/thirdParty",
+      icon: <PeopleAltOutlined />,
+    },
+    {
       text: "Jobs",
       path: "/jobs",
       icon: <WorkOutline />,
@@ -44,11 +49,7 @@ const Layout = ({ children }) => {
       path: "/complaints",
       icon: <FeedbackOutlined />,
     },
-    {
-      text: "Third Party",
-      path: "/thirdParty",
-      icon: <PeopleAltOutlined />,
-    },
+
     {
       text: "Withdrawals",
       path: "/withdrawals",

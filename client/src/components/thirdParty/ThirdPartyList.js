@@ -87,6 +87,7 @@ const ThirdPartyList = () => {
                 <CardActions>
                   <Link
                     to="/thirdPartyProfile"
+                    state={thirdParty}
                     className="link"
                     style={{ marginRight: "5%" }}
                   >

@@ -83,9 +83,34 @@ const disable_secondaryUser = async (req, res) => {
   }
 };
 
+//update Third party values by admin
+const update_thirdParty = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedSecondaryUser = await secondaryUser.findByIdAndUpdate(
+      id,
+      {
+        contact: {
+          mobile: req.body.mobile,
+          email: req.body.email,
+        },
+        address: req.body.address,
+        profilePicture: req.body.profilePicture,
+        verifyDocType: req.body.verifyDocType,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedSecondaryUser);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   fetch_secondaryUsers,
   post_secondaryUser,
   fetch_secondaryUser,
   disable_secondaryUser,
+  update_thirdParty,
 };
