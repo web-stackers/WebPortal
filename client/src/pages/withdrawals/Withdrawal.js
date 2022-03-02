@@ -10,6 +10,11 @@ const accept = (e) => {
   JobAssignment.withdrawalAccepted(e);
 };
 
+const rejectWithdrawal = (e) => {
+  console.log(e);
+  JobAssignment.withdrawalRejected(e);
+};
+
 const Withdrawal = () => {
   const [showReason, setShowReason] = useState(false);
   const [withdrawals, setWithdrawals] = useState([]);
@@ -48,9 +53,17 @@ const Withdrawal = () => {
                   marginRight="1%"
                   onClick={() => accept(withdrawal._id)}
                 ></Sbutton>
-                <Sbutton text="Reject" btnWidth="10%" />
+                <Sbutton
+                  text="Reject"
+                  btnWidth="10%"
+                  onClick={() => setShowReason(!showReason)}
+                />
                 <br />
-                {showReason && <RejectReason />}
+                {showReason && (
+                  <RejectReason
+                    onclick={() => rejectWithdrawal(withdrawal._id)}
+                  />
+                )}
                 <br />
                 <hr />
               </>
@@ -60,7 +73,7 @@ const Withdrawal = () => {
       <br />
       <br />
       <Link to="/Allwithdrawals" className="link">
-        <Sbutton text="Load All Withdrawals" btnWidth="23%"></Sbutton>
+        <Sbutton text="Load All Withdrawals" btnWidth="23%" />
       </Link>
     </div>
   );
