@@ -32,9 +32,9 @@ const AllWithdrawals = () => {
           {withdrawal.withdrawn &&
             withdrawal.withdrawn.arisedBy === "consumer" && (
               <>
-                <h3>Name:</h3>
-                <h3>Reason: {withdrawal.withdrawn.reason}</h3>
-
+                <h43>Name:</h43>
+                <h4>Reason: {withdrawal.withdrawn.reason}</h4>
+                <h4>Response: {withdrawal.withdrawn.adminResponse}</h4>
                 <br />
                 <br />
                 <hr />

@@ -3,6 +3,7 @@ import JobAssignment from "../../services/JobAssignment";
 import Sbutton from "../../components/Sbutton";
 import Topbar from "../../components/Topbar";
 import { Link } from "react-router-dom";
+import RejectReason from "../../components/withdrawal/RejectReason";
 
 const accept = (e) => {
   console.log(e);
@@ -10,6 +11,7 @@ const accept = (e) => {
 };
 
 const Withdrawal = () => {
+  const [showReason, setShowReason] = useState(false);
   const [withdrawals, setWithdrawals] = useState([]);
 
   const fetchWithdrawals = () => {
@@ -37,16 +39,18 @@ const Withdrawal = () => {
             withdrawal.withdrawn.adminResponse === "Pending" &&
             withdrawal.withdrawn.arisedBy === "consumer" && (
               <>
-                <h3>Name:</h3>
-                <h3>Reason: {withdrawal.withdrawn.reason}</h3>
+                <h4>Name:</h4>
+                <h4>Job Type:</h4>
+                <h4>Reason: {withdrawal.withdrawn.reason}</h4>
                 <Sbutton
                   text="Accept"
                   btnWidth="10%"
                   marginRight="1%"
                   onClick={() => accept(withdrawal._id)}
                 ></Sbutton>
-                <Sbutton text="Reject" btnWidth="10%"></Sbutton>
+                <Sbutton text="Reject" btnWidth="10%" />
                 <br />
+                {showReason && <RejectReason />}
                 <br />
                 <hr />
               </>
