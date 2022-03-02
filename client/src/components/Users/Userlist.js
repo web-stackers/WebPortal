@@ -1,6 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import { useEffect, useState } from "react";
 import Consumer from "../../services/Consumer";
+import Provider from "../../services/Provider";
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from "react-router-dom";
 import Sbutton from "../Sbutton";
@@ -26,37 +27,67 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const Userlist = () => {
-  const [consumers, setConsumers] = useState([]);
+const Userlist = ({type}) => {
+  const [users, setUsers] = useState([]);
   const classes = useStyles();
 
   const fetchUsers = () => {
-    Consumer.fetchConsumers()
-      .then((response) => {
-        setConsumers(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if(type=='Consumers'){
+      Consumer.fetchConsumers()
+        .then((response) => {
+          setUsers(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      Provider.fetchProviders()
+        .then((response) => {
+          setUsers(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   };
 
-  const rows = consumers.map((consumer) => {
-    return {
-        id: consumer._id,
-        propic: consumer.profilePicture,
-        name: consumer.name.fName+' '+consumer.name.lName,
-        rating: consumer.totalRating/consumer.ratingCount,
-        mobile: consumer.contact.mobile,
-        email: consumer.contact.email,
-        regDate: consumer.registeredDate
+  /* const changeAble = (id) => {
+    if(type=='Consumers'){
+      Consumer.ableConsumer(id)
+        .then(() => {
+          fetchUsers();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      Provider.ableProvider(id)
+        .then(() => {
+          fetchUsers();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
-  })
+  } */
+
+  const rows = users.map((user) => {
+    return {
+        id: user._id,
+        propic: user.profilePicture,
+        name: user.name.fName+' '+user.name.lName,
+        rating: user.totalRating/user.ratingCount,
+        mobile: user.contact.mobile,
+        email: user.contact.email,
+        isDisabled: user.isDisabled
+    }
+  });
 
   const columns = [
     { 
         field: 'user', 
         headerName: 'User', 
-        width: 200,
+        width: 250,
         renderCell: (params) => {
             return(
                 <div className={classes.userName}>
@@ -66,10 +97,9 @@ const Userlist = () => {
             )
         },
     },
-    { field: 'rating', headerName: 'Rating', width: 100},
-    { field: 'mobile', headerName: 'Mobile No', width: 120},
-    { field: 'email', headerName: 'Email', width: 180},
-    { field: 'regDate', headerName: 'Reg.Date', width: 180},
+    { field: 'rating', headerName: 'Rating', width: 120},
+    { field: 'mobile', headerName: 'Mobile No', width: 150},
+    { field: 'email', headerName: 'Email', width: 250},
     {
         field: 'Action',
         headerName: 'Action',
@@ -81,9 +111,8 @@ const Userlist = () => {
                     <Link to='/users/profile' state={{profile}} className='link' style={{marginRight:'5%'}}>
                         <Sbutton text='View' btnWidth='100%'/>
                     </Link>
-                    <Link to='/users/profile' state={{profile}} className='link'>
-                        <Sbutton text='Disable' btnWidth='100%'/>
-                    </Link>
+                    {params.row.isDisabled==false && <Sbutton text='Disable' btnWidth='100%'/>}
+                    {params.row.isDisabled==true && <Sbutton text='Enable' btnWidth='100%'/>}
                 </div>
             )
         }
@@ -92,7 +121,7 @@ const Userlist = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [type]);
 
   return (
     <div style={{ height: 500, width: '100%' }}>
@@ -101,7 +130,6 @@ const Userlist = () => {
           <DataGrid 
             rows={rows} 
             columns={columns} 
-            style={{color:'white'}}
             disableSelectionOnClick
           />
         </div>
