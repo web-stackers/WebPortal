@@ -1,14 +1,8 @@
-import { makeStyles } from "@mui/styles";
 import { useEffect, useState } from "react";
 import NewProvider from "../../services/NewProvider";
 
-const useStyles = makeStyles((theme) => {
-  return { listOutline: { marginTop: 5 } };
-});
-
 const NewProviderlist = () => {
   const [newProviders, setNewProviders] = useState([]);
-  const classes = useStyles();
 
   const fetchUsers = () => {
     NewProvider.fetchNewProviders()

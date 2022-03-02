@@ -1,9 +1,10 @@
 import Button from "@mui/material//Button";
 
-const Sbutton = ({ text, onClick, btnWidth, marginRight }) => {
+const Sbutton = ({ text, onClick, btnWidth, marginRight, marginLeft }) => {
   const btnStyle = {
     width: btnWidth,
     marginRight: marginRight,
+    marginLeft: marginLeft,
   };
 
   return (

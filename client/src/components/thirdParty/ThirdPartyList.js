@@ -103,14 +103,14 @@ const ThirdPartyList = () => {
                       text="Disable"
                       btnWidth="73%"
                       onClick={() => disableEnable(thirdParty._id)}
-                    ></Sbutton>
+                    />
                   )}
                   {thirdParty.isDisabled === true && (
                     <Sbutton
                       text="Enable"
                       btnWidth="73%"
                       onClick={() => disableEnable(thirdParty._id)}
-                    ></Sbutton>
+                    />
                   )}
                 </CardActions>
               </Card>

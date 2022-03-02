@@ -1,7 +1,11 @@
+import VerifiedProviderlist from "../../../components/Users/VerifiedProviderlist";
+
 const VerifiedDocuments = () => {
   return (
     <>
-      <div>Verified Documents</div>
+      <div>
+        <VerifiedProviderlist />
+      </div>
     </>
   );
 };
