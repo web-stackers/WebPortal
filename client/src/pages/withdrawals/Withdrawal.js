@@ -3,21 +3,27 @@ import JobAssignment from "../../services/JobAssignment";
 import Sbutton from "../../components/Sbutton";
 import Topbar from "../../components/Topbar";
 import { Link } from "react-router-dom";
-import RejectReason from "../../components/withdrawal/RejectReason";
+import StextArea from "../../components/formComponents/StextArea";
 
 const accept = (e) => {
   console.log(e);
   JobAssignment.withdrawalAccepted(e);
 };
 
-const rejectWithdrawal = (e) => {
-  console.log(e);
-  JobAssignment.withdrawalRejected(e);
-};
-
 const Withdrawal = () => {
   const [showReason, setShowReason] = useState(false);
   const [withdrawals, setWithdrawals] = useState([]);
+  const [inputs, setInputs] = useState("");
+
+  var data = {
+    adminResponse: inputs.adminResponse,
+  };
+
+  const rejectWithdrawal = (e) => {
+    console.log(e);
+    console.log(data);
+    JobAssignment.withdrawalRejected(e, data);
+  };
 
   const fetchWithdrawals = () => {
     JobAssignment.fetchJobAssignment()
@@ -58,12 +64,24 @@ const Withdrawal = () => {
                   btnWidth="10%"
                   onClick={() => setShowReason(!showReason)}
                 />
-                <br />
+
                 {showReason && (
-                  <RejectReason
-                    onclick={() => rejectWithdrawal(withdrawal._id)}
-                  />
+                  <>
+                    <br />
+                    <StextArea
+                      label="Reason for rejection"
+                      name="adminResponse"
+                      value={inputs}
+                      onChange={(e) => setInputs(e.target.value)}
+                    />
+                    <Sbutton
+                      text="Submit"
+                      btnWidth="10%"
+                      onClick={() => rejectWithdrawal(withdrawal._id)}
+                    />
+                  </>
                 )}
+                <br />
                 <br />
                 <hr />
               </>
