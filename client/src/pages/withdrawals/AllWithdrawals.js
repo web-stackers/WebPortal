@@ -4,18 +4,14 @@ import Sbutton from "../../components/Sbutton";
 import Topbar from "../../components/Topbar";
 import { Link } from "react-router-dom";
 
-const accept = (e) => {
-  console.log(e);
-  JobAssignment.withdrawalAccepted(e);
-};
-
-const Withdrawal = () => {
+const AllWithdrawals = () => {
   const [withdrawals, setWithdrawals] = useState([]);
 
   const fetchWithdrawals = () => {
     JobAssignment.fetchJobAssignment()
       .then((response) => {
         setWithdrawals(response.data);
+        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -34,18 +30,11 @@ const Withdrawal = () => {
       {withdrawals.map((withdrawal) => (
         <div key={withdrawal._id}>
           {withdrawal.withdrawn &&
-            withdrawal.withdrawn.adminResponse === "Pending" &&
             withdrawal.withdrawn.arisedBy === "consumer" && (
               <>
                 <h3>Name:</h3>
                 <h3>Reason: {withdrawal.withdrawn.reason}</h3>
-                <Sbutton
-                  text="Accept"
-                  btnWidth="10%"
-                  marginRight="1%"
-                  onClick={() => accept(withdrawal._id)}
-                ></Sbutton>
-                <Sbutton text="Reject" btnWidth="10%"></Sbutton>
+
                 <br />
                 <br />
                 <hr />
@@ -55,11 +44,11 @@ const Withdrawal = () => {
       ))}
       <br />
       <br />
-      <Link to="/Allwithdrawals" className="link">
-        <Sbutton text="Load All Withdrawals" btnWidth="23%"></Sbutton>
+      <Link to="/withdrawals" className="link">
+        <Sbutton text="Back" btnWidth="23%"></Sbutton>
       </Link>
     </div>
   );
 };
 
-export default Withdrawal;
+export default AllWithdrawals;

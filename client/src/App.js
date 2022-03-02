@@ -7,6 +7,7 @@ import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
 import ThirdParty from "./pages/thirdParty/ThirdParty";
 import ThirdPartyProfile from "./pages/thirdParty/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
+import AllWithdrawals from "./pages/withdrawals/AllWithdrawals";
 import Layout from "./components/Layout";
 import Profile from "./pages/users/Profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -44,6 +45,7 @@ function App() {
                 element={<ThirdPartyProfile />}
               />
               <Route path="/withdrawals" element={<Withdrawal />} />
+              <Route path="/Allwithdrawals" element={<AllWithdrawals />} />
               <Route
                 path="/ResponseToComplaint"
                 element={<ResponseToComplaint />}
