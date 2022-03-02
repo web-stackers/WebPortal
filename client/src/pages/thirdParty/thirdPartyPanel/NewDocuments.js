@@ -1,7 +1,11 @@
+import NewProviderlist from "../../../components/Users/NewProviderlist";
+
 const NewDocuments = () => {
   return (
     <>
-      <div>New Documents</div>
+      <div>
+        <NewProviderlist />
+      </div>
     </>
   );
 };
