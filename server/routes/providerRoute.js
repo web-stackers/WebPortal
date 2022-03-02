@@ -9,9 +9,10 @@ router.post("/", providerController.post_providerType);
 router.patch("/updateVerification/:id", providerController.update_verification);
 //fetch all providers
 router.get("/", providerController.fetch_providers);
+//fetch new providers
+router.get("/new", providerController.fetch_new_providers);
 // fetch provider total count
 router.get("/totCount", providerController.fetch_provider_count);
-
 //fetch provider using certain id
 router.get("/:id", providerController.fetch_provider);
 //disable or enable provider
