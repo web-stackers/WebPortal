@@ -30,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const disableEnable = (e) => {
+  console.log(e);
+  SecondaryUser.disableEnableThirdPartyByID(e);
+};
+
 const ThirdPartyList = () => {
   const [thirdParties, setThirdParties] = useState([]);
 
@@ -93,7 +98,20 @@ const ThirdPartyList = () => {
                   >
                     <Sbutton text="Edit" btnWidth="83%" />
                   </Link>
-                  <Sbutton text="Disable" btnWidth="73%"></Sbutton>
+                  {thirdParty.isDisabled === false && (
+                    <Sbutton
+                      text="Disable"
+                      btnWidth="73%"
+                      onClick={() => disableEnable(thirdParty._id)}
+                    ></Sbutton>
+                  )}
+                  {thirdParty.isDisabled === true && (
+                    <Sbutton
+                      text="Enable"
+                      btnWidth="73%"
+                      onClick={() => disableEnable(thirdParty._id)}
+                    ></Sbutton>
+                  )}
                 </CardActions>
               </Card>
               <br />
