@@ -11,6 +11,8 @@ router.patch("/updateVerification/:id", providerController.update_verification);
 router.get("/", providerController.fetch_providers);
 //fetch new providers
 router.get("/new", providerController.fetch_new_providers);
+//fetch verified providers
+router.get("/verified", providerController.fetch_verified_providers);
 // fetch provider total count
 router.get("/totCount", providerController.fetch_provider_count);
 //fetch provider using certain id
