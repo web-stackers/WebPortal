@@ -1,6 +1,6 @@
 const consumer = require("../models/consumer");
 
-// Fetch all consumers.
+// Fetch all consumers
 const fetch_consumers = async (req, res) => {
   try {
     const consumers = await consumer.find();
@@ -10,7 +10,7 @@ const fetch_consumers = async (req, res) => {
   }
 };
 
-// Add new consumer to the database.
+// Add new consumer to the database
 const post_consumer = async (req, res) => {
   const newConsumer = new consumer({
     name: {

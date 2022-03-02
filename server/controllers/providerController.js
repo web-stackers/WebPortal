@@ -67,6 +67,18 @@ const fetch_new_providers = async (req, res) => {
   }
 };
 
+// Fetch verified providers
+const fetch_verified_providers = async (req, res) => {
+  try {
+    const verifiedProviders = await provider.find({
+      verification: { $ne: null },
+    });
+    res.status(200).json(verifiedProviders);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Get count of total providers
 const fetch_provider_count = async (req, res) => {
   try {
@@ -181,4 +193,5 @@ module.exports = {
   document_rejected,
   fetch_provider_count,
   fetch_new_providers,
+  fetch_verified_providers,
 };
