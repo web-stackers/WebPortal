@@ -7,8 +7,8 @@ import ThirdPartyPanel from "./ThirdPartyPanel";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <ThirdPartyPanel/>
+    <App />
+    {/* <ThirdPartyPanel/> */}
   </React.StrictMode>,
   document.getElementById("root")
 );
