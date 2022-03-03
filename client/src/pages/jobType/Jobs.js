@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import AddNewJob from "../../components/formComponents/job/AddNewJob";
 // import { makeStyles } from "@mui/styles";
 
 // const useStyles = makeStyles((theme) => {
@@ -44,8 +45,18 @@ const Jobs = () => {
     marginBottom: 25,
   };
 
+  const addTask = (task) => {
+    console.log(task);
+    JobCategory.addNew(task);
+  };
   return (
     <div>
+      <Sbutton text="ADD NEW" btnWidth="10%"></Sbutton>
+      <br />
+      <br />
+      <AddNewJob onAdd={addTask} />
+      <br />
+      <br />
       <Card variant="outlined">
         <CardContent>
           <Typography gutterBottom variant="h4" component="div">
@@ -68,9 +79,6 @@ const Jobs = () => {
               )}
             </div>
           ))}
-          <CardActions>
-            <Sbutton text="ADD NEW" btnWidth="10%"></Sbutton>
-          </CardActions>
         </CardContent>
       </Card>
       <br />
@@ -98,9 +106,6 @@ const Jobs = () => {
               )}
             </div>
           ))}
-          <CardActions>
-            <Sbutton text="ADD NEW" btnWidth="10%"></Sbutton>
-          </CardActions>
         </CardContent>
       </Card>
       <br />

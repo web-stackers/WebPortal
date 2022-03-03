@@ -13,17 +13,10 @@ const accept = (e) => {
 const Withdrawal = () => {
   const [showReason, setShowReason] = useState(false);
   const [withdrawals, setWithdrawals] = useState([]);
-  const [inputs, setInputs] = useState("");
-
-  var data = {
-    adminResponse: inputs.adminResponse,
-  };
-
-  const rejectWithdrawal = (e) => {
-    console.log(e);
-    console.log(data);
-    JobAssignment.withdrawalRejected(e, data);
-  };
+  const [inputs, setInputs] = useState({});
+  // var data = {
+  //   adminResponse: adminResponse.adminResponse,
+  // };
 
   const fetchWithdrawals = () => {
     JobAssignment.fetchJobAssignment()
@@ -38,6 +31,27 @@ const Withdrawal = () => {
   useEffect(() => {
     fetchWithdrawals();
   }, []);
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    // console.log(e);
+    console.log(inputs);
+    // JobAssignment.withdrawalRejected(e, adminResponse)
+    //   .then((response) => {
+    //     setAdminResponse({
+    //       adminResponse: response.adminResponse,
+    //     });
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+  };
   return (
     <div>
       <Topbar
@@ -71,13 +85,15 @@ const Withdrawal = () => {
                     <StextArea
                       label="Reason for rejection"
                       name="adminResponse"
-                      value={inputs}
-                      onChange={(e) => setInputs(e.target.value)}
+                      value={inputs.age || ""}
+                      onChange={handleChange}
                     />
                     <Sbutton
                       text="Submit"
                       btnWidth="10%"
-                      onClick={() => rejectWithdrawal(withdrawal._id)}
+                      type="submit"
+                      onClick={submit}
+                      // onClick={() => submit(withdrawal._id)}
                     />
                   </>
                 )}
