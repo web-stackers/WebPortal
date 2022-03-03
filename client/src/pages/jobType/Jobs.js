@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import JobCategory from "../../services/JobCategory";
 import Sbutton from "../../components/Sbutton";
-import EditIcon from "@mui/icons-material/Edit";
+// import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -30,9 +30,15 @@ const Jobs = () => {
 
   //   const classes = useStyles();
   const btnStyle = {
-    width: 10,
-    marginLeft: 20,
-    marginBottom: 25,
+    width: 1,
+    marginLeft: 25,
+    marginBottom: 10,
+  };
+
+  const cardStyle = {
+    marginLeft: "3%",
+    marginRight: "3%",
+    paddingLeft: "2%",
   };
 
   const addTask = (task) => {
@@ -53,24 +59,26 @@ const Jobs = () => {
       {showAddTask && <AddNewJob onAdd={addTask} />}
       <br />
       <br />
-      <Card variant="outlined">
+      <Card variant="outlined" style={cardStyle}>
         <CardContent>
           <Typography gutterBottom variant="h4" component="div">
             Event
           </Typography>
+          <br />
           {jobTypes.map((jobType) => (
             <div key={jobType._id}>
               {jobType.category === "Event" && (
                 <>
                   <Typography variant="h6" color="text.secondary" gutterBottom>
                     {jobType.jobType}
-                    <Button variant="contained" style={btnStyle}>
+                    {/* <Button variant="contained" style={btnStyle}>
                       <EditIcon />
-                    </Button>
+                    </Button> */}
                     <Button variant="contained" style={btnStyle}>
-                      <DeleteIcon />
+                      <DeleteIcon fontSize="small" />
                     </Button>
                   </Typography>
+                  <br />
                 </>
               )}
             </div>
@@ -80,24 +88,26 @@ const Jobs = () => {
       <br />
       <hr />
       <br />
-      <Card variant="outlined">
+      <Card variant="outlined" style={cardStyle}>
         <CardContent>
           <Typography gutterBottom variant="h4" component="div">
             Construction
           </Typography>
+          <br />
           {jobTypes.map((jobType) => (
             <div key={jobType._id}>
               {jobType.category === "Construction" && (
                 <>
                   <Typography variant="h6" color="text.secondary" gutterBottom>
                     {jobType.jobType}
-                    <Button variant="contained" style={btnStyle}>
+                    {/* <Button variant="contained" style={btnStyle}>
                       <EditIcon />
-                    </Button>
+                    </Button> */}
                     <Button variant="contained" style={btnStyle}>
-                      <DeleteIcon />
+                      <DeleteIcon fontSize="small" />
                     </Button>
                   </Typography>
+                  <br />
                 </>
               )}
             </div>
