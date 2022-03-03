@@ -2,6 +2,10 @@ import StextField from "../../components/formComponents/StextField";
 import Sbutton from "../../components/Sbutton";
 import SecondaryUser from "../../services/SecondaryUser";
 import { useState } from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const AddNewThirdParty = () => {
   const [inputs, setInputs] = useState({});
@@ -56,9 +60,29 @@ const AddNewThirdParty = () => {
           value={inputs.address || ""}
           onChange={handleChange}
         />
-        {/* <Spassword /> */}
-        {/* <Sselect value={inputs.docType || ""} onChange={handleChange} /> */}
-
+        <FormControl sx={{ width: "70ch" }}>
+          <InputLabel id="verificationDocumentType">
+            Verification Document Type
+          </InputLabel>
+          <Select
+            labelId="verificationDocumentType"
+            name="verifyDocType"
+            value={inputs.verifyDocType || ""}
+            label="Verification document type"
+            onChange={handleChange}
+          >
+            <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
+            <MenuItem value="O/L, A/L Certificate">
+              O/L, A/L Certificate
+            </MenuItem>
+            <MenuItem value="NVQ Level Certificate">
+              NVQ Level Certificate
+            </MenuItem>
+            <MenuItem value="Affidavit">Affidavit</MenuItem>
+          </Select>
+        </FormControl>
+        <br />
+        <br />
         <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>
     </div>
