@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import AddNewJob from "../../components/formComponents/job/AddNewJob";
+import AddNewJob from "../../components/job/AddNewJob";
 // import { makeStyles } from "@mui/styles";
 
 // const useStyles = makeStyles((theme) => {

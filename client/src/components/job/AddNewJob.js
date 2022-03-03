@@ -1,5 +1,5 @@
-import StextField from "../StextField";
-import Sbutton from "../../Sbutton";
+import StextField from "../formComponents/StextField";
+import Sbutton from "../Sbutton";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";

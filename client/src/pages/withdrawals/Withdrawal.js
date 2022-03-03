@@ -5,11 +5,6 @@ import Topbar from "../../components/Topbar";
 import { Link } from "react-router-dom";
 import StextArea from "../../components/formComponents/StextArea";
 
-const accept = (e) => {
-  console.log(e);
-  JobAssignment.withdrawalAccepted(e);
-};
-
 const Withdrawal = () => {
   const [showReason, setShowReason] = useState(false);
   const [withdrawals, setWithdrawals] = useState([]);
@@ -36,6 +31,12 @@ const Withdrawal = () => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const accept = (e) => {
+    console.log(e);
+    JobAssignment.withdrawalAccepted(e);
+    window.location.reload(false);
   };
 
   const submit = (e) => {
