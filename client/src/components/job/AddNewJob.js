@@ -16,6 +16,8 @@ const AddNewJob = ({ onAdd }) => {
   };
   return (
     <form>
+      <br />
+      <br />
       <StextField
         label="Job Type"
         name="jobType"

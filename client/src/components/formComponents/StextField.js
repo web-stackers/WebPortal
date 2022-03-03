@@ -16,7 +16,6 @@ const StextField = ({ label, name, value, onChange }) => {
     <div className={classes.textField}>
       <TextField
         autoComplete="off"
-        required
         sx={{ width: "70ch" }}
         variant="outlined"
         color="primary"

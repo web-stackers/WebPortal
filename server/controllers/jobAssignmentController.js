@@ -178,10 +178,7 @@ const withdrawl_rejected = async (req, res) => {
       from: "webstackers19@gmail.com",
       to: ToMail,
       subject: "Rejection of withdrawal request",
-      html:
-        " Hi, <br> Sorry, your withdrawal request has been rejected for the reason : " +
-        req.body.adminResponse +
-        ". <br> So you are requested to finished that accepted work as per your agreement. <br> Thank You",
+      html: " Hi, <br> Sorry, your withdrawal request has been rejected by helper community. <br> So you are requested to finished that accepted work as per your agreement. <br> Thank You",
     };
     const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
       id,
@@ -190,7 +187,7 @@ const withdrawl_rejected = async (req, res) => {
         withdrawn: {
           arisedBy: requiredJobAssignment.withdrawn.arisedBy,
           reason: requiredJobAssignment.withdrawn.reason,
-          adminResponse: req.body.adminResponse,
+          adminResponse: "Rejected",
         },
       },
       { new: true }

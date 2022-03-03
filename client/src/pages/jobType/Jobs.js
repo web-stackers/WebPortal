@@ -8,16 +8,6 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AddNewJob from "../../components/job/AddNewJob";
-// import { makeStyles } from "@mui/styles";
-
-// const useStyles = makeStyles((theme) => {
-//   return {
-//     button: {
-//       margin: "-25px 10px 100px 0",
-//       padding: "0px 10px 8px 0",
-//     },
-//   };
-// });
 
 const Jobs = () => {
   const [jobTypes, setJobTypes] = useState([]);
@@ -59,7 +49,7 @@ const Jobs = () => {
         showAdd={showAddTask}
       />
       <br />
-      <br />
+
       {showAddTask && <AddNewJob onAdd={addTask} />}
       <br />
       <br />

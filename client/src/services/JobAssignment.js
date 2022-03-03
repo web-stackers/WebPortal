@@ -8,9 +8,13 @@ const withdrawalAccepted = async (id) => {
   return await axios.patch(`/jobAssignment/withdrawlAccepted/${id}`);
 };
 
-const withdrawalRejected = async (id, data) => {
-  return await axios.patch(`/jobAssignment/withdrawlRejected/${id}`, data);
+const withdrawalRejected = async (id) => {
+  return await axios.patch(`/jobAssignment/withdrawlRejected/${id}`);
 };
+
+// const withdrawalRejected = async (id, data) => {
+//   return await axios.patch(`/jobAssignment/withdrawlRejected/${id}`, data);
+// };
 
 export default {
   fetchJobAssignment,

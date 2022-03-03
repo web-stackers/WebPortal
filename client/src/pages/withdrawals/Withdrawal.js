@@ -3,15 +3,11 @@ import JobAssignment from "../../services/JobAssignment";
 import Sbutton from "../../components/Sbutton";
 import Topbar from "../../components/Topbar";
 import { Link } from "react-router-dom";
-import StextArea from "../../components/formComponents/StextArea";
+// import RejectReason from "../../components/withdrawal/RejectReason";
 
 const Withdrawal = () => {
   const [showReason, setShowReason] = useState(false);
   const [withdrawals, setWithdrawals] = useState([]);
-  const [inputs, setInputs] = useState({});
-  // var data = {
-  //   adminResponse: adminResponse.adminResponse,
-  // };
 
   const fetchWithdrawals = () => {
     JobAssignment.fetchJobAssignment()
@@ -27,32 +23,24 @@ const Withdrawal = () => {
     fetchWithdrawals();
   }, []);
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  };
-
   const accept = (e) => {
     console.log(e);
     JobAssignment.withdrawalAccepted(e);
     window.location.reload(false);
   };
 
-  const submit = (e) => {
-    e.preventDefault();
-    // console.log(e);
-    console.log(inputs);
-    // JobAssignment.withdrawalRejected(e, adminResponse)
-    //   .then((response) => {
-    //     setAdminResponse({
-    //       adminResponse: response.adminResponse,
-    //     });
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
+  const reject = (e) => {
+    console.log(e);
+    JobAssignment.withdrawalRejected(e);
+    window.location.reload(false);
   };
+
+  // const addTask = (e, task) => {
+  //   console.log(e);
+  //   console.log(task);
+  //   JobAssignment.withdrawalRejected(e, task);
+  // };
+
   return (
     <div>
       <Topbar
@@ -77,27 +65,17 @@ const Withdrawal = () => {
                 <Sbutton
                   text="Reject"
                   btnWidth="10%"
-                  onClick={() => setShowReason(!showReason)}
+                  onClick={() => reject(withdrawal._id)}
+                  // onClick={() => setShowReason(!showReason)}
+                  // showAdd={showReason}
                 />
-
+                {/* 
                 {showReason && (
                   <>
                     <br />
-                    <StextArea
-                      label="Reason for rejection"
-                      name="adminResponse"
-                      value={inputs.age || ""}
-                      onChange={handleChange}
-                    />
-                    <Sbutton
-                      text="Submit"
-                      btnWidth="10%"
-                      type="submit"
-                      onClick={submit}
-                      // onClick={() => submit(withdrawal._id)}
-                    />
+                    <RejectReason onAdd={() => addTask(withdrawal._id)} />
                   </>
-                )}
+                )} */}
                 <br />
                 <br />
                 <hr />
