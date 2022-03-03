@@ -10,26 +10,28 @@ import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
+  //class name for card
+  //The flex layout allows responsive elements within a container to be automatically arranged depending upon screen size. Flex container becomes flexible by setting the display property to flex
   root: {
     display: "flex",
     height: "200px",
     backgroundColor: "transparent !important",
-    color: "white !important",
+    color: "white",
   },
+  //class name for div where card content tag is present
   details: {
     display: "flex",
     flexDirection: "column",
     padding: 10,
     width: "50%",
   },
-  content: {
-    flex: "1 0 auto",
-  },
+  //class name for card media
   cover: {
     width: "20%",
   },
 }));
 
+//on click function to enable or disable third party account and auto refresh after button click to see the change
 const disableEnable = (e) => {
   console.log(e);
   SecondaryUser.disableEnableThirdPartyByID(e);
@@ -50,6 +52,7 @@ const ThirdPartyList = () => {
       });
   };
 
+  //By using this Hook, you tell React that your component needs to do something after render. Call it later after performing the DOM updates.
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -99,6 +102,9 @@ const ThirdPartyList = () => {
                   >
                     <Sbutton text="Edit" btnWidth="83%" />
                   </Link>
+
+                  {/* If third party is disabled, enabling button will be present.
+                  if third party is in active stage, disabling button will be present. */}
                   {thirdParty.isDisabled === false && (
                     <Sbutton
                       text="Disable"

@@ -16,6 +16,7 @@ const AddNewThirdParty = () => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
+  //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
     console.log(inputs);
     e.preventDefault();
