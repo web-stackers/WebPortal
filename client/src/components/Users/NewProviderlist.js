@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import NewProvider from "../../services/NewProvider";
+import NewProvider from "../../services/Provider";
 
 const NewProviderlist = () => {
   const [newProviders, setNewProviders] = useState([]);
