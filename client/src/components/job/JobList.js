@@ -6,8 +6,11 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+//It will be imported in jobs.js file
+
 const JobList = () => {
   const [jobTypes, setJobTypes] = useState([]);
+  //Retrieving all job types in jobTypeCategory collection. It is done through the connection present in JobCategory in service folder.
   const fetchJobTypes = () => {
     JobCategory.fetchJobCategory()
       .then((response) => {
@@ -34,6 +37,7 @@ const JobList = () => {
     paddingLeft: "2%",
   };
 
+  //function which will be called when delete icon is pressed
   const deleteJobTYpe = (e) => {
     console.log(e);
     JobCategory.deleteOne(e);
@@ -42,13 +46,13 @@ const JobList = () => {
 
   return (
     <div>
-      {" "}
       <Card variant="outlined" style={cardStyle}>
         <CardContent>
           <Typography gutterBottom variant="h4" component="div">
             Event
           </Typography>
           <br />
+          {/* Retriving all job types in Event category */}
           {jobTypes.map((jobType) => (
             <div key={jobType._id}>
               {jobType.category === "Event" && (
@@ -73,6 +77,8 @@ const JobList = () => {
       <br />
       <hr />
       <br />
+
+      {/* Retriving all job types in Construction category */}
       <Card variant="outlined" style={cardStyle}>
         <CardContent>
           <Typography gutterBottom variant="h4" component="div">
