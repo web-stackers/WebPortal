@@ -6,7 +6,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import AddNewJob from "../../components/formComponents/job/AddNewJob";
 // import { makeStyles } from "@mui/styles";
@@ -22,6 +21,7 @@ import AddNewJob from "../../components/formComponents/job/AddNewJob";
 
 const Jobs = () => {
   const [jobTypes, setJobTypes] = useState([]);
+  const [showAddTask, setShowAddTask] = useState(false);
 
   const fetchJobTypes = () => {
     JobCategory.fetchJobCategory()
@@ -49,12 +49,18 @@ const Jobs = () => {
     console.log(task);
     JobCategory.addNew(task);
   };
+
   return (
     <div>
-      <Sbutton text="ADD NEW" btnWidth="10%"></Sbutton>
+      <Sbutton
+        text="ADD NEW"
+        btnWidth="25%"
+        onClick={() => setShowAddTask(!showAddTask)}
+        showAdd={showAddTask}
+      />
       <br />
       <br />
-      <AddNewJob onAdd={addTask} />
+      {showAddTask && <AddNewJob onAdd={addTask} />}
       <br />
       <br />
       <Card variant="outlined">
