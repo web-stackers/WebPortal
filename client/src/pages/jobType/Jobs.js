@@ -46,6 +46,12 @@ const Jobs = () => {
     JobCategory.addNew(task);
   };
 
+  const deleteJobTYpe = (e) => {
+    console.log(e);
+    JobCategory.deleteOne(e);
+    window.location.reload(false);
+  };
+
   return (
     <div>
       <Sbutton
@@ -74,7 +80,11 @@ const Jobs = () => {
                     {/* <Button variant="contained" style={btnStyle}>
                       <EditIcon />
                     </Button> */}
-                    <Button variant="contained" style={btnStyle}>
+                    <Button
+                      variant="contained"
+                      style={btnStyle}
+                      onClick={() => deleteJobTYpe(jobType._id)}
+                    >
                       <DeleteIcon fontSize="small" />
                     </Button>
                   </Typography>
@@ -103,7 +113,11 @@ const Jobs = () => {
                     {/* <Button variant="contained" style={btnStyle}>
                       <EditIcon />
                     </Button> */}
-                    <Button variant="contained" style={btnStyle}>
+                    <Button
+                      variant="contained"
+                      style={btnStyle}
+                      onClick={() => deleteJobTYpe(jobType._id)}
+                    >
                       <DeleteIcon fontSize="small" />
                     </Button>
                   </Typography>
