@@ -38,8 +38,20 @@ const fetch_jobType = async (req, res) => {
   }
 };
 
+//Delete By ID
+const delete_jobType = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedJobType = await jobTypeCategory.deleteOne({ _id: id });
+    res.status(200).json(deletedJobType);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_jobType,
   fetch_jobType,
   fetch_jobTypes,
+  delete_jobType,
 };
