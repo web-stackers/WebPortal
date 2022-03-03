@@ -18,6 +18,7 @@ const AddNewThirdParty = () => {
     console.log(inputs);
     e.preventDefault();
     SecondaryUser.addNew(inputs);
+    window.location.reload(false);
   };
 
   return (

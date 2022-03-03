@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const disableEnable = (e) => {
   console.log(e);
   SecondaryUser.disableEnableThirdPartyByID(e);
+  window.location.reload(false);
 };
 
 const ThirdPartyList = () => {

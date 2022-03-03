@@ -1,7 +1,6 @@
 import StextField from "../StextField";
 import Sbutton from "../../Sbutton";
 import { useState } from "react";
-import JobCategory from "../../../services/JobCategory";
 
 const AddNewJob = ({ onAdd }) => {
   const [jobType, setJobType] = useState("");
@@ -9,7 +8,7 @@ const AddNewJob = ({ onAdd }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     onAdd({ jobType, category });
-    // setJobType("");
+    window.location.reload(false);
   };
   return (
     <form>
