@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import JobAssignment from "../../services/JobAssignment";
 import Sbutton from "../../components/Sbutton";
-import Topbar from "../../components/Topbar";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -22,15 +21,17 @@ const AllWithdrawals = () => {
     return {
       id: withdrawal._id,
       // id: withdrawal._id && withdrawal.withdrawn,
+      type: withdrawal.withdrawn && withdrawal.withdrawn.arisedBy,
       reason: withdrawal.withdrawn && withdrawal.withdrawn.reason,
       response: withdrawal.withdrawn && withdrawal.withdrawn.adminResponse,
     };
   });
 
   const columns = [
-    { field: "name", headerName: "Name", width: 350 },
-    { field: "reason", headerName: "Reason", width: 550 },
-    { field: "response", headerName: "Response", width: 280 },
+    { field: "name", headerName: "Name", width: 300 },
+    { field: "type", headerName: "Type", width: 200 },
+    { field: "reason", headerName: "Reason", width: 500 },
+    { field: "response", headerName: "Response", width: 200 },
   ];
 
   useEffect(() => {
@@ -39,10 +40,6 @@ const AllWithdrawals = () => {
 
   return (
     <div>
-      <Topbar
-        onClickConsumer={() => alert("Consumers")}
-        onClickProvider={() => alert("Providers")}
-      />
       <div style={{ height: 500, width: "100%" }}>
         <div style={{ display: "flex", height: "100%" }}>
           <div style={{ flexGrow: 1 }}>

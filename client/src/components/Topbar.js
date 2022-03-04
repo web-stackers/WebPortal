@@ -1,60 +1,51 @@
-import { makeStyles } from "@mui/styles";
+import React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import useStyles from "../styles/usersStyles";
 
-const useStyles = makeStyles((theme) => {
-  return {
-    outline: {
-      display: "flex",
-      justifyContent: "space-between",
-      fontSize: 18,
-      height: "fit-content",
-      margin: "-5px 0 10px 0",
-      borderBottom: "2px " + theme.palette.primary.light + " solid",
-      padding: "0px 10px 8px 0",
-    },
-    type: {
-      display: "flex",
-      flexGrow: 2,
-      alignItems: "center",
-      cursor: "pointer",
-    },
-    search: {
-      display: "flex",
-      justifySelf: "flex-end",
-    },
-    userType: {
-      width: "25%",
-      cursor: "pointer",
-    },
-    textBox: {
-      marginRight: "10px",
-    },
-  };
-});
-
-const Topbar = ({ onClickConsumer, onClickProvider }) => {
+const Topbar = ({ type, setType }) => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div className={classes.outline}>
-      <div className={classes.type}>
-        <Typography
-          button
-          className={classes.userType}
-          onClick={onClickConsumer}
+      <div>
+        <Button
+          variant="contained"
+          onClick={(event) => {
+            setOpen(event.currentTarget);
+          }}
         >
-          Consumers
-        </Typography>
-        <Typography
-          button
-          className={classes.userType}
-          onClick={onClickProvider}
-        >
-          Providers
-        </Typography>
+          {type} <ArrowDropDownIcon />
+        </Button>
+
+        <Menu anchorEl={open} open={open} onClose={handleClose}>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setType("Consumers");
+            }}
+          >
+            Consumers
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setType("Providers");
+            }}
+          >
+            Providers
+          </MenuItem>
+        </Menu>
       </div>
 
       <div className={classes.search}>
