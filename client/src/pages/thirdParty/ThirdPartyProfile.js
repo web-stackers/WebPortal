@@ -38,7 +38,7 @@ const ThirdPartyProfile = () => {
           // value={inputs.address || ""}
           // onChange={handleChange}
         />
-        <Sbutton text="Submit" type="submit" onClick={onSubmit} />
+        <Sbutton text="Update" type="submit" onClick={onSubmit} />
       </form>
     </div>
   );
