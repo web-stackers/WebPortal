@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ThirdPartyProfile = () => {
   const location = useLocation();
@@ -28,11 +29,17 @@ const ThirdPartyProfile = () => {
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
+  const navigate = useNavigate();
+  const routeChange = () => {
+    let path = "/thirdParty";
+    navigate(path);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
     SecondaryUser.updateThirdPartyByID(ID, inputs);
+    routeChange();
   };
 
   return (
