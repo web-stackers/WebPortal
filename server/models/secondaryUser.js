@@ -50,7 +50,7 @@ const SecondaryUserSchema = new Schema({
   },
   //I have temporarily make required field as comment
   profilePicture: {
-    type: Buffer,
+    data: Buffer,
     contentType: String,
     //required: true,
   },
