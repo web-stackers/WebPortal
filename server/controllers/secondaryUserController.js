@@ -2,6 +2,28 @@ const secondaryUser = require("../models/secondaryUser");
 const transporter = require("../send-email/sendEmail");
 const multer = require("multer");
 
+//define storage for the images
+const storage = multer.diskStorage({
+  //destination for files
+  destination: function (request, file, callback) {
+    callback(null, "../../client/src/assets");
+  },
+
+  //add back the extension
+  filename: function (request, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  },
+});
+
+//upload parameters for multer
+const upload = multer({
+  storage: storage,
+  limits: {
+    //limit to 3MB
+    fieldSize: 1024 * 1024 * 3,
+  },
+});
+
 // Fetch all secondaryUsers
 const fetch_secondaryUsers = async (req, res) => {
   try {
