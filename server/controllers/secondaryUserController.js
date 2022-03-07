@@ -1,5 +1,6 @@
 const secondaryUser = require("../models/secondaryUser");
 const transporter = require("../send-email/sendEmail");
+const multer = require("multer");
 
 // Fetch all secondaryUsers
 const fetch_secondaryUsers = async (req, res) => {
@@ -89,10 +90,6 @@ const update_thirdParty = async (req, res) => {
     const updatedSecondaryUser = await secondaryUser.findByIdAndUpdate(
       id,
       {
-        // contact: {
-        //   mobile: req.body.mobile,
-        //   email: req.body.email,
-        // },
         mobile: req.body.mobile,
         email: req.body.email,
         address: req.body.address,

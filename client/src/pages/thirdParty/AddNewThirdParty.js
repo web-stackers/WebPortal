@@ -30,7 +30,7 @@ const AddNewThirdParty = () => {
 
   return (
     <div>
-      <form>
+      <form encType="multipart/form-data">
         <StextField
           label="First Name"
           name="fName"
@@ -86,6 +86,7 @@ const AddNewThirdParty = () => {
         </FormControl>
         <br />
         <br />
+        <InputLabel id="profilePicture">Profile Picture</InputLabel>
         <input
           type="file"
           accept=".png, .jpg, .jpeg"
