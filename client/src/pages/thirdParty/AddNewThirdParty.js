@@ -16,6 +16,10 @@ const AddNewThirdParty = () => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
+  const handlePhoto = (e) => {
+    setInputs((values) => ({ ...values, photo: e.target.files[0] }));
+  };
+
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
     console.log(inputs);
@@ -80,6 +84,15 @@ const AddNewThirdParty = () => {
             <MenuItem value="Affidavit">Affidavit</MenuItem>
           </Select>
         </FormControl>
+        <br />
+        <br />
+        <input
+          type="file"
+          accept=".png, .jpg, .jpeg"
+          name="profilePicture"
+          onChange={handlePhoto}
+        />
+        <br />
         <br />
         <br />
         <Sbutton text="Submit" type="submit" onClick={onSubmit} />
