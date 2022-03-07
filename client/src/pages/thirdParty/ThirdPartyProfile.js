@@ -8,6 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Link } from "react-router-dom";
 
 const ThirdPartyProfile = () => {
   const location = useLocation();
@@ -15,8 +16,8 @@ const ThirdPartyProfile = () => {
   const ID = location.state._id;
   const fName = location.state.name.fName;
   const lName = location.state.name.lName;
-  const email = location.state.contact.email;
-  const mobile = location.state.contact.mobile;
+  const email = location.state.email;
+  const mobile = location.state.mobile;
   const address = location.state.address;
   const verifyDocType = location.state.verifyDocType;
 
@@ -31,7 +32,7 @@ const ThirdPartyProfile = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-    // SecondaryUser.addNew(inputs);
+    SecondaryUser.updateThirdPartyByID(ID, inputs);
   };
 
   return (
@@ -72,18 +73,25 @@ const ThirdPartyProfile = () => {
             onChange={handleChange}
           >
             <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
-            <MenuItem value="O/L, A/L Certificate">
-              O/L, A/L Certificate
+            <MenuItem value="O/L and A/L Certificates">
+              O/L and A/L Certificates
             </MenuItem>
-            <MenuItem value="NVQ Level Certificate">
-              NVQ Level Certificate
-            </MenuItem>
+            <MenuItem value="NVQ Certificate">NVQ Certificate</MenuItem>
             <MenuItem value="Affidavit">Affidavit</MenuItem>
           </Select>
         </FormControl>
         <br />
         <br />
-        <Sbutton text="Update" type="submit" onClick={onSubmit} />
+        <Sbutton
+          text="Update"
+          type="submit"
+          onClick={onSubmit}
+          btnWidth="15%"
+          marginRight="5%"
+        />
+        <Link to="/thirdParty" className="link">
+          <Sbutton text="Cancel" btnWidth="15%" />
+        </Link>
       </form>
     </div>
   );

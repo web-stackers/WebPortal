@@ -80,9 +80,9 @@ const ThirdPartyList = () => {
                       {thirdParty.name.fName} {thirdParty.name.lName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      <b>Contact Number :</b> {thirdParty.contact.mobile}
+                      <b>Contact Number :</b> {thirdParty.mobile}
                       <br />
-                      <b>Email :</b> {thirdParty.contact.email}
+                      <b>Email :</b> {thirdParty.email}
                       <br />
                       <b>Address : </b>
                       {thirdParty.address}

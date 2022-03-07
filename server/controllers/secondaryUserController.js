@@ -18,10 +18,12 @@ const post_secondaryUser = async (req, res) => {
       fName: req.body.fName,
       lName: req.body.lName,
     },
-    contact: {
-      mobile: req.body.mobile,
-      email: req.body.email,
-    },
+    // contact: {
+    //   mobile: req.body.mobile,
+    //   email: req.body.email,
+    // },
+    mobile: req.body.mobile,
+    email: req.body.email,
     address: req.body.address,
     profilePicture: req.body.profilePicture,
     verifyDocType: req.body.verifyDocType,
@@ -91,10 +93,12 @@ const update_thirdParty = async (req, res) => {
     const updatedSecondaryUser = await secondaryUser.findByIdAndUpdate(
       id,
       {
-        contact: {
-          mobile: req.body.mobile,
-          email: req.body.email,
-        },
+        // contact: {
+        //   mobile: req.body.mobile,
+        //   email: req.body.email,
+        // },
+        mobile: req.body.mobile,
+        email: req.body.email,
         address: req.body.address,
         profilePicture: req.body.profilePicture,
         verifyDocType: req.body.verifyDocType,

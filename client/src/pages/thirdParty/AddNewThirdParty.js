@@ -73,12 +73,10 @@ const AddNewThirdParty = () => {
             onChange={handleChange}
           >
             <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
-            <MenuItem value="O/L, A/L Certificate">
-              O/L, A/L Certificate
+            <MenuItem value="O/L and A/L Certificates">
+              O/L and A/L Certificates
             </MenuItem>
-            <MenuItem value="NVQ Level Certificate">
-              NVQ Level Certificate
-            </MenuItem>
+            <MenuItem value="NVQ Certificate">NVQ Certificate</MenuItem>
             <MenuItem value="Affidavit">Affidavit</MenuItem>
           </Select>
         </FormControl>
