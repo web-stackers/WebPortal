@@ -73,11 +73,20 @@ const ComplaintList = () => {
                           <b>Description : </b>
                           {complaint.description}
                           <br />
-                          <b>Complaint category:</b>{" "}
-                          {complaint.category}
+                          <b>Complaint category:</b> {complaint.category}
                         </Typography>
                       </CardContent>
                     </div>
+                    <CardActions>
+                      <Link
+                        to="/ResponseToComplaint"
+                        state={complaint}
+                        className="link"
+                        style={{ marginRight: "50%" }}
+                      >
+                        <Sbutton text="Response" btnWidth="90%" />
+                      </Link>
+                    </CardActions>
                   </Card>
                 </div>
               );
