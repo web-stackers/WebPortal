@@ -15,7 +15,7 @@ const fetch_jobs = async (req, res) => {
 // Fetch all complaints
 const fetch_all_complaints = async (req, res) => {
   try {
-    const complain= await job.find();
+    const complain = await job.find();
 
     res.status(200).json(complain);
   } catch (error) {

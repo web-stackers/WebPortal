@@ -46,10 +46,6 @@ function App() {
               />
               <Route path="/withdrawals" element={<Withdrawal />} />
               <Route path="/Allwithdrawals" element={<AllWithdrawals />} />
-              <Route
-                path="/ResponseToComplaint"
-                element={<ResponseToComplaint />}
-              />
               <Route path="/users/profile" element={<Profile />} />
             </Routes>
           </div>
