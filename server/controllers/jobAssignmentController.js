@@ -14,6 +14,22 @@ const fetch_jobAssignments = async (req, res) => {
   }
 };
 
+const fetch_job_and_jobAssignments = async (req, res) => {
+  try {
+    const jobAndJobAssignments = await jobAssignment.aggregate({
+      $lookup: {
+        from: "job",
+        localField: "_id",
+        foreignField: "_id",
+        as: "job",
+      },
+    });
+    res.status(200).json(jobAndJobAssignments);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Add new job assignment to the database
 const post_jobAssignment = async (req, res) => {
   const newAssignment = new jobAssignment({
@@ -239,4 +255,5 @@ module.exports = {
   withdrawl_accepted,
   withdrawl_rejected,
   insert_quotation,
+  fetch_job_and_jobAssignments,
 };
