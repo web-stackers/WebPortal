@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const ThirdPartyProfile = () => {
+  // The useLocation hook is a function that returns the location object that contains information about the current URL. Whenever the URL changes, a new location object will be returned
   const location = useLocation();
-  console.log(location.state);
   const ID = location.state._id;
   const fName = location.state.name.fName;
   const lName = location.state.name.lName;
@@ -29,12 +29,15 @@ const ThirdPartyProfile = () => {
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
+
+  //It is given as onClick function in submit button to redirect to the main page
   const navigate = useNavigate();
   const routeChange = () => {
     let path = "/thirdParty";
     navigate(path);
   };
 
+  //onClick function when submit button is clicked. Details will be update and path will be redirected
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
