@@ -4,9 +4,20 @@ import StextField from "../../components/formComponents/StextField";
 import Sbutton from "../../components/Sbutton";
 import Provider from "../../services/Provider";
 import Spassword from "../../components/formComponents/Spassword";
-// import SdatePicker from "../../components/formComponents/SdatePicker";
+import TextField from "@mui/material/TextField";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => {
+  return {
+    textField: {
+      display: "block",
+      margin: "0 0 20px 0",
+    },
+  };
+});
 
 const Registration = () => {
+  const classes = useStyles();
   const [inputs, setInputs] = useState({});
 
   const handleChange = (event) => {
@@ -48,9 +59,47 @@ const Registration = () => {
           name="email"
           value={inputs.email || ""}
           onChange={handleChange}
+          type="email"
         />
-        <Spassword/>
-        {/* <SdatePicker/> */}
+        <Spassword
+          name="password"
+          value={inputs.password || ""}
+          onChange={handleChange}
+        />
+        <StextField
+          label="NIC Number"
+          name="NIC"
+          value={inputs.NIC || ""}
+          onChange={handleChange}
+        />
+        <div className={classes.textField}>
+          <TextField
+            name="DOB"
+            label="Date of Birth"
+            type="date"
+            value={inputs.DOB || ""}
+            onChange={handleChange}
+            sx={{ width: "70ch" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </div>
+
+        <div className={classes.textField}>
+          <TextField
+            name="workStartedYear"
+            label="Year you started the job"
+            type="date"
+            value={inputs.workStartedYear || ""}
+            onChange={handleChange}
+            sx={{ width: "70ch" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </div>
+
         <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>
     </div>

@@ -18,21 +18,19 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const Spassword = ({ value, onChange }) => {
-  const [values, setValues] = useState({
-    password: "",
-    showPassword: false,
-  });
+const Spassword = ({ name, value, onChange }) => {
+  // const [values, setValues] = useState({
+  //   password: "",
+  //   showPassword: false,
+  // });
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  // const handleChange = (prop) => (event) => {
+  //   setValues({ ...values, [prop]: event.target.value });
+  // };
 
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
+      setShowPassword(!showPassword);
   };
 
   const handleMouseDownPassword = (event) => {
@@ -41,15 +39,17 @@ const Spassword = ({ value, onChange }) => {
 
   const classes = useStyles();
   return (
+    <div className={classes.textField}>
     <FormControl variant="outlined" required sx={{ width: "70ch" }}>
       <InputLabel htmlFor="password">Password</InputLabel>
       <OutlinedInput
         className={classes.password}
-        id="password"
+        name={name}
         helperText="Some important text"
-        type={values.showPassword ? "text" : "password"}
-        value={values.password}
-        onChange={handleChange("password")}
+        type={showPassword ? "text" : "password"}
+        value={value}
+        //onChange={handleChange("password")}
+        onChange={onChange}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -58,12 +58,13 @@ const Spassword = ({ value, onChange }) => {
               onMouseDown={handleMouseDownPassword}
               edge="end"
             >
-              {values.showPassword ? <VisibilityOff /> : <Visibility />}
+              {showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>
         }
       />
     </FormControl>
+    </div>
   );
 };
 
