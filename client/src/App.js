@@ -44,6 +44,10 @@ function App() {
                 path="/thirdPartyProfile"
                 element={<ThirdPartyProfile />}
               />
+              <Route
+                path="/ResponseToComplaint"
+                element={<ResponseToComplaint />}
+              />
               <Route path="/withdrawals" element={<Withdrawal />} />
               <Route path="/Allwithdrawals" element={<AllWithdrawals />} />
               <Route path="/users/profile" element={<Profile />} />
