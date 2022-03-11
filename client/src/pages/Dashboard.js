@@ -1,8 +1,13 @@
+import BasicCard from "../components/BasicCard";
+import { Grid } from "@mui/material";
+
 const Dashboard = () => {
   return (
-    <>
-      <div>Dashboard</div>
-    </>
+    <Grid container spacing={4}>
+      <Grid item>
+        <BasicCard />
+      </Grid>
+    </Grid>
   );
 };
 
