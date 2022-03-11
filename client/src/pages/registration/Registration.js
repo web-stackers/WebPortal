@@ -3,6 +3,8 @@ import { useState } from "react";
 import StextField from "../../components/formComponents/StextField";
 import Sbutton from "../../components/Sbutton";
 import Provider from "../../services/Provider";
+import Spassword from "../../components/formComponents/Spassword";
+// import SdatePicker from "../../components/formComponents/SdatePicker";
 
 const Registration = () => {
   const [inputs, setInputs] = useState({});
@@ -29,6 +31,26 @@ const Registration = () => {
           value={inputs.fName || ""}
           onChange={handleChange}
         />
+        <StextField
+          label="Last Name"
+          name="lName"
+          value={inputs.lName || ""}
+          onChange={handleChange}
+        />
+        <StextField
+          label="Mobile Number"
+          name="mobile"
+          value={inputs.mobile || ""}
+          onChange={handleChange}
+        />
+        <StextField
+          label="Email"
+          name="email"
+          value={inputs.email || ""}
+          onChange={handleChange}
+        />
+        <Spassword/>
+        {/* <SdatePicker/> */}
         <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>
     </div>
