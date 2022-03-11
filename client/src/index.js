@@ -8,9 +8,9 @@ import Registration from "./pages/registration/Registration"
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App /> */}
+    <App />
     {/* <ThirdPartyPanel/> */}
-    <Registration/>
+    {/* <Registration/> */}
   </React.StrictMode>,
   document.getElementById("root")
 );

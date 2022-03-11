@@ -19,15 +19,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const Spassword = ({ name, value, onChange }) => {
-  // const [values, setValues] = useState({
-  //   password: "",
-  //   showPassword: false,
-  // });
   const [showPassword, setShowPassword] = useState(false);
-
-  // const handleChange = (prop) => (event) => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
 
   const handleClickShowPassword = () => {
       setShowPassword(!showPassword);
@@ -48,7 +40,6 @@ const Spassword = ({ name, value, onChange }) => {
         helperText="Some important text"
         type={showPassword ? "text" : "password"}
         value={value}
-        //onChange={handleChange("password")}
         onChange={onChange}
         endAdornment={
           <InputAdornment position="end">
