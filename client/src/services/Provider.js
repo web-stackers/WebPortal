@@ -1,5 +1,9 @@
 import axios from "axios";
 
+const addNew = async (data) => {
+  return await axios.post("/provider", data);
+};
+
 const fetchProviders = async () => {
   return await axios.get("/provider");
 };
@@ -17,6 +21,7 @@ const fetchVerifiedProviders = async () => {
 };
 
 export default {
+  addNew,
   fetchProviders,
   ableProvider,
   fetchNewProviders,
