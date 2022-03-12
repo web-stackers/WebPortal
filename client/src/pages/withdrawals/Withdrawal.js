@@ -10,6 +10,7 @@ const Withdrawal = () => {
     <div>
       <Topbar type={user} setType={setUser} />
       {/* Withdrawals which have been not responded by admin will be retrieved  */}
+      <br />
       <NotHandledWithdrawals type={user} />
 
       <br />

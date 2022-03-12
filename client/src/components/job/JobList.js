@@ -35,6 +35,7 @@ const JobList = () => {
     marginLeft: "3%",
     marginRight: "3%",
     paddingLeft: "2%",
+    backgroundColor: "transparent !important",
   };
 
   //function which will be called when delete icon is pressed

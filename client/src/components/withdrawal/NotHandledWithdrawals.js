@@ -1,6 +1,29 @@
 import { useEffect, useState } from "react";
 import JobAssignment from "../../services/JobAssignment";
 import Sbutton from "../../components/Sbutton";
+import Card from "@mui/material/Card";
+import { makeStyles } from "@mui/styles";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+
+const useStyles = makeStyles((theme) => ({
+  //class name for card
+  //The flex layout allows responsive elements within a container to be automatically arranged depending upon screen size. Flex container becomes flexible by setting the display property to flex
+  root: {
+    display: "flex",
+    height: "200px",
+    backgroundColor: "transparent !important",
+    color: "white",
+  },
+  //class name for div where card content tag is present
+  details: {
+    display: "flex",
+    flexDirection: "column",
+    padding: 15,
+    width: "70%",
+  },
+}));
 
 const NotHandledWithdrawals = ({ type }) => {
   const [withdrawals, setWithdrawals] = useState([]);
@@ -33,6 +56,7 @@ const NotHandledWithdrawals = ({ type }) => {
     JobAssignment.withdrawalRejected(e);
     window.location.reload(false);
   };
+  const classes = useStyles();
   if (type === "Consumers") {
     return (
       <div>
@@ -42,22 +66,35 @@ const NotHandledWithdrawals = ({ type }) => {
               withdrawal.withdrawn.adminResponse === "Pending" &&
               withdrawal.withdrawn.arisedBy === "consumer" && (
                 <>
-                  <h4>Name:</h4>
-                  <h4>Job Type:</h4>
-                  <h4>Reason: {withdrawal.withdrawn.reason}</h4>
-                  <Sbutton
-                    text="Accept"
-                    btnWidth="10%"
-                    marginRight="1%"
-                    onClick={() => accept(withdrawal._id)}
-                  ></Sbutton>
-                  <Sbutton
-                    text="Reject"
-                    btnWidth="10%"
-                    onClick={() => reject(withdrawal._id)}
-                  />
+                  <Card className={classes.root}>
+                    <div className={classes.details}>
+                      <CardContent>
+                        <Typography variant="body2" color="text.secondary">
+                          Name:
+                          <br />
+                          <br />
+                          Job Type:
+                          <br />
+                          <br />
+                          Reason:{withdrawal.withdrawn.reason}
+                        </Typography>
+                      </CardContent>
+                    </div>
+                    <CardActions>
+                      <Sbutton
+                        text="Accept"
+                        btnWidth="50%"
+                        marginRight="1%"
+                        onClick={() => accept(withdrawal._id)}
+                      ></Sbutton>
+                      <Sbutton
+                        text="Reject"
+                        btnWidth="50%"
+                        onClick={() => reject(withdrawal._id)}
+                      />
+                    </CardActions>
+                  </Card>
 
-                  <br />
                   <br />
                   <hr />
                 </>
@@ -76,22 +113,35 @@ const NotHandledWithdrawals = ({ type }) => {
               withdrawal.withdrawn.adminResponse === "Pending" &&
               withdrawal.withdrawn.arisedBy === "provider" && (
                 <>
-                  <h4>Name:</h4>
-                  <h4>Job Type:</h4>
-                  <h4>Reason: {withdrawal.withdrawn.reason}</h4>
-                  <Sbutton
-                    text="Accept"
-                    btnWidth="10%"
-                    marginRight="1%"
-                    onClick={() => accept(withdrawal._id)}
-                  ></Sbutton>
-                  <Sbutton
-                    text="Reject"
-                    btnWidth="10%"
-                    onClick={() => reject(withdrawal._id)}
-                  />
+                  <Card className={classes.root}>
+                    <div className={classes.details}>
+                      <CardContent>
+                        <Typography variant="body2" color="text.secondary">
+                          Name:
+                          <br />
+                          <br />
+                          Job Type:
+                          <br />
+                          <br />
+                          Reason:{withdrawal.withdrawn.reason}
+                        </Typography>
+                      </CardContent>
+                    </div>
+                    <CardActions>
+                      <Sbutton
+                        text="Accept"
+                        btnWidth="50%"
+                        marginRight="1%"
+                        onClick={() => accept(withdrawal._id)}
+                      ></Sbutton>
+                      <Sbutton
+                        text="Reject"
+                        btnWidth="50%"
+                        onClick={() => reject(withdrawal._id)}
+                      />
+                    </CardActions>
+                  </Card>
 
-                  <br />
                   <br />
                   <hr />
                 </>
