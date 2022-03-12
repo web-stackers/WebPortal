@@ -12,7 +12,7 @@ const BasicCard = ({ text, count }) => {
             {text}
           </Typography>
           <br />
-          <Typography variant="h3" textAlign="center">
+          <Typography variant="h4" textAlign="center">
             {count}
           </Typography>
         </CardContent>
