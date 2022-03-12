@@ -1,4 +1,6 @@
 import StextField from "../../components/formComponents/StextField";
+import Semail from "../../components/formComponents/Semail";
+import Smobile from "../../components/formComponents/Smobile";
 import Sbutton from "../../components/Sbutton";
 import SecondaryUser from "../../services/SecondaryUser";
 import { useState } from "react";
@@ -45,15 +47,13 @@ const AddNewThirdParty = () => {
           onChange={handleChange}
         />
 
-        <StextField
-          label="Email"
+        <Semail
           name="email"
           value={inputs.email || ""}
           onChange={handleChange}
         />
 
-        <StextField
-          label="Mobile Number"
+        <Smobile
           name="mobile"
           value={inputs.mobile || ""}
           onChange={handleChange}

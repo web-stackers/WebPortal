@@ -18,7 +18,6 @@ const StextField = ({ label, name, value, onChange, type }) => {
         autoComplete="off"
         sx={{ width: "70ch" }}
         variant="outlined"
-        color="primary"
         name={name}
         label={label}
         value={value}
