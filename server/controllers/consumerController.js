@@ -49,6 +49,19 @@ const fetch_consumer = async (req, res) => {
   }
 };
 
+// Fetch consumer by search key
+const search_consumer = async (req, res) => {
+  const { key } = req.params;
+  const searchKey = new RegExp(key,'i');
+
+  try {
+    const searchResult = await consumer.find({$or:[{'name.fName':searchKey},{'name.lName':searchKey}]});
+    res.status(200).json(searchResult);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
 // Disable or Enable consumer
 const disable_consumer = async (req, res) => {
   const { id } = req.params;
@@ -71,4 +84,5 @@ module.exports = {
   post_consumer,
   fetch_consumer,
   disable_consumer,
+  search_consumer
 };
