@@ -4,12 +4,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ThirdPartyPanel from "./ThirdPartyPanel";
-import Registration from "./pages/registration/Registration"
+import Registration from "./pages/registration/Registration";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <ThirdPartyPanel/>
+    <App />
+    {/* <ThirdPartyPanel/> */}
     {/* <Registration/> */}
   </React.StrictMode>,
   document.getElementById("root")

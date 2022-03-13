@@ -27,7 +27,7 @@ const AddNewThirdParty = () => {
     console.log(inputs);
     e.preventDefault();
     SecondaryUser.addNew(inputs);
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   return (
@@ -89,7 +89,7 @@ const AddNewThirdParty = () => {
         <InputLabel id="profilePicture">Profile Picture</InputLabel>
         <input
           type="file"
-          accept=".png, .jpg, .jpeg"
+          // accept=".png, .jpg, .jpeg"
           name="profilePicture"
           onChange={handlePhoto}
         />
