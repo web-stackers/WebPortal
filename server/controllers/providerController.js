@@ -103,6 +103,19 @@ const fetch_provider = async (req, res) => {
   }
 };
 
+// Fetch documentlist of a provider
+const fetch_documentlist = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const requiredProvider = await provider.findById(id);
+    const requiredDocuments = requiredProvider.document;
+    res.status(200).json(requiredDocuments);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Disable or Enable provider
 const disable_provider = async (req, res) => {
   const { id } = req.params;
@@ -194,4 +207,5 @@ module.exports = {
   fetch_provider_count,
   fetch_new_providers,
   fetch_verified_providers,
+  fetch_documentlist,
 };

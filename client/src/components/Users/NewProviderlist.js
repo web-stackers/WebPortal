@@ -7,6 +7,7 @@ import Sbutton from "../Sbutton";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   gridContainer: {
@@ -48,7 +49,13 @@ const NewProviderlist = () => {
                 <br />
               </CardContent>
               <div align="center">
-                <Sbutton text="Open" btnWidth="150px" />
+                <Link
+                  to="/documentlist"
+                  state={newProvider._id}
+                  className="link"
+                >
+                  <Sbutton text="Open" btnWidth="150px" />
+                </Link>
               </div>
             </Card>
           </Grid>

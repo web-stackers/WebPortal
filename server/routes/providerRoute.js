@@ -17,6 +17,8 @@ router.get("/verified", providerController.fetch_verified_providers);
 router.get("/totCount", providerController.fetch_provider_count);
 //fetch provider using certain id
 router.get("/:id", providerController.fetch_provider);
+//Fetch documentlist of a provider
+router.get("/document/:id", providerController.fetch_documentlist);
 //disable or enable provider
 router.patch("/disable_provider/:id", providerController.disable_provider);
 // Update when document is accepted

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NewDocuments from "./pages/thirdParty/thirdPartyPanel/NewDocuments";
 import VerifiedDocuments from "./pages/thirdParty/thirdPartyPanel/VerifiedDocuments";
+import DocumentList from "./pages/thirdParty/thirdPartyPanel/DocumentList";
 
 const theme = createTheme({
   palette: {
@@ -27,6 +28,7 @@ function ThirdPartyPanel() {
             <Routes>
               <Route exact path="/" element={<NewDocuments />} />
               <Route exact path="/verified" element={<VerifiedDocuments />} />
+              <Route exact path="/documentlist" element={<DocumentList />} />
             </Routes>
           </div>
         </ThirdPartyLayout>

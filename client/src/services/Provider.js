@@ -20,10 +20,15 @@ const fetchVerifiedProviders = async () => {
   return await axios.get("/provider/verified");
 };
 
+const fetchDocumentList = async (id) => {
+  return await axios.get(`/provider/document/${id}`);
+}
+
 export default {
   addNew,
   fetchProviders,
   ableProvider,
   fetchNewProviders,
   fetchVerifiedProviders,
+  fetchDocumentList,
 };
