@@ -27,20 +27,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-<<<<<<< HEAD
-const Userlist = ({type, users, setUsers, fetchUsers}) => {
-=======
 const Userlist = ({ type }) => {
   const [users, setUsers] = useState([]);
->>>>>>> 49633af565f4b1cc75d1c696fce97484df7c04c2
   const classes = useStyles();
   //const [profileId, setProfileId] = useState('');
 
-<<<<<<< HEAD
-  /* const changeAble = () => {
-    if(type=='Consumers'){
-      Consumer.ableConsumer(profileId)
-=======
   const fetchUsers = () => {
     if (type === "Consumers") {
       Consumer.fetchConsumers()
@@ -64,7 +55,6 @@ const Userlist = ({ type }) => {
   /* const changeAble = (id) => {
     if(type=='Consumers'){
       Consumer.ableConsumer(id)
->>>>>>> 49633af565f4b1cc75d1c696fce97484df7c04c2
         .then(() => {
           fetchUsers();
         })
@@ -84,17 +74,6 @@ const Userlist = ({ type }) => {
 
   const rows = users.map((user) => {
     return {
-<<<<<<< HEAD
-        id: user._id,
-        propic: user.profilePicture,
-        name: user.name.fName+' '+user.name.lName,
-        rating: user.totalRating/user.ratingCount,
-        mobile: user.contact.mobile,
-        email: user.contact.email,
-        isDisabled: user.isDisabled,
-        jobType: user.jobType
-    }
-=======
       id: user._id,
       propic: user.profilePicture,
       name: user.name.fName + " " + user.name.lName,
@@ -103,7 +82,6 @@ const Userlist = ({ type }) => {
       email: user.contact.email,
       isDisabled: user.isDisabled,
     };
->>>>>>> 49633af565f4b1cc75d1c696fce97484df7c04c2
   });
 
   const columns = [
@@ -124,24 +102,6 @@ const Userlist = ({ type }) => {
     { field: "mobile", headerName: "Mobile No", width: 150 },
     { field: "email", headerName: "Email", width: 250 },
     {
-<<<<<<< HEAD
-        field: 'Action',
-        headerName: 'Action',
-        width: 200,
-        renderCell: (params) => {
-            const profileId = params.row.id;
-            return(
-                <div className={classes.actionBtn}>                   
-                    <Link to='/users/profile' state={{profileId, type}} className='link' style={{marginRight:'5%'}}>
-                        <Sbutton text='View' btnWidth='100%'/>
-                    </Link>
-                    {params.row.isDisabled==false && <Sbutton text='Disable' btnWidth='100%' /* onClick={(Id) => {setProfileId(Id); changeAble();}} *//>}
-                    {params.row.isDisabled==true && <Sbutton text='Enable' btnWidth='100%' /* onClick={(Id) => {setProfileId(Id); changeAble();}} *//>}
-                </div>
-            )
-        }
-    }
-=======
       field: "Action",
       headerName: "Action",
       width: 200,
@@ -167,7 +127,6 @@ const Userlist = ({ type }) => {
         );
       },
     },
->>>>>>> 49633af565f4b1cc75d1c696fce97484df7c04c2
   ];
 
   useEffect(() => {

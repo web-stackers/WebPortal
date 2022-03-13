@@ -220,9 +220,5 @@ module.exports = {
   fetch_provider_count,
   fetch_new_providers,
   fetch_verified_providers,
-<<<<<<< HEAD
-  search_provider
-=======
   fetch_documentlist,
->>>>>>> 49633af565f4b1cc75d1c696fce97484df7c04c2
 };

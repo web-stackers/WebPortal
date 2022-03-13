@@ -26,12 +26,10 @@ router.get("/totCount", providerController.fetch_provider_count);
 
 //fetch provider using certain id
 router.get("/:id", providerController.fetch_provider);
-<<<<<<< HEAD
 
-=======
 //Fetch documentlist of a provider
 router.get("/document/:id", providerController.fetch_documentlist);
->>>>>>> 49633af565f4b1cc75d1c696fce97484df7c04c2
+
 //disable or enable provider
 router.patch("/disable_provider/:id", providerController.disable_provider);
 
