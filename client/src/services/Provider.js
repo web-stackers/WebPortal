@@ -11,29 +11,13 @@ const fetchProviders = async () => {
 
 // Disable or Enable provider
 const ableProvider = async (id) => {
-<<<<<<< HEAD
-    return await axios.patch(`/provider/${id}`)
+  return await axios.patch(`/provider/${id}`);
 };
 
 // Fetch provider by id
 const fetchProvider = async (id) => {
-    return await axios.get(`/provider/${id}`)
-};
-
-// Search provider
-const searchProvider = async (key) => {
-    return await axios.get(`/provider/search/${key}`)
-};
-
-export default {
-    fetchProviders,
-    ableProvider,
-    fetchProvider,
-    searchProvider
-};
-=======
-  return await axios.patch(`/provider/${id}`);
-};
+  return await axios.get(`/provider/${id}`)
+}
 
 const fetchNewProviders = async () => {
   return await axios.get("/provider/new");
@@ -45,6 +29,11 @@ const fetchVerifiedProviders = async () => {
 
 const fetchDocumentList = async (id) => {
   return await axios.get(`/provider/document/${id}`);
+};
+
+// Search consumer
+const searchProvider = async (key) => {
+  return await axios.get(`/provider/search/${key}`)
 }
 
 export default {
@@ -54,5 +43,6 @@ export default {
   fetchNewProviders,
   fetchVerifiedProviders,
   fetchDocumentList,
+  searchProvider,
+  fetchProvider
 };
->>>>>>> 49633af565f4b1cc75d1c696fce97484df7c04c2

@@ -27,30 +27,9 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const Userlist = ({ type }) => {
-  const [users, setUsers] = useState([]);
+const Userlist = ({ type, users, setUsers, fetchUsers }) => {
   const classes = useStyles();
   //const [profileId, setProfileId] = useState('');
-
-  const fetchUsers = () => {
-    if (type === "Consumers") {
-      Consumer.fetchConsumers()
-        .then((response) => {
-          setUsers(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } else {
-      Provider.fetchProviders()
-        .then((response) => {
-          setUsers(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  };
 
   /* const changeAble = (id) => {
     if(type=='Consumers'){
@@ -106,23 +85,14 @@ const Userlist = ({ type }) => {
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
-        const profile = params.row;
+        const profileId = params.row.id;
         return (
           <div className={classes.actionBtn}>
-            <Link
-              to="/users/profile"
-              state={{ profile }}
-              className="link"
-              style={{ marginRight: "5%" }}
-            >
+            <Link to='/users/profile' state={{profileId, type}} className='link' style={{marginRight:'5%'}}>
               <Sbutton text="View" btnWidth="100%" />
             </Link>
-            {params.row.isDisabled == false && (
-              <Sbutton text="Disable" btnWidth="100%" />
-            )}
-            {params.row.isDisabled == true && (
-              <Sbutton text="Enable" btnWidth="100%" />
-            )}
+            {params.row.isDisabled==false && <Sbutton text='Disable' btnWidth='100%' /* onClick={(Id) => {setProfileId(Id); changeAble();}} *//>}
+            {params.row.isDisabled==true && <Sbutton text='Enable' btnWidth='100%' /* onClick={(Id) => {setProfileId(Id); changeAble();}} *//>}
           </div>
         );
       },

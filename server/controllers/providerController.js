@@ -221,4 +221,5 @@ module.exports = {
   fetch_new_providers,
   fetch_verified_providers,
   fetch_documentlist,
+  search_provider
 };
