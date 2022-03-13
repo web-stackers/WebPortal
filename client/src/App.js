@@ -35,7 +35,7 @@ function App() {
           <div className="App">
             <Routes>
               <Route exact path="/" element={<Dashboard />} />
-              <Route path="/users" element={<Users />} />
+              <Route exact path="/users" element={<Users />} />
               <Route path="/jobs" element={<Jobs />} />
               <Route path="/complaints" element={<Complaints />} />
               <Route path="/thirdParty" element={<ThirdParty />} />

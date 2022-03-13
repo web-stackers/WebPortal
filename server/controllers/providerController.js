@@ -67,6 +67,19 @@ const fetch_new_providers = async (req, res) => {
   }
 };
 
+// Fetch provider by search key
+const search_provider = async (req, res) => {
+  const { key } = req.params;
+  const searchKey = new RegExp(key,'i');
+
+  try {
+    const searchResult = await provider.find({$or:[{'name.fName':searchKey},{'name.lName':searchKey}]});
+    res.status(200).json(searchResult);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
 // Fetch verified providers
 const fetch_verified_providers = async (req, res) => {
   try {
@@ -194,4 +207,5 @@ module.exports = {
   fetch_provider_count,
   fetch_new_providers,
   fetch_verified_providers,
+  search_provider
 };
