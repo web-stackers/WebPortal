@@ -1,6 +1,7 @@
 import NewProviderlist from "../../../components/Users/NewProviderlist";
 
-const NewDocuments = () => {
+// display the list of new registered providers
+const NewProviders = () => {
   return (
     <>
       <div>
@@ -10,4 +11,4 @@ const NewDocuments = () => {
   );
 };
 
-export default NewDocuments;
+export default NewProviders;

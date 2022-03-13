@@ -1,6 +1,7 @@
 import VerifiedProviderlist from "../../../components/Users/VerifiedProviderlist";
 
-const VerifiedDocuments = () => {
+// display the list of verified providers
+const VerifiedProviders = () => {
   return (
     <>
       <div>
@@ -10,4 +11,4 @@ const VerifiedDocuments = () => {
   );
 };
 
-export default VerifiedDocuments;
+export default VerifiedProviders;
