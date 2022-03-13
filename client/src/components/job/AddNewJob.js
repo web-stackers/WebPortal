@@ -9,6 +9,7 @@ import { useState } from "react";
 const AddNewJob = ({ onAdd }) => {
   const [jobType, setJobType] = useState("");
   const [category, setCategory] = useState("");
+  // When form is submitted, onSubmit function will be performed, where onAdd function will be called where we post new document in jobTypeCategory collection. And after than page will be autorefreshed
   const onSubmit = (e) => {
     e.preventDefault();
     onAdd({ jobType, category });

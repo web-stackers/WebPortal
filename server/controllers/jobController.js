@@ -12,6 +12,30 @@ const fetch_jobs = async (req, res) => {
   }
 };
 
+// Fetch all complaints
+const fetch_all_complaints = async (req, res) => {
+  try {
+    const complain = await job.find();
+
+    res.status(200).json(complain);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch complaint by id
+const fetch_complaints = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const requirejob = await job.findById(id);
+    const complaints = await requirejob.complaint;
+
+    res.status(200).json(complaints);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Add new job to the database
 const post_job = async (req, res) => {
   const newJob = new job({
@@ -139,6 +163,8 @@ const update_ratingAndReview = async (req, res) => {
 
 module.exports = {
   fetch_jobs,
+  fetch_all_complaints,
+  fetch_complaints,
   post_job,
   fetch_job,
   update_complaint,

@@ -5,6 +5,10 @@ const jobAssignmentController = require("../controllers/jobAssignmentController"
 
 // Get job Assignment
 router.get("/", jobAssignmentController.fetch_jobAssignments);
+router.get(
+  "/jobJobAssignment",
+  jobAssignmentController.fetch_job_and_jobAssignments
+);
 router.get("/:id", jobAssignmentController.fetch_jobAssignment);
 //post job assignment
 router.post("/", jobAssignmentController.post_jobAssignment);

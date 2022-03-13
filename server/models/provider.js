@@ -73,11 +73,11 @@ const providerSchema = Schema({
   address: {
     longitude: {
       type: mongoose.Types.Decimal128,
-      required: true,
+      //required: true,
     },
     latitude: {
       type: mongoose.Types.Decimal128,
-      required: true,
+      //required: true,
     },
   },
   verification: {
@@ -104,7 +104,6 @@ const providerSchema = Schema({
   },
   qualification: {
     type: String,
-    required: true,
   },
   totalRating: {
     type: Number,

@@ -3,26 +3,46 @@ import Typography from "@mui/material/Typography";
 import StextField from "../../components/formComponents/StextField";
 import Sbutton from "../../components/Sbutton";
 import SecondaryUser from "../../services/SecondaryUser";
+import { useState } from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ThirdPartyProfile = () => {
+  // The useLocation hook is a function that returns the location object that contains information about the current URL. Whenever the URL changes, a new location object will be returned
   const location = useLocation();
-  console.log(location.state);
   const ID = location.state._id;
   const fName = location.state.name.fName;
   const lName = location.state.name.lName;
+  const email = location.state.email;
+  const mobile = location.state.mobile;
   const address = location.state.address;
+  const verifyDocType = location.state.verifyDocType;
 
-  // const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({});
 
-  // const handleChange = (event) => {
-  //   const name = event.target.name;
-  //   const value = event.target.value;
-  //   setInputs((values) => ({ ...values, [name]: value }));
-  // };
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
 
+  //It is given as onClick function in submit button to redirect to the main page
+  const navigate = useNavigate();
+  const routeChange = () => {
+    let path = "/thirdParty";
+    navigate(path);
+  };
+
+  //onClick function when submit button is clicked. Details will be update and path will be redirected
   const onSubmit = (e) => {
     e.preventDefault();
-    // SecondaryUser.addNew(inputs);
+    console.log(inputs);
+    SecondaryUser.updateThirdPartyByID(ID, inputs);
+    routeChange();
   };
 
   return (
@@ -33,12 +53,55 @@ const ThirdPartyProfile = () => {
       <br />
       <form>
         <StextField
+          label="Email"
+          name="email"
+          value={inputs.email || email}
+          onChange={handleChange}
+        />
+        <StextField
+          label="Mobile Number"
+          name="mobile"
+          value={inputs.mobile || mobile}
+          onChange={handleChange}
+        />
+
+        <StextField
           label="Address"
           name="address"
-          // value={inputs.address || ""}
-          // onChange={handleChange}
+          value={inputs.address || address}
+          onChange={handleChange}
         />
-        <Sbutton text="Submit" type="submit" onClick={onSubmit} />
+        <FormControl sx={{ width: "70ch" }}>
+          <InputLabel id="verificationDocumentType">
+            Verification Document Type
+          </InputLabel>
+          <Select
+            labelId="verificationDocumentType"
+            name="verifyDocType"
+            value={inputs.verifyDocType || verifyDocType}
+            label="Verification document type"
+            onChange={handleChange}
+          >
+            <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
+            <MenuItem value="O/L and A/L Certificates">
+              O/L and A/L Certificates
+            </MenuItem>
+            <MenuItem value="NVQ Certificate">NVQ Certificate</MenuItem>
+            <MenuItem value="Affidavit">Affidavit</MenuItem>
+          </Select>
+        </FormControl>
+        <br />
+        <br />
+        <Sbutton
+          text="Update"
+          type="submit"
+          onClick={onSubmit}
+          btnWidth="15%"
+          marginRight="5%"
+        />
+        <Link to="/thirdParty" className="link">
+          <Sbutton text="Cancel" btnWidth="15%" />
+        </Link>
       </form>
     </div>
   );

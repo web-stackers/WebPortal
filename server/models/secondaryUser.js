@@ -21,20 +21,19 @@ const SecondaryUserSchema = new Schema({
       maxLength: [127, "Max Length is 127 characters"],
     },
   },
-  contact: {
-    mobile: {
-      type: String,
-      required: true,
-      unique: true,
-      maxLength: [10, "Max Length is 10 characters"],
-      minLength: [10, "Min Length is 10 characters"],
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      maxLength: [127, "Max Length is 127 characters"],
-    },
+
+  mobile: {
+    type: String,
+    required: true,
+    unique: true,
+    maxLength: [10, "Max Length is 10 characters"],
+    minLength: [10, "Min Length is 10 characters"],
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    maxLength: [127, "Max Length is 127 characters"],
   },
 
   address: {
@@ -51,7 +50,7 @@ const SecondaryUserSchema = new Schema({
   },
   //I have temporarily make required field as comment
   profilePicture: {
-    type: Buffer,
+    data: Buffer,
     contentType: String,
     //required: true,
   },

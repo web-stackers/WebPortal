@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const StextField = ({ label, name, value, onChange }) => {
+const StextField = ({ label, name, value, onChange, type }) => {
   const classes = useStyles();
   return (
     <div className={classes.textField}>
@@ -18,11 +18,11 @@ const StextField = ({ label, name, value, onChange }) => {
         autoComplete="off"
         sx={{ width: "70ch" }}
         variant="outlined"
-        color="primary"
         name={name}
         label={label}
         value={value}
         onChange={onChange}
+        type={type}
       />
     </div>
   );

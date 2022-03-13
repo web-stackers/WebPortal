@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import VerifiedProvider from "../../services/VerifiedProvider";
+import VerifiedProvider from "../../services/Provider";
 
 const VerifiedProviderlist = () => {
   const [verifiedProviders, setVerifiedProviders] = useState([]);
