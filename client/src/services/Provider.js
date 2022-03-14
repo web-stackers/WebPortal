@@ -11,7 +11,7 @@ const fetchProviders = async () => {
 
 // Disable or Enable provider
 const ableProvider = async (id) => {
-  return await axios.patch(`/provider/${id}`);
+  return await axios.patch(`/provider/able/${id}`);
 };
 
 // Fetch provider by id

@@ -1,37 +1,17 @@
 import { makeStyles } from "@mui/styles";
 import { useEffect, useState } from "react";
-import Consumer from "../../services/Consumer";
-import Provider from "../../services/Provider";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import Sbutton from "../Sbutton";
 
-const useStyles = makeStyles((theme) => {
-  return {
-    userName: {
-      display: "flex",
-      alignItems: "center",
-    },
-    userImage: {
-      width: "32px",
-      height: "32px",
-      borderRadius: "50%",
-      objectFit: "cover",
-      marginRight: "10px",
-    },
-    actionBtn: {
-      display: "flex",
-      margin: "auto",
-      textDecoration: "none",
-    },
-  };
-});
+import Consumer from "../../services/Consumer";
+import Provider from "../../services/Provider";
+import useStyles from '../../styles/usersStyles';
 
 const Userlist = ({ type, users, setUsers, fetchUsers }) => {
   const classes = useStyles();
-  //const [profileId, setProfileId] = useState('');
 
-  /* const changeAble = (id) => {
+  const changeAble = (id) => {
     if(type=='Consumers'){
       Consumer.ableConsumer(id)
         .then(() => {
@@ -41,7 +21,7 @@ const Userlist = ({ type, users, setUsers, fetchUsers }) => {
           console.log(e);
         });
     } else {
-      Provider.ableProvider(profileId)
+      Provider.ableProvider(id)
         .then(() => {
           fetchUsers();
         })
@@ -49,7 +29,7 @@ const Userlist = ({ type, users, setUsers, fetchUsers }) => {
           console.log(e);
         });
     }
-  }; */
+  };
 
   const rows = users.map((user) => {
     return {
@@ -86,13 +66,14 @@ const Userlist = ({ type, users, setUsers, fetchUsers }) => {
       width: 200,
       renderCell: (params) => {
         const profileId = params.row.id;
+        const profileName = params.row.name;
         return (
           <div className={classes.actionBtn}>
             <Link to='/users/profile' state={{profileId, type}} className='link' style={{marginRight:'5%'}}>
               <Sbutton text="View" btnWidth="100%" />
             </Link>
-            {params.row.isDisabled==false && <Sbutton text='Disable' btnWidth='100%' /* onClick={(Id) => {setProfileId(Id); changeAble();}} *//>}
-            {params.row.isDisabled==true && <Sbutton text='Enable' btnWidth='100%' /* onClick={(Id) => {setProfileId(Id); changeAble();}} *//>}
+            {params.row.isDisabled==false && <Sbutton text='Disable' btnWidth='100%' onClick={() => {changeAble(profileId); alert(`${profileName} is disabled !`);}}/>}
+            {params.row.isDisabled==true && <Sbutton text='Enable' btnWidth='100%' onClick={() => {changeAble(profileId); alert(`${profileName} is enabled !`);}}/>}
           </div>
         );
       },
