@@ -17,7 +17,23 @@ const useStyles = makeStyles((theme) => {
           },
           textBox: {
             marginRight: '10px'
-          }
+          },
+          userName: {
+            display: "flex",
+            alignItems: "center",
+          },
+          userImage: {
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            objectFit: "cover",
+            marginRight: "10px",
+          },
+          actionBtn: {
+            display: "flex",
+            margin: "auto",
+            textDecoration: "none",
+          },
     }
 });
 

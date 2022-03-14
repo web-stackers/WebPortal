@@ -16,6 +16,6 @@ router.get('/search/:key', consumerController.search_consumer);
 router.post('/', consumerController.post_consumer);
 
 // Disable or Enable consumer
-router.patch('/:id', consumerController.disable_consumer);
+router.patch('/able/:id', consumerController.disable_consumer);
 
 module.exports = router;

@@ -31,7 +31,7 @@ router.get("/:id", providerController.fetch_provider);
 router.get("/document/:id", providerController.fetch_documentlist);
 
 //disable or enable provider
-router.patch("/disable_provider/:id", providerController.disable_provider);
+router.patch("/able/:id", providerController.disable_provider);
 
 // Update when document is accepted
 router.patch("/documentAccepted/:id", providerController.document_accepted);

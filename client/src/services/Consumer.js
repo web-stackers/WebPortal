@@ -7,7 +7,7 @@ const fetchConsumers = async () => {
 
 // Disable or Enable consumer
 const ableConsumer = async (id) => {
-  return await axios.patch(`/consumer/${id}`)
+  return await axios.patch(`/consumer/able/${id}`)
 };
 
 // Fetch consumer by id
