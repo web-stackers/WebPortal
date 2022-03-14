@@ -20,12 +20,12 @@ const ThirdPartyLayout = ({ children }) => {
 
   const menuItems = [
     {
-      text: "New Documents",
+      text: "New Providers",
       path: "/",
       icon: <AssignmentIcon />,
     },
     {
-      text: "Verified Documents",
+      text: "Verified Providers",
       path: "/verified",
       icon: <AssignmentTurnedIn />,
     },
