@@ -70,15 +70,17 @@ const fetch_new_providers = async (req, res) => {
 // Fetch provider by search key
 const search_provider = async (req, res) => {
   const { key } = req.params;
-  const searchKey = new RegExp(key,'i');
+  const searchKey = new RegExp(key, "i");
 
   try {
-    const searchResult = await provider.find({$or:[{'name.fName':searchKey},{'name.lName':searchKey}]});
+    const searchResult = await provider.find({
+      $or: [{ "name.fName": searchKey }, { "name.lName": searchKey }],
+    });
     res.status(200).json(searchResult);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 // Fetch verified providers
 const fetch_verified_providers = async (req, res) => {
@@ -92,12 +94,10 @@ const fetch_verified_providers = async (req, res) => {
   }
 };
 
-// Get count of total providers
+// Get count of total verified providers
 const fetch_provider_count = async (req, res) => {
   try {
-    const providerCount = await provider.aggregate([
-      { $group: { _id: 1, count: { $sum: 1 } } },
-    ]);
+    const providerCount = await provider.count({ verification: { $ne: null } });
     res.status(200).json(providerCount);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -221,5 +221,5 @@ module.exports = {
   fetch_new_providers,
   fetch_verified_providers,
   fetch_documentlist,
-  search_provider
+  search_provider,
 };
