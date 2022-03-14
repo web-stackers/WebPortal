@@ -37,11 +37,6 @@ const VerifiedProviderlist = () => {
   const classes = useStyles();
 
   return (
-    // <div>
-    //   {verifiedProviders.map((verifiedProvider) => (
-    //     <h3>{verifiedProvider.name.fName}</h3>
-    //   ))}
-    // </div>
     <Box>
       <Grid container className={classes.gridContainer}>
         {verifiedProviders.map((verifiedProvider) => (
