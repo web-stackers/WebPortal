@@ -81,15 +81,15 @@ const disable_consumer = async (req, res) => {
   }
 };
 
-// // Get count of total consumers
-// const fetch_consumer_count = async (req, res) => {
-//   try {
-//     const consumerCount = await consumer.find({}).count();
-//     res.status(200).json(consumerCount);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// };
+// Get count of total consumers
+const fetch_consumer_count = async (req, res) => {
+  try {
+    const consumerCount = await consumer.find({}).count();
+    res.status(200).json(consumerCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 module.exports = {
   fetch_consumers,
@@ -97,5 +97,5 @@ module.exports = {
   fetch_consumer,
   disable_consumer,
   search_consumer,
-  // fetch_consumer_count,
+  fetch_consumer_count,
 };

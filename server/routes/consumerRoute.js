@@ -12,8 +12,8 @@ router.get("/:id", consumerController.fetch_consumer);
 // Search consumer
 router.get("/search/:key", consumerController.search_consumer);
 
-// // fetch consumer total count
-// router.get("/count", consumerController.fetch_consumer_count);
+// fetch consumer total count
+router.get("/get/count", consumerController.fetch_consumer_count);
 
 // Add new consumer to the database
 router.post("/", consumerController.post_consumer);

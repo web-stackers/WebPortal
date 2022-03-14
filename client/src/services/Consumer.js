@@ -20,9 +20,16 @@ const searchConsumer = async (key) => {
   return await axios.get(`/consumer/search/${key}`)
 }
 
+// fetch consumer total count
+const fetchConsumerCount = async () => {
+  return await axios.get("/consumer/get/count");
+};
+
+
 export default {
   fetchConsumers,
   ableConsumer,
   fetchConsumer,
-  searchConsumer
+  searchConsumer,
+  fetchConsumerCount,
 };
