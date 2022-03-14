@@ -7,6 +7,9 @@ import CardMedia from '@mui/material//CardMedia';
 import Typography from '@mui/material//Typography';
 import Sbutton from "../../components/Sbutton";
 
+import ConsumerDetails from "../../components/Users/ConsumerDetails";
+import ProviderDetails from "../../components/Users/ProviderDetails";
+
 import Consumer from "../../services/Consumer";
 import Provider from "../../services/Provider";
 
@@ -15,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       height: '200px',
       backgroundColor: 'transparent !important',
-      color: 'white !important',
     },
     details: {
       display: 'flex',
@@ -68,8 +70,6 @@ const Profile = () => {
         }
     };
 
-    console.log(profile);
-
     useEffect(() => {
         fetchProfile();
     }, []);
@@ -85,21 +85,22 @@ const Profile = () => {
             />
             <div className={classes.details}>
                 <CardContent className={classes.content}>
-                    <Typography component="h5" variant="h5">
+                    <Typography variant="h4">
                         {profile.name.fName+' '+profile.name.lName}
                     </Typography>
-                    {/* <Typography variant="subtitle1">
-                        {profile.job}
-                    </Typography>
                     <Typography variant="subtitle1">
-                        {profile.city}
-                    </Typography><br /> */}
+                        Rating : {profile.totalRating/profile.ratingCount}
+                    </Typography>
                 </CardContent>           
             </div>
             <div className={classes.btngrp}>
                 <Link to='/users' className='link'><Sbutton text='Delete User' btnWidth='200px'/></Link>
+                <Link to='/users' className='link'><Sbutton text='Back' btnWidth='200px'/></Link>
             </div>
         </Card>}
+
+        {profile && type=='Consumers' && <ConsumerDetails user={profile}/>}
+        {profile && type=='Providers' && <ProviderDetails user={profile}/>}
             
         </div>
     );
