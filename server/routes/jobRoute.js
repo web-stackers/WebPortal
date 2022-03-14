@@ -19,7 +19,7 @@ router.patch("/complaint/:id", jobController.update_complaint);
 router.patch("/complaintHandled/:id", jobController.complaint_handled);
 
 // Update rating and review
-router.patch("/rating/review/:id", jobController.update_ratingAndReview);
+router.patch("/ratingAndReview/:id", jobController.update_ratingAndReview);
 
 //Fetch complaints by id
 router.get("/complaints/:id", jobController.fetch_complaints);
