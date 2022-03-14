@@ -15,10 +15,10 @@ const fetch_secondaryUsers = async (req, res) => {
 
 // Add new secondaryUser to the database
 const post_secondaryUser = async (req, res) => {
-  var location = fs.readFileSync(
-    path.join(__dirname + "/uploads/" + "194048T.png")
-  );
-  console.log(location);
+  // var location = fs.readFileSync(
+  //   path.join(__dirname + "/uploads/" + "194048T.png")
+  // );
+  // console.log(location);
   const newSecondaryUser = new secondaryUser({
     name: {
       fName: req.body.fName,
@@ -27,10 +27,10 @@ const post_secondaryUser = async (req, res) => {
     mobile: req.body.mobile,
     email: req.body.email,
     address: req.body.address,
-    profilePicture: {
-      data: location,
-      contentType: "image/png",
-    },
+    // profilePicture: {
+    //   data: location,
+    //   contentType: "image/png",
+    // },
     verifyDocType: req.body.verifyDocType,
   });
 

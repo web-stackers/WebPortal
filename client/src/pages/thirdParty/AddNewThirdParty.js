@@ -12,7 +12,7 @@ import Select from "@mui/material/Select";
 const AddNewThirdParty = () => {
   const [inputs, setInputs] = useState({});
   const [file, setFile] = useState("");
-  const [fileName, setFileName] = useState("");
+  // const [fileName, setFileName] = useState("");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -28,18 +28,17 @@ const AddNewThirdParty = () => {
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    // console.log(file.name);
-    formData.append("file", file);
-    SecondaryUser.uploadFile(formData);
-    setTimeout(() => SecondaryUser.addNew(inputs), 10000);
+    // const formData = new FormData();
+    // formData.append("file", file);
+    // SecondaryUser.uploadFile(formData);
+    // setTimeout(() => SecondaryUser.addNew(inputs), 10000);
 
     // setFileName(file.name);
     // setInputs((values) => ({ ...values, fileName: file.name }));
     console.log(inputs);
-    // SecondaryUser.addNew(inputs);
+    SecondaryUser.addNew(inputs);
 
-    // window.location.reload(false);
+    window.location.reload(false);
   };
 
   return (
@@ -98,7 +97,7 @@ const AddNewThirdParty = () => {
         </FormControl>
         <br />
         <br />
-        <InputLabel id="profilePicture">Profile Picture</InputLabel>
+        {/* <InputLabel id="profilePicture">Profile Picture</InputLabel>
         <input
           type="file"
           // accept=".png, .jpg, .jpeg"
@@ -106,7 +105,7 @@ const AddNewThirdParty = () => {
           onChange={handlePhoto}
         />
         <br />
-        <br />
+        <br /> */}
         <br />
         <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>
