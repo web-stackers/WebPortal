@@ -28,14 +28,14 @@ const post_providerType = async (req, res) => {
       latitude: req.body.latitude,
       longitude: req.body.longitude,
     },
-    verification: {
-      isAccepted: req.body.isAccepted,
-      date: req.body.date,
-      thirdParty: req.body.thirdParty,
-    },
-    availability: req.body.availability,
-    isDisabled: req.body.isDisabled,
-    qualification: req.body.qualification,
+    // verification: {
+    //   isAccepted: req.body.isAccepted,
+    //   date: req.body.date,
+    //   thirdParty: req.body.thirdParty,
+    // },
+    // availability: req.body.availability,
+    // isDisabled: req.body.isDisabled,
+    // qualification: req.body.qualification,
   });
 
   //save new provider type in the database and error handling
