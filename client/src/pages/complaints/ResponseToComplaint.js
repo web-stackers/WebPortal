@@ -5,13 +5,11 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 
 const ResponseToComplaint = () => {
-  const [reply, setReply] = useState({});
-
-  const [listOfComplaints, setListOfComplaints] = useState([]);
+  const [reply, setReply] = useState([]);
 
   useEffect(() => {
     Axios.get("/job").then((response) => {
-      setListOfComplaints(response.data);
+      setReply(response.data);
     });
   }, []);
 
@@ -23,34 +21,51 @@ const ResponseToComplaint = () => {
 
   return (
     <div>
-      {listOfComplaints.map((jobs) => {
+      {reply.map((jobs) => {
         return (
           <div>
-            <form>
-              <div>
-                <StextField
-                  label="FirstName"
-                  name="firstName"
-                  value={jobs.jobType || ""}
-                  onChange={handleChange}
-                />
-
-                <StextField
-                  label="LastName"
-                  name="lastName"
-                  value={jobs.description || ""}
-                  onChange={handleChange}
-                />
-                <StextArea
-                  label="Description"
-                  name="description"
-                  value={reply.description || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <Sbutton text="Send " type="submit" />
-              <hr />
-            </form>
+            {jobs.complaint.map((complaint) => {
+              return (
+                <div>
+                  <form>
+                    <div>
+                      <StextField
+                        label="Complaint by"
+                        name="complaintBy"
+                        value={complaint.by || ""}
+                        onChange={handleChange}
+                      />
+                      <StextField
+                        label="Category"
+                        name="category"
+                        value={complaint.category || ""}
+                        onChange={handleChange}
+                      />
+                      <StextField
+                        label="Date"
+                        name="date"
+                        value={complaint.date || ""}
+                        onChange={handleChange}
+                      />
+                      <StextField
+                        label="Description"
+                        name="description"
+                        value={complaint.description || ""}
+                        onChange={handleChange}
+                      />
+                      <StextArea
+                        name="adminResponse"
+                        value={reply.adminResponse || ""}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <br/>
+                    <Sbutton text="Send " type="submit" />
+                    <hr />
+                  </form>
+                </div>
+              );
+            })}
           </div>
         );
       })}
