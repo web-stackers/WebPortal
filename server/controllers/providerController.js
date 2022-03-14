@@ -94,7 +94,7 @@ const fetch_verified_providers = async (req, res) => {
   }
 };
 
-// Get count of total verified providers
+// Get count of total providers
 const fetch_provider_count = async (req, res) => {
   try {
     const providerCount = await provider.count({ verification: { $ne: null } });
