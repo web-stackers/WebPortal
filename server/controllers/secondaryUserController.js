@@ -1,5 +1,7 @@
 const secondaryUser = require("../models/secondaryUser");
 const transporter = require("../send-email/sendEmail");
+const fs = require("fs");
+var path = require("path");
 
 // Fetch all secondaryUsers
 const fetch_secondaryUsers = async (req, res) => {
@@ -21,7 +23,13 @@ const post_secondaryUser = async (req, res) => {
     mobile: req.body.mobile,
     email: req.body.email,
     address: req.body.address,
-    // profilePicture: req.file.filename,
+    profilePicture: req.file ? req.file.profilePicture : null,
+    // {
+    //   data: fs.readFileSync(
+    //     path.join(__dirname + "/uploads/" + req.file.filename)
+    //   ),
+    //   contentType: "image/png",
+    // },
     verifyDocType: req.body.verifyDocType,
   });
 
