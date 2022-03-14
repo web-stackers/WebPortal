@@ -247,6 +247,31 @@ const insert_quotation = async (req, res) => {
   }
 };
 
+// Fetch completed job count
+const fetch_completed_jobcount = async (req, res) => {
+  try {
+    const completedJobCount = await jobAssignment.count({
+      state: { $regex: /Completed/i },
+    });
+    res.status(200).json(completedJobCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch pending job count
+const fetch_pending_jobcount = async (req, res) => {
+  try {
+    const pendingJobCount = await jobAssignment.count({
+      state: { $regex: /Job Pending/i },
+    });
+    res.status(200).json(pendingJobCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   post_jobAssignment,
   fetch_jobAssignments,
@@ -258,4 +283,6 @@ module.exports = {
   withdrawl_rejected,
   insert_quotation,
   fetch_job_and_jobAssignments,
+  fetch_completed_jobcount,
+  fetch_pending_jobcount,
 };

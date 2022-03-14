@@ -31,6 +31,11 @@ const fetchDocumentList = async (id) => {
   return await axios.get(`/provider/document/${id}`);
 };
 
+// Fetch verified provider count
+const fetchVerifiedProviderCount = async () => {
+  return await axios.get("/provider/count");
+}
+
 // Search consumer
 const searchProvider = async (key) => {
   return await axios.get(`/provider/search/${key}`)
@@ -44,5 +49,6 @@ export default {
   fetchVerifiedProviders,
   fetchDocumentList,
   searchProvider,
-  fetchProvider
+  fetchProvider,
+  fetchVerifiedProviderCount,
 };

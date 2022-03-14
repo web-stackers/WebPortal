@@ -22,7 +22,7 @@ router.get("/new", providerController.fetch_new_providers);
 router.get("/verified", providerController.fetch_verified_providers);
 
 // fetch provider total count
-router.get("/totCount", providerController.fetch_provider_count);
+router.get("/count", providerController.fetch_provider_count);
 
 //fetch provider using certain id
 router.get("/:id", providerController.fetch_provider);
