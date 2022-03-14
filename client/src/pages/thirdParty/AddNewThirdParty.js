@@ -11,7 +11,7 @@ import Select from "@mui/material/Select";
 
 const AddNewThirdParty = () => {
   const [inputs, setInputs] = useState({});
-  const [file, setFile] = useState("");
+  // const [file, setFile] = useState("");
   // const [fileName, setFileName] = useState("");
 
   const handleChange = (event) => {
@@ -20,10 +20,10 @@ const AddNewThirdParty = () => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  const handlePhoto = (e) => {
-    setFile(e.target.files[0]);
-    console.log(file);
-  };
+  // const handlePhoto = (e) => {
+  //   setFile(e.target.files[0]);
+  //   console.log(file);
+  // };
 
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
