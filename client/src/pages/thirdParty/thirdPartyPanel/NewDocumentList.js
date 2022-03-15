@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NewDocument from "../../../services/Provider";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
@@ -18,7 +18,6 @@ const NewDocumentlist = () => {
   const providerId = location.state;
 
   const [newDocs, setNewDocs] = useState([]);
-  // const [disable, setDisable] = useState(false);
 
   // get the document list for the particular provider
   const fetchDocs = () => {
@@ -81,47 +80,26 @@ const NewDocumentlist = () => {
                 </div>
               </CardContent>
               <CardActions>
-                <Stack direction="row" spacing={14}>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    // id="accepted"
-                    // disabled={disable}
-                    onClick={() => {
-                      updateAccepted(newDoc.type);
-                      alert(`${newDoc.type} is accepted !`);
-                      // setDisable(true);
-                    }}
-                  >
-                    Accept
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => {
-                      updateRejection(newDoc.type);
-                      alert(`${newDoc.type} is rejected !`);
-                      // setDisable(true);
-                    }}
-                  >
-                    Reject
-                  </Button>
-                </Stack>
-              </CardActions>
-              {/* <CardActions>
-                {newDoc.isAccepted != "true" || newDoc.isAccepted != "flase" ? (
+                {newDoc.isAccepted !== true && newDoc.isAccepted !== false ? (
                   <Stack direction="row" spacing={14}>
                     <Button
                       variant="contained"
                       color="success"
                       onClick={() => {
-                        updateVerification(newDoc.type);
+                        updateAccepted(newDoc.type);
                         alert(`${newDoc.isAccepted} is accepted !`);
                       }}
                     >
                       Accept
                     </Button>
-                    <Button variant="contained" color="error">
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => {
+                        updateRejection(newDoc.type);
+                        alert(`${newDoc.isAccepted} is rejected !`);
+                      }}
+                    >
                       Reject
                     </Button>
                   </Stack>
@@ -135,7 +113,7 @@ const NewDocumentlist = () => {
                     </Button>
                   </Stack>
                 )}
-              </CardActions> */}
+              </CardActions>
               {/* <Typography variant="h5" textAlign="center">
                 {newDoc.isAccepted}
               </Typography> */}
