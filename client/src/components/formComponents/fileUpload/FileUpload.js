@@ -6,19 +6,19 @@ import Sbutton from '../../Sbutton';
 import useStyles from "./styles";
 import Typography from '@mui/material//Typography';
 
-const FileUpload = () => {
+const FileUpload = ({file,filename, onChange}) => {
   const classes = useStyles();
-  const [file, setFile] = useState('');
-  const [filename, setFilename] = useState('Choose File');
+  // const [file, setFile] = useState('');
+  // const [filename, setFilename] = useState('Choose File');
   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState('');
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
-  const onChange = e => {
-    e.preventDefault();
-    setFile(e.target.files[0]);
-    setFilename(e.target.files[0].name);
-  };
+  // const onChange = e => {
+  //   e.preventDefault();
+  //   setFile(e.target.files[0]);
+  //   setFilename(e.target.files[0].name);
+  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -31,17 +31,17 @@ const FileUpload = () => {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
-        onUploadProgress: progressEvent => {
-          setUploadPercentage(
-            parseInt(
-              Math.round((progressEvent.loaded * 100) / progressEvent.total)
-            )
-          );
-        }
+        // onUploadProgress: progressEvent => {
+        //   setUploadPercentage(
+        //     parseInt(
+        //       Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        //     )
+        //   );
+        // }
       });
       
       // Clear percentage
-      setTimeout(() => setUploadPercentage(0), 10000);
+      // setTimeout(() => setUploadPercentage(0), 10000);
 
       const { fileName, filePath } = res.data;
 
@@ -54,7 +54,7 @@ const FileUpload = () => {
       } else {
         setMessage(err.response.data.msg);
       }
-      setUploadPercentage(0)
+      // setUploadPercentage(0)
     }
   };
 
@@ -74,22 +74,22 @@ const FileUpload = () => {
           </label>
         </div>
 
-        <Progress percentage={uploadPercentage} />
+        {/* <Progress percentage={uploadPercentage} /> */}
         {/* <Sbutton text="Upload" type="submit" onClick={onSubmit} /> */}
         <input
           type='submit'
           value='Upload'
-          className='btn btn-primary btn-block mt-4'
+          className='btn btn-secondary btn-block'
         />
       </form>
-      {uploadedFile ? (
+      {/* {uploadedFile ? (
         <div className='row mt-5'>
         <div className='col-md-6 m-auto'>
           <h3 className='text-center'>{uploadedFile.fileName}</h3>
           <img style={{ width: '100%' }} src={uploadedFile.filePath} alt='' />
         </div>
       </div>
-      ) : null}
+      ) : null} */}
     </Fragment>
   );
 };

@@ -4,15 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ThirdPartyPanel from "./ThirdPartyPanel";
-import Registration from "./pages/registration/Registration";
-import FileUpload from "./components/formComponents/fileUpload/FileUpload"
+import ProviderRegister from "./pages/registration/ProviderRegister";
+import Uploads from "./pages/registration/Uploads"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <App /> */}
     {/* <ThirdPartyPanel/> */}
-    {/* <FileUpload/> */}
-    {/* <Registration/> */}
+    {/* <Uploads/> */}
+    <ProviderRegister/>
   </React.StrictMode>,
   document.getElementById("root")
 );
