@@ -70,7 +70,7 @@ const NewDocumentlist = () => {
                 </div>
               </CardContent>
               <CardActions>
-                <Stack direction="row" spacing={9}>
+                <Stack direction="row" spacing={14}>
                   <Button
                     variant="contained"
                     color="success"
@@ -80,10 +80,10 @@ const NewDocumentlist = () => {
                       alert(`${newDoc.type} is accepted !`);
                     }}
                   >
-                    Accepted
+                    Accept
                   </Button>
                   <Button variant="contained" color="error">
-                    Rejected
+                    Reject
                   </Button>
                 </Stack>
               </CardActions>
