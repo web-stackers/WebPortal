@@ -69,6 +69,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers }) => {
           variant="outlined"
           className={classes.textBox}
           size= "small"
+          autoComplete='off'
           value={searchKey}
           onChange={(event) => setSearchKey(event.target.value)}
          />

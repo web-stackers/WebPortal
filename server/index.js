@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const fileUpload = require("express-fileupload");
 const app = express();
 
 const jobTypeCategoryRouter = require("./routes/jobTypeCategoryRoute");
@@ -14,6 +15,7 @@ const providerRouter = require("./routes/providerRoute");
 app.use(cors());
 app.use(morgan("tiny"));
 
+app.use(fileUpload());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 const connectDB = require("./database/connection");
@@ -24,6 +26,21 @@ app.use("/job", jobRouter);
 app.use("/jobAssignment", jobAssignmentRouter);
 app.use("/secondaryUser", secondaryUserRoute);
 app.use("/provider", providerRouter);
+
+app.post("/upload", (req, res) => {
+  if (req.files === null) {
+    return res.status(400).json({ msg: "No file uploaded" });
+  }
+  const file = req.files.file;
+  console.log(file);
+  file.mv(`${__dirname}/controllers/uploads/${file.name}`, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send(err);
+    }
+    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+  });
+});
 
 app.listen(5000, () =>
   connectDB()
