@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import VerifiedDocument from "../../../services/Provider";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
-import { Grid } from "@mui/material";
+import { Chip, Grid, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Sbutton from "../../../components/Sbutton";
@@ -53,9 +53,16 @@ const VerifiedDocumentlist = () => {
                 </Typography>
                 <br />
               </CardContent>
-              <div align="center">
-                <Sbutton text="Download" btnWidth="150px" />
-              </div>
+              <Stack spacing={1} alignItems="center">
+                <Stack direction="row" spacing={4}>
+                  {verifiedDoc.isAccepted === true ? (
+                    <Chip label="Accepted" color="success" />
+                  ) : (
+                    <Chip label="Rejected" color="error" />
+                  )}
+                  <Sbutton text="Download" btnWidth="150px" />
+                </Stack>
+              </Stack>
             </Card>
           </Grid>
         ))}
