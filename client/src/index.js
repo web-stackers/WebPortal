@@ -5,11 +5,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ThirdPartyPanel from "./ThirdPartyPanel";
 import Registration from "./pages/registration/Registration";
+import FileUpload from "./components/formComponents/fileUpload/FileUpload"
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <ThirdPartyPanel/>
+    <App />
+    {/* <ThirdPartyPanel/> */}
+    {/* <FileUpload/> */}
     {/* <Registration/> */}
   </React.StrictMode>,
   document.getElementById("root")
