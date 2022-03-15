@@ -4,7 +4,7 @@ import Jobs from "./pages/jobType/Jobs";
 import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
 import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
 import ThirdParty from "./pages/thirdParty/ThirdParty";
-import Complaint from "./pages/complaints/Complaint";
+import Complaint from "./pages/complaints/Complaints";
 import ThirdPartyProfile from "./pages/thirdParty/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import AllWithdrawals from "./pages/withdrawals/AllWithdrawals";
