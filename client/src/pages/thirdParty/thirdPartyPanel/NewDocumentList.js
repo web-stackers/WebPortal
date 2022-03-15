@@ -18,6 +18,7 @@ const NewDocumentlist = () => {
   const providerId = location.state;
 
   const [newDocs, setNewDocs] = useState([]);
+  // const [disable, setDisable] = useState(false);
 
   // get the document list for the particular provider
   const fetchDocs = () => {
@@ -44,8 +45,18 @@ const NewDocumentlist = () => {
 
   const classes = useStyles();
 
-  const updateVerification = (Doctype) => {
+  const updateAccepted = (Doctype) => {
     Provider.updateDocumentAccepted(providerId, Doctype)
+      .then(() => {
+        fetchDocs();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const updateRejection = (Doctype) => {
+    Provider.updateDocumentRejected(providerId, Doctype)
       .then(() => {
         fetchDocs();
       })
@@ -74,15 +85,25 @@ const NewDocumentlist = () => {
                   <Button
                     variant="contained"
                     color="success"
-                    id="btn1"
+                    // id="accepted"
+                    // disabled={disable}
                     onClick={() => {
-                      updateVerification(newDoc.type);
+                      updateAccepted(newDoc.type);
                       alert(`${newDoc.type} is accepted !`);
+                      // setDisable(true);
                     }}
                   >
                     Accept
                   </Button>
-                  <Button variant="contained" color="error">
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => {
+                      updateRejection(newDoc.type);
+                      alert(`${newDoc.type} is rejected !`);
+                      // setDisable(true);
+                    }}
+                  >
                     Reject
                   </Button>
                 </Stack>

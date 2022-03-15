@@ -13,7 +13,7 @@ router.patch("/updateVerification/:id", providerController.update_verification);
 router.get("/", providerController.fetch_providers);
 
 // Search provider
-router.get('/search/:key', providerController.search_provider);
+router.get("/search/:key", providerController.search_provider);
 
 //Fetch new providers
 router.get("/new", providerController.fetch_new_providers);
@@ -34,9 +34,15 @@ router.get("/document/:id", providerController.fetch_documentlist);
 router.patch("/able/:id", providerController.disable_provider);
 
 // Update when document is accepted
-router.patch("/documentAccepted/:id/:docType", providerController.document_accepted);
+router.patch(
+  "/documentAccepted/:id/:docType",
+  providerController.document_accepted
+);
 
 // Update when document is rejected
-router.patch("/documentRejected/:id", providerController.document_rejected);
+router.patch(
+  "/documentRejected/:id/:docType",
+  providerController.document_rejected
+);
 
 module.exports = router;

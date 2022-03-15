@@ -44,6 +44,11 @@ const updateDocumentAccepted = async (id, docType) => {
   return await axios.patch(`/provider/documentAccepted/${id}/${docType}`);
 };
 
+// Update when document is rejected
+const updateDocumentRejected = async (id, docType) => {
+  return await axios.patch(`/provider/documentRejected/${id}/${docType}`);
+};
+
 // Search consumer
 const searchProvider = async (key) => {
   return await axios.get(`/provider/search/${key}`);
@@ -60,4 +65,5 @@ export default {
   fetchProvider,
   fetchVerifiedProviderCount,
   updateDocumentAccepted,
+  updateDocumentRejected,
 };

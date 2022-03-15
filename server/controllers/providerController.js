@@ -167,15 +167,15 @@ const document_accepted = async (req, res) => {
 
 // Update when document is rejected
 const document_rejected = async (req, res) => {
-  const { id } = req.params;
+  const { id, docType } = req.params;
 
   try {
     const updatedDocumentRejected = await provider.updateOne(
-      { _id: id, "document.type": req.body.type },
+      { _id: id, "document.type": docType },
       {
         $set: {
           "document.$.isAccepted": "false",
-          "document.$.reasonForRejection": req.body.reasonForRejection,
+          // "document.$.reasonForRejection": req.body.reasonForRejection,
         },
       },
       { upsert: true, new: true }
