@@ -4,7 +4,7 @@ import Jobs from "./pages/jobType/Jobs";
 import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
 import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
 import ThirdParty from "./pages/thirdParty/ThirdParty";
-import Complaints from "./pages/complaints/Complaints";
+import Complaint from "./pages/complaints/Complaint";
 import ThirdPartyProfile from "./pages/thirdParty/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import AllWithdrawals from "./pages/withdrawals/AllWithdrawals";
@@ -37,7 +37,7 @@ function App() {
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/users" element={<Users />} />
               <Route path="/jobs" element={<Jobs />} />
-              <Route path="/complaints" element={<Complaints />} />
+              <Route path="/complaints" element={<Complaint />} />
               <Route path="/thirdParty" element={<ThirdParty />} />
               <Route path="/addNewThirdParty" element={<AddNewThirdParty />} />
               <Route
@@ -45,7 +45,7 @@ function App() {
                 element={<ThirdPartyProfile />}
               />
               <Route
-                path="/ResponseToComplaint"
+                path="/responseToComplaint"
                 element={<ResponseToComplaint />}
               />
               <Route path="/withdrawals" element={<Withdrawal />} />
