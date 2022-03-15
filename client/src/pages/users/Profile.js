@@ -49,6 +49,7 @@ const Profile = () => {
     const classes = useStyles();
 
     const [profile, setProfile] = useState();
+    const profilePic = require('../../assets/proPic.jpg')
 
     const fetchProfile = () => {
         if(type=='Consumers'){
@@ -80,7 +81,7 @@ const Profile = () => {
         {profile && <Card className={classes.root}>
             <CardMedia
                 className={classes.cover}
-                image={profile.profilePicture}
+                image={profilePic || profile.profilePicture}
                 title="Live from space album cover"
             />
             <div className={classes.details}>

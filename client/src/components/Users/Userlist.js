@@ -11,6 +11,8 @@ import useStyles from '../../styles/usersStyles';
 const Userlist = ({ type, users, setUsers, fetchUsers }) => {
   const classes = useStyles();
 
+  const profilePic = require('../../assets/proPic.jpg')
+
   const changeAble = (id) => {
     if(type=='Consumers'){
       Consumer.ableConsumer(id)
@@ -34,7 +36,7 @@ const Userlist = ({ type, users, setUsers, fetchUsers }) => {
   const rows = users.map((user) => {
     return {
       id: user._id,
-      propic: user.profilePicture,
+      propic: profilePic || user.profilePicture,
       name: user.name.fName + " " + user.name.lName,
       rating: user.totalRating / user.ratingCount,
       mobile: user.contact.mobile,
