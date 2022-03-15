@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import NewDocument from "../../../services/Provider";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
-import { Button, CardActions, CardHeader, Grid, Stack } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Sbutton from "../../../components/Sbutton";
@@ -69,7 +69,7 @@ const NewDocumentlist = () => {
       <Grid container className={classes.gridContainer}>
         {newDocs.map((newDoc) => (
           <Grid item xs={4}>
-            <Card variant="outlined" sx={{ minHeight: 300, maxWidth: 300 }}>
+            <Card variant="outlined" sx={{ minHeight: 280, maxWidth: 350 }}>
               <CardContent>
                 <Typography variant="h5" textAlign="center">
                   {newDoc.type}
@@ -79,55 +79,74 @@ const NewDocumentlist = () => {
                   <Sbutton text="Download" btnWidth="150px" />
                 </div>
               </CardContent>
-              <CardActions>
-                {newDoc.isAccepted !== true && newDoc.isAccepted !== false ? (
-                  <Stack direction="row" spacing={14}>
-                    <Button
-                      variant="contained"
-                      color="success"
-                      onClick={() => {
-                        updateAccepted(newDoc.type);
-                        alert(`${newDoc.isAccepted} is accepted !`);
-                      }}
-                    >
-                      Accept
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => {
-                        updateRejection(newDoc.type);
-                        alert(`${newDoc.isAccepted} is rejected !`);
-                      }}
-                    >
-                      Reject
-                    </Button>
+              {newDoc.isAccepted !== true && newDoc.isAccepted !== false ? (
+                <Stack
+                  direction="row"
+                  justifyContent="space-around"
+                  alignItems="center"
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => {
+                      updateAccepted(newDoc.type);
+                      alert(`${newDoc.isAccepted} is accepted !`);
+                    }}
+                  >
+                    Accept
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => {
+                      updateRejection(newDoc.type);
+                      alert(`${newDoc.isAccepted} is rejected !`);
+                    }}
+                  >
+                    Reject
+                  </Button>
+                </Stack>
+              ) : (
+                <Stack
+                  direction="row"
+                  justifyContent="space-around"
+                  alignItems="center"
+                >
+                  <Button variant="contained" disabled>
+                    Accept
+                  </Button>
+                  <Button variant="contained" disabled>
+                    Reject
+                  </Button>
+                </Stack>
+              )}
+              <br />
+              <div align="center">
+                {newDoc.isAccepted === false ? (
+                  <Stack
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="center"
+                  >
+                    <TextField
+                      required
+                      id="filled-basic"
+                      label="Reason For Rejection"
+                      variant="filled"
+                      marginLeft="5px"
+                    />
+                    <Sbutton text="Submit" width="50px" />
                   </Stack>
                 ) : (
-                  <Stack direction="row" spacing={9}>
-                    <Button variant="contained" disabled>
-                      Accepted
-                    </Button>
-                    <Button variant="contained" disabled>
-                      Rejected
-                    </Button>
-                  </Stack>
+                  <TextField
+                    disabled
+                    id="filled-disabled"
+                    label="Disabled"
+                    defaultValue="Reason For Rejection"
+                    variant="filled"
+                  />
                 )}
-              </CardActions>
-              {/* <Typography variant="h5" textAlign="center">
-                {newDoc.isAccepted}
-              </Typography> */}
-
-              {/* <br/>
-              <div align="center">
-                <TextField
-                  disabled
-                  id="filled-disabled"
-                  label="Disabled"
-                  defaultValue="Reason For Rejection"
-                  variant="filled"
-                />
-              </div> */}
+              </div>
             </Card>
           </Grid>
         ))}
