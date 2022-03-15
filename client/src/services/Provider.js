@@ -16,17 +16,20 @@ const ableProvider = async (id) => {
 
 // Fetch provider by id
 const fetchProvider = async (id) => {
-  return await axios.get(`/provider/${id}`)
-}
+  return await axios.get(`/provider/${id}`);
+};
 
+//Fetch new providers
 const fetchNewProviders = async () => {
   return await axios.get("/provider/new");
 };
 
+// Fetch verified providers
 const fetchVerifiedProviders = async () => {
   return await axios.get("/provider/verified");
 };
 
+//Fetch documentlist of a provider
 const fetchDocumentList = async (id) => {
   return await axios.get(`/provider/document/${id}`);
 };
@@ -34,12 +37,17 @@ const fetchDocumentList = async (id) => {
 // Fetch verified provider count
 const fetchVerifiedProviderCount = async () => {
   return await axios.get("/provider/count");
-}
+};
+
+// Update when document is accepted
+const updateDocumentAccepted = async (id, docType) => {
+  return await axios.patch(`/provider/documentAccepted/${id}/${docType}`);
+};
 
 // Search consumer
 const searchProvider = async (key) => {
-  return await axios.get(`/provider/search/${key}`)
-}
+  return await axios.get(`/provider/search/${key}`);
+};
 
 export default {
   addNew,
@@ -51,4 +59,5 @@ export default {
   searchProvider,
   fetchProvider,
   fetchVerifiedProviderCount,
+  updateDocumentAccepted,
 };

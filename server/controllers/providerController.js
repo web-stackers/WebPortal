@@ -28,14 +28,14 @@ const post_providerType = async (req, res) => {
       latitude: req.body.latitude,
       longitude: req.body.longitude,
     },
-    verification: {
-      isAccepted: req.body.isAccepted,
-      date: req.body.date,
-      thirdParty: req.body.thirdParty,
-    },
-    availability: req.body.availability,
-    isDisabled: req.body.isDisabled,
-    qualification: req.body.qualification,
+    // verification: {
+    //   isAccepted: req.body.isAccepted,
+    //   date: req.body.date,
+    //   thirdParty: req.body.thirdParty,
+    // },
+    // availability: req.body.availability,
+    // isDisabled: req.body.isDisabled,
+    // qualification: req.body.qualification,
   });
 
   //save new provider type in the database and error handling
@@ -148,11 +148,11 @@ const disable_provider = async (req, res) => {
 
 // Update when document is accepted
 const document_accepted = async (req, res) => {
-  const { id } = req.params;
+  const { id, docType } = req.params;
 
   try {
     const updatedDocumentAccepted = await provider.updateOne(
-      { _id: id, "document.type": req.body.type },
+      { _id: id, "document.type": docType },
       {
         $set: { "document.$.isAccepted": "true" },
       },

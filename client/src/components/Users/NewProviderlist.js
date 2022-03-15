@@ -50,7 +50,7 @@ const NewProviderlist = () => {
               </CardContent>
               <div align="center">
                 <Link
-                  to="/documentlist"
+                  to="/newDocumentlist"
                   state={newProvider._id}
                   className="link"
                 >
