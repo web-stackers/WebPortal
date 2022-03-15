@@ -43,6 +43,10 @@ const NotHandledWithdrawals = ({ type }) => {
     fetchWithdrawals();
   }, []);
 
+  const line = {
+    backgroundColor: "#ffffff",
+  };
+
   //Function which will be called when accept button is clicked, where job state will be changed to Job Withdrawn and email will be send to the opposite party.
   const accept = (e) => {
     console.log(e);
@@ -96,7 +100,7 @@ const NotHandledWithdrawals = ({ type }) => {
                   </Card>
 
                   <br />
-                  <hr />
+                  <hr style={line} />
                 </>
               )}
           </div>
@@ -143,7 +147,7 @@ const NotHandledWithdrawals = ({ type }) => {
                   </Card>
 
                   <br />
-                  <hr />
+                  <hr style={line} />
                 </>
               )}
           </div>

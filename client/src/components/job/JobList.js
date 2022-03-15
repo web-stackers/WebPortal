@@ -38,6 +38,10 @@ const JobList = () => {
     backgroundColor: "transparent !important",
   };
 
+  const line = {
+    backgroundColor: "#ffffff",
+  };
+
   //function which will be called when delete icon is pressed
   const deleteJobTYpe = (e) => {
     console.log(e);
@@ -75,9 +79,7 @@ const JobList = () => {
           ))}
         </CardContent>
       </Card>
-      <br />
-      <hr />
-      <br />
+      <hr style={line} />
 
       {/* Retriving all job types in Construction category */}
       <Card variant="outlined" style={cardStyle}>
@@ -107,8 +109,7 @@ const JobList = () => {
           ))}
         </CardContent>
       </Card>
-      <br />
-      <hr />
+      <hr style={line} />
     </div>
   );
 };

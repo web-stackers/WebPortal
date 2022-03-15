@@ -23,13 +23,18 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: 10,
-    width: "50%",
+    width: "70%",
+    marginLeft: "5%",
   },
   //class name for card media
   cover: {
     width: "20%",
   },
 }));
+
+const line = {
+  backgroundColor: "#ffffff",
+};
 
 //on click function to enable or disable third party account and auto refresh after button click to see the change
 const disableEnable = (e) => {
@@ -64,16 +69,15 @@ const ThirdPartyList = () => {
       {/* mapping every third party inside card structure */}
       {thirdParties.map((thirdParty) => (
         <div key={thirdParty._id}>
-          <br />
           {thirdParty.role === "Third Party" && (
             <>
               <Card className={classes.root}>
-                <CardMedia
+                {/* <CardMedia
                   className={classes.cover}
                   height="140"
                   image="/static/images/cards/contemplative-reptile.jpg"
                   alt="Profile Picture"
-                />
+                /> */}
                 <div className={classes.details}>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -121,8 +125,7 @@ const ThirdPartyList = () => {
                   )}
                 </CardActions>
               </Card>
-              <br />
-              <hr />
+              <hr style={line} />
             </>
           )}
         </div>

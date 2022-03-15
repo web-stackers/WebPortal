@@ -34,7 +34,11 @@ app.post("/upload", (req, res) => {
   }
   const file = req.files.file;
   console.log(file);
-  const destination = path.join(__dirname, "../client/public/uploads/",file.name);
+  const destination = path.join(
+    __dirname,
+    "../client/public/uploads/",
+    file.name
+  );
   // file.mv(`${__dirname}../client/public/uploads/${file.name}`, (err) => {
   file.mv(destination, (err) => {
     if (err) {
