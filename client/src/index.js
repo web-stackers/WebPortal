@@ -5,14 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ThirdPartyPanel from "./ThirdPartyPanel";
 import ProviderRegister from "./pages/registration/ProviderRegister";
-import Uploads from "./pages/registration/Uploads"
+import Uploads from "./pages/registration/Uploads";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App /> */}
+    <App />
     {/* <ThirdPartyPanel/> */}
     {/* <Uploads/> */}
-    <ProviderRegister/>
+    {/* <ProviderRegister/> */}
   </React.StrictMode>,
   document.getElementById("root")
 );

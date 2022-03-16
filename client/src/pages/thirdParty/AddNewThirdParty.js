@@ -1,6 +1,4 @@
 import StextField from "../../components/formComponents/StextField";
-import Semail from "../../components/formComponents/Semail";
-import Smobile from "../../components/formComponents/Smobile";
 import Sbutton from "../../components/Sbutton";
 import SecondaryUser from "../../services/SecondaryUser";
 import { useState } from "react";
@@ -8,6 +6,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Typography } from "@mui/material";
+
+import useStyles from "../../styles/thirdPartyStyle";
 
 const AddNewThirdParty = () => {
   const [inputs, setInputs] = useState({});
@@ -28,6 +29,9 @@ const AddNewThirdParty = () => {
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(inputs);
+    SecondaryUser.addNew(inputs);
+    window.location.reload(false);
     // const formData = new FormData();
     // formData.append("file", file);
     // SecondaryUser.uploadFile(formData);
@@ -35,14 +39,15 @@ const AddNewThirdParty = () => {
 
     // setFileName(file.name);
     // setInputs((values) => ({ ...values, fileName: file.name }));
-    console.log(inputs);
-    SecondaryUser.addNew(inputs);
-
-    window.location.reload(false);
   };
 
+  const classes = useStyles();
   return (
-    <div>
+    <div className={classes.form}>
+      <Typography variant="h5" textAlign={"center"}>
+        Register New Third Party User!
+      </Typography>
+      <br />
       <form encType="multipart/form-data">
         <StextField
           label="First Name"
@@ -58,13 +63,15 @@ const AddNewThirdParty = () => {
           onChange={handleChange}
         />
 
-        <Semail
+        <StextField
+          label="Email"
           name="email"
           value={inputs.email || ""}
           onChange={handleChange}
         />
 
-        <Smobile
+        <StextField
+          label="Mobile Number"
           name="mobile"
           value={inputs.mobile || ""}
           onChange={handleChange}
