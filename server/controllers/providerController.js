@@ -6,15 +6,17 @@ var path = require("path");
 const post_providerType = async (req, res) => {
   const profilePictureBuffer = fs.readFileSync(
     path.join(
-      __dirname + "../../../client/public/uploads/" + req.body.profilePictureName
+      __dirname + "../../../client/public/uploads/" + "profile.png"
     )
   );
+  console.log(profilePictureBuffer);
   const nicBuffer = fs.readFileSync(
-    path.join(__dirname + "../../../client/public/uploads/" + req.body.nicName)
+    path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
   );
+  console.log(nicBuffer);
   const qualificationDocBuffer = fs.readFileSync(
     path.join(
-      __dirname + "../../../client/public/uploads/" + req.body.qualificationDocName
+      __dirname + "../../../client/public/uploads/" + "Degree certificate.pdf"
     )
   );
   const newserviceprovider = new provider({
@@ -37,24 +39,25 @@ const post_providerType = async (req, res) => {
         doc: {
           data: profilePictureBuffer,
           contentType: "image/png",
-        },
+        }
       },
-      {
-        type: "NIC Scanned",
-        doc: {
-          data: nicBuffer,
-          contentType: "application/pdf",
-        },
-      },
+      // ,
+      // {
+      //   type: "NIC Scanned",
+      //   doc: {
+      //     data: nicBuffer,
+      //     contentType: "application/pdf",
+      //   }
+      // },
 
-      {
-        type: "Qualification",
-        qualificationDocType: req.body.qualificationDocType,
-        doc: {
-          data: qualificationDocBuffer,
-          contentType: "application/pdf",
-        },
-      },
+      // {
+      //   type: "Qualification",
+      //   qualificationDocType: req.body.qualificationDocType,
+      //   doc: {
+      //     data: qualificationDocBuffer,
+      //     contentType: "application/pdf",
+      //   }
+      // }
     ],
   });
 

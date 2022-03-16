@@ -29,7 +29,7 @@ const Uploads = ({ handleChange, value, onSubmit, onChangeProfile, profile, prof
           <MenuItem value="O/L Certificate">O/L Certificate</MenuItem>
           <MenuItem value="A/L Certificate">A/L Certificate</MenuItem>
           <MenuItem value="NVQ certificate">NVQ certificate</MenuItem>
-          <MenuItem value="Degree Certificat">Degree Certificate</MenuItem>
+          <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
         </Select>
       </FormControl>
       <FileUpload file={doc} filename={docName} onChange={onChangeDoc}/>

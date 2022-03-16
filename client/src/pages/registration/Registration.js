@@ -50,28 +50,32 @@ const Registration = () => {
   const onChangeProfile = (e) => {
     e.preventDefault();
     setProfile(e.target.files[0]);
-    setProfileName(e.target.files[0].name).then(() =>
-      setInputs((values) => ({ ...values, profilePictureName: profileName }))
-    );
+    setProfileName(e.target.files[0].name)
+    // .then(() =>
+    //   setInputs((values) => ({ ...values, profilePictureName: profileName }))
+    // );
   };
   const onChangeNic = (e) => {
     e.preventDefault();
     setNic(e.target.files[0]);
-    setNicName(e.target.files[0].name).then(() =>
-      setInputs((values) => ({ ...values, nicName: nicName }))
-    );
+    setNicName(e.target.files[0].name)
+    // .then(() =>
+    //   setInputs((values) => ({ ...values, nicName: nicName }))
+    // );
   };
   const onChangeDoc = (e) => {
     e.preventDefault();
     setDoc(e.target.files[0]);
-    setDocName(e.target.files[0].name).then(() =>
-      setInputs((values) => ({ ...values, qualificationDocName: docName }))
-    );
+    setDocName(e.target.files[0].name)
+    // .then(() =>
+    //   setInputs((values) => ({ ...values, qualificationDocName: docName }))
+    // );
   };
   const onSubmit = (e) => {
     console.log(inputs);
     e.preventDefault();
     Provider.addNew(inputs);
+   // window.location.reload(false);
   };
 
   return (
@@ -92,7 +96,7 @@ const Registration = () => {
           docName={docName}
         />
       ) : (
-        <Container component="main" maxWidth="sm">
+        <Container component="main" maxWidth="lg">
           <Paper className={classes.paper} elevation={3}>
             <Avatar className={classes.avatar}>
               <AppRegistrationIcon />
@@ -170,11 +174,11 @@ const Registration = () => {
                 </Grid>
                 <Input
                   name="workStartedYear"
-                  label="From which year you provide this service"
+                  label="From which year you have been providing this service"
                   type="date"
                   half
                   handleChange={handleChange}
-                  value={inputs.workStartedYear || ""}
+                  value={inputs.workStartedYear || "2017-05-24"}
                 />
                 <Input
                   name="DOB"
@@ -182,7 +186,7 @@ const Registration = () => {
                   type="date"
                   half
                   handleChange={handleChange}
-                  value={inputs.DOB || ""}
+                  value={inputs.DOB || "1990-03-12"}
                 />
                 <Input
                   name="password"
