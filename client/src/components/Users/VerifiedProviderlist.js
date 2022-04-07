@@ -40,7 +40,7 @@ const VerifiedProviderlist = () => {
 
   return (
     <Box>
-      <Grid container className={classes.gridContainer}>
+      <Grid container className={classes.gridContainer} rowSpacing={4}>
         {verifiedProviders.map((verifiedProvider) => (
           <Grid item xs={4}>
             <Card variant="outlined" sx={{ minHeight: 200, maxWidth: 300 }}>

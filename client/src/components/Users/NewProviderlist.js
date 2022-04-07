@@ -38,7 +38,7 @@ const NewProviderlist = () => {
 
   return (
     <Box>
-      <Grid container className={classes.gridContainer}>
+      <Grid container className={classes.gridContainer} rowSpacing={4}>
         {newProviders.map((newProvider) => (
           <Grid item xs={4}>
             <Card variant="outlined" sx={{ minHeight: 150, maxWidth: 300 }}>
