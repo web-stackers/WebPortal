@@ -187,6 +187,30 @@ const document_rejected = async (req, res) => {
   }
 };
 
+// Update document rejected reason
+const document_rejected_reason = async (req, res) => {
+  const { id, docType, reason } = req.params;
+
+  try {
+    const updatedDocumentRejectedReason = await provider.updateOne(
+      {
+        _id: id,
+        "document.type": docType,
+      },
+      {
+        $set: {
+          "document.$.reasonForRejection": reason,
+        },
+      },
+      { upsert: true, new: true }
+    );
+    res.status(200).json(updatedDocumentRejectedReason);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log(error.message);
+  }
+}
+
 // Update verification details
 const update_verification = async (req, res) => {
   const { id } = req.params;
@@ -222,4 +246,5 @@ module.exports = {
   fetch_verified_providers,
   fetch_documentlist,
   search_provider,
+  document_rejected_reason,
 };

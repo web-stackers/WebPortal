@@ -64,6 +64,23 @@ const NewDocumentlist = () => {
       });
   };
 
+  const [reasonForRejection, setReasonForRejection] = useState([]);
+
+  const handleSubmit = (event) => {
+    const value = event.target.value;
+    setReasonForRejection(value);
+  };
+
+  const updateRejectionReason = (Doctype, reason) => {
+    Provider.updateDocumentRejectedReason(providerId, Doctype, reason)
+      .then(() => {
+        fetchDocs();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <Box>
       <Grid container className={classes.gridContainer}>
@@ -90,7 +107,6 @@ const NewDocumentlist = () => {
                     color="success"
                     onClick={() => {
                       updateAccepted(newDoc.type);
-                      alert(`${newDoc.isAccepted} is accepted !`);
                     }}
                   >
                     Accept
@@ -100,7 +116,6 @@ const NewDocumentlist = () => {
                     color="error"
                     onClick={() => {
                       updateRejection(newDoc.type);
-                      alert(`${newDoc.isAccepted} is rejected !`);
                     }}
                   >
                     Reject
@@ -122,7 +137,8 @@ const NewDocumentlist = () => {
               )}
               <br />
               <div align="center">
-                {newDoc.isAccepted === false ? (
+                {newDoc.isAccepted === false &&
+                newDoc.reasonForRejection !== null ? (
                   <Stack
                     direction="row"
                     justifyContent="space-around"
@@ -134,8 +150,19 @@ const NewDocumentlist = () => {
                       label="Reason For Rejection"
                       variant="filled"
                       marginLeft="5px"
+                      value={reasonForRejection || ""}
+                      onChange={handleSubmit}
                     />
-                    <Sbutton text="Submit" width="50px" />
+                    <Sbutton
+                      text="Submit"
+                      type="submit"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        console.log(reasonForRejection);
+                        updateRejectionReason(newDoc.type, reasonForRejection);
+                      }}
+                      width="50px"
+                    />
                   </Stack>
                 ) : (
                   <TextField

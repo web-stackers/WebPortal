@@ -45,4 +45,10 @@ router.patch(
   providerController.document_rejected
 );
 
+// Update document rejected reason
+router.patch(
+  "/documentRejected/reason/:id/:docType/:reason",
+  providerController.document_rejected_reason
+);
+
 module.exports = router;
