@@ -1,108 +1,218 @@
 import React from "react";
 import { useState } from "react";
-import StextField from "../../components/formComponents/StextField";
-import Sbutton from "../../components/Sbutton";
 import Provider from "../../services/Provider";
-import Spassword from "../../components/formComponents/Spassword";
-import TextField from "@mui/material/TextField";
-import { makeStyles } from "@mui/styles";
+import Input from "../../components/formComponents/Input";
+import Uploads from "./Uploads";
+import Button from "@mui/material//Button";
 
-const useStyles = makeStyles((theme) => {
-  return {
-    textField: {
-      display: "block",
-      margin: "0 0 20px 0",
-    },
-  };
-});
+import {
+  Grid,
+  Container,
+  Paper,
+  Avatar,
+  Typography,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+} from "@mui/material";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import useStyles from "./styles";
 
 const Registration = () => {
   const classes = useStyles();
+  const [isNext, setIsNext] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({});
+
+  const [profile, setProfile] = useState("");
+  const [profileName, setProfileName] = useState("Choose Profile Picture");
+
+  const [nic, setNic] = useState("");
+  const [nicName, setNicName] = useState("Choose NIC scanned copy");
+
+  const [doc, setDoc] = useState("");
+  const [docName, setDocName] = useState("Choose Qualification Document");
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
+  const handleShowPassword = (event) => {
+    setShowPassword(!showPassword);
+  };
+  const onNext = (e) => {
+    e.preventDefault();
+    setIsNext(!isNext);
+  };
 
-  //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
+  const onChangeProfile = (e) => {
+    e.preventDefault();
+    setProfile(e.target.files[0]);
+    setProfileName(e.target.files[0].name)
+    // .then(() =>
+    //   setInputs((values) => ({ ...values, profilePictureName: profileName }))
+    // );
+  };
+  const onChangeNic = (e) => {
+    e.preventDefault();
+    setNic(e.target.files[0]);
+    setNicName(e.target.files[0].name)
+    // .then(() =>
+    //   setInputs((values) => ({ ...values, nicName: nicName }))
+    // );
+  };
+  const onChangeDoc = (e) => {
+    e.preventDefault();
+    setDoc(e.target.files[0]);
+    setDocName(e.target.files[0].name)
+    // .then(() =>
+    //   setInputs((values) => ({ ...values, qualificationDocName: docName }))
+    // );
+  };
   const onSubmit = (e) => {
     console.log(inputs);
     e.preventDefault();
     Provider.addNew(inputs);
-    //window.location.reload(false);
+   // window.location.reload(false);
   };
+
   return (
-    <div>
-      <form>
-        <StextField
-          label="First Name"
-          name="fName"
-          value={inputs.fName || ""}
-          onChange={handleChange}
+    <>
+      {isNext ? (
+        <Uploads
+          handleChange={handleChange}
+          value={inputs.qualificationDocType}
+          onSubmit={onSubmit}
+          onChangeProfile={onChangeProfile}
+          profile={profile}
+          profileName={profileName}
+          onChangeNic={onChangeNic}
+          nic={nic}
+          nicName={nicName}
+          onChangeDoc={onChangeDoc}
+          doc={doc}
+          docName={docName}
         />
-        <StextField
-          label="Last Name"
-          name="lName"
-          value={inputs.lName || ""}
-          onChange={handleChange}
-        />
-        <StextField
-          label="Mobile Number"
-          name="mobile"
-          value={inputs.mobile || ""}
-          onChange={handleChange}
-        />
-        <StextField
-          label="Email"
-          name="email"
-          value={inputs.email || ""}
-          onChange={handleChange}
-          type="email"
-        />
-        <Spassword
-          name="password"
-          value={inputs.password || ""}
-          onChange={handleChange}
-        />
-        <StextField
-          label="NIC Number"
-          name="NIC"
-          value={inputs.NIC || ""}
-          onChange={handleChange}
-        />
-        <div className={classes.textField}>
-          <TextField
-            name="DOB"
-            label="Date of Birth"
-            type="date"
-            value={inputs.DOB || ""}
-            onChange={handleChange}
-            sx={{ width: "70ch" }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </div>
-
-        <div className={classes.textField}>
-          <TextField
-            name="workStartedYear"
-            label="Year you started the job"
-            type="date"
-            value={inputs.workStartedYear || ""}
-            onChange={handleChange}
-            sx={{ width: "70ch" }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </div>
-
-        <Sbutton text="Submit" type="submit" onClick={onSubmit} />
-      </form>
-    </div>
+      ) : (
+        <Container component="main" maxWidth="lg">
+          <Paper className={classes.paper} elevation={3}>
+            <Avatar className={classes.avatar}>
+              <AppRegistrationIcon />
+            </Avatar>
+            <Typography variant="h5">Register As Service Provider</Typography>
+            <form className={classes.form}>
+              <Grid container spacing={2}>
+                <Input
+                  name="fName"
+                  label="First Name"
+                  autoFocus
+                  handleChange={handleChange}
+                  value={inputs.fName || ""}
+                  half
+                />
+                <Input
+                  name="lName"
+                  label="Last Name"
+                  handleChange={handleChange}
+                  value={inputs.lName || ""}
+                  half
+                />
+                <Input
+                  name="mobile"
+                  label="Mobile Number"
+                  handleChange={handleChange}
+                  value={inputs.mobile || ""}
+                  half
+                />
+                <Input
+                  name="NIC"
+                  label="NIC Number"
+                  handleChange={handleChange}
+                  value={inputs.NIC || ""}
+                  half
+                />
+                <Input
+                  name="email"
+                  label="Email"
+                  handleChange={handleChange}
+                  value={inputs.email || ""}
+                />
+                <Grid item xs={12} sm={6}>
+                  <FormControl sx={{ width: "100%" }}>
+                    <InputLabel id="TypeOfJob">
+                      Service you wish to provide
+                    </InputLabel>
+                    <Select
+                      labelId="TypeOfJob"
+                      name="jobType"
+                      value={inputs.jobType || ""}
+                      label="TypeOfJob"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="6220b8375e554dac97b488bc">
+                        Plumber
+                      </MenuItem>
+                      <MenuItem value="6220e2ca5e554dac97b48938">
+                        Decoration
+                      </MenuItem>
+                      <MenuItem value="6220e2d85e554dac97b4893d">
+                        Carpenter
+                      </MenuItem>
+                      <MenuItem value="622158ec9f5dcef384d8dad6">
+                        Catering
+                      </MenuItem>
+                      <MenuItem value="62258a2a6263376c8b3dfae9">
+                        Photographer
+                      </MenuItem>
+                      <MenuItem value="6230165745f952ef9a1f4d1b">
+                        Mason
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Input
+                  name="workStartedYear"
+                  label="From which year you have been providing this service"
+                  type="date"
+                  half
+                  handleChange={handleChange}
+                  value={inputs.workStartedYear || "2017-05-24"}
+                />
+                <Input
+                  name="DOB"
+                  label="Date of Birth"
+                  type="date"
+                  half
+                  handleChange={handleChange}
+                  value={inputs.DOB || "1990-03-12"}
+                />
+                <Input
+                  name="password"
+                  label="New Password"
+                  type={showPassword ? "text" : "password"}
+                  half
+                  handleChange={handleChange}
+                  handleShowPassword={handleShowPassword}
+                  value={inputs.password || ""}
+                />
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ width: "100%" }}
+                    onClick={onNext}
+                  >
+                    Next
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Paper>
+        </Container>
+      )}
+    </>
   );
 };
 

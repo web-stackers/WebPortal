@@ -6,30 +6,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
-import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
+import useStyles from "../../styles/thirdPartyStyle";
 
-const useStyles = makeStyles((theme) => ({
-  //class name for card
-  //The flex layout allows responsive elements within a container to be automatically arranged depending upon screen size. Flex container becomes flexible by setting the display property to flex
-  root: {
-    display: "flex",
-    height: "200px",
-    backgroundColor: "transparent !important",
-    color: "white",
-  },
-  //class name for div where card content tag is present
-  details: {
-    display: "flex",
-    flexDirection: "column",
-    padding: 10,
-    width: "50%",
-  },
-  //class name for card media
-  cover: {
-    width: "20%",
-  },
-}));
+const line = {
+  backgroundColor: "#ffffff",
+};
 
 //on click function to enable or disable third party account and auto refresh after button click to see the change
 const disableEnable = (e) => {
@@ -64,16 +46,15 @@ const ThirdPartyList = () => {
       {/* mapping every third party inside card structure */}
       {thirdParties.map((thirdParty) => (
         <div key={thirdParty._id}>
-          <br />
           {thirdParty.role === "Third Party" && (
             <>
               <Card className={classes.root}>
-                <CardMedia
+                {/* <CardMedia
                   className={classes.cover}
                   height="140"
                   image="/static/images/cards/contemplative-reptile.jpg"
                   alt="Profile Picture"
-                />
+                /> */}
                 <div className={classes.details}>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -121,8 +102,7 @@ const ThirdPartyList = () => {
                   )}
                 </CardActions>
               </Card>
-              <br />
-              <hr />
+              <hr style={line} />
             </>
           )}
         </div>

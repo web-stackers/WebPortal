@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Job from "../../services/Job";
 import Sbutton from "../Sbutton";
@@ -51,6 +50,7 @@ const ComplaintList = () => {
   }, []);
 
   const classes = useStyles();
+
   return (
     <div>
       {listOfComplaints.map((jobs) => {
@@ -58,7 +58,7 @@ const ComplaintList = () => {
           <div>
             {jobs.complaint.map((complaint) => {
               return (
-                <div>
+                <div key={complaint._id}>
                   <Card className={classes.root}>
                     <div className={classes.details}>
                       <CardContent>
@@ -77,15 +77,17 @@ const ComplaintList = () => {
                         </Typography>
                       </CardContent>
                     </div>
+
                     <CardActions>
                       <Link
-                        to="/ResponseToComplaint"
+                        to="/responseToComplaint"
                         state={complaint}
                         className="link"
                         style={{ marginRight: "50%" }}
                       >
                         <Sbutton text="Response" btnWidth="90%" />
                       </Link>
+
                     </CardActions>
                   </Card>
                 </div>

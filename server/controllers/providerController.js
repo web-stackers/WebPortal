@@ -1,7 +1,24 @@
 const provider = require("../models/provider");
+const fs = require("fs");
+var path = require("path");
 
 // create and save new provider type
 const post_providerType = async (req, res) => {
+  const profilePictureBuffer = fs.readFileSync(
+    path.join(
+      __dirname + "../../../client/public/uploads/" + "profile.png"
+    )
+  );
+  console.log(profilePictureBuffer);
+  const nicBuffer = fs.readFileSync(
+    path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
+  );
+  console.log(nicBuffer);
+  const qualificationDocBuffer = fs.readFileSync(
+    path.join(
+      __dirname + "../../../client/public/uploads/" + "Degree certificate.pdf"
+    )
+  );
   const newserviceprovider = new provider({
     name: {
       fName: req.body.fName,
@@ -14,28 +31,34 @@ const post_providerType = async (req, res) => {
     password: req.body.password,
     DOB: req.body.DOB,
     NIC: req.body.NIC,
-    appliedDate: req.body.appliedDate,
     jobType: req.body.jobType,
     workStartedYear: req.body.workStartedYear,
     document: [
       {
-        type: req.body.type,
-        qualificationDocType: req.body.qualificationDocType,
-        doc: req.body.doc,
+        type: "Profile Picture",
+        doc: {
+          data: profilePictureBuffer,
+          contentType: "image/png",
+        }
       },
+      // ,
+      // {
+      //   type: "NIC Scanned",
+      //   doc: {
+      //     data: nicBuffer,
+      //     contentType: "application/pdf",
+      //   }
+      // },
+
+      // {
+      //   type: "Qualification",
+      //   qualificationDocType: req.body.qualificationDocType,
+      //   doc: {
+      //     data: qualificationDocBuffer,
+      //     contentType: "application/pdf",
+      //   }
+      // }
     ],
-    address: {
-      latitude: req.body.latitude,
-      longitude: req.body.longitude,
-    },
-    // verification: {
-    //   isAccepted: req.body.isAccepted,
-    //   date: req.body.date,
-    //   thirdParty: req.body.thirdParty,
-    // },
-    // availability: req.body.availability,
-    // isDisabled: req.body.isDisabled,
-    // qualification: req.body.qualification,
   });
 
   //save new provider type in the database and error handling

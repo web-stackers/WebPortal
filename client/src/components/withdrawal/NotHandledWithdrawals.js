@@ -2,28 +2,11 @@ import { useEffect, useState } from "react";
 import JobAssignment from "../../services/JobAssignment";
 import Sbutton from "../../components/Sbutton";
 import Card from "@mui/material/Card";
-import { makeStyles } from "@mui/styles";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
-const useStyles = makeStyles((theme) => ({
-  //class name for card
-  //The flex layout allows responsive elements within a container to be automatically arranged depending upon screen size. Flex container becomes flexible by setting the display property to flex
-  root: {
-    display: "flex",
-    height: "200px",
-    backgroundColor: "transparent !important",
-    color: "white",
-  },
-  //class name for div where card content tag is present
-  details: {
-    display: "flex",
-    flexDirection: "column",
-    padding: 15,
-    width: "70%",
-  },
-}));
+import useStyles from "../../styles/withdrawalStyle";
 
 const NotHandledWithdrawals = ({ type }) => {
   const [withdrawals, setWithdrawals] = useState([]);
@@ -42,6 +25,10 @@ const NotHandledWithdrawals = ({ type }) => {
   useEffect(() => {
     fetchWithdrawals();
   }, []);
+
+  const line = {
+    backgroundColor: "#ffffff",
+  };
 
   //Function which will be called when accept button is clicked, where job state will be changed to Job Withdrawn and email will be send to the opposite party.
   const accept = (e) => {
@@ -96,7 +83,7 @@ const NotHandledWithdrawals = ({ type }) => {
                   </Card>
 
                   <br />
-                  <hr />
+                  <hr style={line} />
                 </>
               )}
           </div>
@@ -143,7 +130,7 @@ const NotHandledWithdrawals = ({ type }) => {
                   </Card>
 
                   <br />
-                  <hr />
+                  <hr style={line} />
                 </>
               )}
           </div>

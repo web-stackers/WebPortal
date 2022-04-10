@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const app = express();
+var path = require("path");
 
 const jobTypeCategoryRouter = require("./routes/jobTypeCategoryRoute");
 const jobRouter = require("./routes/jobRoute");
@@ -33,11 +34,18 @@ app.post("/upload", (req, res) => {
   }
   const file = req.files.file;
   console.log(file);
-  file.mv(`${__dirname}/controllers/uploads/${file.name}`, (err) => {
+  const destination = path.join(
+    __dirname,
+    "../client/public/uploads/",
+    file.name
+  );
+  // file.mv(`${__dirname}../client/public/uploads/${file.name}`, (err) => {
+  file.mv(destination, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send(err);
     }
+    // path.join(__dirname, "../client/public/uploads/",file.name)
     res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
   });
 });
