@@ -75,7 +75,7 @@ const NewDocumentlist = () => {
       <Grid container className={classes.gridContainer}>
         {newDocs.map((newDoc) => (
           <Grid item xs={4}>
-            <Card variant="outlined" sx={{ minHeight: 280, maxWidth: 350 }}>
+            <Card variant="outlined" sx={{ minHeight: 250, maxWidth: 350 }}>
               <CardContent>
                 <Typography variant="h5" textAlign="center">
                   {newDoc.type}
@@ -83,12 +83,8 @@ const NewDocumentlist = () => {
                 <br />
                 {newDoc.isAccepted !== true && newDoc.isAccepted !== false ? (
                   <Stack spacing={5}>
-                    <Stack
-                      direction="row"
-                      justifyContent="space-around"
-                      alignItems="center"
-                    >
-                      <Sbutton text="Download" btnWidth="150px" />
+                    <Stack direction="row" justifyContent="space-between">
+                      <Sbutton text="Download" btnWidth="205px" />
                       <Button
                         variant="contained"
                         color="success"
@@ -101,16 +97,17 @@ const NewDocumentlist = () => {
                     </Stack>
                     <Stack
                       direction="row"
-                      justifyContent="space-around"
+                      justifyContent="space-between"
                       alignItems="center"
                     >
                       <TextField
                         required
                         id="filled-basic"
+                        name={newDoc.type}
                         label="Reason For Rejection"
                         variant="filled"
                         marginLeft="5px"
-                        value={reasonForRejection || ""}
+                        value={reasonForRejection[newDoc.type]}
                         onChange={handleSubmit}
                       />
                       <Button
@@ -130,7 +127,7 @@ const NewDocumentlist = () => {
                   <Stack spacing={5}>
                     <Stack
                       direction="row"
-                      justifyContent="space-around"
+                      justifyContent="space-between"
                       alignItems="center"
                     >
                       <Sbutton text="Download" btnWidth="150px" />
@@ -140,7 +137,7 @@ const NewDocumentlist = () => {
                     </Stack>
                     <Stack
                       direction="row"
-                      justifyContent="space-around"
+                      justifyContent="space-between"
                       alignItems="center"
                     >
                       <TextField
@@ -159,7 +156,7 @@ const NewDocumentlist = () => {
                   <Stack spacing={5}>
                     <Stack
                       direction="row"
-                      justifyContent="space-around"
+                      justifyContent="space-between"
                       alignItems="center"
                     >
                       <Sbutton text="Download" btnWidth="150px" />
@@ -169,7 +166,7 @@ const NewDocumentlist = () => {
                     </Stack>
                     <Stack
                       direction="row"
-                      justifyContent="space-around"
+                      justifyContent="space-between"
                       alignItems="center"
                     >
                       <TextField
