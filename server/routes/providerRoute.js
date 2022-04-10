@@ -41,14 +41,8 @@ router.patch(
 
 // Update when document is rejected
 router.patch(
-  "/documentRejected/:id/:docType",
+  "/documentRejected/:id/:docType/:reason",
   providerController.document_rejected
-);
-
-// Update document rejected reason
-router.patch(
-  "/documentRejected/reason/:id/:docType/:reason",
-  providerController.document_rejected_reason
 );
 
 module.exports = router;

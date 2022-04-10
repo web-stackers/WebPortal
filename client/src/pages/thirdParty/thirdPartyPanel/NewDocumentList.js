@@ -54,8 +54,8 @@ const NewDocumentlist = () => {
       });
   };
 
-  const updateRejection = (Doctype) => {
-    Provider.updateDocumentRejected(providerId, Doctype)
+  const updateRejection = (Doctype, reason) => {
+    Provider.updateDocumentRejected(providerId, Doctype, reason)
       .then(() => {
         fetchDocs();
       })
@@ -67,18 +67,7 @@ const NewDocumentlist = () => {
   const [reasonForRejection, setReasonForRejection] = useState([]);
 
   const handleSubmit = (event) => {
-    const value = event.target.value;
-    setReasonForRejection(value);
-  };
-
-  const updateRejectionReason = (Doctype, reason) => {
-    Provider.updateDocumentRejectedReason(providerId, Doctype, reason)
-      .then(() => {
-        fetchDocs();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    setReasonForRejection(event.target.value);
   };
 
   return (
@@ -92,88 +81,110 @@ const NewDocumentlist = () => {
                   {newDoc.type}
                 </Typography>
                 <br />
-                <div align="center">
-                  <Sbutton text="Download" btnWidth="150px" />
-                </div>
-              </CardContent>
-              {newDoc.isAccepted !== true && newDoc.isAccepted !== false ? (
-                <Stack
-                  direction="row"
-                  justifyContent="space-around"
-                  alignItems="center"
-                >
-                  <Button
-                    variant="contained"
-                    color="success"
-                    onClick={() => {
-                      updateAccepted(newDoc.type);
-                    }}
-                  >
-                    Accept
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => {
-                      updateRejection(newDoc.type);
-                    }}
-                  >
-                    Reject
-                  </Button>
-                </Stack>
-              ) : (
-                <Stack
-                  direction="row"
-                  justifyContent="space-around"
-                  alignItems="center"
-                >
-                  <Button variant="contained" disabled>
-                    Accept
-                  </Button>
-                  <Button variant="contained" disabled>
-                    Reject
-                  </Button>
-                </Stack>
-              )}
-              <br />
-              <div align="center">
-                {newDoc.isAccepted === false &&
-                newDoc.reasonForRejection !== null ? (
-                  <Stack
-                    direction="row"
-                    justifyContent="space-around"
-                    alignItems="center"
-                  >
-                    <TextField
-                      required
-                      id="filled-basic"
-                      label="Reason For Rejection"
-                      variant="filled"
-                      marginLeft="5px"
-                      value={reasonForRejection || ""}
-                      onChange={handleSubmit}
-                    />
-                    <Sbutton
-                      text="Submit"
-                      type="submit"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        console.log(reasonForRejection);
-                        updateRejectionReason(newDoc.type, reasonForRejection);
-                      }}
-                      width="50px"
-                    />
+                {newDoc.isAccepted !== true && newDoc.isAccepted !== false ? (
+                  <Stack spacing={5}>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-around"
+                      alignItems="center"
+                    >
+                      <Sbutton text="Download" btnWidth="150px" />
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => {
+                          updateAccepted(newDoc.type);
+                        }}
+                      >
+                        Accept
+                      </Button>
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-around"
+                      alignItems="center"
+                    >
+                      <TextField
+                        required
+                        id="filled-basic"
+                        label="Reason For Rejection"
+                        variant="filled"
+                        marginLeft="5px"
+                        value={reasonForRejection || ""}
+                        onChange={handleSubmit}
+                      />
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          console.log(reasonForRejection);
+                          updateRejection(newDoc.type, reasonForRejection);
+                        }}
+                      >
+                        Reject
+                      </Button>
+                    </Stack>
+                  </Stack>
+                ) : newDoc.isAccepted === true ? (
+                  <Stack spacing={5}>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-around"
+                      alignItems="center"
+                    >
+                      <Sbutton text="Download" btnWidth="150px" />
+                      <Button variant="contained" disabled>
+                        Accept
+                      </Button>
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-around"
+                      alignItems="center"
+                    >
+                      <TextField
+                        disabled
+                        id="filled-basic"
+                        label="Reason For Rejection"
+                        variant="filled"
+                        marginLeft="5px"
+                      />
+                      <Button variant="contained" disabled>
+                        Reject
+                      </Button>
+                    </Stack>
                   </Stack>
                 ) : (
-                  <TextField
-                    disabled
-                    id="filled-disabled"
-                    label="Disabled"
-                    defaultValue="Reason For Rejection"
-                    variant="filled"
-                  />
+                  <Stack spacing={5}>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-around"
+                      alignItems="center"
+                    >
+                      <Sbutton text="Download" btnWidth="150px" />
+                      <Button variant="contained" disabled>
+                        Accept
+                      </Button>
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-around"
+                      alignItems="center"
+                    >
+                      <TextField
+                        disabled
+                        id="filled-basic"
+                        variant="filled"
+                        marginLeft="5px"
+                      />
+                      <Button variant="contained" disabled>
+                        Reject
+                      </Button>
+                    </Stack>
+                  </Stack>
                 )}
-              </div>
+              </CardContent>
             </Card>
           </Grid>
         ))}

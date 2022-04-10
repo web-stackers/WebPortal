@@ -5,9 +5,7 @@ var path = require("path");
 // create and save new provider type
 const post_providerType = async (req, res) => {
   const profilePictureBuffer = fs.readFileSync(
-    path.join(
-      __dirname + "../../../client/public/uploads/" + "profile.png"
-    )
+    path.join(__dirname + "../../../client/public/uploads/" + "profile.png")
   );
   console.log(profilePictureBuffer);
   const nicBuffer = fs.readFileSync(
@@ -39,7 +37,7 @@ const post_providerType = async (req, res) => {
         doc: {
           data: profilePictureBuffer,
           contentType: "image/png",
-        }
+        },
       },
       // ,
       // {
@@ -190,7 +188,7 @@ const document_accepted = async (req, res) => {
 
 // Update when document is rejected
 const document_rejected = async (req, res) => {
-  const { id, docType } = req.params;
+  const { id, docType, reason } = req.params;
 
   try {
     const updatedDocumentRejected = await provider.updateOne(
@@ -198,7 +196,7 @@ const document_rejected = async (req, res) => {
       {
         $set: {
           "document.$.isAccepted": "false",
-          // "document.$.reasonForRejection": req.body.reasonForRejection,
+          "document.$.reasonForRejection": reason,
         },
       },
       { upsert: true, new: true }
@@ -209,30 +207,6 @@ const document_rejected = async (req, res) => {
     console.log(error.message);
   }
 };
-
-// Update document rejected reason
-const document_rejected_reason = async (req, res) => {
-  const { id, docType, reason } = req.params;
-
-  try {
-    const updatedDocumentRejectedReason = await provider.updateOne(
-      {
-        _id: id,
-        "document.type": docType,
-      },
-      {
-        $set: {
-          "document.$.reasonForRejection": reason,
-        },
-      },
-      { upsert: true, new: true }
-    );
-    res.status(200).json(updatedDocumentRejectedReason);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-    console.log(error.message);
-  }
-}
 
 // Update verification details
 const update_verification = async (req, res) => {
@@ -269,5 +243,4 @@ module.exports = {
   fetch_verified_providers,
   fetch_documentlist,
   search_provider,
-  document_rejected_reason,
 };
