@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import Sbutton from '../Sbutton';
 
 import Consumer from "../../services/Consumer";
 import Provider from "../../services/Provider";
@@ -19,7 +20,6 @@ const Topbar = ({ type, setType, setUsers, fetchUsers }) => {
 
   const handleClose = () => {
     setOpen(false);
-    fetchUsers();
   };
 
   const searchUser = () => {
@@ -47,7 +47,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers }) => {
   return (
     <div className={classes.outline}>
       <div>
-        <Button variant='contained' onClick={(event) => {setOpen(event.currentTarget)}}>
+        <Button variant='contained' style={{outline:'none'}} onClick={(event) => {setOpen(event.currentTarget)}}>
           {type} <ArrowDropDownIcon />
         </Button>
 

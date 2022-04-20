@@ -109,7 +109,7 @@ const Layout = ({ children }) => {
       {/* Content */}
       <div className={classes.page}>
         <div className={classes.htoolbar}></div>
-        {children}
+        <div className={classes.children}>{children}</div>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import Consumer from "../../services/Consumer";
 import Provider from "../../services/Provider";
 import useStyles from '../../styles/usersStyles';
 
-const Userlist = ({ type, users, setUsers, fetchUsers }) => {
+const Userlist = ({ type, users, fetchUsers }) => {
   const classes = useStyles();
 
   const profilePic = require('../../assets/proPic.jpg')

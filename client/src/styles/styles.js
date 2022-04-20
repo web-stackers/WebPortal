@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => {
     page: {
       width: `calc(100% - ${drawerWidth})`,
       padding: "10px",
-      marginLeft: "20px",
+      marginLeft: "15px",
       color: "white",
     },
     drawer: {
@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => {
       margin: "25% auto",
     },
     htoolbar: theme.mixins.toolbar,
-    toolbar: {},
     pageTitle: {
       flexGrow: 1,
     },
@@ -41,6 +40,9 @@ const useStyles = makeStyles((theme) => {
     },
     active: {
       backgroundColor: theme.palette.secondary.main + "!important",
+    },
+    children: {
+      marginTop: '20px'
     }
   };
 });

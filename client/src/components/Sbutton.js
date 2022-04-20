@@ -5,6 +5,7 @@ const Sbutton = ({ text, onClick, btnWidth, marginRight, marginLeft }) => {
     width: btnWidth,
     marginRight: marginRight,
     marginLeft: marginLeft,
+    outline: 'none'
   };
 
   return (
