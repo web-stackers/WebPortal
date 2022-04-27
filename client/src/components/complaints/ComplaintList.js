@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dateFormat from 'dateformat';
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -66,14 +67,14 @@ const ComplaintList = () => {
                           {complaint.by}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          <b>Complaint Date :</b> {complaint.date}
+                          <b>Complaint Date :</b> {dateFormat(complaint.date, "yyyy-mm-dd")}
                           <br />
-                          <b>Admin Response :</b> {complaint.adminResponse}
-                          <br />
+                          <b>Complaint category:</b> {complaint.category}
+                          <br/>
                           <b>Description : </b>
                           {complaint.description}
                           <br />
-                          <b>Complaint category:</b> {complaint.category}
+                          <b>Admin Response :</b> {complaint.adminResponse}
                         </Typography>
                       </CardContent>
                     </div>
