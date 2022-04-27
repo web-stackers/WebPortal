@@ -53,7 +53,7 @@ const ResponseToComplaint = () => {
           <StextField
             label='Date'
             name='date'
-            value={dateFormat(reply.date, 'yyyy-mm-dd') || date}
+             value={reply.date || dateFormat(date, "yyyy-mm-dd")}
             onChange={handleChange}
           />
 
