@@ -42,6 +42,7 @@ const Userlist = ({ type, users, fetchUsers }) => {
       mobile: user.contact.mobile,
       email: user.contact.email,
       isDisabled: user.isDisabled,
+      ratingCount: user.ratingCount
     };
   });
 
@@ -50,6 +51,7 @@ const Userlist = ({ type, users, fetchUsers }) => {
       field: "user",
       headerName: "User",
       width: 250,
+      sortable: false,
       renderCell: (params) => {
         return (
           <div className={classes.userName}>
@@ -59,13 +61,15 @@ const Userlist = ({ type, users, fetchUsers }) => {
         );
       },
     },
-    { field: "rating", headerName: "Rating", width: 120 },
-    { field: "mobile", headerName: "Mobile No", width: 150 },
-    { field: "email", headerName: "Email", width: 250 },
+    { field: "rating", headerName: "Average Rating", width: 140 },
+    { field: "ratingCount", headerName: "No of Ratings", width: 140 },
+    { field: "mobile", headerName: "Mobile No", width: 150, sortable: false },
+    { field: "email", headerName: "Email", width: 250, sortable: false },
     {
       field: "Action",
       headerName: "Action",
       width: 200,
+      sortable: false,
       renderCell: (params) => {
         const profileId = params.row.id;
         const profileName = params.row.name;

@@ -79,7 +79,7 @@ const Layout = ({ children }) => {
         classes={{ paper: classes.drawerPaper }}
       >
         <div className={classes.title}>
-          <Typography variant="h5">Project Webportal</Typography>
+          <Typography variant="h5">Helper</Typography>
         </div>
 
         {/* Menu List */}
