@@ -5,7 +5,7 @@ const fetchJobCategory = async () => {
 };
 
 const updateJobByID = async (id, data) => {
-  return await axios.patch(`/secondaryUser/update/${id}`, data);
+  return await axios.patch(`/jobTypeCategory/update/${id}`, data);
 };
 
 const addNew = async (data) => {

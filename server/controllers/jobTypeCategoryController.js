@@ -50,9 +50,30 @@ const delete_jobType = async (req, res) => {
   }
 };
 
+//update Third party values by admin
+const update_jobType = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedJobType = await jobTypeCategory.findByIdAndUpdate(
+      id,
+      {
+        jobType: req.body.jobType,
+        category: req.body.category,
+        description: req.body.description,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedJobType);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_jobType,
   fetch_jobType,
   fetch_jobTypes,
   delete_jobType,
+  update_jobType,
 };
