@@ -1,6 +1,6 @@
 const secondaryUser = require("../models/secondaryUser");
 const transporter = require("../send-email/sendEmail");
-const fs = require("fs");
+// const fs = require("fs");
 var path = require("path");
 
 // Fetch all secondaryUsers

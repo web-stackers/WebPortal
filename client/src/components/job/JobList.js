@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-import JobCategory from "../../services/JobCategory";
+import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-
-//It will be imported in jobs.js file
+import JobCategory from "../../services/JobCategory";
 
 const JobList = () => {
   const [jobTypes, setJobTypes] = useState([]);
@@ -31,85 +27,56 @@ const JobList = () => {
     marginLeft: 25,
     marginBottom: 10,
   };
-  const cardStyle = {
-    marginLeft: "3%",
-    marginRight: "3%",
-    paddingLeft: "2%",
-    backgroundColor: "transparent !important",
-  };
 
-  const line = {
-    backgroundColor: "#ffffff",
-  };
-
-  //function which will be called when delete icon is pressed
   const deleteJobTYpe = (e) => {
     console.log(e);
     JobCategory.deleteOne(e);
     window.location.reload(false);
   };
 
-  return (
-    <div>
-      <Card variant="outlined" style={cardStyle}>
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="div">
-            Event
-          </Typography>
-          <br />
-          {/* Retriving all job types in Event category */}
-          {jobTypes.map((jobType) => (
-            <div key={jobType._id}>
-              {jobType.category === "Event" && (
-                <>
-                  <Typography variant="h6" color="text.secondary" gutterBottom>
-                    {jobType.jobType}
-                    <Button
-                      variant="contained"
-                      style={btnStyle}
-                      onClick={() => deleteJobTYpe(jobType._id)}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </Button>
-                  </Typography>
-                  <br />
-                </>
-              )}
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-      <hr style={line} />
+  const rows = jobTypes.map((jobType) => {
+    return {
+      id: jobType._id,
+      category: jobType.category,
+      jobType: jobType.jobType,
+    };
+  });
 
-      {/* Retriving all job types in Construction category */}
-      <Card variant="outlined" style={cardStyle}>
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="div">
-            Construction
-          </Typography>
-          <br />
-          {jobTypes.map((jobType) => (
-            <div key={jobType._id}>
-              {jobType.category === "Construction" && (
-                <>
-                  <Typography variant="h6" color="text.secondary" gutterBottom>
-                    {jobType.jobType}
-                    <Button
-                      variant="contained"
-                      style={btnStyle}
-                      onClick={() => deleteJobTYpe(jobType._id)}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </Button>
-                  </Typography>
-                  <br />
-                </>
-              )}
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-      <hr style={line} />
+  const columns = [
+    { field: "jobType", headerName: "JOb Type", width: 300 },
+    { field: "category", headerName: "Job Category", width: 300 },
+    {
+      field: "Action",
+      headerName: "Action",
+      width: 500,
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <Button
+            variant="contained"
+            style={btnStyle}
+            onClick={() => deleteJobTYpe(params.row.id)}
+          >
+            <DeleteIcon fontSize="small" />
+          </Button>
+        );
+      },
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        height: 423,
+        width: "90%",
+        marginLeft: "5%",
+      }}
+    >
+      <div style={{ display: "flex", height: "100%" }}>
+        <div style={{ flexGrow: 1 }}>
+          <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
+        </div>
+      </div>
     </div>
   );
 };
