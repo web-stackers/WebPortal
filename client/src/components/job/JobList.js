@@ -28,8 +28,10 @@ const JobList = () => {
     marginBottom: 10,
   };
 
-  const deleteJobTYpe = (e) => {
+  const deleteJobTYpe = (e, t) => {
     console.log(e);
+    console.log(t);
+    alert(t + " will be deleted !");
     JobCategory.deleteOne(e);
     window.location.reload(false);
   };
@@ -43,7 +45,7 @@ const JobList = () => {
   });
 
   const columns = [
-    { field: "jobType", headerName: "JOb Type", width: 300 },
+    { field: "jobType", headerName: "Job Type", width: 300 },
     { field: "category", headerName: "Job Category", width: 300 },
     {
       field: "Action",
@@ -55,7 +57,7 @@ const JobList = () => {
           <Button
             variant="contained"
             style={btnStyle}
-            onClick={() => deleteJobTYpe(params.row.id)}
+            onClick={() => deleteJobTYpe(params.row.id, params.row.jobType)}
           >
             <DeleteIcon fontSize="small" />
           </Button>
