@@ -1,6 +1,7 @@
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/users/Users";
 import Jobs from "./pages/jobType/Jobs";
+import JobEdit from "./pages/jobType/JobEdit";
 import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
 import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
 import ThirdParty from "./pages/thirdParty/ThirdParty";
@@ -37,6 +38,7 @@ function App() {
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/users" element={<Users />} />
               <Route path="/jobs" element={<Jobs />} />
+              <Route path="/jobEdit" element={<JobEdit />} />
               <Route path="/complaints" element={<Complaint />} />
               <Route path="/thirdParty" element={<ThirdParty />} />
               <Route path="/addNewThirdParty" element={<AddNewThirdParty />} />

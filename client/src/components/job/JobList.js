@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
 import JobCategory from "../../services/JobCategory";
 
@@ -24,7 +26,7 @@ const JobList = () => {
 
   const btnStyle = {
     width: 1,
-    marginLeft: 25,
+    marginLeft: 15,
     marginBottom: 10,
   };
 
@@ -64,13 +66,21 @@ const JobList = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Button
-            variant="contained"
-            style={btnStyle}
-            onClick={() => deleteJobTYpe(params.row.id, params.row.jobType)}
-          >
-            <DeleteIcon fontSize="small" />
-          </Button>
+          <div>
+            <Link to="/jobEdit" state={jobTypes} className="link">
+              <Button variant="contained" style={btnStyle}>
+                <EditIcon fontSize="small" />
+              </Button>
+            </Link>
+
+            <Button
+              variant="contained"
+              style={btnStyle}
+              onClick={() => deleteJobTYpe(params.row.id, params.row.jobType)}
+            >
+              <DeleteIcon fontSize="small" />
+            </Button>
+          </div>
         );
       },
     },
