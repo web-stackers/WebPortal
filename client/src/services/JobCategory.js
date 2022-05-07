@@ -4,6 +4,10 @@ const fetchJobCategory = async () => {
   return await axios.get("/jobTypeCategory");
 };
 
+const updateJobByID = async (id, data) => {
+  return await axios.patch(`/secondaryUser/update/${id}`, data);
+};
+
 const addNew = async (data) => {
   return await axios.post("/jobTypeCategory", data);
 };
@@ -16,4 +20,5 @@ export default {
   fetchJobCategory,
   addNew,
   deleteOne,
+  updateJobByID,
 };
