@@ -8,10 +8,14 @@ const JobTypeCategorySchema = Schema({
     required: true,
     unique: true,
   },
-  //just for checking purpose I gave the default value for category. LaterOn should be removed.
+
   category: {
     type: String,
     required: true,
+  },
+
+  description: {
+    type: String,
   },
 });
 

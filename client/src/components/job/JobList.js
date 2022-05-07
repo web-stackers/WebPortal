@@ -41,16 +41,26 @@ const JobList = () => {
       id: jobType._id,
       category: jobType.category,
       jobType: jobType.jobType,
+      description: jobType.description,
     };
   });
 
   const columns = [
-    { field: "jobType", headerName: "Job Type", width: 300 },
-    { field: "category", headerName: "Job Category", width: 300 },
+    { field: "jobType", headerName: "Job Type", width: 200 },
+    { field: "category", headerName: "Job Category", width: 200 },
+    { field: "description", headerName: "Description", width: 300 },
+    {
+      field: "Count",
+      headerName: "No of providers registered",
+      width: 200,
+      renderCell: (params) => {
+        return <div></div>;
+      },
+    },
     {
       field: "Action",
       headerName: "Action",
-      width: 500,
+      width: 180,
       sortable: false,
       renderCell: (params) => {
         return (
@@ -69,9 +79,8 @@ const JobList = () => {
   return (
     <div
       style={{
-        height: 423,
-        width: "90%",
-        marginLeft: "5%",
+        height: 500,
+        width: "100%",
       }}
     >
       <div style={{ display: "flex", height: "100%" }}>

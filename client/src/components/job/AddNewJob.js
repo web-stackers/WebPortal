@@ -9,10 +9,11 @@ import { useState } from "react";
 const AddNewJob = ({ onAdd }) => {
   const [jobType, setJobType] = useState("");
   const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
   // When form is submitted, onSubmit function will be performed, where onAdd function will be called where we post new document in jobTypeCategory collection. And after than page will be autorefreshed
   const onSubmit = (e) => {
     e.preventDefault();
-    onAdd({ jobType, category });
+    onAdd({ jobType, category, description });
     window.location.reload(false);
   };
   return (
@@ -38,6 +39,13 @@ const AddNewJob = ({ onAdd }) => {
       </FormControl>
       <br />
       <br />
+      <StextField
+        label="Description"
+        name="description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+
       <Sbutton text="Submit" type="submit" btnWidth="10%" onClick={onSubmit} />
     </form>
   );

@@ -15,6 +15,7 @@ const post_jobType = async (req, res) => {
   const newType = new jobTypeCategory({
     jobType: req.body.jobType,
     category: req.body.category,
+    description: req.body.description,
   });
 
   //save new job type in the database and error handling
