@@ -17,6 +17,11 @@ const JobTypeCategorySchema = Schema({
   description: {
     type: String,
   },
+
+  poviderCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("JobTypeCategory", JobTypeCategorySchema);

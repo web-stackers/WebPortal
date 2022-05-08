@@ -48,4 +48,7 @@ router.patch(
   providerController.document_rejected
 );
 
+// Update rating and review
+router.patch("/providerCount/:id", providerController.update_provider_count);
+
 module.exports = router;

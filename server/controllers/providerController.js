@@ -1,4 +1,5 @@
 const provider = require("../models/provider");
+const jobTypeCategory = require("../models/jobTypeCategory");
 const fs = require("fs");
 var path = require("path");
 
@@ -242,6 +243,27 @@ const update_verification = async (req, res) => {
   }
 };
 
+//update provider count in jobTypeCategory
+const update_provider_count = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const requiredProvider = await provider.findById(id);
+    const requiredJobType = await jobTypeCategory.findById(
+      requiredProvider.jobType
+    );
+    const updatedProviderCount = await jobTypeCategory.findByIdAndUpdate(
+      requiredProvider.jobType,
+      {
+        poviderCount: requiredJobType.poviderCount + 1,
+      }
+    );
+    res.status(200).json(updatedProviderCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_providerType,
   fetch_providers,
@@ -256,4 +278,5 @@ module.exports = {
   fetch_verified_providers,
   fetch_documentlist,
   search_provider,
+  update_provider_count,
 };

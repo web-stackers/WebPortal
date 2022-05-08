@@ -50,7 +50,7 @@ const delete_jobType = async (req, res) => {
   }
 };
 
-//update Third party values by admin
+//update job Type values by admin
 const update_jobType = async (req, res) => {
   const { id } = req.params;
 
