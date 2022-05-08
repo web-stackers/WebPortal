@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const uploadFile = async (data) => {
-  return await axios.post("/upload", data);
-};
+// const uploadFile = async (data) => {
+//   return await axios.post("/upload", data);
+// };
 
 const addNew = async (data) => {
   return await axios.post("/secondaryUser", data);
@@ -25,5 +25,4 @@ export default {
   fetchThirdParty,
   updateThirdPartyByID,
   disableEnableThirdPartyByID,
-  uploadFile,
 };

@@ -12,12 +12,11 @@ import JobCategory from "../../services/JobCategory";
 
 const JobEdit = () => {
   const location = useLocation();
-
   const ID = location.state._id;
   const jobType = location.state.jobType;
   const category = location.state.category;
   const description = location.state.description;
-  console.log(location);
+  console.log(location.state.id);
 
   const [inputs, setInputs] = useState({});
 
@@ -36,8 +35,9 @@ const JobEdit = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    JobCategory.updateJobByID(location.state.id, inputs);
+    console.log(location.state.id);
     console.log(inputs);
-    JobCategory.updateJobByID(ID, inputs);
     routeChange();
   };
 
@@ -53,6 +53,7 @@ const JobEdit = () => {
         <InputLabel id="category">Category</InputLabel>
         <Select
           labelId="category"
+          name="category"
           value={inputs.category || category}
           label="Category"
           onChange={handleChange}
