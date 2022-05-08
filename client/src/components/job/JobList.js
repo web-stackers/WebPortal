@@ -43,6 +43,7 @@ const JobList = () => {
       category: jobType.category,
       jobType: jobType.jobType,
       description: jobType.description,
+      providerCount: jobType.poviderCount,
     };
   });
 
@@ -50,14 +51,7 @@ const JobList = () => {
     { field: "jobType", headerName: "Job Type", width: 200 },
     { field: "category", headerName: "Job Category", width: 200 },
     { field: "description", headerName: "Description", width: 300 },
-    {
-      field: "Count",
-      headerName: "No of providers registered",
-      width: 200,
-      renderCell: (params) => {
-        return <div></div>;
-      },
-    },
+    { field: "providerCount", headerName: "No of providers", width: 200 },
     {
       field: "Action",
       headerName: "Action",

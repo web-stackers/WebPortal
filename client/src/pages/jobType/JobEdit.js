@@ -12,7 +12,6 @@ import JobCategory from "../../services/JobCategory";
 
 const JobEdit = () => {
   const location = useLocation();
-  const ID = location.state._id;
   const jobType = location.state.jobType;
   const category = location.state.category;
   const description = location.state.description;
