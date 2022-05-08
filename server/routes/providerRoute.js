@@ -24,6 +24,9 @@ router.get("/verified", providerController.fetch_verified_providers);
 // Fetch provider total count
 router.get("/count", providerController.fetch_provider_count);
 
+// Fetch provider count by provider job type
+router.get("/count/jobType", providerController.fetch_provider_JobType_count);
+
 //Fetch provider using certain id
 router.get("/:id", providerController.fetch_provider);
 

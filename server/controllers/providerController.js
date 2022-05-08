@@ -125,6 +125,18 @@ const fetch_provider_count = async (req, res) => {
   }
 };
 
+//Get count by provider job type
+const fetch_provider_JobType_count = async (req, res) => {
+  try {
+    const providerJobTypeCount = await provider.aggregate([
+      { $group: { _id: "$jobType", count: { $sum: 1 } } },
+    ]);
+    res.status(200).json(providerJobTypeCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch provider by id
 const fetch_provider = async (req, res) => {
   const { id } = req.params;
@@ -239,6 +251,7 @@ module.exports = {
   document_accepted,
   document_rejected,
   fetch_provider_count,
+  fetch_provider_JobType_count,
   fetch_new_providers,
   fetch_verified_providers,
   fetch_documentlist,
