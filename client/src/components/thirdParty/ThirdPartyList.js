@@ -14,8 +14,21 @@ const line = {
 };
 
 //on click function to enable or disable third party account and auto refresh after button click to see the change
-const disableEnable = (e) => {
+const disable = (e, fn, ln) => {
   console.log(e);
+  console.log(fn);
+  console.log(ln);
+  alert(fn + " " + ln + " is Disabled");
+  SecondaryUser.disableEnableThirdPartyByID(e);
+  window.location.reload(false);
+};
+
+//on click function to enable or disable third party account and auto refresh after button click to see the change
+const Enable = (e, fn, ln) => {
+  console.log(e);
+  console.log(fn);
+  console.log(ln);
+  alert(fn + " " + ln + " is Enabled");
   SecondaryUser.disableEnableThirdPartyByID(e);
   window.location.reload(false);
 };
@@ -90,14 +103,26 @@ const ThirdPartyList = () => {
                     <Sbutton
                       text="Disable"
                       btnWidth="73%"
-                      onClick={() => disableEnable(thirdParty._id)}
+                      onClick={() =>
+                        disable(
+                          thirdParty._id,
+                          thirdParty.name.fName,
+                          thirdParty.name.lName
+                        )
+                      }
                     />
                   )}
                   {thirdParty.isDisabled === true && (
                     <Sbutton
                       text="Enable"
                       btnWidth="73%"
-                      onClick={() => disableEnable(thirdParty._id)}
+                      onClick={() =>
+                        Enable(
+                          thirdParty._id,
+                          thirdParty.name.fName,
+                          thirdParty.name.lName
+                        )
+                      }
                     />
                   )}
                 </CardActions>
