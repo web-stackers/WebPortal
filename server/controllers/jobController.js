@@ -1,4 +1,5 @@
 const job = require("../models/job");
+const JobAssignment = require("../models/jobAssignment");
 const provider = require("../models/provider");
 const consumer = require("../models/consumer");
 
@@ -161,6 +162,70 @@ const update_ratingAndReview = async (req, res) => {
   }
 };
 
+const user_jobs = async (req, res) => {
+  const id = "62132c85c4afd22e5fc49685";
+  const user = "consumer";
+
+  var query = [
+    {
+      $lookup: {
+        from: "jobassignments",
+        let: { jid: "$_id", pid: "$providerId"},
+        pipeline: [
+            { $match: { $expr: { $and:
+              [
+                { $eq: ["$$jid","$jobId"] },
+                { $eq: ["$$pid", "$providerId" ] }
+              ]
+          }}}
+        ],
+        as: "userJobs"
+      }
+    },
+    {
+      $lookup: {
+        from: "providers",
+        localField: "providerId",
+        foreignField: "_id",
+        as: "provider"
+      }
+    },
+    {
+      $lookup: {
+        from: "consumers",
+        localField: "consumerId",
+        foreignField: "_id",
+        as: "consumer"
+      }
+    },
+    {
+      $project: {
+        jobType: 1,
+        description: 1,
+        providerId : 1,
+        consumerId: 1,
+        'userJobs.state': 1,
+        "provider.name.fName": 1,
+        "consumer.name.fName": 1
+      }
+    }
+  ];
+
+  try {
+    const jobs = await job.aggregate(query);
+
+    if(user=="consumer"){
+      const userJobs = jobs.filter((job)=>{if(job.consumerId==id){return job;}});
+      res.json(userJobs);
+    } else {
+      const userJobs = jobs.filter((job)=>{if(job.providerId==id){return job;}});
+      res.json(userJobs);
+    }  
+  } catch (error) {
+      res.status(400).json({ message: error.message });
+  }
+}
+
 module.exports = {
   fetch_jobs,
   fetch_all_complaints,
@@ -170,4 +235,5 @@ module.exports = {
   update_complaint,
   complaint_handled,
   update_ratingAndReview,
+  user_jobs
 };

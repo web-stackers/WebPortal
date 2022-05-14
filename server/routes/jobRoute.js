@@ -9,6 +9,9 @@ router.get("/", jobController.fetch_jobs);
 // Fetch job by id
 router.get("/:id", jobController.fetch_job);
 
+// Fetch user jobs
+router.get("/user/userjobs", jobController.user_jobs);
+
 // Add new job to the database
 router.post("/", jobController.post_job);
 
