@@ -163,8 +163,7 @@ const update_ratingAndReview = async (req, res) => {
 };
 
 const user_jobs = async (req, res) => {
-  const id = "62132c85c4afd22e5fc49685";
-  const user = "consumer";
+  const {type, id} = req.params;
 
   var query = [
     {
@@ -214,7 +213,7 @@ const user_jobs = async (req, res) => {
   try {
     const jobs = await job.aggregate(query);
 
-    if(user=="consumer"){
+    if(type=="consumer"){
       const userJobs = jobs.filter((job)=>{if(job.consumerId==id){return job;}});
       res.json(userJobs);
     } else {

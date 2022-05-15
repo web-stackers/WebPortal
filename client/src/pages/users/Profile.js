@@ -100,8 +100,8 @@ const Profile = () => {
             </div>
         </Card>}
 
-        {profile && type=='Consumers' && <ConsumerDetails user={profile}/>}
-        {profile && type=='Providers' && <ProviderDetails user={profile}/>}
+        {profile && type=='Consumers' && <ConsumerDetails user={profile} id={profileId}/>}
+        {profile && type=='Providers' && <ProviderDetails user={profile} id={profileId}/>}
             
         </div>
     );
