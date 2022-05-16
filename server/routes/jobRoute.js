@@ -30,4 +30,7 @@ router.get("/complaints/:id", jobController.fetch_complaints);
 //Fetch all complaints
 router.get("/complaints", jobController.fetch_all_complaints);
 
+// Fetch count of complaints
+router.get("/complaint/count", jobController.fetch_complaint_count);
+
 module.exports = router;

@@ -16,9 +16,21 @@ const deleteOne = async (id) => {
   return await axios.delete(`/jobTypeCategory/${id}`);
 };
 
+// Fetch job category count
+const fetchJobCategoryCount = async () => {
+  return await axios.get("/jobTypeCategory/category/count");
+};
+
+// Fetch job type count
+const fetchJobTypeCount = async () => {
+  return await axios.get("/jobTypeCategory/type/count");
+};
+
 export default {
   fetchJobCategory,
   addNew,
   deleteOne,
   updateJobByID,
+  fetchJobCategoryCount,
+  fetchJobTypeCount,
 };

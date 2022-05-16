@@ -70,10 +70,32 @@ const update_jobType = async (req, res) => {
   }
 };
 
+// Fetch job category count
+const fetch_jobCategory_count = async (req, res) => {
+  try {
+    const jobCategoryCount = (await jobTypeCategory.distinct("category")).length;
+    res.status(200).json(jobCategoryCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
+// Fetch job type count
+const fetch_jobType_count = async (req, res) => {
+  try {
+    const jobTypeCount = await jobTypeCategory.count();
+    res.status(200).json(jobTypeCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
 module.exports = {
   post_jobType,
   fetch_jobType,
   fetch_jobTypes,
   delete_jobType,
   update_jobType,
+  fetch_jobCategory_count,
+  fetch_jobType_count,
 };

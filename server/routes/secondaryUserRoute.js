@@ -23,4 +23,7 @@ router.post("/", secondaryUserController.post_secondaryUser);
 router.patch("/disable/:id", secondaryUserController.disable_secondaryUser);
 router.patch("/update/:id", secondaryUserController.update_thirdParty);
 
+// Fetch third party count
+router.get("/thirdparty/count", secondaryUserController.fetch_thirdparty_count);
+
 module.exports = router;

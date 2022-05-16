@@ -112,10 +112,23 @@ const update_thirdParty = async (req, res) => {
   }
 };
 
+// Fetch third party count
+const fetch_thirdparty_count = async (req, res) => {
+  try {
+    const thirdpartyCount = await secondaryUser.count({
+      role: { $regex: /Third Party/i },
+    });
+    res.status(200).json(thirdpartyCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   fetch_secondaryUsers,
   post_secondaryUser,
   fetch_secondaryUser,
   disable_secondaryUser,
   update_thirdParty,
+  fetch_thirdparty_count,
 };

@@ -12,8 +12,14 @@ const fetchUserJobs = async (type, id) => {
   return await axios.get(`/job/user/userjobs/${id}/${type}`)
 }
 
+// Fetch complaint count
+const fetchComplaintCount = async () => {
+  return await axios.get("/job/complaint/count");
+};
+
 export default {
   fetchComplaints,
   fetchComplaintsById,
-  fetchUserJobs
+  fetchUserJobs,
+  fetchComplaintCount
 };

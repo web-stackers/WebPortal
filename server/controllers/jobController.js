@@ -225,6 +225,16 @@ const user_jobs = async (req, res) => {
   }
 }
 
+// Get count of total complaints
+const fetch_complaint_count = async (req, res) => {
+  try {
+    const complaintCount = await job.count({ "$complaint.by": { $ne: null } });
+    res.status(200).json(complaintCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   fetch_jobs,
   fetch_all_complaints,
@@ -234,5 +244,6 @@ module.exports = {
   update_complaint,
   complaint_handled,
   update_ratingAndReview,
-  user_jobs
+  user_jobs,
+  fetch_complaint_count,
 };

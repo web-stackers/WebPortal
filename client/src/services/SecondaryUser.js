@@ -20,9 +20,15 @@ const disableEnableThirdPartyByID = async (id) => {
   return await axios.patch(`/secondaryUser/disable/${id}`);
 };
 
+// Fetch third party count
+const fetchThirdpartyCount = async () => {
+  return await axios.get("/secondaryUser/thirdparty/count");
+};
+
 export default {
   addNew,
   fetchThirdParty,
   updateThirdPartyByID,
   disableEnableThirdPartyByID,
+  fetchThirdpartyCount,
 };
