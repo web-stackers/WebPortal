@@ -8,12 +8,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Typography } from "@mui/material";
 
-import useStyles from "../../styles/thirdPartyStyle";
-
 const AddNewThirdParty = () => {
   const [inputs, setInputs] = useState({});
-  // const [file, setFile] = useState("");
-  // const [fileName, setFileName] = useState("");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -21,29 +17,16 @@ const AddNewThirdParty = () => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  // const handlePhoto = (e) => {
-  //   setFile(e.target.files[0]);
-  //   console.log(file);
-  // };
-
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
     SecondaryUser.addNew(inputs);
     window.location.reload(false);
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // SecondaryUser.uploadFile(formData);
-    // setTimeout(() => SecondaryUser.addNew(inputs), 10000);
-
-    // setFileName(file.name);
-    // setInputs((values) => ({ ...values, fileName: file.name }));
   };
 
-  const classes = useStyles();
   return (
-    <div className={classes.form}>
+    <div>
       <Typography variant="h5" textAlign={"center"}>
         Register New Third Party User!
       </Typography>
@@ -103,16 +86,6 @@ const AddNewThirdParty = () => {
           </Select>
         </FormControl>
         <br />
-        <br />
-        {/* <InputLabel id="profilePicture">Profile Picture</InputLabel>
-        <input
-          type="file"
-          // accept=".png, .jpg, .jpeg"
-          name="profilePicture"
-          onChange={handlePhoto}
-        />
-        <br />
-        <br /> */}
         <br />
         <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>

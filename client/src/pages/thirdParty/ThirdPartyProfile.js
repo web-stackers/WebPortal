@@ -10,7 +10,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import useStyles from "../../styles/thirdPartyStyle";
 
 const ThirdPartyProfile = () => {
   // The useLocation hook is a function that returns the location object that contains information about the current URL. Whenever the URL changes, a new location object will be returned
@@ -46,11 +45,9 @@ const ThirdPartyProfile = () => {
     routeChange();
   };
 
-  const classes = useStyles();
-
   return (
-    <div className={classes.form}>
-      <Typography variant="h4" textAlign={"center"}>
+    <div>
+      <Typography variant="h4" marginLeft="20%">
         {fName} {lName}
       </Typography>
       <br />
