@@ -56,6 +56,11 @@ const searchProvider = async (key) => {
   return await axios.get(`/provider/search/${key}`);
 };
 
+// Update verification
+const updateVerification = async (id, result) => {
+  return await axios.patch(`/provider/updateVerification/${id}/${result}`);
+};
+
 export default {
   addNew,
   fetchProviders,
@@ -68,4 +73,5 @@ export default {
   fetchVerifiedProviderCount,
   updateDocumentAccepted,
   updateDocumentRejected,
+  updateVerification,
 };
