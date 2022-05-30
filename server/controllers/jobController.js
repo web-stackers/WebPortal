@@ -164,6 +164,8 @@ const update_ratingAndReview = async (req, res) => {
 
 const user_jobs = async (req, res) => {
   const {type, id} = req.params;
+  //const id = "62132c29c4afd22e5fc49683";
+  //const type = "consumer";
 
   var query = [
     {
@@ -214,12 +216,12 @@ const user_jobs = async (req, res) => {
     const jobs = await job.aggregate(query);
 
     if(type=="consumer"){
-      const userJobs = jobs.filter((job)=>{if(job.consumerId==id){return job;}});
+      const userJobs = jobs.filter((job)=>{if(job.consumerId==id){return job}});
       res.json(userJobs);
     } else {
-      const userJobs = jobs.filter((job)=>{if(job.providerId==id){return job;}});
+      const userJobs = jobs.filter((job)=>{if(job.providerId==id){return job}});
       res.json(userJobs);
-    }  
+    } 
   } catch (error) {
       res.status(400).json({ message: error.message });
   }
