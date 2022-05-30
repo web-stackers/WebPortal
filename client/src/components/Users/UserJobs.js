@@ -8,11 +8,10 @@ import Job from "../../services/Job";
 const UserJobs = ({type, id}) => {
     const [jobs, setJobs] = useState([]);
 
-    const fetchJobs = (type, id) => {
-        Job.fetchUserJobs()
+    const fetchJobs = () => {
+        Job.fetchUserJobs(type, id)
         .then((response) => {
             setJobs(response.data);
-            console.log(jobs)
         })
         .catch((e) => {
             console.log(e);
@@ -24,9 +23,9 @@ const UserJobs = ({type, id}) => {
           id: job._id,
           jobType: job.jobType,
           description: job.description,
-          state: job.UserJobs.state,
-          providerName: job.provider.name.fName,
-          consumerName: job.consumer.name.fName
+          state: job.userJobs[0].state,
+          providerName: job.provider[0].name.fName,
+          consumerName: job.consumer[0].name.fName
         };
     });
 
@@ -39,11 +38,11 @@ const UserJobs = ({type, id}) => {
     ];
 
     useEffect(() => {
-        fetchJobs(type, id);
+        fetchJobs();
     }, []);
 
     return (  
-        <div style={{ height: 500, width: "100%", marginTop: 25 }}>
+        <div style={{ height: 400, width: "100%", marginTop: 25 }}>
             <div style={{ display: "flex", height: "100%" }}>
                  <div style={{ flexGrow: 1 }}>
                     <DataGrid rows={rows} columns={columns} disableSelectionOnClick />

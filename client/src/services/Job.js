@@ -9,7 +9,7 @@ const fetchComplaintsById = async (id) => {
 };
 
 const fetchUserJobs = async (type, id) => {
-  return await axios.get(`/job/user/userjobs/${id}/${type}`)
+  return await axios.get(`/job/user/userjobs/${type}/${id}`)
 }
 
 // Fetch complaint count

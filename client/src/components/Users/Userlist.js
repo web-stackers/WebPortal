@@ -37,7 +37,7 @@ const Userlist = ({ type, users, fetchUsers }) => {
       id: user._id,
       propic: profilePic || user.profilePicture,
       name: user.name.fName + " " + user.name.lName,
-      rating: user.totalRating / user.ratingCount,
+      rating: user.totalRating / user.ratingCount || 0,
       mobile: user.contact.mobile,
       email: user.contact.email,
       isDisabled: user.isDisabled,
