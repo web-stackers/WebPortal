@@ -33,6 +33,7 @@ const Withdrawal = () => {
   //Function which will be called when accept button is clicked, where job state will be changed to Job Withdrawn and email will be send to the opposite party.
   const accept = (e) => {
     console.log(e);
+    alert("Withdrawal request has been accepted");
     JobAssignment.withdrawalAccepted(e);
     window.location.reload(false);
   };
@@ -40,6 +41,7 @@ const Withdrawal = () => {
   //Function which will be called when reject button is clicked, where job state will be job pending and email will be send to the requested party regarding rejection
   const reject = (e) => {
     console.log(e);
+    alert("Withdrawal request has been rejected");
     JobAssignment.withdrawalRejected(e);
     window.location.reload(false);
   };
