@@ -2,15 +2,18 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import NewDocument from "../../../services/Provider";
+import NewDocument from "../../../../services/Provider";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 import { Button, Grid, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Sbutton from "../../../components/Sbutton";
+import Sbutton from "../../../../components/Sbutton";
 import TextField from "@mui/material/TextField";
-import Provider from "../../../services/Provider";
+import Provider from "../../../../services/Provider";
+import SendIcon from "@mui/icons-material/Send";
+import SendMail from "./SendMail";
+import { Link } from "react-router-dom";
 
 const NewDocumentlist = () => {
   // get the provider id from react state
@@ -40,6 +43,10 @@ const NewDocumentlist = () => {
       paddingRight: "20px",
       paddingTop: "15px",
     },
+
+    button: {
+      paddingRight: "70px",
+    },
   });
 
   const classes = useStyles();
@@ -62,6 +69,30 @@ const NewDocumentlist = () => {
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  const checkVerified = () => {
+    if (newDocs.some((newDoc) => newDoc.isAccepted === undefined)) {
+      return null;
+    } else {
+      if (newDocs.every((newDoc) => newDoc.isAccepted === true)) {
+        Provider.updateVerification(providerId, true)
+          .then(() => {
+            fetchDocs();
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else {
+        Provider.updateVerification(providerId, false)
+          .then(() => {
+            fetchDocs();
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    }
   };
 
   const [reasonForRejection, setReasonForRejection] = useState([]);
@@ -186,6 +217,23 @@ const NewDocumentlist = () => {
           </Grid>
         ))}
       </Grid>
+
+      <br />
+      <Stack className={classes.button} alignItems="flex-end">
+        <Button
+          variant="contained"
+          endIcon={<SendIcon />}
+          onClick={() => {
+            if (checkVerified() === null) {
+              alert("Documents are not yet verified");
+            } else {
+              // send Mail
+            }
+          }}
+        >
+          Send Mail
+        </Button>
+      </Stack>
     </Box>
   );
 };

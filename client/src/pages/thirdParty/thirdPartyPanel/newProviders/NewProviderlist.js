@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import NewProvider from "../../services/Provider";
+import NewProvider from "../../../../services/Provider";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
-import Sbutton from "../Sbutton";
+import Sbutton from "../../../../components/Sbutton";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";

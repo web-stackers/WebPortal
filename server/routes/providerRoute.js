@@ -7,7 +7,7 @@ const providerController = require("../controllers/providerController");
 router.post("/", providerController.post_providerType);
 
 //update verification details
-router.patch("/updateVerification/:id", providerController.update_verification);
+router.patch("/updateVerification/:id/:result", providerController.update_verification);
 
 //fetch all providers
 router.get("/", providerController.fetch_providers);

@@ -190,7 +190,7 @@ const document_accepted = async (req, res) => {
       {
         $set: { "document.$.isAccepted": "true" },
       },
-      { upsert: true, new: true }
+      { new: true }
     );
     res.status(200).json(updatedDocumentAccepted);
   } catch (error) {
@@ -212,7 +212,7 @@ const document_rejected = async (req, res) => {
           "document.$.reasonForRejection": reason,
         },
       },
-      { upsert: true, new: true }
+      { new: true }
     );
     res.status(200).json(updatedDocumentRejected);
   } catch (error) {
@@ -223,16 +223,16 @@ const document_rejected = async (req, res) => {
 
 // Update verification details
 const update_verification = async (req, res) => {
-  const { id } = req.params;
+  const { id, result } = req.params;
 
   try {
     const updatedVerification = await provider.findByIdAndUpdate(
       id,
       {
         verification: {
-          isAccepted: req.body.isAccepted,
+          isAccepted: result,
           date: new Date(),
-          thirdParty: req.body.thirdParty,
+          // thirdParty: req.body.thirdParty,
         },
       },
       { new: true }
