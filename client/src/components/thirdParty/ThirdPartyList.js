@@ -84,10 +84,6 @@ const ThirdPartyList = () => {
                       <b>Verification Document Type:</b>{" "}
                       {thirdParty.verifyDocType}
                       <br />
-                      <b>No of providers accepted : </b>
-                      <br />
-                      <b>No of providers rejected : </b>
-                      <br />
                     </Typography>
                   </CardContent>
                 </div>
