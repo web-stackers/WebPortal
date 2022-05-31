@@ -58,10 +58,11 @@ const Withdrawal = () => {
                   <div className={classes.details}>
                     <CardContent>
                       <Typography variant="body2" color="text.secondary">
-                        Withdrawal request Arised By:{" "}
+                        <b>Withdrawal request Arised By: </b>
                         {withdrawal.withdrawn.arisedBy}
                         <br /> <br />
-                        Reason for withdrawal: {withdrawal.withdrawn.reason}
+                        <b>Reason for withdrawal: </b>
+                        {withdrawal.withdrawn.reason}
                       </Typography>
                     </CardContent>
                   </div>

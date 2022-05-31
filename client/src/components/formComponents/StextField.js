@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const StextField = ({ label, name, value, onChange, type }) => {
+const StextField = ({ label, name, value, onChange, type, ref }) => {
   const classes = useStyles();
   return (
     <div className={classes.textField}>
@@ -23,6 +23,7 @@ const StextField = ({ label, name, value, onChange, type }) => {
         value={value}
         onChange={onChange}
         type={type}
+        ref={ref}
       />
     </div>
   );
