@@ -12,8 +12,6 @@ import Sbutton from "../../../../components/Sbutton";
 import TextField from "@mui/material/TextField";
 import Provider from "../../../../services/Provider";
 import SendIcon from "@mui/icons-material/Send";
-import SendMail from "./SendMail";
-import { Link } from "react-router-dom";
 
 const NewDocumentlist = () => {
   // get the provider id from react state
@@ -227,7 +225,7 @@ const NewDocumentlist = () => {
             if (checkVerified() === null) {
               alert("Documents are not yet verified");
             } else {
-              // send Mail
+              alert("Mail send successfully");
             }
           }}
         >

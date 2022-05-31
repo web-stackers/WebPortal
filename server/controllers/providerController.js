@@ -2,6 +2,8 @@ const provider = require("../models/provider");
 const jobTypeCategory = require("../models/jobTypeCategory");
 const fs = require("fs");
 var path = require("path");
+const { getMaxListeners } = require("process");
+const transporter = require("../send-email/sendEmail");
 
 // create and save new provider type
 const post_providerType = async (req, res) => {
@@ -226,6 +228,20 @@ const update_verification = async (req, res) => {
   const { id, result } = req.params;
 
   try {
+    const requiredprovider = await provider.findById(id);
+    const requiredDocumentLists = await requiredprovider.document;
+    const printData = () => {
+      requiredDocumentLists.map((doc) => {
+        if (doc.isAccepted === "false") {
+          // return `<p>Hey<p>
+          //   <div>
+          //         <p>Document - ${doc.type}<p>
+          //         <p>Rejected Reason - ${doc.reasonForRejection}<p>
+          //     </div>`;
+          return "null";
+        }
+      });
+    };
     const updatedVerification = await provider.findByIdAndUpdate(
       id,
       {
@@ -237,6 +253,59 @@ const update_verification = async (req, res) => {
       },
       { new: true }
     );
+
+    // send email
+    if (result === "true") {
+      var mailOptions = {
+        from: "webstackers19@gmail.com",
+        // to: requiredprovider.contact.email,
+        to: "kathurshanasivalingham@gmail.com",
+        subject: "Verification of the uploaded documents of Helper App",
+        html: `
+        <body>
+          <div>
+            <p>Hi ${requiredprovider.name.fName} ${requiredprovider.name.lName},</p>
+          </div>
+          <div>
+            <p>Congratulations !!!</p>
+            <p>You have successfully registered as a Service Provider to the Helper App. From now onwards you will receive job opportunities from our consumers.</p>
+            <p>We warmly welcome you to our Helper Community. Good Luck to you.</p>
+          </div>
+          <div>
+            <p>From,<br>Helper Community</p>
+          </div>
+        </body>`,
+      };
+    } else {
+      var mailOptions = {
+        from: "webstackers19@gmail.com",
+        // to: requiredprovider.contact.email,
+        to: "kathurshanasivalingham@gmail.com",
+        subject: "Verification of the uploaded documents of Helper App",
+        html: `
+        <body>
+          <div>
+            <p>Hi ${requiredprovider.name.fName} ${
+          requiredprovider.name.lName
+        },</p>
+          </div>
+          <div>
+            <p>We are sorry to inform you that your registration is not accepted by our Helper App because of the following rejected documents.</p>
+            <p> #${printData()} </p>
+          </div>
+          <div>
+            <p>From,<br>Helper Community</p>
+          </div>
+        </body>`,
+      };
+    }
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
     res.status(200).json(updatedVerification);
   } catch (error) {
     res.status(400).json({ message: error.message });
