@@ -230,18 +230,7 @@ const update_verification = async (req, res) => {
   try {
     const requiredprovider = await provider.findById(id);
     const requiredDocumentLists = await requiredprovider.document;
-    const printData = () => {
-      requiredDocumentLists.map((doc) => {
-        if (doc.isAccepted === "false") {
-          // return `<p>Hey<p>
-          //   <div>
-          //         <p>Document - ${doc.type}<p>
-          //         <p>Rejected Reason - ${doc.reasonForRejection}<p>
-          //     </div>`;
-          return "null";
-        }
-      });
-    };
+
     const updatedVerification = await provider.findByIdAndUpdate(
       id,
       {
@@ -277,26 +266,35 @@ const update_verification = async (req, res) => {
         </body>`,
       };
     } else {
+      var htmlBody = `<body>
+          <div>
+            <p>Hi ${requiredprovider.name.fName} ${requiredprovider.name.lName},</p>
+          </div>
+          <div>
+            <p>We are sorry to inform you that your registration is not accepted by our Helper App because of the following rejected documents.</p>
+          </div>
+          <div>`;
+
+      requiredDocumentLists.map((doc) => {
+        if (doc.isAccepted === false) {
+          var data = `<p><b>Document -</b> ${doc.type}<br>
+                      <b>Reason For Rejection -</b> ${doc.reasonForRejection}</p>`;
+          htmlBody = htmlBody.concat(data);
+        }
+      });
+
+      htmlBody = htmlBody.concat(`</div>
+                                  <div>
+                                    <p>From,<br>Helper Community</p>
+                                    </div>
+                                  </body>`);
+
       var mailOptions = {
         from: "webstackers19@gmail.com",
         // to: requiredprovider.contact.email,
         to: "kathurshanasivalingham@gmail.com",
         subject: "Verification of the uploaded documents of Helper App",
-        html: `
-        <body>
-          <div>
-            <p>Hi ${requiredprovider.name.fName} ${
-          requiredprovider.name.lName
-        },</p>
-          </div>
-          <div>
-            <p>We are sorry to inform you that your registration is not accepted by our Helper App because of the following rejected documents.</p>
-            <p> #${printData()} </p>
-          </div>
-          <div>
-            <p>From,<br>Helper Community</p>
-          </div>
-        </body>`,
+        html: htmlBody,
       };
     }
     transporter.sendMail(mailOptions, function (error, info) {
