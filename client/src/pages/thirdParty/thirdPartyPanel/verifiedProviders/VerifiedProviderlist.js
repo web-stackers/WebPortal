@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import VerifiedProvider from "../../services/Provider";
+import VerifiedProvider from "../../../../services/Provider";
 import { CardHeader, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
-import Sbutton from "../Sbutton";
+import Sbutton from "../../../../components/Sbutton";
 
 const useStyles = makeStyles({
   gridContainer: {
@@ -57,11 +57,10 @@ const VerifiedProviderlist = () => {
                 <Stack spacing={1} alignItems="center">
                   <Stack direction="row" spacing={4}>
                     <Chip label={verifiedProvider.qualification} color="info" />
-                    {verifiedProvider.verification.isAccepted === true ? (
-                      <Chip label="Accepted" color="success" />
-                    ) : (
-                      <Chip label="Rejected" color="error" />
-                    )}
+                    {/* <Chip
+                      label={verifiedProvider.verification.date}
+                      color="success"
+                    /> */}
                   </Stack>
                 </Stack>
               </CardContent>

@@ -55,12 +55,8 @@ const VerifiedDocumentlist = () => {
               </CardContent>
               <Stack spacing={1} alignItems="center">
                 <Stack direction="row" spacing={4}>
-                  {verifiedDoc.isAccepted === true ? (
-                    <Chip label="Accepted" color="success" />
-                  ) : (
-                    <Chip label="Rejected" color="error" />
-                  )}
-                  <Sbutton text="Download" btnWidth="150px" />
+                  <Sbutton text="Preview" btnWidth="100px" />
+                  <Sbutton text="Download" btnWidth="100px" />
                 </Stack>
               </Stack>
             </Card>

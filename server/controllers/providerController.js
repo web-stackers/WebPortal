@@ -110,7 +110,7 @@ const search_provider = async (req, res) => {
 const fetch_verified_providers = async (req, res) => {
   try {
     const verifiedProviders = await provider.find({
-      verification: { $ne: null },
+      "verification.isAccepted": true,
     });
     res.status(200).json(verifiedProviders);
   } catch (error) {
