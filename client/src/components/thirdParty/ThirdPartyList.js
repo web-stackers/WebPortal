@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
@@ -62,12 +61,6 @@ const ThirdPartyList = () => {
           {thirdParty.role === "Third Party" && (
             <>
               <Card className={classes.root}>
-                {/* <CardMedia
-                  className={classes.cover}
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                  alt="Profile Picture"
-                /> */}
                 <div className={classes.details}>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -83,10 +76,6 @@ const ThirdPartyList = () => {
                       <br />
                       <b>Verification Document Type:</b>{" "}
                       {thirdParty.verifyDocType}
-                      <br />
-                      <b>No of providers accepted : </b>
-                      <br />
-                      <b>No of providers rejected : </b>
                       <br />
                     </Typography>
                   </CardContent>

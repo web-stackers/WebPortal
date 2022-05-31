@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
   //The flex layout allows responsive elements within a container to be automatically arranged depending upon screen size. Flex container becomes flexible by setting the display property to flex
   root: {
     display: "flex",
-    height: "200px",
+    height: "150px",
     backgroundColor: "transparent !important",
     color: "white",
   },

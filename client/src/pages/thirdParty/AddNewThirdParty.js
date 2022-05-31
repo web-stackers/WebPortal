@@ -7,13 +7,30 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Typography } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import TextField from "@mui/material/TextField";
 
-import useStyles from "../../styles/thirdPartyStyle";
+const schema = Yup.object().shape({
+  fName: Yup.string().required("First Name should be required please"),
+  lName: Yup.string().required(),
+  email: Yup.string().email().required(),
+  // mobile: Yup.required(),
+  // address: Yup.required(),
+  // verifyDocType: Yup.required(),
+});
 
 const AddNewThirdParty = () => {
   const [inputs, setInputs] = useState({});
-  // const [file, setFile] = useState("");
-  // const [fileName, setFileName] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -21,68 +38,84 @@ const AddNewThirdParty = () => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  // const handlePhoto = (e) => {
-  //   setFile(e.target.files[0]);
-  //   console.log(file);
-  // };
-
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
     SecondaryUser.addNew(inputs);
     window.location.reload(false);
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // SecondaryUser.uploadFile(formData);
-    // setTimeout(() => SecondaryUser.addNew(inputs), 10000);
-
-    // setFileName(file.name);
-    // setInputs((values) => ({ ...values, fileName: file.name }));
   };
 
-  const classes = useStyles();
   return (
-    <div className={classes.form}>
+    <div>
       <Typography variant="h5" textAlign={"center"}>
         Register New Third Party User!
       </Typography>
       <br />
       <form encType="multipart/form-data">
-        <StextField
+        <TextField
+          required
+          sx={{ width: "70ch" }}
           label="First Name"
           name="fName"
           value={inputs.fName || ""}
           onChange={handleChange}
+          // {...register("fName")}
+          error={errors.fName ? true : false}
         />
 
-        <StextField
+        <Typography variant="inherit" color="textSecondary">
+          {errors.fName?.message}
+        </Typography>
+
+        <TextField
+          required
+          sx={{ width: "70ch" }}
           label="Last Name"
           name="lName"
           value={inputs.lName || ""}
           onChange={handleChange}
+          // ref={thirdParty}
         />
 
-        <StextField
+        {/* <p> {errors.lName?.message} </p> */}
+
+        <TextField
+          required
+          sx={{ width: "70ch" }}
           label="Email"
           name="email"
           value={inputs.email || ""}
           onChange={handleChange}
+          // ref={thirdParty}
         />
 
-        <StextField
+        {/* <p> {errors.email?.message} </p> */}
+
+        <TextField
+          required
+          sx={{ width: "70ch" }}
           label="Mobile Number"
           name="mobile"
           value={inputs.mobile || ""}
           onChange={handleChange}
+          // ref={thirdParty}
         />
 
-        <StextField
+        {/* <p> {errors.mobile?.message} </p> */}
+
+        <TextField
+          required
+          sx={{ width: "70ch" }}
           label="Address"
           name="address"
           value={inputs.address || ""}
           onChange={handleChange}
+          // ref={thirdParty}
         />
+
+        {/* <p> {errors.address?.message} </p> */}
+
         <FormControl sx={{ width: "70ch" }}>
           <InputLabel id="verificationDocumentType">
             Verification Document Type
@@ -102,19 +135,12 @@ const AddNewThirdParty = () => {
             <MenuItem value="Affidavit">Affidavit</MenuItem>
           </Select>
         </FormControl>
+
+        {/* <p> {errors.verifyDocType?.message} </p> */}
+
         <br />
         <br />
-        {/* <InputLabel id="profilePicture">Profile Picture</InputLabel>
-        <input
-          type="file"
-          // accept=".png, .jpg, .jpeg"
-          name="profilePicture"
-          onChange={handlePhoto}
-        />
-        <br />
-        <br /> */}
-        <br />
-        <Sbutton text="Submit" type="submit" onClick={onSubmit} />
+        <Sbutton text="Submit" type="submit" onClick={handleSubmit(onSubmit)} />
       </form>
     </div>
   );
