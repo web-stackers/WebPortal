@@ -7,7 +7,7 @@ import Consumer from "../../services/Consumer";
 import Provider from "../../services/Provider";
 import useStyles from '../../styles/usersStyles';
 
-const Userlist = ({ type, users, fetchUsers }) => {
+const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
   const classes = useStyles();
 
   const profilePic = require('../../assets/proPic.jpg')
@@ -16,6 +16,7 @@ const Userlist = ({ type, users, fetchUsers }) => {
     if(type=='Consumers'){
       Consumer.ableConsumer(id)
         .then(() => {
+          setOpen(true);
           fetchUsers();
         })
         .catch((e) => {
@@ -24,6 +25,7 @@ const Userlist = ({ type, users, fetchUsers }) => {
     } else {
       Provider.ableProvider(id)
         .then(() => {
+          setOpen(true);
           fetchUsers();
         })
         .catch((e) => {
@@ -77,8 +79,8 @@ const Userlist = ({ type, users, fetchUsers }) => {
             <Link to='/users/profile' state={{profileId, type}} className='link' style={{marginRight:'5%'}}>
               <Sbutton text="View" btnWidth="100%" />
             </Link>
-            {params.row.isDisabled==false && <Sbutton text='Disable' btnWidth='100%' onClick={() => {changeAble(profileId); alert(`${profileName} is disabled !`);}}/>}
-            {params.row.isDisabled==true && <Sbutton text='Enable' btnWidth='100%' onClick={() => {changeAble(profileId); alert(`${profileName} is enabled !`);}}/>}
+            {params.row.isDisabled==false && <Sbutton text='Disable' btnWidth='100%' onClick={() => {changeAble(profileId); setAlert(`${profileName} is disabled !`)}}/>}
+            {params.row.isDisabled==true && <Sbutton text='Enable' btnWidth='100%' onClick={() => {changeAble(profileId); setAlert(`${profileName} is enabled !`)}}/>}
           </div>
         );
       },
