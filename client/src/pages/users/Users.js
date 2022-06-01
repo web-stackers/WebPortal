@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import Topbar from "../../components/Users/Topbar";
 import Userlist from "../../components/Users/Userlist";
+import AlertBox from '../../components/AlertBox';
 
 import Consumer from "../../services/Consumer";
 import Provider from "../../services/Provider";
@@ -10,6 +11,8 @@ import Provider from "../../services/Provider";
 const Users = () => {
     const [user, setUser] = useState('Consumers');
     const [users, setUsers] = useState([]);
+    const [open, setOpen] = React.useState(false);
+    const [alert, setAlert] = useState('');
 
     const fetchUsers = () => {
         if(user=='Consumers'){
@@ -34,7 +37,8 @@ const Users = () => {
     return ( 
         <>
             <Topbar type={user} setType={setUser} setUsers={setUsers} fetchUsers={fetchUsers}/>
-            <Userlist type={user} users={users} setUsers={setUsers}  fetchUsers={fetchUsers}/>
+            <Userlist type={user} users={users} setUsers={setUsers} fetchUsers={fetchUsers} setOpen={setOpen} setAlert={setAlert}/>
+            <AlertBox open={open} setOpen={setOpen} alert={alert}/>
         </>
      );
 }
