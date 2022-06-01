@@ -1,26 +1,13 @@
 import { useEffect, useState } from "react";
 import VerifiedProvider from "../../../../services/Provider";
-import { CardHeader, Grid } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 import Sbutton from "../../../../components/Sbutton";
-
-const useStyles = makeStyles({
-  gridContainer: {
-    paddingLeft: "20px",
-    paddingRight: "20px",
-    paddingTop: "15px",
-  },
-});
+import "../../../../index.css";
+import { DataGrid } from "@mui/x-data-grid";
 
 const VerifiedProviderlist = () => {
   const [verifiedProviders, setVerifiedProviders] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchUsers = () => {
     VerifiedProvider.fetchVerifiedProviders()
@@ -32,53 +19,98 @@ const VerifiedProviderlist = () => {
       });
   };
 
+  const rows = verifiedProviders
+    .filter((verifiedProvider) => {
+      if (searchTerm === "") {
+        return verifiedProvider;
+      } else if (
+        verifiedProvider.name.fName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      ) {
+        return verifiedProvider;
+      } else if (
+        verifiedProvider.name.lName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      ) {
+        return verifiedProvider;
+      } else {
+        return false;
+      }
+    })
+    .map((verifiedProvider) => {
+      return {
+        id: verifiedProvider._id,
+        fName: verifiedProvider.name.fName,
+        lName: verifiedProvider.name.lName,
+        qualification: verifiedProvider.qualification,
+        // date: verifiedProvider.verification.date,
+      };
+    });
+
+  const columns = [
+    { field: "fName", headerName: "First Name", width: 150 },
+    { field: "lName", headerName: "Last Name", width: 150 },
+    {
+      field: "qualification",
+      headerName: "Qualification Document",
+      width: 200,
+    },
+    {
+      field: "date",
+      headerName: "Verified Date",
+      width: 150,
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      sortable: false,
+      renderCell: (params) => {
+        const providerId = params.row.id;
+        return (
+          <div>
+            <Link
+              to="/verifiedDocumentlist"
+              state={providerId}
+              className="link"
+            >
+              <Sbutton text="Open" btnWidth="120px" />
+            </Link>
+          </div>
+        );
+      },
+    },
+  ];
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const classes = useStyles();
-
   return (
-    <Box>
-      <Grid container className={classes.gridContainer} rowSpacing={4}>
-        {verifiedProviders.map((verifiedProvider) => (
-          <Grid item xs={4}>
-            <Card variant="outlined" sx={{ minHeight: 200, maxWidth: 300 }}>
-              <CardHeader
-                title={
-                  <Typography variant="h5" textAlign="center">
-                    {verifiedProvider.name.fName +
-                      " " +
-                      verifiedProvider.name.lName}
-                  </Typography>
-                }
-              />
-              <CardContent>
-                <Stack spacing={1} alignItems="center">
-                  <Stack direction="row" spacing={4}>
-                    <Chip label={verifiedProvider.qualification} color="info" />
-                    {/* <Chip
-                      label={verifiedProvider.verification.date}
-                      color="success"
-                    /> */}
-                  </Stack>
-                </Stack>
-              </CardContent>
-              <br />
-              <div align="center">
-                <Link
-                  to="/verifiedDocumentlist"
-                  state={verifiedProvider._id}
-                  className="link"
-                >
-                  <Sbutton text="Open" btnWidth="150px" />
-                </Link>
-              </div>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+    <div>
+      <div className="input-icons">
+        <i class="fa fa-search icon"></i>
+        <input
+          className="input-field"
+          type="text"
+          placeholder="Search..."
+          onChange={(event) => {
+            setSearchTerm(event.target.value);
+          }}
+        />
+        <br />
+        <br />
+      </div>
+      <div style={{ height: 500, width: 800 }}>
+        <div style={{ display: "flex", height: "100%" }}>
+          <div style={{ flexGrow: 1 }}>
+            <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
