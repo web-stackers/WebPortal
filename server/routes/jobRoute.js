@@ -27,8 +27,11 @@ router.patch("/ratingAndReview/:id", jobController.update_ratingAndReview);
 //Fetch complaints by id
 router.get("/complaints/:id", jobController.fetch_complaints);
 
-//Fetch all complaints
-router.get("/complaints", jobController.fetch_all_complaints);
+//Fetch all complaints by consumer
+router.get("/complaint/consumer", jobController.fetch_all_complaints_by_consumer);
+
+//Fetch all complaints by provider
+router.get("/complaint/provider", jobController.fetch_all_complaints_by_provider);
 
 // Fetch count of complaints
 router.get("/complaint/count", jobController.fetch_complaint_count);
