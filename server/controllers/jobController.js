@@ -3,6 +3,8 @@ const JobAssignment = require("../models/jobAssignment");
 const provider = require("../models/provider");
 const consumer = require("../models/consumer");
 
+const transporter = require("../send-email/sendEmail");
+
 // Fetch all jobs
 const fetch_jobs = async (req, res) => {
   try {
@@ -13,12 +15,31 @@ const fetch_jobs = async (req, res) => {
   }
 };
 
-// Fetch all complaints
-const fetch_all_complaints = async (req, res) => {
+// Fetch all complaints by consumer
+const fetch_all_complaints_by_consumer = async (req, res) => {
   try {
-    const complain = await job.find();
+    const item = await job.find(
+      { "complaint.by": "Consumer" },
+      { _id: 0, complaint: { $elemMatch: { by: "Consumer" } } }
+    );
 
-    res.status(200).json(complain);
+    //const category = await item;
+    //const ok =await category.complaint[0].by;
+    res.status(200).json(item);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch all complaints by provider
+const fetch_all_complaints_by_provider = async (req, res) => {
+  try {
+    const complaint = await job.find(
+      { "complaint.by": "Provider" },
+      { _id: 0, complaint: { $elemMatch: { by: "Provider" } } }
+    );
+
+    res.status(200).json(complaint);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -83,7 +104,7 @@ const update_complaint = async (req, res) => {
             category: req.body.category,
             description: req.body.description,
             date: new Date(),
-            adminResponse: "pending",
+            adminResponse: "Pending",
           },
         },
       },
@@ -101,9 +122,8 @@ const complaint_handled = async (req, res) => {
   const { id } = req.params;
 
   try {
-    //const requiredJob = await job.findById(id);
-    const updatedJob = await job.updateOne(
-      { _id: id, "complaint.by": "consumer" },
+    const updatedJob = await job.update(
+      { "complaint._id": id },
       {
         $set: {
           "complaint.$.adminResponse": req.body.adminResponse,
@@ -111,6 +131,7 @@ const complaint_handled = async (req, res) => {
       },
       { new: true }
     );
+
     res.status(200).json(updatedJob);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -251,7 +272,8 @@ const fetch_complaint_count = async (req, res) => {
 
 module.exports = {
   fetch_jobs,
-  fetch_all_complaints,
+  fetch_all_complaints_by_consumer,
+  fetch_all_complaints_by_provider,
   fetch_complaints,
   post_job,
   fetch_job,
