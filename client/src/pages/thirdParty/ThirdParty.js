@@ -1,6 +1,12 @@
 import Sbutton from "../../components/Sbutton";
 import ThirdPartyList from "../../components/thirdParty/ThirdPartyList";
 import { Link } from "react-router-dom";
+import AlertMUITemplate from "react-alert-template-mui";
+import { positions, Provider } from "react-alert";
+
+const options = {
+  position: positions.MIDDLE,
+};
 
 const ThirdParty = () => {
   return (
@@ -12,7 +18,9 @@ const ThirdParty = () => {
         </Link>
         <br /> <br />
         {/* Retreiving card structure of third party created in thirdparty list */}
-        <ThirdPartyList />
+        <Provider template={AlertMUITemplate} {...options}>
+          <ThirdPartyList template={AlertMUITemplate} />
+        </Provider>
       </div>
     </div>
   );

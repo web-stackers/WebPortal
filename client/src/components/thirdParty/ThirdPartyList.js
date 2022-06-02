@@ -7,33 +7,50 @@ import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
 import { Link } from "react-router-dom";
 import useStyles from "../../styles/thirdPartyStyle";
+import { useAlert } from "react-alert";
 
 const line = {
   backgroundColor: "#ffffff",
 };
 
-//on click function to enable or disable third party account and auto refresh after button click to see the change
-const disable = (e, fn, ln) => {
-  console.log(e);
-  console.log(fn);
-  console.log(ln);
-  alert(fn + " " + ln + " is Disabled");
-  SecondaryUser.disableEnableThirdPartyByID(e);
-  window.location.reload(false);
-};
-
-//on click function to enable or disable third party account and auto refresh after button click to see the change
-const Enable = (e, fn, ln) => {
-  console.log(e);
-  console.log(fn);
-  console.log(ln);
-  alert(fn + " " + ln + " is Enabled");
-  SecondaryUser.disableEnableThirdPartyByID(e);
-  window.location.reload(false);
-};
-
 const ThirdPartyList = () => {
   const [thirdParties, setThirdParties] = useState([]);
+  const alert = useAlert();
+
+  //on click function to enable or disable third party account and auto refresh after button click to see the change
+  const disable = (e, fn, ln) => {
+    console.log(e);
+    console.log(fn);
+    console.log(ln);
+    alert.show(fn + " " + ln + " is Disabled");
+    SecondaryUser.disableEnableThirdPartyByID(e)
+      .then(() => {
+        fetchUsers();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  //on click function to enable or disable third party account and auto refresh after button click to see the change
+  const Enable = (e, fn, ln) => {
+    console.log(e);
+    console.log(fn);
+    console.log(ln);
+    alert.show(fn + " " + ln + " is Enabled");
+    SecondaryUser.disableEnableThirdPartyByID(e)
+      .then(() => {
+        fetchUsers();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  //By using this Hook, you tell React that your component needs to do something after render. Call it later after performing the DOM updates.
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   //Get all secondary users
   const fetchUsers = () => {
@@ -45,11 +62,6 @@ const ThirdPartyList = () => {
         console.log(e);
       });
   };
-
-  //By using this Hook, you tell React that your component needs to do something after render. Call it later after performing the DOM updates.
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   const classes = useStyles();
 
