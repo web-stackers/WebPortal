@@ -5,8 +5,16 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { confirm } from "react-confirm-box";
 
 import useStyles from "../../styles/withdrawalStyle";
+
+const options = {
+  labels: {
+    confirmable: "Confirm",
+    cancellable: "Cancel",
+  },
+};
 
 const Withdrawal = () => {
   const [withdrawals, setWithdrawals] = useState([]);
@@ -31,19 +39,43 @@ const Withdrawal = () => {
   };
 
   //Function which will be called when accept button is clicked, where job state will be changed to Job Withdrawn and email will be send to the opposite party.
-  const accept = (e) => {
+  const accept = async (e) => {
     console.log(e);
-    alert("Withdrawal request has been accepted");
-    JobAssignment.withdrawalAccepted(e);
-    window.location.reload(false);
+    const result = await confirm(
+      "Are you sure in accepting the withdrawal request? ",
+      options
+    );
+    if (result) {
+      JobAssignment.withdrawalAccepted(e)
+        .then(() => {
+          fetchWithdrawals();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      return;
+    }
+    console.log("You click No!");
   };
 
   //Function which will be called when reject button is clicked, where job state will be job pending and email will be send to the requested party regarding rejection
-  const reject = (e) => {
+  const reject = async (e) => {
     console.log(e);
-    alert("Withdrawal request has been rejected");
-    JobAssignment.withdrawalRejected(e);
-    window.location.reload(false);
+    const result = await confirm(
+      "Are you sure in accepting the withdrawal request? ",
+      options
+    );
+    if (result) {
+      JobAssignment.withdrawalRejected(e)
+        .then(() => {
+          fetchWithdrawals();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      return;
+    }
+    console.log("You click No!");
   };
   const classes = useStyles();
 

@@ -7,10 +7,18 @@ import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
 import { Link } from "react-router-dom";
 import useStyles from "../../styles/thirdPartyStyle";
+import { confirm } from "react-confirm-box";
 import { useAlert } from "react-alert";
 
 const line = {
   backgroundColor: "#ffffff",
+};
+
+const options = {
+  labels: {
+    confirmable: "Confirm",
+    cancellable: "Cancel",
+  },
 };
 
 const ThirdPartyList = () => {
@@ -18,33 +26,48 @@ const ThirdPartyList = () => {
   const alert = useAlert();
 
   //on click function to enable or disable third party account and auto refresh after button click to see the change
-  const disable = (e, fn, ln) => {
+  const disable = async (e, fn, ln) => {
     console.log(e);
     console.log(fn);
     console.log(ln);
-    alert.show(fn + " " + ln + " is Disabled");
-    SecondaryUser.disableEnableThirdPartyByID(e)
-      .then(() => {
-        fetchUsers();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    const result = await confirm(
+      "Are you sure to disable " + fn + " " + "ln ?",
+      options
+    );
+    if (result) {
+      SecondaryUser.disableEnableThirdPartyByID(e)
+        .then(() => {
+          fetchUsers();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      return;
+    }
+    console.log("You click No!");
   };
 
   //on click function to enable or disable third party account and auto refresh after button click to see the change
-  const Enable = (e, fn, ln) => {
+  const Enable = async (e, fn, ln) => {
     console.log(e);
     console.log(fn);
     console.log(ln);
-    alert.show(fn + " " + ln + " is Enabled");
-    SecondaryUser.disableEnableThirdPartyByID(e)
-      .then(() => {
-        fetchUsers();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    // alert.show(fn + " " + ln + " is Enabled");
+    const result = await confirm(
+      "Are you sure to enable " + fn + " " + "ln ?",
+      options
+    );
+    if (result) {
+      SecondaryUser.disableEnableThirdPartyByID(e)
+        .then(() => {
+          fetchUsers();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      return;
+    }
+    console.log("You click No!");
   };
 
   //By using this Hook, you tell React that your component needs to do something after render. Call it later after performing the DOM updates.

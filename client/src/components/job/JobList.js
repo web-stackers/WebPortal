@@ -5,9 +5,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
 import JobCategory from "../../services/JobCategory";
+import { confirm } from "react-confirm-box";
+
+const options = {
+  labels: {
+    confirmable: "Confirm",
+    cancellable: "Cancel",
+  },
+};
 
 const JobList = () => {
   const [jobTypes, setJobTypes] = useState([]);
+
   //Retrieving all job types in jobTypeCategory collection. It is done through the connection present in JobCategory in service folder.
   const fetchJobTypes = () => {
     JobCategory.fetchJobCategory()
@@ -29,12 +38,24 @@ const JobList = () => {
     marginBottom: 10,
   };
 
-  const deleteJobTYpe = (e, t) => {
+  const deleteJobTYpe = async (e, t) => {
     console.log(e);
     console.log(t);
-    alert(t + " will be deleted !");
-    JobCategory.deleteOne(e);
-    window.location.reload(false);
+    const result = await confirm(
+      "Are you sure in deleting " + t + " ?",
+      options
+    );
+    if (result) {
+      JobCategory.deleteOne(e)
+        .then(() => {
+          fetchJobTypes();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      return;
+    }
+    console.log("You click No!");
   };
 
   const rows = jobTypes.map((jobType) => {
