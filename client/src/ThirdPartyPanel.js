@@ -2,9 +2,9 @@ import ThirdPartyLayout from "./components/ThirdPartyLayout";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NewProviders from "./pages/thirdParty/thirdPartyPanel/newProviders/NewProviders";
-import VerifiedProviders from "./pages/thirdParty/thirdPartyPanel/VerifiedProviders";
 import NewDocumentList from "./pages/thirdParty/thirdPartyPanel/newProviders/NewDocumentList";
-import VerifiedDocumentlist from "./pages/thirdParty/thirdPartyPanel/VerifiedDocumentList";
+import VerifiedDocumentlist from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedDocumentList";
+import VerifiedProviders from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedProviders";
 
 const theme = createTheme({
   palette: {

@@ -1,5 +1,4 @@
 import React from "react";
-import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import NewDocument from "../../../../services/Provider";
@@ -12,6 +11,7 @@ import Sbutton from "../../../../components/Sbutton";
 import TextField from "@mui/material/TextField";
 import Provider from "../../../../services/Provider";
 import SendIcon from "@mui/icons-material/Send";
+import "../../../../index.css"
 
 const NewDocumentlist = () => {
   // get the provider id from react state
@@ -106,10 +106,12 @@ const NewDocumentlist = () => {
           <Grid item xs={4}>
             <Card variant="outlined" sx={{ minHeight: 250, maxWidth: 350 }}>
               <CardContent>
-                <Typography variant="h5" textAlign="center">
+                {/* <Typography variant="h5" textAlign="center">
                   {newDoc.type}
-                </Typography>
-                <br />
+                </Typography> */}
+                {/* <Sbutton class="button" text={newDoc.type} btnWidth="205px" /> */}
+                <Button class="button">{newDoc.type}</Button>
+                <br /> <br />
                 {newDoc.isAccepted === undefined ? (
                   <Stack spacing={5}>
                     <Stack direction="row" justifyContent="space-between">
