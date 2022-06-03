@@ -1,13 +1,13 @@
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import VerifiedDocument from "../../../services/Provider";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
-import { Chip, Grid, Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Sbutton from "../../../components/Sbutton";
+import Sbutton from "../../../../components/Sbutton";
+import VerifiedDocument from "../../../../services/Provider";
 
 const VerifiedDocumentlist = () => {
   // get the provider id from react state
@@ -55,7 +55,7 @@ const VerifiedDocumentlist = () => {
               </CardContent>
               <Stack spacing={1} alignItems="center">
                 <Stack direction="row" spacing={4}>
-                  <Sbutton text="Preview" btnWidth="100px" />
+                  <Sbutton text="View" btnWidth="100px" />
                   <Sbutton text="Download" btnWidth="100px" />
                 </Stack>
               </Stack>

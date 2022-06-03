@@ -1,4 +1,4 @@
-import VerifiedProviderlist from "./verifiedProviders/VerifiedProviderlist";
+import VerifiedProviderlist from "./VerifiedProviderlist";
 
 // display the list of verified providers
 const VerifiedProviders = () => {
