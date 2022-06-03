@@ -7,43 +7,44 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import TextField from "@mui/material/TextField";
-
-const schema = Yup.object().shape({
-  fName: Yup.string().required("First Name should be required please"),
-  lName: Yup.string().required(),
-  email: Yup.string().email().required(),
-  // mobile: Yup.required(),
-  // address: Yup.required(),
-  // verifyDocType: Yup.required(),
-});
 
 const AddNewThirdParty = () => {
   const [inputs, setInputs] = useState({});
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
+    validate({ [name]: value });
+  };
+
+  const validate = (fieldValues = inputs) => {
+    let temp = { ...errors };
+    if ("fName" in fieldValues)
+      temp.fName = fieldValues.fName ? "" : "This field is required.";
+    if ("email" in fieldValues)
+      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
+        ? ""
+        : "Email is not valid.";
+    if ("mobile" in fieldValues)
+      temp.mobile =
+        fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required.";
+    setErrors({
+      ...temp,
+    });
+
+    if (fieldValues == inputs) return Object.values(temp).every((x) => x == "");
   };
 
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-    SecondaryUser.addNew(inputs);
-    window.location.reload(false);
+    if (validate()) {
+      SecondaryUser.addNew(inputs);
+      window.location.reload(false);
+    }
   };
 
   return (
@@ -53,68 +54,44 @@ const AddNewThirdParty = () => {
       </Typography>
       <br />
       <form encType="multipart/form-data">
-        <TextField
-          required
-          sx={{ width: "70ch" }}
+        <StextField
           label="First Name"
+          id="fName"
           name="fName"
           value={inputs.fName || ""}
           onChange={handleChange}
-          // {...register("fName")}
-          error={errors.fName ? true : false}
+          error={errors.fName}
         />
 
-        <Typography variant="inherit" color="textSecondary">
-          {errors.fName?.message}
-        </Typography>
-
-        <TextField
-          required
-          sx={{ width: "70ch" }}
+        <StextField
           label="Last Name"
           name="lName"
           value={inputs.lName || ""}
           onChange={handleChange}
-          // ref={thirdParty}
         />
 
-        {/* <p> {errors.lName?.message} </p> */}
-
-        <TextField
-          required
-          sx={{ width: "70ch" }}
+        <StextField
           label="Email"
           name="email"
           value={inputs.email || ""}
           onChange={handleChange}
-          // ref={thirdParty}
+          error={errors.email}
         />
 
-        {/* <p> {errors.email?.message} </p> */}
-
-        <TextField
-          required
-          sx={{ width: "70ch" }}
+        <StextField
           label="Mobile Number"
           name="mobile"
           value={inputs.mobile || ""}
           onChange={handleChange}
-          // ref={thirdParty}
+          error={errors.mobile}
         />
 
-        {/* <p> {errors.mobile?.message} </p> */}
-
-        <TextField
-          required
-          sx={{ width: "70ch" }}
+        <StextField
           label="Address"
           name="address"
           value={inputs.address || ""}
           onChange={handleChange}
-          // ref={thirdParty}
         />
-
-        {/* <p> {errors.address?.message} </p> */}
 
         <FormControl sx={{ width: "70ch" }}>
           <InputLabel id="verificationDocumentType">
@@ -136,11 +113,9 @@ const AddNewThirdParty = () => {
           </Select>
         </FormControl>
 
-        {/* <p> {errors.verifyDocType?.message} </p> */}
-
         <br />
         <br />
-        <Sbutton text="Submit" type="submit" onClick={handleSubmit(onSubmit)} />
+        <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>
     </div>
   );

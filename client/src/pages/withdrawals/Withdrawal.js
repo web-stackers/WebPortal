@@ -62,7 +62,7 @@ const Withdrawal = () => {
   const reject = async (e) => {
     console.log(e);
     const result = await confirm(
-      "Are you sure in accepting the withdrawal request? ",
+      "Are you sure in rejecting the withdrawal request? ",
       options
     );
     if (result) {
