@@ -110,7 +110,7 @@ const NewDocumentlist = () => {
                   {newDoc.type}
                 </Typography>
                 <br />
-                {newDoc.isAccepted !== true && newDoc.isAccepted !== false ? (
+                {newDoc.isAccepted === undefined ? (
                   <Stack spacing={5}>
                     <Stack direction="row" justifyContent="space-between">
                       <Sbutton text="Download" btnWidth="205px" />
