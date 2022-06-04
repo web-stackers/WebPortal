@@ -19,34 +19,26 @@ const AddNewThirdParty = () => {
     validate({ [name]: value });
   };
 
-  const validate = (fieldValues = inputs) => {
-    let temp = { ...errors };
-    if ("fName" in fieldValues)
-      temp.fName = fieldValues.fName ? "" : "This field is required.";
-    if ("lName" in fieldValues)
-      temp.lName = fieldValues.lName ? "" : "This field is required.";
-    if ("email" in fieldValues)
-      temp.email =
-        (fieldValues.email ? "" : "This field is required.") ||
-        (/$^|.+@.+..+/.test(fieldValues.email) ? "" : "Email is not valid.");
-    if ("mobile" in fieldValues)
-      temp.mobile =
-        (fieldValues.mobile ? "" : "This field is required.") ||
-        (fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required.") ||
-        (fieldValues.mobile.length < 11
-          ? ""
-          : "Mobile number cannot exceed 10 digits.");
-    if ("address" in fieldValues)
-      temp.address = fieldValues.address ? "" : "This field is required.";
-    // if ("verifyDocType" in fieldValues)
-    //   temp.verifyDocType =
-    //     fieldValues.verifyDocType.length != 0 ? "" : "This field is required.";
+  const validate = () => {
+    let temp = {};
+    temp.fName = inputs.fName ? "" : "This field is required.";
+    temp.lName = inputs.lName ? "" : "This field is required.";
+    temp.email =
+      (inputs.email ? "" : "This field is required.") ||
+      (/$^|.+@.+..+/.test(inputs.email) ? "" : "Email is not valid.");
+    temp.mobile =
+      (inputs.mobile ? "" : "This field is required.") ||
+      (inputs.mobile.length > 9 ? "" : "Minimum 10 numbers required.") ||
+      (inputs.mobile.length < 11
+        ? ""
+        : "Mobile number cannot exceed 10 digits.");
+    temp.address = inputs.address ? "" : "This field is required.";
+    // temp.verifyDocType =
+    //   inputs.verifyDocType.length !== 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
-
-    if (fieldValues === inputs)
-      return Object.values(temp).every((x) => x === "");
+    return Object.values(temp).every((x) => x === ""); //every() method tests whether all elements in the array pass the test implemented by the provided function. It retruns a boolean value
   };
 
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
