@@ -55,8 +55,6 @@ const AddNewThirdParty = () => {
         ? ""
         : "Mobile number cannot exceed 10 digits.");
     temp.address = inputs.address ? "" : "This field is required.";
-    // temp.verifyDocType =
-    //   inputs.verifyDocType.length !== 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -121,16 +119,13 @@ const AddNewThirdParty = () => {
         />
 
         <FormControl sx={{ width: "70ch" }}>
-          <InputLabel id="verificationDocumentType">
-            Verification Document Type
-          </InputLabel>
+          <InputLabel id="verifyDocType">Verification Document Type</InputLabel>
           <Select
-            labelId="verificationDocumentType"
+            labelId="verifyDocType"
             name="verifyDocType"
             value={inputs.verifyDocType || ""}
             label="Verification document type"
             onChange={handleChange}
-            // error={errors.verifyDocType}
           >
             <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
             <MenuItem value="O/L and A/L Certificates">
