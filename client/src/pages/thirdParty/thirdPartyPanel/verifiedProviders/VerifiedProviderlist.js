@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Sbutton from "../../../../components/Sbutton";
 import "../../../../index.css";
 import { DataGrid } from "@mui/x-data-grid";
+import dateFormat from "dateformat";
 
 const VerifiedProviderlist = () => {
   const [verifiedProviders, setVerifiedProviders] = useState([]);
@@ -46,6 +47,7 @@ const VerifiedProviderlist = () => {
         lName: verifiedProvider.name.lName,
         qualification: verifiedProvider.qualification,
         // date: verifiedProvider.verification.date,
+        date: dateFormat(verifiedProvider.verification.date, "yyyy-mm-dd"),
       };
     });
 
