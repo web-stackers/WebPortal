@@ -34,14 +34,12 @@ const ThirdPartyProfile = () => {
 
   const validate = () => {
     let temp = {};
-    temp.email = /$^|.+@.+..+/.test(inputs.email) ? "" : "Email is not valid.";
     temp.mobile =
+      (/^\d+$/.test(inputs.mobile) ? "" : "Phone number is not valid.") ||
       (inputs.mobile.length > 9 ? "" : "Minimum 10 numbers required.") ||
       (inputs.mobile.length < 11
         ? ""
         : "Mobile number cannot exceed 10 digits.");
-    // temp.verifyDocType =
-    //   inputs.verifyDocType.length !== 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -92,7 +90,6 @@ const ThirdPartyProfile = () => {
           name="address"
           value={inputs.address || address}
           onChange={handleChange}
-          error={errors.address}
         />
         <FormControl sx={{ width: "70ch" }}>
           <InputLabel id="verificationDocumentType">
