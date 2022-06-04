@@ -12,6 +12,7 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
 
   const profilePic = require('../../assets/proPic.jpg')
 
+  // Disable or Enable a user
   const changeAble = (id) => {
     if(type=='Consumers'){
       Consumer.ableConsumer(id)

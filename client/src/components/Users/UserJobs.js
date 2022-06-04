@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import Sbutton from "../Sbutton";
+import dateFormat from "dateformat";
 
 import Job from "../../services/Job";
 
 const UserJobs = ({type, id}) => {
     const [jobs, setJobs] = useState([]);
 
+    // // Fetch job history of a user
     const fetchJobs = () => {
         Job.fetchUserJobs(type, id)
         .then((response) => {
@@ -23,6 +23,8 @@ const UserJobs = ({type, id}) => {
           id: job._id,
           jobType: job.jobType,
           description: job.description,
+          requestedDate: dateFormat(job.requestedTime, "yyyy-mm-dd"),
+          requestedTime: dateFormat(job.requestedTime, "hh:MM TT"),
           state: job.userJobs[0].state,
           providerName: job.provider[0].name.fName,
           consumerName: job.consumer[0].name.fName
@@ -32,6 +34,8 @@ const UserJobs = ({type, id}) => {
     const columns = [
         { field: "jobType", headerName: "Provider Type", width: 150 },
         { field: "description", headerName: "Job Description", width: 300 },
+        { field: "requestedDate", headerName: "Date", width: 120 },
+        { field: "requestedTime", headerName: "Time", width: 100 },
         { field: "state", headerName: "Job Status", width: 150, sortable: false },
         { field: "providerName", headerName: "Provider", width: 150, sortable: false },
         { field: "consumerName", headerName: "Consumer", width: 150, sortable: false },

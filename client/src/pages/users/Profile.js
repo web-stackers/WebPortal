@@ -9,6 +9,7 @@ import Sbutton from "../../components/Sbutton";
 
 import ConsumerDetails from "../../components/Users/ConsumerDetails";
 import ProviderDetails from "../../components/Users/ProviderDetails";
+import UserJobs from "../../components/Users/UserJobs";
 
 import Consumer from "../../services/Consumer";
 import Provider from "../../services/Provider";
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
+// Profile page of user
 const Profile = () => {
     const location = useLocation();
     const { profileId, type } = location.state;
@@ -51,6 +53,7 @@ const Profile = () => {
     const [profile, setProfile] = useState();
     const profilePic = require('../../assets/proPic.jpg')
 
+    // Fetch user details using id
     const fetchProfile = () => {
         if(type=='Consumers'){
             Consumer.fetchConsumer(profileId)
@@ -102,6 +105,18 @@ const Profile = () => {
 
         {profile && type=='Consumers' && <ConsumerDetails user={profile} id={profileId}/>}
         {profile && type=='Providers' && <ProviderDetails user={profile} id={profileId}/>}
+
+        {profile && 
+            <Card className="root">
+                <CardContent>
+                    <Typography variant="h5">
+                        Jobs
+                    </Typography>
+                    {type=='Consumers' && <UserJobs type="consumer" id={profileId}/>} 
+                    {type=='Providers' && <UserJobs type="provider" id={profileId}/>}   
+                </CardContent>
+            </Card>
+        }
             
         </div>
     );

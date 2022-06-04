@@ -22,6 +22,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers }) => {
     setOpen(false);
   };
 
+  // Search user by the username 
   const searchUser = () => {
     if(type=='Consumers'){
       Consumer.searchConsumer(searchKey)
