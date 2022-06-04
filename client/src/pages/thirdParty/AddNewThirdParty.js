@@ -25,16 +25,36 @@ const AddNewThirdParty = () => {
     temp.lName = inputs.lName ? "" : "This field is required.";
     temp.email =
       (inputs.email ? "" : "This field is required.") ||
-      (/$^|.+@.+..+/.test(inputs.email) ? "" : "Email is not valid.");
+      (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputs.email)
+        ? ""
+        : "Email is not valid.");
+    //\w+ matches 1 or more word characters (a-z, A-Z, 0-9 and underscore).
+
+    // [.-] matches character . or -. We need to use . to represent . as . has special meaning in regexe. The \ is known as the escape code, which restore the original literal meaning of the following character.
+
+    // [.-]? matches 0 or 1 occurrence of [.-].
+
+    // Again, \w+ matches 1 or more word characters.
+
+    // ([.-]?\w+)* matches 0 or more occurrences of [.-]?\w+.
+
+    // The sub-expression \w+([.-]?\w+)* is used to match the username in the email, before the @ sign. It begins with at least one word character (a-z, A-Z, 0-9 and underscore), followed by more word characters or . or -. However, a . or - must follow by a word character (a-z, A-Z, 0-9 and underscore). That is, the string cannot contain "..", "--", ".-" or "-.". Example of valid string are "a.1-2-3".
+
+    // The @ matches itself.
+
+    // Again, the sub-expression \w+([.-]?\w+)* is used to match the email domain name, with the same pattern as the username described above.
+
+    // The sub-expression .\w{2,3} matches a . followed by two or three word characters, e.g., ".com", ".edu", ".us", ".uk", ".co".
+
+    // (.\w{2,3})+ specifies that the above sub-expression shall occur one or more times, e.g., ".com", ".co.uk", ".edu.sg" etc.
     temp.mobile =
       (inputs.mobile ? "" : "This field is required.") ||
+      (/^\d+$/.test(inputs.mobile) ? "" : "Phone number is not valid.") ||
       (inputs.mobile.length > 9 ? "" : "Minimum 10 numbers required.") ||
       (inputs.mobile.length < 11
         ? ""
         : "Mobile number cannot exceed 10 digits.");
     temp.address = inputs.address ? "" : "This field is required.";
-    // temp.verifyDocType =
-    //   inputs.verifyDocType.length !== 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -99,16 +119,13 @@ const AddNewThirdParty = () => {
         />
 
         <FormControl sx={{ width: "70ch" }}>
-          <InputLabel id="verificationDocumentType">
-            Verification Document Type
-          </InputLabel>
+          <InputLabel id="verifyDocType">Verification Document Type</InputLabel>
           <Select
-            labelId="verificationDocumentType"
+            labelId="verifyDocType"
             name="verifyDocType"
             value={inputs.verifyDocType || ""}
             label="Verification document type"
             onChange={handleChange}
-            // error={errors.verifyDocType}
           >
             <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
             <MenuItem value="O/L and A/L Certificates">
