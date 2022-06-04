@@ -14,6 +14,7 @@ const Users = () => {
     const [open, setOpen] = React.useState(false);
     const [alert, setAlert] = useState('');
 
+    // Fetch all users based on user type
     const fetchUsers = () => {
         if(user=='Consumers'){
           Consumer.fetchConsumers()

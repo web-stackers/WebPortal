@@ -3,8 +3,6 @@ import Typography from '@mui/material//Typography';
 import Card from '@mui/material//Card';
 import CardContent from '@mui/material//CardContent';
 
-import UserJobs from "./UserJobs";
-
 const useStyles = makeStyles((theme) => ({
     userDetails: {
         borderTop: 15,
@@ -13,7 +11,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+// Details of consumer 
 const ConsumerDetails = ({user, id}) => {
+    const classes = useStyles();
 
     return(
         <>
@@ -29,17 +29,7 @@ const ConsumerDetails = ({user, id}) => {
                     </Typography>
                 </CardContent>
             </Card>
-
-            <Card className="userDetails">
-                <CardContent>
-                    <Typography variant="h5">
-                        Jobs
-                    </Typography>
-                    <UserJobs type="consumer" id={id}/>  
-                </CardContent>
-            </Card>
         </>
-
         
     )
 }

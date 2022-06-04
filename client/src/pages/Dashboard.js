@@ -9,11 +9,23 @@ import Job from "../services/Job";
 import JobCategory from "../services/JobCategory";
 import SecondaryUser from "../services/SecondaryUser";
 
+import Card from '@mui/material//Card';
+import CardContent from '@mui/material//CardContent';
+import CardMedia from '@mui/material//CardMedia';
+import Typography from '@mui/material//Typography';
+
+import UserJobs from '../components/Users/UserJobs';
+
 const useStyles = makeStyles({
   gridContainer: {
-    paddingLeft: "20px",
-    paddingRight: "20px",
+    paddingRight: "30px",
+    margin: "auto"
   },
+  root: {
+    display: 'flex',
+    height: '200px',
+    backgroundColor: 'transparent !important',
+  }
 });
 
 const Dashboard = () => {
@@ -127,32 +139,43 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Grid container spacing={4} className={classes.gridContainer}>
-      <Grid item xs={4}>
-        <BasicCard text="Total Service Providers" count={countProvider} />
+    <>
+      <Grid container spacing={3} className={classes.gridContainer}>
+        <Grid item xs={3}>
+          <BasicCard text="Total Service Providers" count={countProvider} />
+        </Grid>
+        <Grid item xs={3}>
+          <BasicCard text="Total Service Consumers" count={countConsumer} />
+        </Grid>
+        <Grid item xs={3}>
+          <BasicCard text="Total Third Party" count={countThirdparty} />
+        </Grid>
+        <Grid item xs={3}>
+          <BasicCard text="Completed Jobs" count={countCompletedJob} />
+        </Grid>
+        <Grid item xs={3}>
+          <BasicCard text="Pending Jobs" count={countPendingJob} />
+        </Grid>
+        <Grid item xs={3}>
+          <BasicCard text="Total Complaints" count={countComplaint} />
+        </Grid>
+        <Grid item xs={3}>
+          <BasicCard text="Total Job Categories" count={countJobCategory} />
+        </Grid>
+        <Grid item xs={3}>
+          <BasicCard text="Total Job Types" count={countJobType} />
+        </Grid>
       </Grid>
-      <Grid item xs={4}>
-        <BasicCard text="Total Service Consumers" count={countConsumer} />
-      </Grid>
-      <Grid item xs={4}>
-        <BasicCard text="Total Third Party" count={countThirdparty} />
-      </Grid>
-      <Grid item xs={4}>
-        <BasicCard text="Completed Jobs" count={countCompletedJob} />
-      </Grid>
-      <Grid item xs={4}>
-        <BasicCard text="Pending Jobs" count={countPendingJob} />
-      </Grid>
-      <Grid item xs={4}>
-        <BasicCard text="Total Complaints" count={countComplaint} />
-      </Grid>
-      <Grid item xs={4}>
-        <BasicCard text="Total Job Categories" count={countJobCategory} />
-      </Grid>
-      <Grid item xs={4}>
-        <BasicCard text="Total Job Types" count={countJobType} />
-      </Grid>
-    </Grid>
+
+      <Card className="root">
+          <CardContent>
+              <Typography variant="h5">
+                  Job History
+              </Typography>
+              <UserJobs type="both" id='1'/>
+          </CardContent>
+      </Card>
+    </>
   );
 };
 

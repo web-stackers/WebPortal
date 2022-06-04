@@ -9,7 +9,7 @@ router.get("/", jobController.fetch_jobs);
 // Fetch job by id
 router.get("/:id", jobController.fetch_job);
 
-// Fetch user jobs
+// Fetch job history of a user
 router.get("/user/userjobs/:type/:id", jobController.user_jobs);
 
 // Add new job to the database

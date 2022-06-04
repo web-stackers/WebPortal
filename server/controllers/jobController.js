@@ -183,10 +183,9 @@ const update_ratingAndReview = async (req, res) => {
   }
 };
 
+// Fetch job history of a user
 const user_jobs = async (req, res) => {
   const { type, id } = req.params;
-  //const id = "62132c29c4afd22e5fc49683";
-  //const type = "consumer";
 
   var query = [
     {
@@ -228,6 +227,7 @@ const user_jobs = async (req, res) => {
       $project: {
         jobType: 1,
         description: 1,
+        requestedTime: 1,
         providerId: 1,
         consumerId: 1,
         "userJobs.state": 1,
@@ -247,13 +247,15 @@ const user_jobs = async (req, res) => {
         }
       });
       res.json(userJobs);
-    } else {
+    } else if (type=="provider") {
       const userJobs = jobs.filter((job) => {
         if (job.providerId == id) {
           return job;
         }
       });
       res.json(userJobs);
+    } else if (type=="both") {
+      res.json(jobs);
     }
   } catch (error) {
     res.status(400).json({ message: error.message });

@@ -12,6 +12,7 @@ const fetchComplaintsById = async (id) => {
   return await axios.get(`/job/complaints/${id}`);
 };
 
+// Fetch job history of a user
 const fetchUserJobs = async (type, id) => {
   return await axios.get(`/job/user/userjobs/${type}/${id}`);
 };
