@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useState } from "react";
+import { FormHelperText } from "@mui/material";
 
 const AddNewJob = ({ onAdd }) => {
   const [jobType, setJobType] = useState("");
@@ -15,6 +16,7 @@ const AddNewJob = ({ onAdd }) => {
   const validate = () => {
     let temp = {};
     temp.jobType = jobType ? "" : "This field is required.";
+    temp.category = category.length !== 0 ? "" : "This field is required.";
 
     setErrors({
       ...temp,
@@ -40,17 +42,22 @@ const AddNewJob = ({ onAdd }) => {
         onChange={(e) => setJobType(e.target.value)}
         error={errors.jobType}
       />
-      <FormControl sx={{ width: "70ch" }}>
+      <FormControl
+        sx={{ width: "70ch" }}
+        {...(errors.category && { error: true })}
+      >
         <InputLabel id="category">Category</InputLabel>
         <Select
           labelId="category"
           value={category}
+          name="category"
           label="Category"
           onChange={(e) => setCategory(e.target.value)}
         >
           <MenuItem value="Event">Event</MenuItem>
           <MenuItem value="Construction">Construction</MenuItem>
         </Select>
+        {errors.category && <FormHelperText>{errors.category}</FormHelperText>}
       </FormControl>
       <br />
       <br />

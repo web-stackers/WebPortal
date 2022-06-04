@@ -23,11 +23,29 @@ const ThirdPartyProfile = () => {
   const verifyDocType = location.state.verifyDocType;
 
   const [inputs, setInputs] = useState({});
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
+    validate({ [name]: value });
+  };
+
+  const validate = () => {
+    let temp = {};
+    temp.email = /$^|.+@.+..+/.test(inputs.email) ? "" : "Email is not valid.";
+    temp.mobile =
+      (inputs.mobile.length > 9 ? "" : "Minimum 10 numbers required.") ||
+      (inputs.mobile.length < 11
+        ? ""
+        : "Mobile number cannot exceed 10 digits.");
+    // temp.verifyDocType =
+    //   inputs.verifyDocType.length !== 0 ? "" : "This field is required.";
+    setErrors({
+      ...temp,
+    });
+    return Object.values(temp).every((x) => x === ""); //every() method tests whether all elements in the array pass the test implemented by the provided function. It retruns a boolean value
   };
 
   //It is given as onClick function in submit button to redirect to the main page
@@ -41,8 +59,10 @@ const ThirdPartyProfile = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-    SecondaryUser.updateThirdPartyByID(ID, inputs);
-    routeChange();
+    if (validate()) {
+      SecondaryUser.updateThirdPartyByID(ID, inputs);
+      routeChange();
+    }
   };
 
   return (
@@ -57,12 +77,14 @@ const ThirdPartyProfile = () => {
           name="email"
           value={inputs.email || email}
           onChange={handleChange}
+          error={errors.email}
         />
         <StextField
           label="Mobile Number"
           name="mobile"
           value={inputs.mobile || mobile}
           onChange={handleChange}
+          error={errors.mobile}
         />
 
         <StextField
@@ -70,6 +92,7 @@ const ThirdPartyProfile = () => {
           name="address"
           value={inputs.address || address}
           onChange={handleChange}
+          error={errors.address}
         />
         <FormControl sx={{ width: "70ch" }}>
           <InputLabel id="verificationDocumentType">
