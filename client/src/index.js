@@ -9,8 +9,8 @@ import Uploads from "./pages/registration/Uploads";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-    {/* <ThirdPartyPanel/> */}
+    {/* <App /> */}
+    <ThirdPartyPanel/>
     {/* <Uploads/> */}
     {/* <ProviderRegister /> */}
   </React.StrictMode>,

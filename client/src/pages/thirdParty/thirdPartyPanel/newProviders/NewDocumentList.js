@@ -6,6 +6,7 @@ import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 import { Button, Grid, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
+import  Typography  from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import Sbutton from "../../../../components/Sbutton";
 import TextField from "@mui/material/TextField";
@@ -106,16 +107,14 @@ const NewDocumentlist = () => {
           <Grid item xs={4}>
             <Card variant="outlined" sx={{ minHeight: 250, maxWidth: 350 }}>
               <CardContent>
-                {/* <Typography variant="h5" textAlign="center">
+                <Typography variant="h5" textAlign="center">
                   {newDoc.type}
-                </Typography> */}
-                {/* <Sbutton class="button" text={newDoc.type} btnWidth="205px" /> */}
-                <Button class="button">{newDoc.type}</Button>
-                <br /> <br />
+                </Typography>
+                <br />
                 {newDoc.isAccepted === undefined ? (
                   <Stack spacing={5}>
                     <Stack direction="row" justifyContent="space-between">
-                      <Sbutton text="Download" btnWidth="205px" />
+                      <Sbutton text="View" btnWidth="205px" />
                       <Button
                         variant="contained"
                         color="success"
