@@ -12,6 +12,10 @@ const fetchComplaintsById = async (id) => {
   return await axios.get(`/job/complaints/${id}`);
 };
 
+const fetchJobByConsumerComplaints = async (id) => {
+  return await axios.get(`/job/complaint/consumer/${id}`);
+};
+
 // Fetch job history of a user
 const fetchUserJobs = async (type, id) => {
   return await axios.get(`/job/user/userjobs/${type}/${id}`);
@@ -29,6 +33,7 @@ const complaintHandled = async (id, data) => {
 export default {
   fetchComplaintsByConsumer,
   fetchComplaintsByProvider,
+  fetchJobByConsumerComplaints,
   fetchComplaintsById,
   fetchUserJobs,
   fetchComplaintCount,
