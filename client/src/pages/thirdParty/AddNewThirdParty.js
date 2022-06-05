@@ -1,11 +1,9 @@
 import StextField from "../../components/formComponents/StextField";
+import Sselect from "../../components/formComponents/Sselect";
+import * as SelectList from "../../components/formComponents/SelectList";
 import Sbutton from "../../components/Sbutton";
 import SecondaryUser from "../../services/SecondaryUser";
 import { useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import { Typography } from "@mui/material";
 
 const AddNewThirdParty = () => {
@@ -118,23 +116,13 @@ const AddNewThirdParty = () => {
           error={errors.address}
         />
 
-        <FormControl sx={{ width: "70ch" }}>
-          <InputLabel id="verifyDocType">Verification Document Type</InputLabel>
-          <Select
-            labelId="verifyDocType"
-            name="verifyDocType"
-            value={inputs.verifyDocType || ""}
-            label="Verification document type"
-            onChange={handleChange}
-          >
-            <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
-            <MenuItem value="O/L and A/L Certificates">
-              O/L and A/L Certificates
-            </MenuItem>
-            <MenuItem value="NVQ Certificate">NVQ Certificate</MenuItem>
-            <MenuItem value="Affidavit">Affidavit</MenuItem>
-          </Select>
-        </FormControl>
+        <Sselect
+          name="verifyDocType"
+          label="Verify Document Type"
+          value={inputs.verifyDocType || ""}
+          onChange={handleChange}
+          options={SelectList.getDepartmentCollection()}
+        />
 
         <br />
         <br />
