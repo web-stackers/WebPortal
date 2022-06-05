@@ -6,19 +6,19 @@ import Sbutton from '../../Sbutton';
 import useStyles from "./styles";
 import Typography from '@mui/material//Typography';
 
-const FileUpload = ({file,filename, onChange}) => {
+const FileUpload = ({filename, setFilename, setUploadedFilePath}) => {
   const classes = useStyles();
-  // const [file, setFile] = useState('');
+  const [file, setFile] = useState('');
   // const [filename, setFilename] = useState('Choose File');
-  const [uploadedFile, setUploadedFile] = useState({});
+  // const [uploadedFilePath, setUploadedFilePath] = useState({});
   const [message, setMessage] = useState('');
-  const [uploadPercentage, setUploadPercentage] = useState(0);
+  // const [uploadPercentage, setUploadPercentage] = useState(0);
 
-  // const onChange = e => {
-  //   e.preventDefault();
-  //   setFile(e.target.files[0]);
-  //   setFilename(e.target.files[0].name);
-  // };
+  const onChange = e => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+    setFilename(e.target.files[0].name);
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -43,9 +43,9 @@ const FileUpload = ({file,filename, onChange}) => {
       // Clear percentage
       // setTimeout(() => setUploadPercentage(0), 10000);
 
-      const { fileName, filePath } = res.data;
+      const { filePath } = res.data;
 
-      setUploadedFile({ fileName, filePath });
+      setUploadedFilePath({ filePath });
 
       setMessage('File Uploaded');
     } catch (err) {
@@ -82,7 +82,7 @@ const FileUpload = ({file,filename, onChange}) => {
           className='btn btn-secondary btn-block'
         />
       </form>
-      {/* {uploadedFile ? (
+      {/* {uploadedFilePath ? (
         <div className='row mt-5'>
         <div className='col-md-6 m-auto'>
           <h3 className='text-center'>{uploadedFile.fileName}</h3>

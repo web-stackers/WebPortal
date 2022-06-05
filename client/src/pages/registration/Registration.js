@@ -25,14 +25,15 @@ const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({});
 
-  const [profile, setProfile] = useState("");
-  const [profileName, setProfileName] = useState("Choose Profile Picture");
+  // const [profile, setProfile] = useState("");
+  // const [profileName, setProfileName] = useState("Choose Profile Picture");
 
-  const [nic, setNic] = useState("");
-  const [nicName, setNicName] = useState("Choose NIC scanned copy");
+  // const [nic, setNic] = useState("");
+  // const [nicName, setNicName] = useState("Choose NIC scanned copy");
 
-  const [doc, setDoc] = useState("");
-  const [docName, setDocName] = useState("Choose Qualification Document");
+  // const [doc, setDoc] = useState("");
+  // const [docName, setDocName] = useState("Choose Qualification Document");
+
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -47,30 +48,30 @@ const Registration = () => {
     setIsNext(!isNext);
   };
 
-  const onChangeProfile = (e) => {
-    e.preventDefault();
-    setProfile(e.target.files[0]);
-    setProfileName(e.target.files[0].name)
-    // .then(() =>
-    //   setInputs((values) => ({ ...values, profilePictureName: profileName }))
-    // );
-  };
-  const onChangeNic = (e) => {
-    e.preventDefault();
-    setNic(e.target.files[0]);
-    setNicName(e.target.files[0].name)
-    // .then(() =>
-    //   setInputs((values) => ({ ...values, nicName: nicName }))
-    // );
-  };
-  const onChangeDoc = (e) => {
-    e.preventDefault();
-    setDoc(e.target.files[0]);
-    setDocName(e.target.files[0].name)
-    // .then(() =>
-    //   setInputs((values) => ({ ...values, qualificationDocName: docName }))
-    // );
-  };
+  // const onChangeProfile = (e) => {
+  //   e.preventDefault();
+  //   setProfile(e.target.files[0]);
+  //   setProfileName(e.target.files[0].name)
+  //   // .then(() =>
+  //   //   setInputs((values) => ({ ...values, profilePictureName: profileName }))
+  //   // );
+  // };
+  // const onChangeNic = (e) => {
+  //   e.preventDefault();
+  //   setNic(e.target.files[0]);
+  //   setNicName(e.target.files[0].name)
+  //   // .then(() =>
+  //   //   setInputs((values) => ({ ...values, nicName: nicName }))
+  //   // );
+  // };
+  // const onChangeDoc = (e) => {
+  //   e.preventDefault();
+  //   setDoc(e.target.files[0]);
+  //   setDocName(e.target.files[0].name)
+  //   // .then(() =>
+  //   //   setInputs((values) => ({ ...values, qualificationDocName: docName }))
+  //   // );
+  // };
   const onSubmit = (e) => {
     console.log(inputs);
     e.preventDefault();
@@ -85,15 +86,7 @@ const Registration = () => {
           handleChange={handleChange}
           value={inputs.qualificationDocType}
           onSubmit={onSubmit}
-          onChangeProfile={onChangeProfile}
-          profile={profile}
-          profileName={profileName}
-          onChangeNic={onChangeNic}
-          nic={nic}
-          nicName={nicName}
-          onChangeDoc={onChangeDoc}
-          doc={doc}
-          docName={docName}
+          setInputs={setInputs}
         />
       ) : (
         <Container component="main" maxWidth="lg">

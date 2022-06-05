@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import VerifiedIcon from '@mui/icons-material/Verified';
+import VerifiedIcon from "@mui/icons-material/Verified";
 import Sbutton from "../Sbutton";
 
-import useStyles from '../../styles/usersStyles';
+import useStyles from "../../styles/usersStyles";
 
 const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
   const classes = useStyles();
 
-  const profilePic = require('../../assets/proPic.jpg')
+  const profilePic = require("../../assets/proPic.jpg");
 
   const rows = users.map((user) => {
     return {
@@ -21,7 +21,7 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
       email: user.contact.email,
       isDisabled: user.isDisabled,
       ratingCount: user.ratingCount,
-      verified: user.verification? user.verification.isAccepted:false
+      verified: user.verification ? user.verification.isAccepted : false,
     };
   });
 
@@ -36,7 +36,9 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
           <div className={classes.userName}>
             <img className={classes.userImage} src={params.row.propic} alt="" />
             {params.row.name}
-            {params.row.verified && <VerifiedIcon className={classes.verifiedIcon}/>}
+            {params.row.verified && (
+              <VerifiedIcon className={classes.verifiedIcon} />
+            )}
           </div>
         );
       },
@@ -56,7 +58,12 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
         const verified = params.row.verified;
         return (
           <div className={classes.actionBtn}>
-            <Link to='/users/profile' state={{ profileId, type, profileName, verified }} className='link' style={{marginRight:'5%'}}>
+            <Link
+              to="/users/profile"
+              state={{ profileId, type, profileName, verified }}
+              className="link"
+              style={{ marginRight: "5%" }}
+            >
               <Sbutton text="View" btnWidth="150px" />
             </Link>
           </div>

@@ -37,7 +37,7 @@ app.post("/upload", (req, res) => {
   const destination = path.join(
     __dirname,
     "../client/public/uploads/",
-    file.name
+    file.name + Date.now
   );
   // file.mv(`${__dirname}../client/public/uploads/${file.name}`, (err) => {
   file.mv(destination, (err) => {
@@ -46,7 +46,8 @@ app.post("/upload", (req, res) => {
       return res.status(500).send(err);
     }
     // path.join(__dirname, "../client/public/uploads/",file.name)
-    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+    // res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+    res.json({ filePath: destination });
   });
 });
 

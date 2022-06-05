@@ -12,7 +12,7 @@ ReactDOM.render(
     <App />
     {/* <ThirdPartyPanel/> */}
     {/* <Uploads/> */}
-    {/* <ProviderRegister/> */}
+    {/* <ProviderRegister /> */}
   </React.StrictMode>,
   document.getElementById("root")
 );
