@@ -30,6 +30,9 @@ router.get("/complaints/:id", jobController.fetch_complaints);
 //Fetch all complaints by consumer
 router.get("/complaint/consumer", jobController.fetch_all_complaints_by_consumer);
 
+//Fetch job by consumer complaints
+router.get("/complaint/consumer/:id", jobController.fetch_all_job_by_consumer_complaints);
+
 //Fetch all complaints by provider
 router.get("/complaint/provider", jobController.fetch_all_complaints_by_provider);
 

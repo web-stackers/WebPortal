@@ -31,6 +31,22 @@ const fetch_all_complaints_by_consumer = async (req, res) => {
   }
 };
 
+// Fetch job by consumer complaints
+const fetch_all_job_by_consumer_complaints = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const requiredjob = await job.find({
+      complaint: { $elemMatch: { _id: id } },
+    });
+    const requiredConsumer = await consumer.findById(requiredjob[0].consumerId);
+    //const category = await item;
+    const ok = await requiredConsumer.name.fName;
+    res.status(200).json(requiredConsumer);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch all complaints by provider
 const fetch_all_complaints_by_provider = async (req, res) => {
   try {
@@ -132,11 +148,42 @@ const complaint_handled = async (req, res) => {
       { new: true }
     );
 
+    const requiredjob = await job.find({
+      complaint: { $elemMatch: { _id: id } },
+    });
+    const requiredConsumer = await consumer.findById(requiredjob[0].consumerId);
+    const requiredProvider = await provider.findById(requiredjob[0].providerId);
+
+    if (requiredjob[0].complaint.by === "Provider") {
+      var ToMail = requiredProvider.contact.email;
+    } else {
+      var ToMail = requiredConsumer.contact.email;
+    }
+
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: ToMail,
+      subject: "Response to your complaint",
+      html:
+        " Hi, <br>" +
+        req.body.adminResponse +
+        ". <br> Sorry for your inconveniences caused.",
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
     res.status(200).json(updatedJob);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
+
 
 // Update rating and review
 const update_ratingAndReview = async (req, res) => {
@@ -275,6 +322,7 @@ const fetch_complaint_count = async (req, res) => {
 module.exports = {
   fetch_jobs,
   fetch_all_complaints_by_consumer,
+  fetch_all_job_by_consumer_complaints,
   fetch_all_complaints_by_provider,
   fetch_complaints,
   post_job,
