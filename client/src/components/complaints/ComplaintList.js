@@ -51,7 +51,7 @@ const ComplaintList = ({ type, listOfComplaints, fetchAllComplaints }) => {
   ];
 
   return (
-    <div style={{ height: 500, width: "100%" }}>
+    <div style={{ height: 350, width: "100%" }}>
       <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
