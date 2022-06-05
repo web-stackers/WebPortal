@@ -61,6 +61,11 @@ const updateVerification = async (id, result) => {
   return await axios.patch(`/provider/updateVerification/${id}/${result}`);
 };
 
+// Update provider count when enable or disable by admin
+const updateProviderCount = async (id) => {
+  return await axios.patch(`/provider/providerCountUpdate/${id}`);
+};
+
 export default {
   addNew,
   fetchProviders,
@@ -74,4 +79,5 @@ export default {
   updateDocumentAccepted,
   updateDocumentRejected,
   updateVerification,
+  updateProviderCount,
 };
