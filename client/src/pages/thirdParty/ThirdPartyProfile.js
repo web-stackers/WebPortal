@@ -4,10 +4,8 @@ import StextField from "../../components/formComponents/StextField";
 import Sbutton from "../../components/Sbutton";
 import SecondaryUser from "../../services/SecondaryUser";
 import { useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Sselect from "../../components/formComponents/Sselect";
+import * as SelectList from "../../components/formComponents/SelectList";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -23,29 +21,11 @@ const ThirdPartyProfile = () => {
   const verifyDocType = location.state.verifyDocType;
 
   const [inputs, setInputs] = useState({});
-  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
-    validate({ [name]: value });
-  };
-
-  const validate = () => {
-    let temp = {};
-    temp.email = /$^|.+@.+..+/.test(inputs.email) ? "" : "Email is not valid.";
-    temp.mobile =
-      (inputs.mobile.length > 9 ? "" : "Minimum 10 numbers required.") ||
-      (inputs.mobile.length < 11
-        ? ""
-        : "Mobile number cannot exceed 10 digits.");
-    // temp.verifyDocType =
-    //   inputs.verifyDocType.length !== 0 ? "" : "This field is required.";
-    setErrors({
-      ...temp,
-    });
-    return Object.values(temp).every((x) => x === ""); //every() method tests whether all elements in the array pass the test implemented by the provided function. It retruns a boolean value
   };
 
   //It is given as onClick function in submit button to redirect to the main page
@@ -59,10 +39,8 @@ const ThirdPartyProfile = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-    if (validate()) {
-      SecondaryUser.updateThirdPartyByID(ID, inputs);
-      routeChange();
-    }
+    SecondaryUser.updateThirdPartyByID(ID, inputs);
+    routeChange();
   };
 
   return (
@@ -77,14 +55,12 @@ const ThirdPartyProfile = () => {
           name="email"
           value={inputs.email || email}
           onChange={handleChange}
-          error={errors.email}
         />
         <StextField
           label="Mobile Number"
           name="mobile"
           value={inputs.mobile || mobile}
           onChange={handleChange}
-          error={errors.mobile}
         />
 
         <StextField
@@ -92,27 +68,14 @@ const ThirdPartyProfile = () => {
           name="address"
           value={inputs.address || address}
           onChange={handleChange}
-          error={errors.address}
         />
-        <FormControl sx={{ width: "70ch" }}>
-          <InputLabel id="verificationDocumentType">
-            Verification Document Type
-          </InputLabel>
-          <Select
-            labelId="verificationDocumentType"
-            name="verifyDocType"
-            value={inputs.verifyDocType || verifyDocType}
-            label="Verification document type"
-            onChange={handleChange}
-          >
-            <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
-            <MenuItem value="O/L and A/L Certificates">
-              O/L and A/L Certificates
-            </MenuItem>
-            <MenuItem value="NVQ Certificate">NVQ Certificate</MenuItem>
-            <MenuItem value="Affidavit">Affidavit</MenuItem>
-          </Select>
-        </FormControl>
+        <Sselect
+          name="verifyDocType"
+          label="verifyDocType"
+          value={inputs.verifyDocType || verifyDocType}
+          onChange={handleChange}
+          options={SelectList.getDepartmentCollection()}
+        />
         <br />
         <br />
         <Sbutton

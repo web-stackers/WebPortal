@@ -1,39 +1,15 @@
 import { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import VerifiedIcon from '@mui/icons-material/Verified';
 import Sbutton from "../Sbutton";
 
-import Consumer from "../../services/Consumer";
-import Provider from "../../services/Provider";
 import useStyles from '../../styles/usersStyles';
 
 const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
   const classes = useStyles();
 
   const profilePic = require('../../assets/proPic.jpg')
-
-  // Disable or Enable a user
-  const changeAble = (id) => {
-    if(type=='Consumers'){
-      Consumer.ableConsumer(id)
-        .then(() => {
-          setOpen(true);
-          fetchUsers();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } else {
-      Provider.ableProvider(id)
-        .then(() => {
-          setOpen(true);
-          fetchUsers();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  };
 
   const rows = users.map((user) => {
     return {
@@ -44,7 +20,8 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
       mobile: user.contact.mobile,
       email: user.contact.email,
       isDisabled: user.isDisabled,
-      ratingCount: user.ratingCount
+      ratingCount: user.ratingCount,
+      verified: user.verification? user.verification.isAccepted:false
     };
   });
 
@@ -59,6 +36,7 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
           <div className={classes.userName}>
             <img className={classes.userImage} src={params.row.propic} alt="" />
             {params.row.name}
+            {params.row.verified && <VerifiedIcon className={classes.verifiedIcon}/>}
           </div>
         );
       },
@@ -75,13 +53,12 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
       renderCell: (params) => {
         const profileId = params.row.id;
         const profileName = params.row.name;
+        const verified = params.row.verified;
         return (
           <div className={classes.actionBtn}>
-            <Link to='/users/profile' state={{profileId, type}} className='link' style={{marginRight:'5%'}}>
-              <Sbutton text="View" btnWidth="100%" />
+            <Link to='/users/profile' state={{ profileId, type, profileName, verified }} className='link' style={{marginRight:'5%'}}>
+              <Sbutton text="View" btnWidth="150px" />
             </Link>
-            {params.row.isDisabled==false && <Sbutton text='Disable' btnWidth='100%' onClick={() => {changeAble(profileId); setAlert(`${profileName} is disabled !`)}}/>}
-            {params.row.isDisabled==true && <Sbutton text='Enable' btnWidth='100%' onClick={() => {changeAble(profileId); setAlert(`${profileName} is enabled !`)}}/>}
           </div>
         );
       },

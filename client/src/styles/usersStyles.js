@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => {
             margin: "auto",
             textDecoration: "none",
           },
+          verifiedIcon: {
+            marginLeft:8, 
+            color: theme.palette.primary.main
+          }
     }
 });
 

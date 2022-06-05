@@ -1,11 +1,9 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
 import StextField from "../../components/formComponents/StextField";
 import Sbutton from "../../components/Sbutton";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Sselect from "../../components/formComponents/Sselect";
+import * as SelectList from "../../components/formComponents/SelectList";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import JobCategory from "../../services/JobCategory";
@@ -48,19 +46,13 @@ const JobEdit = () => {
         value={inputs.jobType || jobType}
         onChange={handleChange}
       />
-      <FormControl sx={{ width: "70ch" }}>
-        <InputLabel id="category">Category</InputLabel>
-        <Select
-          labelId="category"
-          name="category"
-          value={inputs.category || category}
-          label="Category"
-          onChange={handleChange}
-        >
-          <MenuItem value="Event">Event</MenuItem>
-          <MenuItem value="Construction">Construction</MenuItem>
-        </Select>
-      </FormControl>
+      <Sselect
+        name="category"
+        label="Category"
+        value={inputs.category || category}
+        onChange={handleChange}
+        options={SelectList.getJobTypeCollection()}
+      />
       <br />
       <br />
       <StextField
