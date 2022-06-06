@@ -8,7 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { confirm } from "react-confirm-box";
 
-import useStyles from "../../styles/withdrawalStyle";
+import useStyles from "./withdrawalStyle";
 
 const options = {
   labels: {
