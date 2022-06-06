@@ -1,10 +1,9 @@
 import React, { Fragment, useState } from "react";
 import Message from "./Message";
-import Progress from "./Progress";
+// import Progress from "./Progress";
 import axios from "axios";
-import Sbutton from "../../Sbutton";
 import useStyles from "./styles";
-import Typography from "@mui/material//Typography";
+
 
 const FileUpload = ({
   type,
