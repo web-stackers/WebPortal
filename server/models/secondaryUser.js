@@ -49,11 +49,6 @@ const SecondaryUserSchema = new Schema({
     maxLength: [15, "Max Length is 15 characters"],
   },
 
-  // profilePicture: {
-  //   data: Buffer,
-  //   contentType: String,
-  //   //required: true,
-  // },
   registeredDate: {
     type: Date,
     default: Date.now,

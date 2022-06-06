@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import user from "@testing-library/user-event";
 
@@ -9,7 +9,6 @@ describe("AddNewThirdParty", () => {
 
   beforeEach(() => {
     onSubmit.mockClear();
-    // render(<AddNewThirdParty onSubmit={onSubmit} />);
   });
 
   test("onSubmit is called when all fields pass validation", async () => {
@@ -24,7 +23,7 @@ describe("AddNewThirdParty", () => {
     user.type(mobile, "0774565711");
     const address = screen.getByLabelText(/Address/i);
     user.type(address, "Colombo");
-    user.click(screen.getByText(/submit/i));
+    fireEvent.click(screen.getByText(/submit/i));
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
         fName: "Theepana",
@@ -35,6 +34,16 @@ describe("AddNewThirdParty", () => {
       });
     });
 
-    expect(onSubmit).toHaveBeenCalledTimes(1);
+    // expect(onSubmit).toHaveBeenCalledTimes(1);
   });
+
+  //   test("has required fields", async () => {
+  //     render(<AddNewThirdParty onSubmit={onSubmit} />);
+  //     user.click(screen.getByText(/submit/i));
+
+  //     await waitFor(() => {
+  //       const fName = screen.getByLabelText(/first name/i);
+  //       expect(fName).toHaveErrorMessage("This field is required.");
+  //     });
+  //   });
 });
