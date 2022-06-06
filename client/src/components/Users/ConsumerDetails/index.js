@@ -1,16 +1,9 @@
-import { makeStyles } from "@mui/styles";
 import dateFormat from "dateformat";
 import Typography from '@mui/material//Typography';
 import Card from '@mui/material//Card';
 import CardContent from '@mui/material//CardContent';
 
-const useStyles = makeStyles((theme) => ({
-    userDetails: {
-        borderTop: 15,
-        backgroundColor: 'transparent !important',
-        color: 'white !important',
-    },
-}));
+import useStyles from "./styles";
 
 // Details of consumer 
 const ConsumerDetails = ({user, id}) => {

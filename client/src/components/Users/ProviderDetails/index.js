@@ -1,20 +1,13 @@
 import { useEffect, useState } from "react";
-import { makeStyles } from "@mui/styles";
 import dateFormat from "dateformat";
 import Typography from '@mui/material//Typography';
 import { Grid } from "@mui/material";
 import Card from '@mui/material//Card';
 import CardContent from '@mui/material//CardContent';
 
-import JobCategory from "../../services/JobCategory";
+import JobCategory from "../../../services/JobCategory";
 
-const useStyles = makeStyles((theme) => ({
-    userDetails: {
-        borderTop: 15,
-        backgroundColor: 'transparent !important',
-        color: 'white !important',
-    },
-}));
+import useStyles from "./styles";
 
 // Details of provider 
 const ProviderDetails = ({user, verified, id}) => {

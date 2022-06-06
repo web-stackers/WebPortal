@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import dateFormat from "dateformat";
 
-import Job from "../../services/Job";
+import Job from "../../../services/Job";
+import useStyles from "./styles";
 
 const UserJobs = ({ type, id }) => {
+  const classes = useStyles();
   const [jobs, setJobs] = useState([]);
 
   // // Fetch job history of a user
@@ -56,8 +58,8 @@ const UserJobs = ({ type, id }) => {
   }, []);
 
   return (
-    <div style={{ height: 400, width: "100%", marginTop: 25 }}>
-      <div style={{ display: "flex", height: "100%" }}>
+    <div className={classes.outerBox}>
+      <div className={classes.innerBox}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
         </div>

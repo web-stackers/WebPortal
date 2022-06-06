@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import Sbutton from "../Sbutton";
+import Sbutton from "../../Sbutton";
 
-import useStyles from "../../styles/usersStyles";
+import useStyles from "./styles";
 
 const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
   const classes = useStyles();
 
-  const profilePic = require("../../assets/proPic.jpg");
+  const profilePic = require("../../../assets/proPic.jpg");
 
   const rows = users.map((user) => {
     return {
@@ -77,8 +77,8 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
   }, [type]);
 
   return (
-    <div style={{ height: 500, width: "100%" }}>
-      <div style={{ display: "flex", height: "100%" }}>
+    <div className={classes.outerBox}>
+      <div className={classes.innerBox}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
         </div>

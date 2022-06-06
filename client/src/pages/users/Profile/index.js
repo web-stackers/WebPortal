@@ -1,54 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { makeStyles } from "@mui/styles";
 import Card from "@mui/material//Card";
 import CardContent from "@mui/material//CardContent";
 import CardMedia from "@mui/material//CardMedia";
 import Typography from "@mui/material//Typography";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
-import Sbutton from "../../components/Sbutton";
-import AlertBox from "../../components/AlertBox";
-import ConsumerDetails from "../../components/Users/ConsumerDetails";
-import ProviderDetails from "../../components/Users/ProviderDetails";
-import UserJobs from "../../components/Users/UserJobs";
+import Sbutton from "../../../components/Sbutton";
+import AlertBox from "../../../components/AlertBox";
+import ConsumerDetails from "../../../components/Users/ConsumerDetails";
+import ProviderDetails from "../../../components/Users/ProviderDetails";
+import UserJobs from "../../../components/Users/UserJobs";
 
-import Consumer from "../../services/Consumer";
-import Provider from "../../services/Provider";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    height: "200px",
-    backgroundColor: "transparent !important",
-  },
-  details: {
-    display: "flex",
-    flexDirection: "column",
-    padding: 10,
-    width: "50%",
-  },
-  content: {
-    flex: "1 0 auto",
-  },
-  cover: {
-    width: "20%",
-  },
-  btngrp: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    height: "50%",
-    alignSelf: "center",
-  },
-  btn: {
-    width: "200px",
-  },
-  verifiedIcon: {
-    marginLeft: 8,
-    color: theme.palette.primary.main,
-  },
-}));
+import Consumer from "../../../services/Consumer";
+import Provider from "../../../services/Provider";
+import useStyles from "./styles";
 
 // Profile page of user
 const Profile = () => {
@@ -60,7 +26,7 @@ const Profile = () => {
   const [alert, setAlert] = useState("");
 
   const [profile, setProfile] = useState();
-  const profilePic = require("../../assets/proPic.jpg");
+  const profilePic = require("../../../assets/proPic.jpg");
 
   // Fetch user details using id
   const fetchProfile = () => {
