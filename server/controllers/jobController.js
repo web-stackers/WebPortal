@@ -184,7 +184,6 @@ const complaint_handled = async (req, res) => {
   }
 };
 
-
 // Update rating and review
 const update_ratingAndReview = async (req, res) => {
   const { id } = req.params;
@@ -294,16 +293,75 @@ const user_jobs = async (req, res) => {
         }
       });
       res.json(userJobs);
-    } else if (type=="provider") {
+    } else if (type == "provider") {
       const userJobs = jobs.filter((job) => {
         if (job.providerId == id) {
           return job;
         }
       });
       res.json(userJobs);
-    } else if (type=="both") {
+    } else if (type == "both") {
       res.json(jobs);
     }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch job withdrawals of a user
+const user_withdrawals = async (req, res) => {
+  var query = [
+    {
+      $lookup: {
+        from: "jobassignments",
+        let: { jid: "$_id", pid: "$providerId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$$jid", "$jobId"] },
+                  { $eq: ["$$pid", "$providerId"] },
+                ],
+              },
+            },
+          },
+        ],
+        as: "userJobs",
+      },
+    },
+    {
+      $lookup: {
+        from: "providers",
+        localField: "providerId",
+        foreignField: "_id",
+        as: "provider",
+      },
+    },
+    {
+      $lookup: {
+        from: "consumers",
+        localField: "consumerId",
+        foreignField: "_id",
+        as: "consumer",
+      },
+    },
+    {
+      $project: {
+        jobType: 1,
+        providerId: 1,
+        consumerId: 1,
+        "userJobs.withdrawn": 1,
+        "userJobs.state": 1,
+        "provider.name.fName": 1,
+        "consumer.name.fName": 1,
+      },
+    },
+  ];
+
+  try {
+    const user_withdrawals = await job.aggregate(query);
+    res.json(user_withdrawals);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -332,4 +390,5 @@ module.exports = {
   update_ratingAndReview,
   user_jobs,
   fetch_complaint_count,
+  user_withdrawals,
 };

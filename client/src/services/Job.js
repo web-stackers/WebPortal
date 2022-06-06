@@ -21,6 +21,11 @@ const fetchUserJobs = async (type, id) => {
   return await axios.get(`/job/user/userjobs/${type}/${id}`);
 };
 
+// Fetch job withdrawals of a user
+const fetchUserWithdrawals = async () => {
+  return await axios.get("/job/user/userwithdrawals");
+};
+
 // Fetch complaint count
 const fetchComplaintCount = async () => {
   return await axios.get("/job/complaint/count");
@@ -38,4 +43,5 @@ export default {
   fetchUserJobs,
   fetchComplaintCount,
   complaintHandled,
+  fetchUserWithdrawals,
 };

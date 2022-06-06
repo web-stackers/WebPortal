@@ -12,6 +12,9 @@ router.get("/:id", jobController.fetch_job);
 // Fetch job history of a user
 router.get("/user/userjobs/:type/:id", jobController.user_jobs);
 
+// Fetch job withdrawals of a user
+router.get("/user/userwithdrawals", jobController.user_withdrawals);
+
 // Add new job to the database
 router.post("/", jobController.post_job);
 
@@ -28,13 +31,22 @@ router.patch("/ratingAndReview/:id", jobController.update_ratingAndReview);
 router.get("/complaints/:id", jobController.fetch_complaints);
 
 //Fetch all complaints by consumer
-router.get("/complaint/consumer", jobController.fetch_all_complaints_by_consumer);
+router.get(
+  "/complaint/consumer",
+  jobController.fetch_all_complaints_by_consumer
+);
 
 //Fetch job by consumer complaints
-router.get("/complaint/consumer/:id", jobController.fetch_all_job_by_consumer_complaints);
+router.get(
+  "/complaint/consumer/:id",
+  jobController.fetch_all_job_by_consumer_complaints
+);
 
 //Fetch all complaints by provider
-router.get("/complaint/provider", jobController.fetch_all_complaints_by_provider);
+router.get(
+  "/complaint/provider",
+  jobController.fetch_all_complaints_by_provider
+);
 
 // Fetch count of complaints
 router.get("/complaint/count", jobController.fetch_complaint_count);
