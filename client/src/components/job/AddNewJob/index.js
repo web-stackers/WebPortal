@@ -1,7 +1,7 @@
-import StextField from "../formComponents/StextField";
-import Sbutton from "../Sbutton";
-import Sselect from "../../components/formComponents/Sselect";
-import * as SelectList from "../../components/formComponents/SelectList";
+import StextField from "../../formComponents/StextField";
+import Sbutton from "../../Sbutton";
+import Sselect from "../../formComponents/Sselect";
+import * as SelectList from "../../formComponents/SelectList";
 import { useState } from "react";
 
 const AddNewJob = ({ onAdd }) => {
@@ -33,6 +33,7 @@ const AddNewJob = ({ onAdd }) => {
     <form>
       <br />
       <StextField
+        id="jobType"
         label="Job Type"
         name="jobType"
         value={jobType}
@@ -40,8 +41,10 @@ const AddNewJob = ({ onAdd }) => {
         error={errors.jobType}
       />
       <Sselect
+        id="category"
         name="category"
         label="Category"
+        testId="Category"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         options={SelectList.getJobTypeCollection()}

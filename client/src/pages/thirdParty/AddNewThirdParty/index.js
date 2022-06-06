@@ -1,8 +1,8 @@
-import StextField from "../../components/formComponents/StextField";
-import Sselect from "../../components/formComponents/Sselect";
-import * as SelectList from "../../components/formComponents/SelectList";
-import Sbutton from "../../components/Sbutton";
-import SecondaryUser from "../../services/SecondaryUser";
+import StextField from "../../../components/formComponents/StextField";
+import Sselect from "../../../components/formComponents/Sselect";
+import * as SelectList from "../../../components/formComponents/SelectList";
+import Sbutton from "../../../components/Sbutton";
+import SecondaryUser from "../../../services/SecondaryUser";
 import { useState } from "react";
 import { Typography } from "@mui/material";
 
@@ -77,6 +77,7 @@ const AddNewThirdParty = () => {
       <br />
       <form encType="multipart/form-data">
         <StextField
+          id="fName"
           label="First Name"
           name="fName"
           value={inputs.fName || ""}
@@ -85,6 +86,7 @@ const AddNewThirdParty = () => {
         />
 
         <StextField
+          id="lName"
           label="Last Name"
           name="lName"
           value={inputs.lName || ""}
@@ -93,6 +95,7 @@ const AddNewThirdParty = () => {
         />
 
         <StextField
+          id="email"
           label="Email"
           name="email"
           value={inputs.email || ""}
@@ -101,6 +104,7 @@ const AddNewThirdParty = () => {
         />
 
         <StextField
+          id="mobile"
           label="Mobile Number"
           name="mobile"
           value={inputs.mobile || ""}
@@ -109,6 +113,7 @@ const AddNewThirdParty = () => {
         />
 
         <StextField
+          id="address"
           label="Address"
           name="address"
           value={inputs.address || ""}
