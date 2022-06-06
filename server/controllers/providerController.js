@@ -8,17 +8,20 @@ const transporter = require("../send-email/sendEmail");
 // create and save new provider type
 const post_providerType = async (req, res) => {
   const profilePictureBuffer = fs.readFileSync(
-    path.join(__dirname + "../../../client/public/uploads/" + "profile.png")
+    // path.join(__dirname + "../../../client/public/uploads/" + "profile.png")
+    req.body.profilePath
   );
   console.log(profilePictureBuffer);
   const nicBuffer = fs.readFileSync(
-    path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
+    // path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
+    req.body.nicPath
   );
   console.log(nicBuffer);
   const qualificationDocBuffer = fs.readFileSync(
-    path.join(
-      __dirname + "../../../client/public/uploads/" + "Degree certificate.pdf"
-    )
+    // path.join(
+    //   __dirname + "../../../client/public/uploads/" + "Degree certificate.pdf"
+    // )
+    req.body.docPath
   );
   const newserviceprovider = new provider({
     name: {
@@ -42,32 +45,30 @@ const post_providerType = async (req, res) => {
           contentType: "image/png",
         },
       },
-      // ,
-      // {
-      //   type: "NIC Scanned",
-      //   doc: {
-      //     data: nicBuffer,
-      //     contentType: "application/pdf",
-      //   }
-      // },
-
-      // {
-      //   type: "Qualification",
-      //   qualificationDocType: req.body.qualificationDocType,
-      //   doc: {
-      //     data: qualificationDocBuffer,
-      //     contentType: "application/pdf",
-      //   }
-      // }
+      {
+        type: "NIC Scanned",
+        doc: {
+          data: nicBuffer,
+          contentType: "application/pdf",
+        }
+      },
+      {
+        type: "Qualification",
+        qualificationDocType: req.body.qualificationDocType,
+        doc: {
+          data: qualificationDocBuffer,
+          contentType: "application/pdf",
+        }
+      },
     ],
   });
 
   //save new provider type in the database and error handling
   try {
     await newserviceprovider.save();
-    res.status(201).json(newserviceprovider);
+    res.status(200).json(newserviceprovider);
   } catch (error) {
-    res.status(409).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 

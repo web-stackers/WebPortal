@@ -24,6 +24,7 @@ const Registration = () => {
   const [isNext, setIsNext] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   // const [profile, setProfile] = useState("");
   // const [profileName, setProfileName] = useState("Choose Profile Picture");
@@ -75,8 +76,20 @@ const Registration = () => {
   const onSubmit = (e) => {
     console.log(inputs);
     e.preventDefault();
-    Provider.addNew(inputs);
-   // window.location.reload(false);
+    try{
+      const res = Provider.addNew(inputs);
+      console.log(res.data);
+      setIsSubmitted(true);
+    }catch(err){
+      if (err.response.status === 500) {
+        window.alert("Could not updated in Database, There was a problem with the server")
+      } else {
+        window.alert("Could not updated in Database, "+err.response.data.msg)
+      }
+      window.location.reload(false);
+    }
+    
+   
   };
 
   return (
@@ -87,6 +100,7 @@ const Registration = () => {
           value={inputs.qualificationDocType}
           onSubmit={onSubmit}
           setInputs={setInputs}
+          isSubmitted={isSubmitted}
         />
       ) : (
         <Container component="main" maxWidth="lg">

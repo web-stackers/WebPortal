@@ -50,7 +50,7 @@ const providerSchema = Schema({
   appliedDate: {
     type: Date,
     required: true,
-    default: Date.now, // default date
+    default: Date.now(), // default date
   },
   jobType: {
     type: mongoose.Types.ObjectId,
