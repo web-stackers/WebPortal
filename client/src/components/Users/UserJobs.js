@@ -25,7 +25,7 @@ const UserJobs = ({ type, id }) => {
       description: job.description,
       requestedDate: dateFormat(job.requestedTime, "yyyy-mm-dd"),
       requestedTime: dateFormat(job.requestedTime, "hh:MM TT"),
-      //   state: job.userJobs[0].state,
+      state: job.userJobs[0].state,
       providerName: job.provider[0].name.fName,
       consumerName: job.consumer[0].name.fName,
     };
