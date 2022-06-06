@@ -53,11 +53,8 @@ const VerifiedDocumentlist = () => {
                 </Typography>
                 <br />
               </CardContent>
-              <Stack spacing={1} alignItems="center">
-                <Stack direction="row" spacing={4}>
-                  <Sbutton text="View" btnWidth="100px" />
-                  <Sbutton text="Download" btnWidth="100px" />
-                </Stack>
+              <Stack alignItems="center">
+                <Sbutton text="View" btnWidth="150px" />
               </Stack>
             </Card>
           </Grid>

@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => {
 
 const StextField = ({
   label,
+  id,
   name,
   value,
   onChange,
@@ -28,6 +29,7 @@ const StextField = ({
         variant="outlined"
         name={name}
         label={label}
+        id={id}
         value={value}
         onChange={onChange}
         type={type}

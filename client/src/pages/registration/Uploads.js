@@ -105,4 +105,4 @@ const Uploads = ({ handleChange, value, onSubmit, setInputs, isSubmitted }) => {
   );
 };
 
-export default Uploads;
+// export default Uploads;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 
-import Topbar from "../../components/Users/Topbar";
-import Userlist from "../../components/Users/Userlist";
+import Topbar from "../../../components/Users/Topbar";
+import Userlist from "../../../components/Users/Userlist";
 
-import Consumer from "../../services/Consumer";
-import Provider from "../../services/Provider";
+import Consumer from "../../../services/Consumer";
+import Provider from "../../../services/Provider";
 
 const Users = () => {
     const [user, setUser] = useState('Consumers');

@@ -15,6 +15,7 @@
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.25.0",
+    "babel-loader": "^8.2.5",
     "dateformat": "^5.0.3",
     "formik": "^2.2.9",
     "react": "^17.0.2",

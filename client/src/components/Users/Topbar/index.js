@@ -7,11 +7,10 @@ import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Sbutton from '../Sbutton';
 
-import Consumer from "../../services/Consumer";
-import Provider from "../../services/Provider";
-import useStyles from '../../styles/usersStyles';
+import Consumer from "../../../services/Consumer";
+import Provider from "../../../services/Provider";
+import useStyles from './styles';
 
 const Topbar = ({ type, setType, setUsers, fetchUsers }) => {
   const classes = useStyles();

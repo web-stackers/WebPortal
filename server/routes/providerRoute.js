@@ -7,7 +7,10 @@ const providerController = require("../controllers/providerController");
 router.post("/", providerController.post_providerType);
 
 //update verification details
-router.patch("/updateVerification/:id/:result", providerController.update_verification);
+router.patch(
+  "/updateVerification/:id/:result",
+  providerController.update_verification
+);
 
 //fetch all providers
 router.get("/", providerController.fetch_providers);
@@ -48,7 +51,13 @@ router.patch(
   providerController.document_rejected
 );
 
-// Update rating and review
-router.patch("/providerCount/:id", providerController.update_provider_count);
+// Increase provider count in job type category
+router.patch("/providerCount/:id", providerController.increase_provider_count);
+
+// Update provider count in job type category when enabling and disabling by admin
+router.patch(
+  "/providerCountUpdate/:id",
+  providerController.update_provider_count
+);
 
 module.exports = router;

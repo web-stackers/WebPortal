@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import Sbutton from './Sbutton';
+import Sbutton from '../Sbutton';
 
 // Popup alertbox for confirmation message
 const AlertBox = ({open, setOpen, alert}) => {
