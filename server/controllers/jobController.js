@@ -352,6 +352,7 @@ const user_withdrawals = async (req, res) => {
         providerId: 1,
         consumerId: 1,
         "userJobs.withdrawn": 1,
+        "userJobs._id": 1,
         "userJobs.state": 1,
         "provider.name.fName": 1,
         "consumer.name.fName": 1,

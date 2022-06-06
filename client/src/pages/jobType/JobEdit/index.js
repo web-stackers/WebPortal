@@ -1,12 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
-import StextField from "../../components/formComponents/StextField";
-import Sbutton from "../../components/Sbutton";
-import Sselect from "../../components/formComponents/Sselect";
-import * as SelectList from "../../components/formComponents/SelectList";
+import StextField from "../../../components/formComponents/StextField";
+import Sbutton from "../../../components/Sbutton";
+import Sselect from "../../../components/formComponents/Sselect";
+import * as SelectList from "../../../components/formComponents/SelectList";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import JobCategory from "../../services/JobCategory";
+import JobCategory from "../../../services/JobCategory";
 
 const JobEdit = () => {
   const location = useLocation();

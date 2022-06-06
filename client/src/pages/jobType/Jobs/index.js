@@ -1,8 +1,8 @@
 import { useState } from "react";
-import JobCategory from "../../services/JobCategory";
-import Sbutton from "../../components/Sbutton";
-import AddNewJob from "../../components/job/AddNewJob";
-import JobList from "../../components/job/JobList";
+import JobCategory from "../../../services/JobCategory";
+import Sbutton from "../../../components/Sbutton";
+import AddNewJob from "../../../components/job/AddNewJob";
+import JobList from "../../../components/job/JobList";
 
 const Jobs = () => {
   //showAddTask is maintain for toggling adding new job form, initially it is set to false, which means form will not be displayed.

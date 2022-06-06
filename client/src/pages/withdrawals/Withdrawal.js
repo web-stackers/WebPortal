@@ -113,12 +113,12 @@ const Withdrawal = () => {
                       text="Accept"
                       btnWidth="50%"
                       marginRight="1%"
-                      onClick={() => accept(withdrawal._id)}
+                      onClick={() => accept(withdrawal.userJobs[0]._id)}
                     ></Sbutton>
                     <Sbutton
                       text="Reject"
                       btnWidth="50%"
-                      onClick={() => reject(withdrawal._id)}
+                      onClick={() => reject(withdrawal.userJobs[0]._id)}
                     />
                   </CardActions>
                 </Card>
