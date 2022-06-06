@@ -35,7 +35,6 @@ const Registration = () => {
   // const [doc, setDoc] = useState("");
   // const [docName, setDocName] = useState("Choose Qualification Document");
 
-
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -73,23 +72,23 @@ const Registration = () => {
   //   //   setInputs((values) => ({ ...values, qualificationDocName: docName }))
   //   // );
   // };
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     console.log(inputs);
     e.preventDefault();
-    try{
-      const res = Provider.addNew(inputs);
+    try {
+      const res = await Provider.addNew(inputs);
       console.log(res.data);
       setIsSubmitted(true);
-    }catch(err){
+    } catch (err) {
       if (err.response.status === 500) {
-        window.alert("Could not updated in Database, There was a problem with the server")
+        window.alert(
+          "Could not updated in Database, There was a problem with the server"
+        );
       } else {
-        window.alert("Could not updated in Database, "+err.response.data.msg)
+        window.alert("Could not updated in Database, " + err.response.data.msg);
       }
       window.location.reload(false);
     }
-    
-   
   };
 
   return (

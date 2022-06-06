@@ -21,7 +21,6 @@ const FileUpload = ({
   const onChange = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
-    console.log(uploadedFilePath);
     setUploadedFilePath("");
     if (type === "Profile Picture") {
       if (file.type === "image/png" || file.type === "image/jpeg") {
@@ -87,15 +86,14 @@ const FileUpload = ({
 
       // const { filePath } = res.data;
       console.log(res.data);
-      setUploadedFilePath("Pending");
-      setUploadedFilePath(res.data.filePath);
+      await setUploadedFilePath(res.data.filePath);
       //   .then(() =>
       //   setMessage("File Uploaded")
       // );
 
       setMessage("File Uploaded");
       // setTimeout(() => setMessage("File Uploaded"), 2000);
-      console.log(res.data.filePath);
+      // console.log(res.data.filePath);
       console.log(uploadedFilePath);
       if (type === "Profile Picture") {
         setInputs((values) => ({
