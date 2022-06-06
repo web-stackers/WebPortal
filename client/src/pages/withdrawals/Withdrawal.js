@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import JobAssignment from "../../services/JobAssignment";
+import Job from "../../services/Job";
 import Sbutton from "../../components/Sbutton";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -21,7 +22,7 @@ const Withdrawal = () => {
 
   //Retrieve all job assignments which have or haven't withdrawals
   const fetchWithdrawals = () => {
-    JobAssignment.fetchJobAssignment()
+    Job.fetchUserWithdrawals()
       .then((response) => {
         setWithdrawals(response.data);
       })
@@ -83,18 +84,27 @@ const Withdrawal = () => {
     <div>
       {withdrawals.map((withdrawal) => (
         <div key={withdrawal._id}>
-          {withdrawal.withdrawn &&
-            withdrawal.withdrawn.adminResponse === "Pending" && (
+          {withdrawal.userJobs[0].withdrawn &&
+            withdrawal.userJobs[0].withdrawn.adminResponse === "Pending" && (
               <>
                 <Card className={classes.root}>
                   <div className={classes.details}>
                     <CardContent>
                       <Typography variant="body2" color="text.secondary">
+                        <b>Provider FName: </b>
+                        {withdrawal.provider[0].name.fName}
+                        <br /> <br />
+                        <b>Consumer FName: </b>
+                        {withdrawal.consumer[0].name.fName}
+                        <br /> <br />
+                        <b>Job Type: </b>
+                        {withdrawal.jobType}
+                        <br /> <br />
                         <b>Withdrawal request Arised By: </b>
-                        {withdrawal.withdrawn.arisedBy}
+                        {withdrawal.userJobs[0].withdrawn.arisedBy}
                         <br /> <br />
                         <b>Reason for withdrawal: </b>
-                        {withdrawal.withdrawn.reason}
+                        {withdrawal.userJobs[0].withdrawn.reason}
                       </Typography>
                     </CardContent>
                   </div>
