@@ -20,7 +20,7 @@ const options = {
 const Withdrawal = () => {
   const [withdrawals, setWithdrawals] = useState([]);
 
-  //Retrieve all job assignments which have or haven't withdrawals
+  //Retrieve all job assignments which have or haven't withdrawals. It is the retrieval of aggregate function of four tables- provider, consumer, job and job assignment
   const fetchWithdrawals = () => {
     Job.fetchUserWithdrawals()
       .then((response) => {

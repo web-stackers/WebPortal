@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
-import JobCategory from "../../services/JobCategory";
+import JobCategory from "../../../services/JobCategory";
 import { confirm } from "react-confirm-box";
 
 const options = {
@@ -71,12 +71,12 @@ const JobList = () => {
   const columns = [
     { field: "jobType", headerName: "Job Type", width: 200 },
     { field: "category", headerName: "Job Category", width: 200 },
-    { field: "description", headerName: "Description", width: 300 },
+    { field: "description", headerName: "Description", width: 350 },
     { field: "providerCount", headerName: "No of providers", width: 200 },
     {
       field: "Action",
       headerName: "Action",
-      width: 180,
+      width: 250,
       sortable: false,
       renderCell: (params) => {
         return (

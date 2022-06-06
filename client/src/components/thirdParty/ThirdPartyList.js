@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
 import { Link } from "react-router-dom";
-import useStyles from "../../styles/thirdPartyStyle";
+import useStyles from "./thirdPartyStyle";
 import { confirm } from "react-confirm-box";
 import { useAlert } from "react-alert";
 
