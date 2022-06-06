@@ -1,5 +1,5 @@
-import Sbutton from "../../components/Sbutton";
-import ThirdPartyList from "../../components/thirdParty/ThirdPartyList";
+import Sbutton from "../../../components/Sbutton";
+import ThirdPartyList from "../../../components/thirdParty/ThirdPartyList";
 import { Link } from "react-router-dom";
 import { Provider } from "react-alert";
 
