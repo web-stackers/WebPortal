@@ -14,7 +14,6 @@ const Sselect = ({
   onChange,
   options,
   id,
-  testId,
 }) => {
   return (
     <FormControl sx={{ width: "70ch" }} {...(error && { error: true })}>
@@ -25,7 +24,6 @@ const Sselect = ({
         value={value}
         onChange={onChange}
         id={id}
-        testId={testId}
       >
         <MenuItem value="">None</MenuItem>
         {options.map((item) => (

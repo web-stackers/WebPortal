@@ -44,7 +44,6 @@ const AddNewJob = ({ onAdd }) => {
         id="category"
         name="category"
         label="Category"
-        testId="Category"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         options={SelectList.getJobTypeCollection()}
