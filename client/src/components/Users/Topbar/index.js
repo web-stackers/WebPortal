@@ -12,7 +12,7 @@ import Consumer from "../../../services/Consumer";
 import Provider from "../../../services/Provider";
 import useStyles from './styles';
 
-const Topbar = ({ type, setType, setUsers, fetchUsers }) => {
+const Topbar = ({ type, setType, setUsers, setAlertOpen }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [searchKey, setSearchKey] = useState('');
@@ -23,7 +23,9 @@ const Topbar = ({ type, setType, setUsers, fetchUsers }) => {
 
   // Search user by the username 
   const searchUser = () => {
-    if(type=='Consumers'){
+    if(searchKey===''){
+      setAlertOpen(true);
+    } else if(type=='Consumers'){
       Consumer.searchConsumer(searchKey)
         .then((response) => {
           setUsers(response.data);

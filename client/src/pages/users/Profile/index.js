@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Card from "@mui/material//Card";
 import CardContent from "@mui/material//CardContent";
 import CardMedia from "@mui/material//CardMedia";
@@ -18,11 +18,15 @@ import useStyles from "./styles";
 
 // Profile page of user
 const Profile = () => {
-  const location = useLocation();
-  const { profileId, type, profileName, verified } = location.state;
   const classes = useStyles();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { profileId, type, profileName, verified } = location.state;
+  
+
   const [open, setOpen] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
   const [alert, setAlert] = useState("");
 
   const [profile, setProfile] = useState();
@@ -55,6 +59,7 @@ const Profile = () => {
       Consumer.ableConsumer(id)
         .then(() => {
           setOpen(true);
+          setAlertTitle("Done");
           fetchProfile();
         })
         .catch((e) => {
@@ -65,6 +70,7 @@ const Profile = () => {
       Provider.ableProvider(id)
         .then(() => {
           setOpen(true);
+          setAlertTitle("Done");
           fetchProfile();
         })
         .catch((e) => {
@@ -139,9 +145,8 @@ const Profile = () => {
                 }}
               />
             )}
-            <Link to="/users" className="link">
-              <Sbutton text="Back" btnWidth="200px" />
-            </Link>
+
+            <Sbutton text="Back" btnWidth="200px" onClick={() => navigate("/users")}/>
           </div>
         </Card>
       )}
@@ -156,7 +161,7 @@ const Profile = () => {
       {profile && (
         <Card className="root">
           <CardContent>
-            <Typography variant="h5">Jobs</Typography>
+            <Typography variant="h5">Job History</Typography>
             {type === "Consumers" && (
               <UserJobs type="consumer" id={profileId} />
             )}

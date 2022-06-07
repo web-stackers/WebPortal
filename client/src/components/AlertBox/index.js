@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Sbutton from '../Sbutton';
 
 // Popup alertbox for confirmation message
-const AlertBox = ({open, setOpen, alert}) => {
+const AlertBox = ({open, setOpen, alert, alertTitle}) => {
 
   const handleClose = () => {
     setOpen(false);
@@ -20,7 +20,7 @@ const AlertBox = ({open, setOpen, alert}) => {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>Done</DialogTitle>
+        <DialogTitle>{alertTitle}</DialogTitle>
         <DialogContent>
             <DialogContentText>
                 {alert}

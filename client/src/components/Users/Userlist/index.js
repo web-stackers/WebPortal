@@ -5,8 +5,18 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import Sbutton from "../../Sbutton";
 
 import useStyles from "./styles";
+import { LinearProgress } from "@mui/material";
 
-const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
+const CustomNoRowsOverlay = () => {
+  const classes = useStyles();
+  return (
+    <div className={classes.noRows}>
+      <p>No Users Found</p>
+    </div>
+  )
+}
+
+const Userlist = ({ type, users, fetchUsers, loading }) => {
   const classes = useStyles();
 
   const profilePic = require("../../../assets/proPic.jpg");
@@ -78,11 +88,16 @@ const Userlist = ({ type, users, fetchUsers, setOpen, setAlert }) => {
 
   return (
     <div className={classes.outerBox}>
-      <div className={classes.innerBox}>
-        <div style={{ flexGrow: 1 }}>
-          <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
-        </div>
-      </div>
+          <DataGrid 
+            rows={rows} 
+            columns={columns} 
+            disableSelectionOnClick
+            loading={loading}
+            components={{
+              NoRowsOverlay: CustomNoRowsOverlay,
+              LoadingOverlay: LinearProgress
+            }}
+          />
     </div>
   );
 };

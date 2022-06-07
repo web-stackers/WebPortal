@@ -10,7 +10,7 @@ import ThirdPartyProfile from "./pages/thirdParty/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import Layout from "./components/Layout";
 import Profile from "./pages/users/Profile";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -28,14 +28,17 @@ const theme = createTheme({
 });
 
 function App() {
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Layout>
           <div className="App">
             <Routes>
-              <Route exact path="/" element={<Dashboard />} />
-              <Route exact path="/users" element={<Users />} />
+              {/* <Route exact path="/" element={<Dashboard />} /> */}
+              <Route exact path="/" element={<Navigate to="/dashboard" />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/users" element={<Users />} />
               <Route path="/jobs" element={<Jobs />} />
               <Route path="/jobEdit" element={<JobEdit />} />
               <Route path="/complaints" element={<Complaint />} />

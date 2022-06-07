@@ -7,9 +7,12 @@ const useStyles = makeStyles((theme) => {
             width: "100%", 
             marginTop: 25
         },
-        innerBox: {
-            display: "flex", 
-            height: "100%"
+        noRows: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%'
         }
     }
 });

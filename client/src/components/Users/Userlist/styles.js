@@ -23,12 +23,15 @@ const useStyles = makeStyles((theme) => {
             color: theme.palette.primary.main
           },
           outerBox:{
-            height: 500, 
+            height: 550, 
             width: "100%"
           },
-          innerBox: {
-            display: "flex", 
-            height: "100%"
+          noRows: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%'
           }
     }
 });

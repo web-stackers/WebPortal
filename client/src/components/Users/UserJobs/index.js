@@ -5,6 +5,15 @@ import dateFormat from "dateformat";
 import Job from "../../../services/Job";
 import useStyles from "./styles";
 
+const CustomNoRowsOverlay = () => {
+  const classes = useStyles();
+  return (
+    <div className={classes.noRows}>
+      <p>No Jobs Found</p>
+    </div>
+  )
+}
+
 const UserJobs = ({ type, id }) => {
   const classes = useStyles();
   const [jobs, setJobs] = useState([]);
@@ -59,11 +68,14 @@ const UserJobs = ({ type, id }) => {
 
   return (
     <div className={classes.outerBox}>
-      <div className={classes.innerBox}>
-        <div style={{ flexGrow: 1 }}>
-          <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
-        </div>
-      </div>
+      <DataGrid 
+        rows={rows} 
+        columns={columns} 
+        disableSelectionOnClick
+        components={{
+          NoRowsOverlay: CustomNoRowsOverlay
+        }}
+      />
     </div>
   );
 };

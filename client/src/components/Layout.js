@@ -26,7 +26,7 @@ const Layout = ({ children }) => {
   const menuItems = [
     {
       text: "Dashboard",
-      path: "/",
+      path: "/dashboard",
       icon: <DashboardOutlined />,
     },
     {
@@ -90,7 +90,7 @@ const Layout = ({ children }) => {
               key={item.text}
               onClick={() => navigate(item.path)}
               className={
-                location.pathname === item.path ? classes.active : null
+                location.pathname.startsWith(item.path) ? classes.active : null
               }
             >
               <ListItemIcon style={{ color: "white" }}>
