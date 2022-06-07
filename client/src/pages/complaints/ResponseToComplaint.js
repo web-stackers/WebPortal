@@ -42,7 +42,7 @@ const ResponseToComplaint = () => {
   };
 
   //onClick function when submit button is clicked. Details will be update and path will be redirected
-  const onSubmit = async (e) => {
+  const onSubmit = async () => {
     const result = await confirm("Are you sure to sending response?", options);
     if (result) {
       Job.complaintHandled(ID, reply)
