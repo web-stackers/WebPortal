@@ -42,7 +42,7 @@ const Users = () => {
 
     return ( 
         <>
-            <Topbar type={user} setType={setUser} setUsers={setUsers} setAlertOpen={setOpen} />
+            <Topbar type={user} setType={setUser} setUsers={setUsers} fetchUsers={fetchUsers} setAlertOpen={setOpen} />
             <Userlist type={user} users={users} fetchUsers={fetchUsers} loading={loading}/>
             <AlertBox open={open} alert={alert} setOpen={setOpen} alertTitle={alertTitle} />
         </>

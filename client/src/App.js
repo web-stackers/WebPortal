@@ -35,7 +35,6 @@ function App() {
         <Layout>
           <div className="App">
             <Routes>
-              {/* <Route exact path="/" element={<Dashboard />} /> */}
               <Route exact path="/" element={<Navigate to="/dashboard" />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/users" element={<Users />} />

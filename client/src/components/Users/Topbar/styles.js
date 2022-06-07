@@ -14,9 +14,7 @@ const useStyles = makeStyles((theme) => {
           search: {
             display: "flex",
             justifySelf: "flex-end",
-          },
-          textBox: {
-            marginRight: '10px'
+            alignContent: "space-between",
           },
     }
 });

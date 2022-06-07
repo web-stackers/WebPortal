@@ -2,19 +2,21 @@ import React from 'react';
 import { useState } from 'react';
 
 import Button from "@mui/material/Button";
-import SearchIcon from "@mui/icons-material/Search";
 import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import SearchIcon from "@mui/icons-material/Search";
+import CachedIcon from '@mui/icons-material/Cached';
 
 import Consumer from "../../../services/Consumer";
 import Provider from "../../../services/Provider";
 import useStyles from './styles';
 
-const Topbar = ({ type, setType, setUsers, setAlertOpen }) => {
+const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertOpen }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [show, setShow] = useState(false);
   const [searchKey, setSearchKey] = useState('');
 
   const handleClose = () => {
@@ -30,6 +32,7 @@ const Topbar = ({ type, setType, setUsers, setAlertOpen }) => {
         .then((response) => {
           setUsers(response.data);
           setSearchKey('');
+          setShow(true);
         })
         .catch((e) => {
           console.log(e);
@@ -39,6 +42,7 @@ const Topbar = ({ type, setType, setUsers, setAlertOpen }) => {
         .then((response) => {
           setUsers(response.data);
           setSearchKey('');
+          setShow(true);
         })
         .catch((e) => {
           console.log(e);
@@ -63,13 +67,18 @@ const Topbar = ({ type, setType, setUsers, setAlertOpen }) => {
         </Menu>
       </div>
 
+      
+
       <div className={classes.search}>
+        {show && <Button variant="contained" style={{marginRight:'10px'}} onClick={() => {fetchUsers(); setShow(false)}}>
+            Reset <CachedIcon />
+        </Button>}
+
         <TextField 
           id="searchUser" 
           name="searchKey"
           label="Type username" 
           variant="outlined"
-          className={classes.textBox}
           size= "small"
           autoComplete='off'
           value={searchKey}
