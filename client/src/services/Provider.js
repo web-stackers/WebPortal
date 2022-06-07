@@ -1,7 +1,12 @@
 import axios from "axios";
 
+// check whether the emai,mobile and nic are unique while registering
+const validate = async (data) => {
+  return await axios.post("/provider/register/validate", data);
+};
+// Register new provider
 const addNew = async (data) => {
-  return await axios.post("/provider", data);
+  return await axios.post("/provider/register", data);
 };
 
 // Fetch all providers
@@ -67,6 +72,7 @@ const updateProviderCount = async (id) => {
 };
 
 export default {
+  validate,
   addNew,
   fetchProviders,
   ableProvider,

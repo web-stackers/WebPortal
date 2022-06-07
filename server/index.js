@@ -48,8 +48,8 @@ app.post("/upload", (req, res) => {
     }
     // path.join(__dirname, "../client/public/uploads/",file.name)
     // res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
-    res.json({ filePath: destination });
-    console.log({ filePath: destination });
+    res.json({ filePath: destination, type: file.mimetype });
+    console.log({ filePath: destination, type: file.mimetype });
   });
 });
 

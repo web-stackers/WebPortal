@@ -5,23 +5,57 @@ var path = require("path");
 const { getMaxListeners } = require("process");
 const transporter = require("../send-email/sendEmail");
 
-// create and save new provider type
+// check whether the emai,mobile and nic are unique while registering
+const validate_provider = async (req, res) => {
+  const { mobile, NIC , email } = req.body;
+  console.log({ mobile, NIC , email });
+  let isMobileExist = false;
+  let isNicExist = false;
+  let isEmailExist = false;
+
+  try {
+    const mobileUser = await provider.findOne({ "contact.mobile": mobile });
+    const nicUser = await provider.findOne({ "NIC": NIC });
+    const emailUser = await provider.findOne({ "contact.email": email });
+    console.log(mobileUser);
+    console.log(nicUser);
+    console.log(emailUser);
+
+    if (mobileUser){
+      isMobileExist = true;
+    }
+    if (nicUser){
+      isNicExist = true;
+    }
+    if (emailUser){
+      isEmailExist = true;
+    }
+
+    res.status(200).json({ mobile: isMobileExist, NIC: isNicExist, email: isEmailExist});
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    
+    console.log(error);
+  }
+};
+
+// Register new provider
 const post_providerType = async (req, res) => {
   const profilePictureBuffer = fs.readFileSync(
     // path.join(__dirname + "../../../client/public/uploads/" + "profile.png")
-    req.body.profilePath
+    req.body.profilePath.filePath
   );
   console.log(profilePictureBuffer);
   const nicBuffer = fs.readFileSync(
     // path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
-    req.body.nicPath
+    req.body.nicPath.filePath
   );
   console.log(nicBuffer);
   const qualificationDocBuffer = fs.readFileSync(
     // path.join(
     //   __dirname + "../../../client/public/uploads/" + "Degree certificate.pdf"
     // )
-    req.body.docPath
+    req.body.docPath.filePath
   );
   const newserviceprovider = new provider({
     name: {
@@ -42,14 +76,14 @@ const post_providerType = async (req, res) => {
         type: "Profile Picture",
         doc: {
           data: profilePictureBuffer,
-          contentType: "image/png",
+          contentType: req.body.profilePath.type,
         },
       },
       {
         type: "NIC Scanned",
         doc: {
           data: nicBuffer,
-          contentType: "application/pdf",
+          contentType: req.body.nicPath.type,
         }
       },
       {
@@ -57,7 +91,7 @@ const post_providerType = async (req, res) => {
         qualificationDocType: req.body.qualificationDocType,
         doc: {
           data: qualificationDocBuffer,
-          contentType: "application/pdf",
+          contentType: req.body.docPath.type,
         }
       },
     ],
@@ -65,8 +99,8 @@ const post_providerType = async (req, res) => {
 
   //save new provider type in the database and error handling
   try {
-    await newserviceprovider.save();
-    res.status(200).json(newserviceprovider);
+    const response = await newserviceprovider.save();
+    res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -364,6 +398,7 @@ const update_provider_count = async (req, res) => {
 };
 
 module.exports = {
+  validate_provider,
   post_providerType,
   fetch_providers,
   fetch_provider,

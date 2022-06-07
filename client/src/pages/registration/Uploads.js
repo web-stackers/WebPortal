@@ -12,9 +12,6 @@ import useStyles from "./styles";
 
 const Uploads = ({ handleChange, value, onSubmit, setInputs, isSubmitted }) => {
   const classes = useStyles();
-  // const [profileName, setProfileName] = useState("Choose Profile Picture");
-  // const [nicName, setNicName] = useState("Choose NIC scanned copy");
-  // const [docName, setDocName] = useState("Choose Qualification Document");
   const [uploadedProfilePath, setUploadedProfilePath] = useState("");
   const [uploadedNicPath, setUploadedNicPath] = useState("");
   const [uploadedDocPath, setUploadedDocPath] = useState("");

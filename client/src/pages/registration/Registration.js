@@ -21,57 +21,44 @@ import useStyles from "./styles";
 
 const Registration = () => {
   const classes = useStyles();
-  const [isNext, setIsNext] = useState(false);
+  const [isValid, setIsValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // const [profile, setProfile] = useState("");
-  // const [profileName, setProfileName] = useState("Choose Profile Picture");
-
-  // const [nic, setNic] = useState("");
-  // const [nicName, setNicName] = useState("Choose NIC scanned copy");
-
-  // const [doc, setDoc] = useState("");
-  // const [docName, setDocName] = useState("Choose Qualification Document");
+  const maxDOB = Date.now() - 31536000000 * 18;
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    if (name === "workStartedYear") {
+      console.log(event.target);
+    }
     setInputs((values) => ({ ...values, [name]: value }));
   };
   const handleShowPassword = (event) => {
     setShowPassword(!showPassword);
   };
-  const onNext = (e) => {
+  const onNext = async (e) => {
     e.preventDefault();
-    setIsNext(!isNext);
+    const { mobile, NIC, email } = inputs;
+    console.log({ mobile, NIC, email });
+    try {
+      const res = await Provider.validate({ mobile, NIC, email });
+      console.log(res.data);
+      if (!res.data.mobile && !res.data.NIC && !res.data.email) {
+        setIsValid(!isValid);
+      }
+    } catch (err) {
+      if (err.response.status === 500) {
+        window.alert("There was a problem with the server, could not validate");
+      } else {
+        window.alert(
+          "Something went wrong, could not validate, " +
+            err.response.data.message
+        );
+      }
+    }
   };
-
-  // const onChangeProfile = (e) => {
-  //   e.preventDefault();
-  //   setProfile(e.target.files[0]);
-  //   setProfileName(e.target.files[0].name)
-  //   // .then(() =>
-  //   //   setInputs((values) => ({ ...values, profilePictureName: profileName }))
-  //   // );
-  // };
-  // const onChangeNic = (e) => {
-  //   e.preventDefault();
-  //   setNic(e.target.files[0]);
-  //   setNicName(e.target.files[0].name)
-  //   // .then(() =>
-  //   //   setInputs((values) => ({ ...values, nicName: nicName }))
-  //   // );
-  // };
-  // const onChangeDoc = (e) => {
-  //   e.preventDefault();
-  //   setDoc(e.target.files[0]);
-  //   setDocName(e.target.files[0].name)
-  //   // .then(() =>
-  //   //   setInputs((values) => ({ ...values, qualificationDocName: docName }))
-  //   // );
-  // };
   const onSubmit = async (e) => {
     console.log(inputs);
     e.preventDefault();
@@ -85,7 +72,9 @@ const Registration = () => {
           "Could not updated in Database, There was a problem with the server"
         );
       } else {
-        window.alert("Could not updated in Database, " + err.response.data.msg);
+        window.alert(
+          "Could not updated in Database, " + err.response.data.message
+        );
       }
       window.location.reload(false);
     }
@@ -93,7 +82,7 @@ const Registration = () => {
 
   return (
     <>
-      {isNext ? (
+      {isValid ? (
         <Uploads
           handleChange={handleChange}
           value={inputs.qualificationDocType}
@@ -182,17 +171,29 @@ const Registration = () => {
                   name="workStartedYear"
                   label="From which year you have been providing this service"
                   type="date"
+                  max="1990-03-12"
                   half
                   handleChange={handleChange}
-                  value={inputs.workStartedYear || "2017-05-24"}
+                  value={inputs.workStartedYear || ""}
                 />
+                {/* <Grid item xs={12} sm={6}>
+                  <input
+                  name="DOB"
+                  label="Date of Birth"
+                  type="year"
+                  width="maxWidth"
+                  max="1990-03-12"
+                  onChange={handleChange}
+                  value={inputs.DOB || ""}
+                />
+                </Grid> */}
                 <Input
                   name="DOB"
                   label="Date of Birth"
                   type="date"
                   half
                   handleChange={handleChange}
-                  value={inputs.DOB || "1990-03-12"}
+                  value={inputs.DOB || ""}
                 />
                 <Input
                   name="password"

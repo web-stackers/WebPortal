@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
-
 const providerController = require("../controllers/providerController");
 
-//save to provider type
-router.post("/", providerController.post_providerType);
+// check whether the emai,mobile and nic are unique while registering
+router.post("/register/validate", providerController.validate_provider);
+
+// Register new provider
+router.post("/register", providerController.post_providerType);
 
 //update verification details
 router.patch(
