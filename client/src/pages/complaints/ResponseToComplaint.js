@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import CardActions from "@mui/material/CardActions";
 import StextField from "../../components/formComponents/StextField";
 import Sbutton from "../../components/Sbutton";
+import { confirm } from "react-confirm-box";
 
 import Job from "../../services/Job";
 
@@ -17,6 +18,13 @@ const ResponseToComplaint = () => {
   const category = location.state.category;
   const date = location.state.date;
   const description = location.state.description;
+
+  const options = {
+    labels: {
+      confirmable: "Yes",
+      cancellable: "No",
+    },
+  };
 
   const [reply, setReply] = useState({});
 
@@ -34,12 +42,18 @@ const ResponseToComplaint = () => {
   };
 
   //onClick function when submit button is clicked. Details will be update and path will be redirected
-  const onSubmit = (e) => {
-    e.preventDefault();
-    Job.complaintHandled(ID, reply);
-    console.log(ID);
-    console.log(reply);
-    routeChange();
+  const onSubmit = async () => {
+    const result = await confirm("Are you sure to sending response?", options);
+    if (result) {
+      Job.complaintHandled(ID, reply)
+        .then(() => {
+          routeChange();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      return;
+    }
   };
 
   return (

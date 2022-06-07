@@ -6,7 +6,7 @@ import Sbutton from "../Sbutton";
 import CardActions from "@mui/material/CardActions";
 
 const ComplaintList = ({ type, listOfComplaints, fetchAllComplaints }) => {
-
+  
   //By using this Hook, you tell React that your component needs to do something after render. Call it later after performing the DOM updates.
   useEffect(() => {
     fetchAllComplaints();
@@ -42,7 +42,7 @@ const ComplaintList = ({ type, listOfComplaints, fetchAllComplaints }) => {
               className="link"
               style={{ marginRight: "50%" }}
             >
-              <Sbutton text="Response" btnWidth="90%" />
+              <Sbutton text="response"  btnWidth="150px" marginRight="5%" />
             </Link>
           </CardActions>
         );
