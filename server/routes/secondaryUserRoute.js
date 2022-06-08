@@ -2,25 +2,19 @@ const express = require("express");
 const router = express.Router();
 const secondaryUserController = require("../controllers/secondaryUserController");
 
-// router.post("/upload", (req, res) => {
-//   if (req.files === null) {
-//     return res.status(400).json({ msg: "No file uploaded" });
-//   }
-//   const file = req.files.file;
-//   console.log(file);
-//   file.mv(`${__dirname}/uploads/${file.name}`, (err) => {
-//     if (err) {
-//       console.error(err);
-//       return res.status(500).send(err);
-//     }
-//     res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
-//   });
-// });
-
+//Fetch all third party records
 router.get("/", secondaryUserController.fetch_secondaryUsers);
+
+//Fetch third party by id
 router.get("/:id", secondaryUserController.fetch_secondaryUser);
+
+//Post record of third party
 router.post("/", secondaryUserController.post_secondaryUser);
+
+//Disable or enable third party
 router.patch("/disable/:id", secondaryUserController.disable_secondaryUser);
+
+//update third party record
 router.patch("/update/:id", secondaryUserController.update_thirdParty);
 
 // Fetch third party count

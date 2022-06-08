@@ -8,6 +8,7 @@ const addNew = async (data) => {
   return await axios.post("/secondaryUser", data);
 };
 
+//Fetch all third party details
 const fetchThirdParty = async () => {
   return await axios.get("/secondaryUser");
 };
