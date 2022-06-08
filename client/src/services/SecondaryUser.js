@@ -17,6 +17,7 @@ const updateThirdPartyByID = async (id, data) => {
   return await axios.patch(`/secondaryUser/update/${id}`, data);
 };
 
+//disable or enable third party by id
 const disableEnableThirdPartyByID = async (id) => {
   return await axios.patch(`/secondaryUser/disable/${id}`);
 };
