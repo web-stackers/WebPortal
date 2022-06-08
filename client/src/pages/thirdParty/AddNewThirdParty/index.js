@@ -5,8 +5,14 @@ import Sbutton from "../../../components/Sbutton";
 import SecondaryUser from "../../../services/SecondaryUser";
 import { useState } from "react";
 import { Typography } from "@mui/material";
+import AlertBox from "../../../components/AlertBox";
+import { useAlert } from "react-alert";
 
 const AddNewThirdParty = () => {
+  // const alert = useAlert();
+  const [open, setOpen] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alert, setAlert] = useState("");
   const [inputs, setInputs] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -73,7 +79,10 @@ const AddNewThirdParty = () => {
               SecondaryUser.addNew(inputs);
               window.location.reload(false);
             } else {
-              window.alert("Email is not unique");
+              setOpen(true);
+              setAlertTitle("Done");
+              setAlert("Email is not unique!");
+              // alert.show("Email is not unique!");
             }
           })
           .catch((e) => {
@@ -149,6 +158,7 @@ const AddNewThirdParty = () => {
         <br />
         <Sbutton text="Submit" type="submit" onClick={onSubmit} />
       </form>
+      <AlertBox open={open} setOpen={setOpen} alert={alert} />
     </div>
   );
 };

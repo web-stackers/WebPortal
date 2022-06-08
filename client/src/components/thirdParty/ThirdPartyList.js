@@ -8,7 +8,6 @@ import Sbutton from "../Sbutton";
 import { Link } from "react-router-dom";
 import useStyles from "./thirdPartyStyle";
 import { confirm } from "react-confirm-box";
-import { useAlert } from "react-alert";
 
 const line = {
   backgroundColor: "#ffffff",
@@ -23,7 +22,6 @@ const options = {
 
 const ThirdPartyList = () => {
   const [thirdParties, setThirdParties] = useState([]);
-  const alert = useAlert();
 
   //on click function to enable or disable third party account and auto refresh after button click to see the change
   const disable = async (e, fn, ln) => {
@@ -31,7 +29,7 @@ const ThirdPartyList = () => {
     console.log(fn);
     console.log(ln);
     const result = await confirm(
-      "Are you sure to disable " + fn + " " + "ln ?",
+      "Are you sure to disable " + fn + " " + ln + " ?",
       options
     );
     if (result) {
@@ -52,9 +50,9 @@ const ThirdPartyList = () => {
     console.log(e);
     console.log(fn);
     console.log(ln);
-    // alert.show(fn + " " + ln + " is Enabled");
+
     const result = await confirm(
-      "Are you sure to enable " + fn + " " + "ln ?",
+      "Are you sure to enable " + fn + " " + ln + " ?",
       options
     );
     if (result) {
