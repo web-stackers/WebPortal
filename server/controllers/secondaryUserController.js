@@ -131,6 +131,22 @@ const validate_email = async (req, res) => {
   }
 };
 
+// Check whether mobile is unique or not
+const validate_mobile = async (req, res) => {
+  const { mobile } = req.params;
+  let isMobileExist = false;
+
+  try {
+    const mobileUser = await secondaryUser.findOne({ mobile: mobile });
+    if (mobileUser) {
+      isMobileExist = true;
+    }
+    res.status(200).json(isMobileExist);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   fetch_secondaryUsers,
   post_secondaryUser,
@@ -139,4 +155,5 @@ module.exports = {
   update_thirdParty,
   fetch_thirdparty_count,
   validate_email,
+  validate_mobile,
 };

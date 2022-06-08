@@ -29,4 +29,7 @@ router.get("/thirdparty/count", secondaryUserController.fetch_thirdparty_count);
 // check whether the email unique or not
 router.get("/search/:email", secondaryUserController.validate_email);
 
+// check whether the mobile unique or not
+router.get("/search/mobile/:mobile", secondaryUserController.validate_mobile);
+
 module.exports = router;
