@@ -1,5 +1,5 @@
 import Dashboard from "./pages/Dashboard";
-import Users from "./pages/Users/Users";
+import Users from "./pages/users/Users";
 import Jobs from "./pages/jobType/Jobs";
 import JobEdit from "./pages/jobType/JobEdit";
 import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
@@ -9,7 +9,7 @@ import Complaint from "./pages/complaints/Complaints";
 import ThirdPartyProfile from "./pages/thirdParty/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import Layout from "./components/Layout";
-import Profile from "./pages/Users/Profile";
+import Profile from "./pages/users/Profile";
 import NotFound from "./pages/NotFound";
 import {
   BrowserRouter as Router,
