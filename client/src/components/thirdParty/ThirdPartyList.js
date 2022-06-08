@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
 import { Link } from "react-router-dom";
-import useStyles from "./thirdPartyStyle";
+import useStyles from "./style";
 import { confirm } from "react-confirm-box";
 
 const line = {
@@ -19,6 +19,11 @@ const options = {
     cancellable: "Cancel",
   },
 };
+
+// React useState Hook allows us to track state in a function component
+// The first value, thirdParty, is our current state.
+
+// The second value, setThirdParty, is the function that is used to update our state.
 
 const ThirdPartyList = () => {
   const [thirdParties, setThirdParties] = useState([]);
@@ -97,6 +102,7 @@ const ThirdPartyList = () => {
               <Card className={classes.root}>
                 <div className={classes.details}>
                   <CardContent>
+                    {/* gutterBottom - the text will have a bottom margin */}
                     <Typography gutterBottom variant="h5" component="div">
                       {thirdParty.name.fName} {thirdParty.name.lName}
                     </Typography>
@@ -108,7 +114,7 @@ const ThirdPartyList = () => {
                       <b>Address : </b>
                       {thirdParty.address}
                       <br />
-                      <b>Verification Document Type:</b>{" "}
+                      <b>Verification Document Type:</b>
                       {thirdParty.verifyDocType}
                       <br />
                     </Typography>
