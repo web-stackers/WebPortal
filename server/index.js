@@ -1,7 +1,6 @@
 const express = require("express");
-const morgan = require("morgan");
+const morgan = require("morgan"); //morgan is a Node. js and Express middleware to log HTTP requests and errors, and simplifies the process.
 const cors = require("cors");
-const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const app = express();
 var path = require("path");
@@ -15,10 +14,10 @@ const providerRouter = require("./routes/providerRoute");
 
 app.use(cors());
 app.use(morgan("tiny"));
-
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 const connectDB = require("./database/connection");
 
 app.use("/consumer", consumerRouter);
@@ -37,17 +36,16 @@ app.post("/upload", (req, res) => {
   const destination = path.join(
     __dirname,
     "../client/public/uploads/",
-    Date.now()+file.name
+    Date.now() + file.name
   );
   console.log(destination);
-  // file.mv(`${__dirname}../client/public/uploads/${file.name}`, (err) => {
+
   file.mv(destination, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send(err);
     }
-    // path.join(__dirname, "../client/public/uploads/",file.name)
-    // res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+
     res.json({ filePath: destination, type: file.mimetype });
     console.log({ filePath: destination, type: file.mimetype });
   });
