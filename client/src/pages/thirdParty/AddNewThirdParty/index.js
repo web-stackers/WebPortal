@@ -74,8 +74,21 @@ const AddNewThirdParty = () => {
           .then((response) => {
             console.log(response.data);
             if (!response.data) {
-              SecondaryUser.addNew(inputs);
-              window.location.reload(false);
+              const notUniqueMobile = () => {
+                SecondaryUser.mobileUniqueCheck(inputs.mobile).then(
+                  (response) => {
+                    if (!response.data) {
+                      SecondaryUser.addNew(inputs);
+                      window.location.reload(false);
+                    } else {
+                      setOpen(true);
+                      setAlertTitle("Done");
+                      setAlert("Mobile is not unique!");
+                    }
+                  }
+                );
+              };
+              notUniqueMobile();
             } else {
               setOpen(true);
               setAlertTitle("Done");
