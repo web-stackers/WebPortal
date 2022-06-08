@@ -107,7 +107,7 @@ const AddNewThirdParty = () => {
         Register New Third Party User!
       </Typography>
       <br />
-      <form encType="multipart/form-data">
+      <form>
         <StextField
           id="fName"
           label="First Name"
@@ -158,7 +158,7 @@ const AddNewThirdParty = () => {
           label="Verify Document Type"
           value={inputs.verifyDocType || ""}
           onChange={handleChange}
-          options={SelectList.getDepartmentCollection()}
+          options={SelectList.getDocumentCollection()}
         />
 
         <br />

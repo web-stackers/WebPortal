@@ -86,17 +86,12 @@ const update_thirdParty = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const updatedSecondaryUser = await secondaryUser.findByIdAndUpdate(
-      id,
-      {
-        mobile: req.body.mobile,
-        email: req.body.email,
-        address: req.body.address,
-        profilePicture: req.body.profilePicture,
-        verifyDocType: req.body.verifyDocType,
-      },
-      { new: true }
-    );
+    const updatedSecondaryUser = await secondaryUser.findByIdAndUpdate(id, {
+      mobile: req.body.mobile,
+      email: req.body.email,
+      address: req.body.address,
+      verifyDocType: req.body.verifyDocType,
+    });
     res.status(200).json(updatedSecondaryUser);
   } catch (error) {
     res.status(400).json({ message: error.message });

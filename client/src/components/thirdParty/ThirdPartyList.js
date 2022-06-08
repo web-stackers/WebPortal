@@ -110,7 +110,7 @@ const ThirdPartyList = () => {
                       <b>Address : </b>
                       {thirdParty.address}
                       <br />
-                      <b>Verification Document Type:</b>
+                      <b>Verification Document Type : </b>
                       {thirdParty.verifyDocType}
                       <br />
                     </Typography>

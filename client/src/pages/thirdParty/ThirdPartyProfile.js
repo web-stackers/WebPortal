@@ -8,6 +8,8 @@ import Sselect from "../../components/formComponents/Sselect";
 import * as SelectList from "../../components/formComponents/SelectList";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import AlertBox from "../../components/AlertBox";
+import TextField from "@mui/material/TextField";
 
 const ThirdPartyProfile = () => {
   // The useLocation hook is a function that returns the location object that contains information about the current URL. Whenever the URL changes, a new location object will be returned
@@ -21,6 +23,8 @@ const ThirdPartyProfile = () => {
   const verifyDocType = location.state.verifyDocType;
 
   const [inputs, setInputs] = useState({});
+  const [open, setOpen] = useState(false);
+  const [alert, setAlert] = useState("");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -39,8 +43,15 @@ const ThirdPartyProfile = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-    SecondaryUser.updateThirdPartyByID(ID, inputs);
-    routeChange();
+    SecondaryUser.updateThirdPartyByID(ID, inputs)
+      .then(() => {
+        routeChange();
+      })
+      .catch((e) => {
+        console.log(e);
+        setOpen(true);
+        setAlert("Fail to update!");
+      });
   };
 
   return (
@@ -56,12 +67,20 @@ const ThirdPartyProfile = () => {
           value={inputs.email || email}
           onChange={handleChange}
         />
-        <StextField
+
+        <TextField
+          autoComplete="off"
+          sx={{ width: "70ch" }}
           label="Mobile Number"
           name="mobile"
+          inputProps={{ maxLength: 10, minLength: 10 }}
+          type="text"
           value={inputs.mobile || mobile}
           onChange={handleChange}
         />
+
+        <br />
+        <br />
 
         <StextField
           label="Address"
@@ -74,7 +93,7 @@ const ThirdPartyProfile = () => {
           label="verifyDocType"
           value={inputs.verifyDocType || verifyDocType}
           onChange={handleChange}
-          options={SelectList.getDepartmentCollection()}
+          options={SelectList.getDocumentCollection()}
         />
         <br />
         <br />
@@ -89,6 +108,7 @@ const ThirdPartyProfile = () => {
           <Sbutton text="Cancel" btnWidth="20%" />
         </Link>
       </form>
+      <AlertBox open={open} setOpen={setOpen} alert={alert} />
     </div>
   );
 };
