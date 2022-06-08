@@ -115,6 +115,22 @@ const fetch_thirdparty_count = async (req, res) => {
   }
 };
 
+// Check whether email is unique or not
+const validate_email = async (req, res) => {
+  const { email } = req.params;
+  let isEmailExist = false;
+
+  try {
+    const emailUser = await secondaryUser.findOne({ email: email });
+    if (emailUser) {
+      isEmailExist = true;
+    }
+    res.status(200).json(isEmailExist);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   fetch_secondaryUsers,
   post_secondaryUser,
@@ -122,4 +138,5 @@ module.exports = {
   disable_secondaryUser,
   update_thirdParty,
   fetch_thirdparty_count,
+  validate_email,
 };

@@ -26,4 +26,7 @@ router.patch("/update/:id", secondaryUserController.update_thirdParty);
 // Fetch third party count
 router.get("/thirdparty/count", secondaryUserController.fetch_thirdparty_count);
 
+// check whether the email unique or not
+router.get("/search/:email", secondaryUserController.validate_email);
+
 module.exports = router;

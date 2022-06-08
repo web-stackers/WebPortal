@@ -63,9 +63,25 @@ const AddNewThirdParty = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
+    console.log(inputs.email);
     if (validate()) {
-      SecondaryUser.addNew(inputs);
-      window.location.reload(false);
+      const notUnique = () => {
+        SecondaryUser.emailUniqueCheck(inputs.email)
+          .then((response) => {
+            console.log(response.data);
+            if (!response.data) {
+              SecondaryUser.addNew(inputs);
+              window.location.reload(false);
+            } else {
+              window.alert("Email is not unique");
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      };
+      //validating email is unique or not
+      notUnique();
     }
   };
 

@@ -25,10 +25,16 @@ const fetchThirdpartyCount = async () => {
   return await axios.get("/secondaryUser/thirdparty/count");
 };
 
+// Find email is unique or not
+const emailUniqueCheck = async (email) => {
+  return await axios.get(`/secondaryUser/search/${email}`);
+};
+
 export default {
   addNew,
   fetchThirdParty,
   updateThirdPartyByID,
   disableEnableThirdPartyByID,
   fetchThirdpartyCount,
+  emailUniqueCheck,
 };
