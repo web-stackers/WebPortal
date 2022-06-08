@@ -175,7 +175,7 @@ const Profile = () => {
         </Card>
       )}
 
-      <AlertBox open={open} setOpen={setOpen} alert={alert} />
+      <AlertBox open={open} setOpen={setOpen} alert={alert} alertTitle={alertTitle} />
     </div>
   );
 };
