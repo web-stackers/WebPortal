@@ -1,9 +1,6 @@
 import axios from "axios";
 
-// const uploadFile = async (data) => {
-//   return await axios.post("/upload", data);
-// };
-
+//adding new third party user in the database
 const addNew = async (data) => {
   return await axios.post("/secondaryUser", data);
 };
@@ -13,6 +10,7 @@ const fetchThirdParty = async () => {
   return await axios.get("/secondaryUser");
 };
 
+//Edit third party detail
 const updateThirdPartyByID = async (id, data) => {
   return await axios.patch(`/secondaryUser/update/${id}`, data);
 };
