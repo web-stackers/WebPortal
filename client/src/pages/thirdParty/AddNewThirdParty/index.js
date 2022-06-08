@@ -6,6 +6,7 @@ import SecondaryUser from "../../../services/SecondaryUser";
 import { useState } from "react";
 import { Typography } from "@mui/material";
 import AlertBox from "../../../components/AlertBox";
+import { Link } from "react-router-dom";
 
 const AddNewThirdParty = () => {
   const [open, setOpen] = useState(false);
@@ -163,7 +164,16 @@ const AddNewThirdParty = () => {
 
         <br />
         <br />
-        <Sbutton text="Submit" type="submit" onClick={onSubmit} />
+        <Sbutton
+          text="Submit"
+          type="submit"
+          onClick={onSubmit}
+          btnWidth="20%"
+          marginRight="6%"
+        />
+        <Link to="/thirdParty" className="link">
+          <Sbutton text="Cancel" btnWidth="20%" />
+        </Link>
       </form>
       <AlertBox open={open} setOpen={setOpen} alert={alert} />
     </div>
