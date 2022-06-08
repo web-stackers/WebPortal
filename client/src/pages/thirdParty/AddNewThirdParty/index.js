@@ -66,8 +66,6 @@ const AddNewThirdParty = () => {
   //when submitting the form, page will be autoreload, and details will be posted in secondary user collection.
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(inputs);
-    console.log(inputs.email);
     if (validate()) {
       const notUnique = () => {
         SecondaryUser.emailUniqueCheck(inputs.email)
