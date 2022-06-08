@@ -53,6 +53,7 @@ const FileUpload = ({
     }
   };
 
+  //Individual submission of docs
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
