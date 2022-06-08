@@ -8,7 +8,6 @@ import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-
 import {
   Grid,
   Container,
@@ -23,6 +22,32 @@ import {
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import useStyles from "./styles";
 
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+const RegisterSchema = Yup.object().shape({
+  fName: Yup.string()
+    .required("First name is required")
+    .min(2, "Should be 2 chars minimum"),
+  lName: Yup.string()
+    .required("Last name is required")
+    .min(2, "Should be 2 chars minimum"),
+  mobile: Yup.string()
+    .required("Mbile num is required")
+    .min(10, "Should be 10 chars minimum")
+    .max(10, "Should be 10 chars maximum"),
+    NIC: Yup.string()
+    .required("Mbile num is required")
+    .min(10, "Should be 10 chars minimum")
+    .max(12, "Should be 10 chars maximum"),
+  email: Yup.string().email().required("Email is required"),
+  jobType: Yup.string()
+    .required("Job type is required"),
+
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password is too short - should be 8 chars minimum"),
+});
+
 const Registration = () => {
   const classes = useStyles();
   const thisYear = new Date().getFullYear();
@@ -30,16 +55,15 @@ const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({
     DOB: new Date("2014-08-18T21:11:54"),
-    workStartedYear: new Date(thisYear+"-01-01T00:00:00"),
+    workStartedYear: new Date(thisYear + "-01-01T00:00:00"),
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    if (name === "DOB") {
-      console.log(event.target.value);
+    if (name === "jobType") {
+      console.log(event.target);
       console.log(inputs);
     }
     setInputs((values) => ({ ...values, [name]: value }));

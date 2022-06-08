@@ -1,6 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Registration from "./Registration";
-import { useState } from "react";
+import Registration_valid from "./Registration_valid";
 
 const theme = createTheme({
   palette: {
@@ -20,6 +20,7 @@ const ProviderRegister = () => {
   return (
     <ThemeProvider theme={theme}>
       <Registration />
+      {/* <Registration_valid /> */}
     </ThemeProvider>
   );
 };
