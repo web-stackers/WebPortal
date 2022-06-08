@@ -161,7 +161,7 @@ const withdrawal_accepted = async (req, res) => {
     var mailOptions = {
       from: "webstackers19@gmail.com",
       to: ToMail,
-      subject: "Rejection of withdrawal request",
+      subject: "Withdrawal of job",
       html:
         " Hi, <br> Sorry to inform you, your requested job has been withdrawn by " +
         requiredJobAssignment.withdrawn.arisedBy +
@@ -169,19 +169,15 @@ const withdrawal_accepted = async (req, res) => {
         requiredJobAssignment.withdrawn.reason +
         ". <br> Sorry for your inconvinience caused.",
     };
-    const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
-      id,
-      {
-        state: "Job withdrawed",
-        withdrawn: {
-          //If we didn't update the fields of object again, those will be deleted. So we fetch them from the database and update with the same.
-          arisedBy: requiredJobAssignment.withdrawn.arisedBy,
-          reason: requiredJobAssignment.withdrawn.reason,
-          adminResponse: "Accepted",
-        },
+    const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(id, {
+      state: "Job withdrawed",
+      withdrawn: {
+        //If we didn't update the fields of object again, those will be deleted. So we fetch them from the database and update with the same.
+        arisedBy: requiredJobAssignment.withdrawn.arisedBy,
+        reason: requiredJobAssignment.withdrawn.reason,
+        adminResponse: "Accepted",
       },
-      { upsert: true, new: true }
-    );
+    });
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
@@ -215,18 +211,14 @@ const withdrawal_rejected = async (req, res) => {
       subject: "Rejection of withdrawal request",
       html: " Hi, <br> Sorry, your withdrawal request has been rejected by helper community. <br> So you are requested to finished that accepted work as per your agreement. <br> Thank You",
     };
-    const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
-      id,
-      {
-        state: "Job pending",
-        withdrawn: {
-          arisedBy: requiredJobAssignment.withdrawn.arisedBy,
-          reason: requiredJobAssignment.withdrawn.reason,
-          adminResponse: "Rejected",
-        },
+    const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(id, {
+      state: "Job pending",
+      withdrawn: {
+        arisedBy: requiredJobAssignment.withdrawn.arisedBy,
+        reason: requiredJobAssignment.withdrawn.reason,
+        adminResponse: "Rejected",
       },
-      { new: true }
-    );
+    });
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
@@ -254,9 +246,9 @@ const insert_quotation = async (req, res) => {
   try {
     const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(
       id,
-      { 
+      {
         state: "Quotation Sent",
-        quotation: newQuotation 
+        quotation: newQuotation,
       },
       { new: true }
     );
@@ -290,7 +282,6 @@ const fetch_pending_jobcount = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 module.exports = {
   post_jobAssignment,
