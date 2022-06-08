@@ -1,5 +1,5 @@
 import Dashboard from "./pages/Dashboard";
-import Users from "./pages/users/Users";
+import Users from "./pages/Users/Users";
 import Jobs from "./pages/jobType/Jobs";
 import JobEdit from "./pages/jobType/JobEdit";
 import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
@@ -9,7 +9,8 @@ import Complaint from "./pages/complaints/Complaints";
 import ThirdPartyProfile from "./pages/thirdParty/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import Layout from "./components/Layout";
-import Profile from "./pages/users/Profile";
+import Profile from "./pages/Users/Profile";
+import NotFound from "./pages/NotFound";
 import {
   BrowserRouter as Router,
   Route,
@@ -41,7 +42,7 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Navigate to="/dashboard" />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/users" element={<Users />} />
+              <Route exact path="/users" element={<Users />} />
               <Route path="/jobs" element={<Jobs />} />
               <Route path="/jobs/jobEdit" element={<JobEdit />} />
               <Route path="/complaints" element={<Complaint />} />
@@ -60,6 +61,7 @@ function App() {
               />
               <Route path="/withdrawals" element={<Withdrawal />} />
               <Route path="/users/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         </Layout>
