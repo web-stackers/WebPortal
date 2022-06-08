@@ -9,7 +9,6 @@ import AlertBox from "../../../components/AlertBox";
 
 const AddNewThirdParty = () => {
   const [open, setOpen] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
   const [alert, setAlert] = useState("");
   const [inputs, setInputs] = useState({});
   const [errors, setErrors] = useState({});
@@ -82,7 +81,6 @@ const AddNewThirdParty = () => {
                       window.location.reload(false);
                     } else {
                       setOpen(true);
-                      setAlertTitle("Done");
                       setAlert("Mobile is not unique!");
                     }
                   }
@@ -91,7 +89,6 @@ const AddNewThirdParty = () => {
               notUniqueMobile();
             } else {
               setOpen(true);
-              setAlertTitle("Done");
               setAlert("Email is not unique!");
             }
           })
