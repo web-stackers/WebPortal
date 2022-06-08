@@ -73,12 +73,13 @@ const update_jobType = async (req, res) => {
 // Fetch job category count
 const fetch_jobCategory_count = async (req, res) => {
   try {
-    const jobCategoryCount = (await jobTypeCategory.distinct("category")).length;
+    const jobCategoryCount = (await jobTypeCategory.distinct("category"))
+      .length;
     res.status(200).json(jobCategoryCount);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 // Fetch job type count
 const fetch_jobType_count = async (req, res) => {
@@ -88,7 +89,23 @@ const fetch_jobType_count = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};
+
+// Check whether jobType is unique or not
+const validate_jobType = async (req, res) => {
+  const { jobType } = req.params;
+  let isjobTypeExist = false;
+
+  try {
+    const jobTypeUnique = await jobTypeCategory.findOne({ jobType: jobType });
+    if (jobTypeUnique) {
+      isjobTypeExist = true;
+    }
+    res.status(200).json(isjobTypeExist);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 module.exports = {
   post_jobType,
@@ -98,4 +115,5 @@ module.exports = {
   update_jobType,
   fetch_jobCategory_count,
   fetch_jobType_count,
+  validate_jobType,
 };

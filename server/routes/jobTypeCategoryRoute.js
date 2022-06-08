@@ -19,4 +19,7 @@ router.get(
 // Fetch job type count
 router.get("/type/count", jobTypeCategoryController.fetch_jobType_count);
 
+// check whether the jobType unique or not
+router.get("/search/:jobType", jobTypeCategoryController.validate_jobType);
+
 module.exports = router;
