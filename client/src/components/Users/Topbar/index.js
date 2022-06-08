@@ -24,19 +24,20 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
   };
 
   const containsNumber = (searchKey) => {
-    return /\d/.test(searchKey);
+    return /\d|[\W_]/.test(searchKey);
   }
 
   // Assures the searchkey is not empty or does not contain numbers
   const searchValidation = (searchKey) => {
     if(searchKey===''){
       setAlertTitle("Search is empty");
-      setAlert("Please enter user's name in the textbox");
+      setAlert("Please enter user's firstname in the textbox");
       setAlertOpen(true);
     } else if (containsNumber(searchKey)){
       setAlertTitle("Invalid search value");
-      setAlert("User's name cannot contain numbers");
+      setAlert("User's firstname cannot contain numbers, spaces or non-word characters");
       setAlertOpen(true);
+      setSearchKey('');
     } else {
       setLoading(true);
       searchUser();
@@ -97,7 +98,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
         <TextField 
           id="searchUser" 
           name="searchKey"
-          label="Type username" 
+          label="Type firstname" 
           variant="outlined"
           size= "small"
           autoComplete='off'
