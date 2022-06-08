@@ -16,7 +16,7 @@ import {
   FeedbackOutlined,
 } from "@mui/icons-material";
 
-import useStyles from "../styles/styles";
+import useStyles from "./styles";
 
 const Layout = ({ children }) => {
   const classes = useStyles();
@@ -66,7 +66,7 @@ const Layout = ({ children }) => {
           <Typography>Gowsik</Typography>
           <Avatar
             className={classes.avatar}
-            src={require("../assets/adminPic.jpg")}
+            src={require("../../assets/adminPic.jpg")}
           />
         </Toolbar>
       </AppBar>

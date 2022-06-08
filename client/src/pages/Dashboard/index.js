@@ -1,31 +1,20 @@
-import BasicCard from "../components/BasicCard";
 import { Grid } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { useEffect, useState } from "react";
-import Provider from "../services/Provider";
-import Consumer from "../services/Consumer";
-import JobAssignment from "../services/JobAssignment";
-import Job from "../services/Job";
-import JobCategory from "../services/JobCategory";
-import SecondaryUser from "../services/SecondaryUser";
+import Provider from "../../services/Provider";
+import Consumer from "../../services//Consumer";
+import JobAssignment from "../../services/JobAssignment";
+import Job from "../../services/Job";
+import JobCategory from "../../services/JobCategory";
+import SecondaryUser from "../../services/SecondaryUser";
 
 import Card from '@mui/material//Card';
 import CardContent from '@mui/material//CardContent';
 import Typography from '@mui/material//Typography';
 
-import UserJobs from '../components/Users/UserJobs';
+import BasicCard from "../../components/BasicCard";
+import UserJobs from '../../components/Users/UserJobs';
 
-const useStyles = makeStyles({
-  gridContainer: {
-    paddingRight: "30px",
-    margin: "auto"
-  },
-  root: {
-    display: 'flex',
-    height: '200px',
-    backgroundColor: 'transparent !important',
-  }
-});
+import useStyles from "./styles";
 
 const Dashboard = () => {
   const classes = useStyles();

@@ -5,6 +5,7 @@ import CardContent from "@mui/material//CardContent";
 import CardMedia from "@mui/material//CardMedia";
 import Typography from "@mui/material//Typography";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import LinearProgress  from '@mui/material/LinearProgress';
 
 import Sbutton from "../../../components/Sbutton";
 import AlertBox from "../../../components/AlertBox";
@@ -85,6 +86,8 @@ const Profile = () => {
 
   return (
     <div className="Outerbox">
+      {!profile && <LinearProgress />}
+
       {profile && (
         <Card className={classes.root}>
           <CardMedia

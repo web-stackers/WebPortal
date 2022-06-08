@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme) => {
             marginLeft: 8,
             color: theme.palette.primary.main,
         },
+        loading: {
+            justifyContent: "center",
+            alignSelf: "center"
+        }
     }
 });
 
