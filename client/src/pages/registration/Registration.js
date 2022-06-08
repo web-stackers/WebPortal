@@ -4,6 +4,10 @@ import Provider from "../../services/Provider";
 import Input from "../../components/formComponents/Input";
 import Uploads from "./Uploads";
 import Button from "@mui/material//Button";
+import TextField from "@mui/material/TextField";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import {
   Grid,
@@ -21,19 +25,29 @@ import useStyles from "./styles";
 
 const Registration = () => {
   const classes = useStyles();
+  const thisYear = new Date().getFullYear();
   const [isValid, setIsValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({
+    DOB: new Date("2014-08-18T21:11:54"),
+    workStartedYear: new Date(thisYear+"-01-01T00:00:00"),
+  });
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const maxDOB = Date.now() - 31536000000 * 18;
+  
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    if (name === "workStartedYear") {
-      console.log(event.target);
+    if (name === "DOB") {
+      console.log(event.target.value);
+      console.log(inputs);
     }
     setInputs((values) => ({ ...values, [name]: value }));
+    console.log(inputs);
+  };
+
+  const handleDateChange = (newValue) => {
+    setInputs((values) => ({ ...values, DOB: newValue }));
   };
   const handleShowPassword = (event) => {
     setShowPassword(!showPassword);
@@ -167,7 +181,7 @@ const Registration = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Input
+                {/* <Input
                   name="workStartedYear"
                   label="From which year you have been providing this service"
                   type="date"
@@ -175,26 +189,53 @@ const Registration = () => {
                   half
                   handleChange={handleChange}
                   value={inputs.workStartedYear || ""}
-                />
-                {/* <Grid item xs={12} sm={6}>
-                  <input
-                  name="DOB"
-                  label="Date of Birth"
-                  type="year"
-                  width="maxWidth"
-                  max="1990-03-12"
-                  onChange={handleChange}
-                  value={inputs.DOB || ""}
-                />
-                </Grid> */}
-                <Input
+                /> */}
+                <Grid item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      views={["year"]}
+                      label="From which year you have been providing this service"
+                      inputFormat="dd/MM/yyyy"
+                      value={inputs.workStartedYear}
+                      onChange={(newValue) => {
+                        setInputs((values) => ({
+                          ...values,
+                          workStartedYear: newValue,
+                        }));
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          name="workStartedYear"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      label="Date of Birth"
+                      inputFormat="dd/MM/yyyy"
+                      value={inputs.DOB}
+                      onChange={(newValue) => {
+                        setInputs((values) => ({ ...values, DOB: newValue }));
+                      }}
+                      renderInput={(params) => (
+                        <TextField {...params} name="DOB" fullWidth />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                {/* <Input
                   name="DOB"
                   label="Date of Birth"
                   type="date"
                   half
                   handleChange={handleChange}
-                  value={inputs.DOB || ""}
-                />
+                  value={inputs.DOB || "1990-03-12"}
+                /> */}
                 <Input
                   name="password"
                   label="New Password"

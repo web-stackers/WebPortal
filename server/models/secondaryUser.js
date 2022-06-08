@@ -55,7 +55,6 @@ const SecondaryUserSchema = new Schema({
   },
   verifyDocType: {
     type: String,
-    // required: true,
   },
   isDisabled: {
     type: Boolean,
