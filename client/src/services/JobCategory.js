@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//Fetch all job categories from job category collection
 const fetchJobCategory = async () => {
   return await axios.get("/jobTypeCategory");
 };
@@ -8,14 +9,17 @@ const fetchJob = async (id) => {
   return await axios.get(`/jobTypeCategory/${id}`);
 };
 
+//Update job type category collection by id
 const updateJobByID = async (id, data) => {
   return await axios.patch(`/jobTypeCategory/update/${id}`, data);
 };
 
+//Adding new job type category
 const addNew = async (data) => {
   return await axios.post("/jobTypeCategory", data);
 };
 
+//delete one job type category
 const deleteOne = async (id) => {
   return await axios.delete(`/jobTypeCategory/${id}`);
 };

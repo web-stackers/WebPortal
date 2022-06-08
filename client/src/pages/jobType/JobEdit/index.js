@@ -33,8 +33,6 @@ const JobEdit = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     JobCategory.updateJobByID(location.state.id, inputs);
-    console.log(location.state.id);
-    console.log(inputs);
     routeChange();
   };
 

@@ -55,15 +55,11 @@ const update_jobType = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const updatedJobType = await jobTypeCategory.findByIdAndUpdate(
-      id,
-      {
-        jobType: req.body.jobType,
-        category: req.body.category,
-        description: req.body.description,
-      },
-      { new: true }
-    );
+    const updatedJobType = await jobTypeCategory.findByIdAndUpdate(id, {
+      jobType: req.body.jobType,
+      category: req.body.category,
+      description: req.body.description,
+    });
     res.status(200).json(updatedJobType);
   } catch (error) {
     res.status(400).json({ message: error.message });

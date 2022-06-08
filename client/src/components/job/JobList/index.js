@@ -38,9 +38,9 @@ const JobList = () => {
     marginBottom: 10,
   };
 
+  //delete particular job category when delete button is pressed
+  //e-job type id, t- job type
   const deleteJobTYpe = async (e, t) => {
-    console.log(e);
-    console.log(t);
     const result = await confirm(
       "Are you sure in deleting " + t + " ?",
       options
