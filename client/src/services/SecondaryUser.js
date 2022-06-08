@@ -30,6 +30,11 @@ const emailUniqueCheck = async (email) => {
   return await axios.get(`/secondaryUser/search/${email}`);
 };
 
+// Find mobile is unique or not
+const mobileUniqueCheck = async (mobile) => {
+  return await axios.get(`/secondaryUser/search/mobile/${mobile}`);
+};
+
 export default {
   addNew,
   fetchThirdParty,
@@ -37,4 +42,5 @@ export default {
   disableEnableThirdPartyByID,
   fetchThirdpartyCount,
   emailUniqueCheck,
+  mobileUniqueCheck,
 };

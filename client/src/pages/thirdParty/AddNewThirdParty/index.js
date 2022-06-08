@@ -9,7 +9,6 @@ import AlertBox from "../../../components/AlertBox";
 
 const AddNewThirdParty = () => {
   const [open, setOpen] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
   const [alert, setAlert] = useState("");
   const [inputs, setInputs] = useState({});
   const [errors, setErrors] = useState({});
@@ -74,11 +73,22 @@ const AddNewThirdParty = () => {
           .then((response) => {
             console.log(response.data);
             if (!response.data) {
-              SecondaryUser.addNew(inputs);
-              window.location.reload(false);
+              const notUniqueMobile = () => {
+                SecondaryUser.mobileUniqueCheck(inputs.mobile).then(
+                  (response) => {
+                    if (!response.data) {
+                      SecondaryUser.addNew(inputs);
+                      window.location.reload(false);
+                    } else {
+                      setOpen(true);
+                      setAlert("Mobile is not unique!");
+                    }
+                  }
+                );
+              };
+              notUniqueMobile();
             } else {
               setOpen(true);
-              setAlertTitle("Done");
               setAlert("Email is not unique!");
             }
           })

@@ -12,7 +12,6 @@ const AddNewJob = ({ onAdd }) => {
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
   const [open, setOpen] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
   const [alert, setAlert] = useState("");
 
   const validate = () => {
@@ -40,7 +39,6 @@ const AddNewJob = ({ onAdd }) => {
               window.location.reload(false);
             } else {
               setOpen(true);
-              setAlertTitle("Done");
               setAlert("Job Type is not unique!");
             }
           })
