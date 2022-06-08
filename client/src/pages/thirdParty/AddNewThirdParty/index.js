@@ -6,10 +6,8 @@ import SecondaryUser from "../../../services/SecondaryUser";
 import { useState } from "react";
 import { Typography } from "@mui/material";
 import AlertBox from "../../../components/AlertBox";
-import { useAlert } from "react-alert";
 
 const AddNewThirdParty = () => {
-  // const alert = useAlert();
   const [open, setOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alert, setAlert] = useState("");
@@ -82,7 +80,6 @@ const AddNewThirdParty = () => {
               setOpen(true);
               setAlertTitle("Done");
               setAlert("Email is not unique!");
-              // alert.show("Email is not unique!");
             }
           })
           .catch((e) => {
