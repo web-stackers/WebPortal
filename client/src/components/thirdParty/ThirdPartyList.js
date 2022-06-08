@@ -28,15 +28,14 @@ const options = {
 const ThirdPartyList = () => {
   const [thirdParties, setThirdParties] = useState([]);
 
-  //on click function to enable or disable third party account and auto refresh after button click to see the change
+  //on click function to disable third party account and auto rerender of fetchUsers() after button click to see the change
   const disable = async (e, fn, ln) => {
-    console.log(e);
-    console.log(fn);
-    console.log(ln);
+    //confirmation dialogue box
     const result = await confirm(
       "Are you sure to disable " + fn + " " + ln + " ?",
       options
     );
+    //if ok is pressed in confirmation dialogue, disabling function will be called
     if (result) {
       SecondaryUser.disableEnableThirdPartyByID(e)
         .then(() => {
@@ -47,15 +46,12 @@ const ThirdPartyList = () => {
         });
       return;
     }
+    //if cancel is pressed in confirmation dialogue box
     console.log("You click No!");
   };
 
-  //on click function to enable or disable third party account and auto refresh after button click to see the change
+  //on click function to Enable third party account and auto rerender of fetchUsers() after button click to see the change
   const Enable = async (e, fn, ln) => {
-    console.log(e);
-    console.log(fn);
-    console.log(ln);
-
     const result = await confirm(
       "Are you sure to enable " + fn + " " + ln + " ?",
       options
