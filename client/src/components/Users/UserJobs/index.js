@@ -4,6 +4,7 @@ import dateFormat from "dateformat";
 
 import Job from "../../../services/Job";
 import useStyles from "./styles";
+import { LinearProgress } from "@mui/material";
 
 const CustomNoRowsOverlay = () => {
   const classes = useStyles();
@@ -17,12 +18,15 @@ const CustomNoRowsOverlay = () => {
 const UserJobs = ({ type, id }) => {
   const classes = useStyles();
   const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // // Fetch job history of a user
   const fetchJobs = () => {
+    setLoading(true);
     Job.fetchUserJobs(type, id)
       .then((response) => {
         setJobs(response.data);
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
@@ -72,8 +76,10 @@ const UserJobs = ({ type, id }) => {
         rows={rows} 
         columns={columns} 
         disableSelectionOnClick
+        loading={loading}
         components={{
-          NoRowsOverlay: CustomNoRowsOverlay
+          NoRowsOverlay: CustomNoRowsOverlay,
+          LoadingOverlay: LinearProgress
         }}
       />
     </div>
