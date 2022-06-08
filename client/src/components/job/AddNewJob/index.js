@@ -3,12 +3,17 @@ import Sbutton from "../../Sbutton";
 import Sselect from "../../formComponents/Sselect";
 import * as SelectList from "../../formComponents/SelectList";
 import { useState } from "react";
+import AlertBox from "../../../components/AlertBox";
+import JobCategory from "../../../services/JobCategory";
 
 const AddNewJob = ({ onAdd }) => {
   const [jobType, setJobType] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
+  const [open, setOpen] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alert, setAlert] = useState("");
 
   const validate = () => {
     let temp = {};
@@ -25,8 +30,26 @@ const AddNewJob = ({ onAdd }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      onAdd({ jobType, category, description });
-      window.location.reload(false);
+      console.log(jobType);
+      const notUnique = () => {
+        JobCategory.jobTypeUniqueCheck(jobType)
+          .then((response) => {
+            console.log(response.data);
+            if (!response.data) {
+              onAdd({ jobType, category, description });
+              window.location.reload(false);
+            } else {
+              setOpen(true);
+              setAlertTitle("Done");
+              setAlert("Job Type is not unique!");
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      };
+      //check whether jobType is unique or not
+      notUnique();
     }
   };
   return (
@@ -59,6 +82,7 @@ const AddNewJob = ({ onAdd }) => {
       />
 
       <Sbutton text="Submit" type="submit" btnWidth="10%" onClick={onSubmit} />
+      <AlertBox open={open} setOpen={setOpen} alert={alert} />
     </form>
   );
 };

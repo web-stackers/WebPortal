@@ -30,6 +30,11 @@ const fetchJobTypeCount = async () => {
   return await axios.get("/jobTypeCategory/type/count");
 };
 
+// Find jobType is unique or not
+const jobTypeUniqueCheck = async (jobType) => {
+  return await axios.get(`/jobTypeCategory/search/${jobType}`);
+};
+
 export default {
   fetchJobCategory,
   fetchJob,
@@ -38,4 +43,5 @@ export default {
   updateJobByID,
   fetchJobCategoryCount,
   fetchJobTypeCount,
+  jobTypeUniqueCheck,
 };
