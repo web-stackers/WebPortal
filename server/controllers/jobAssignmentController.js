@@ -88,7 +88,6 @@ const quotation_rejected = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const requiredJobAssignment = await jobAssignment.findById(id);
     const updatedQuotationRejected = await jobAssignment.findByIdAndUpdate(
       id,
       {
@@ -103,16 +102,34 @@ const quotation_rejected = async (req, res) => {
   }
 };
 
-// Update when any party applied for withdrawal of job
-const withdrawl_pending = async (req, res) => {
+// Update state and reason when job request is rejected by provider
+const job_rejected = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const requiredJobAssignment = await jobAssignment.findById(id);
+    const updatedJobRejected = await jobAssignment.findByIdAndUpdate(
+      id,
+      {
+        state: "Request rejected",
+        reason: req.body.reason,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedJobRejected);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Update when any party applied for withdrawal of job
+const withdrawal_pending = async (req, res) => {
+  const { id } = req.params;
+
+  try {
     const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
       id,
       {
-        state: "Withdrawl Pending",
+        state: "Withdrawal Pending",
         withdrawn: {
           arisedBy: req.body.arisedBy,
           reason: req.body.reason,
@@ -128,7 +145,7 @@ const withdrawl_pending = async (req, res) => {
 };
 
 // Update when withdrawl request is accepted by admin
-const withdrawl_accepted = async (req, res) => {
+const withdrawal_accepted = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -179,7 +196,7 @@ const withdrawl_accepted = async (req, res) => {
 };
 
 // Update when withdrawl request is rejected by admin
-const withdrawl_rejected = async (req, res) => {
+const withdrawal_rejected = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -237,7 +254,10 @@ const insert_quotation = async (req, res) => {
   try {
     const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(
       id,
-      { quotation: newQuotation },
+      { 
+        state: "Quotation Sent",
+        quotation: newQuotation 
+      },
       { new: true }
     );
     res.status(200).json(updatedJobAssignment);
@@ -278,9 +298,10 @@ module.exports = {
   fetch_jobAssignment,
   quotation_accepted,
   quotation_rejected,
-  withdrawl_pending,
-  withdrawl_accepted,
-  withdrawl_rejected,
+  job_rejected,
+  withdrawal_pending,
+  withdrawal_accepted,
+  withdrawal_rejected,
   insert_quotation,
   fetch_job_and_jobAssignments,
   fetch_completed_jobcount,

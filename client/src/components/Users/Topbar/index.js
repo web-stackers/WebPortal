@@ -13,7 +13,7 @@ import Consumer from "../../../services/Consumer";
 import Provider from "../../../services/Provider";
 import useStyles from './styles';
 
-const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertOpen }) => {
+const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, setAlertOpen, setLoading}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
@@ -23,14 +23,33 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertOpen }) => {
     setOpen(false);
   };
 
+  const containsNumber = (searchKey) => {
+    return /\d/.test(searchKey);
+  }
+
+  // Assures the searchkey is not empty or does not contain numbers
+  const searchValidation = (searchKey) => {
+    if(searchKey===''){
+      setAlertTitle("Search is empty");
+      setAlert("Please enter user's name in the textbox");
+      setAlertOpen(true);
+    } else if (containsNumber(searchKey)){
+      setAlertTitle("Invalid search value");
+      setAlert("User's name cannot contain numbers");
+      setAlertOpen(true);
+    } else {
+      setLoading(true);
+      searchUser();
+    }
+  }
+
   // Search user by the username 
   const searchUser = () => {
-    if(searchKey===''){
-      setAlertOpen(true);
-    } else if(type=='Consumers'){
+    if(type=='Consumers'){
       Consumer.searchConsumer(searchKey)
         .then((response) => {
           setUsers(response.data);
+          setLoading(false);
           setSearchKey('');
           setShow(true);
         })
@@ -41,6 +60,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertOpen }) => {
       Provider.searchProvider(searchKey)
         .then((response) => {
           setUsers(response.data);
+          setLoading(false);
           setSearchKey('');
           setShow(true);
         })
@@ -85,7 +105,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertOpen }) => {
           onChange={(event) => setSearchKey(event.target.value)}
          />
 
-        <Button variant="contained" onClick={(searchKey) => {searchUser()}}>
+        <Button variant="contained" onClick={() => {searchValidation(searchKey)}}>
           <SearchIcon />
         </Button>
       </div>

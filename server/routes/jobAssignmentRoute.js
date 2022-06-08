@@ -38,22 +38,25 @@ router.patch(
   jobAssignmentController.quotation_rejected
 );
 
+// update job assignment when job request is rejected by the provider
+router.patch('/requestRejected/:id', jobAssignmentController.job_rejected);
+
 //update job assignment when withdrawl is pending
 router.patch(
   "/withdrawlPending/:id",
-  jobAssignmentController.withdrawl_pending
+  jobAssignmentController.withdrawal_pending
 );
 
 //update job assignment when withdrawl is accepted by admin
 router.patch(
   "/withdrawlAccepted/:id",
-  jobAssignmentController.withdrawl_accepted
+  jobAssignmentController.withdrawal_accepted
 );
 
 //update job assignment when withdrawl is rejected by admin
 router.patch(
   "/withdrawlRejected/:id",
-  jobAssignmentController.withdrawl_rejected
+  jobAssignmentController.withdrawal_rejected
 );
 
 // Insert provider's quotation

@@ -13,8 +13,8 @@ const Users = () => {
     const [users, setUsers] = useState([]);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const alertTitle = "Search is empty";
-    const alert = "Please enter user's name in the textbox";
+    const [alertTitle, setAlertTitle] = useState("");
+    const [alert, setAlert] = useState("");
 
     // Fetch all users based on user type
     const fetchUsers = () => {
@@ -42,9 +42,30 @@ const Users = () => {
 
     return ( 
         <>
-            <Topbar type={user} setType={setUser} setUsers={setUsers} fetchUsers={fetchUsers} setAlertOpen={setOpen} />
-            <Userlist type={user} users={users} fetchUsers={fetchUsers} loading={loading}/>
-            <AlertBox open={open} alert={alert} setOpen={setOpen} alertTitle={alertTitle} />
+            <Topbar 
+              type={user}  
+              setType={setUser} 
+              setUsers={setUsers} 
+              fetchUsers={fetchUsers}
+              setAlertTitle={setAlertTitle}
+              setAlert={setAlert} 
+              setAlertOpen={setOpen}
+              setLoading={setLoading} 
+            />
+
+            <Userlist 
+              type={user} 
+              users={users} 
+              fetchUsers={fetchUsers} 
+              loading={loading}
+            />
+
+            <AlertBox 
+              open={open}  
+              alert={alert} 
+              setOpen={setOpen} 
+              alertTitle={alertTitle}
+            />
         </>
      );
 }
