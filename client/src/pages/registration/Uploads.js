@@ -63,7 +63,7 @@ const Uploads = ({ handleChange, value, onSubmit, setInputs, isSubmitted }) => {
           <MenuItem value="Affidavit">Affidavit</MenuItem>
           <MenuItem value="O/L Certificate">O/L Certificate</MenuItem>
           <MenuItem value="A/L Certificate">A/L Certificate</MenuItem>
-          <MenuItem value="NVQ certificate">NVQ certificate</MenuItem>
+          <MenuItem value="NVQ Certificate">NVQ Certificate</MenuItem>
           <MenuItem value="Degree Certificate">Degree Certificate</MenuItem>
         </Select>
       </FormControl>

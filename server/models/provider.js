@@ -34,7 +34,7 @@ const providerSchema = Schema({
     type: String,
     required: true,
     minLength: [8, "Min Length is 8 characters"],
-    maxLength: [15, "Max Length is 15 characters"],
+    maxLength: [100, "Max Length is 100 characters"],
   },
   DOB: {
     type: Date,

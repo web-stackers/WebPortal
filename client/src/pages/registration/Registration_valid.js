@@ -28,24 +28,40 @@ import * as Yup from "yup";
 
 const RegisterSchema = Yup.object().shape({
   fName: Yup.string()
-    .required("First name is required")
-    .min(2, "Should be 2 chars minimum"),
+    .required("is required")
+    .min(2, "Should be 2 chars minimum")
+    .matches(
+      /^[A-Za-z]+$/,
+      "Must contain only letters"
+    ),
   lName: Yup.string()
-    .required("Last name is required")
-    .min(2, "Should be 2 chars minimum"),
+    .required("is required")
+    .min(2, "Should be 2 chars minimum").matches(
+      /^[A-Za-z]+$/,
+      "Must contain only letters"
+    ),
   mobile: Yup.string()
-    .required("Mbile num is required")
-    .min(10, "Should be 10 chars minimum")
-    .max(10, "Should be 10 chars maximum"),
+    .required("is required").matches(
+      /^[0][0-9]*$/,
+      "Invalid mobile number"
+    )
+    .min(10, "Should be 10 digits minimum")
+    .max(10, "Should be 10 digits maximum"),
+    
   NIC: Yup.string()
-    .required("Mbile num is required")
-    .min(10, "Should be 10 chars minimum")
-    .max(12, "Should be 10 chars maximum"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-    jobType: Yup.string().required("Job type is required"),
+    .required("is required")
+    // .matches(
+      //  /^[0-9]{12}$/ || /^[3-9][0-9]{8}v$/,
+    //   /^[3-9][0-9]{8}[v{1}[0-9]{3}]$/,
+    //   "Invalid NIC number"
+    // )
+    .min(10, "Should be 9 digits & end with v")
+    .max(12, "Should be 12 digits maximum"),
+  email: Yup.string().email("Invalid email").required("is required"),
+  jobType: Yup.string().required("is required"),
 
   password: Yup.string()
-    .required("Password is required")
+    .required("is required")
     .min(8, "Password is too short - should be 8 chars minimum"),
 });
 
@@ -61,6 +77,11 @@ const Registration_valid = () => {
   };
   const classes = useStyles();
   const thisYear = new Date().getFullYear();
+  const [isExist, setIsExist] = useState({
+    mobile: false,
+    NIC: false,
+    email: false,
+  });
   const [isValid, setIsValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({
@@ -75,21 +96,40 @@ const Registration_valid = () => {
     setInputs((values) => ({ ...values, [name]: value }));
     console.log(inputs);
   };
-  
-  const handleShowPassword = (event) => {
+
+  const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
   //when submitting the basic details this will check whether the email,mobile and nic are unique
-  const onNext = async (values) => {
-    console.log(values);
-    const { mobile, NIC, email } = inputs;
+  const onNext = async (validValues) => {
+    console.log(validValues);
+    // Object.keys(validValues).forEach(key => {
+    //     setInputs((values) => ({ ...values, key: validValues[key] }));
+    //   });
+    setInputs((values) => ({
+      ...values,
+      fName: validValues.fName,
+      lName: validValues.lName,
+      mobile: validValues.mobile,
+      NIC: validValues.NIC,
+      email: validValues.email,
+      jobType: validValues.jobType,
+      password: validValues.password,
+    }));
+
+    const { mobile, NIC, email } = validValues;
     console.log({ mobile, NIC, email });
+    console.log(inputs);
     try {
       const res = await Provider.validate({ mobile, NIC, email });
       console.log(res.data);
-      //checking the uniqueness 
+
+      //checking the uniqueness
       if (!res.data.mobile && !res.data.NIC && !res.data.email) {
         setIsValid(!isValid);
+      } else {
+        setIsExist(res.data);
+        console.log(isExist);
       }
     } catch (err) {
       if (err.response.status === 500) {
@@ -102,7 +142,7 @@ const Registration_valid = () => {
       }
     }
   };
-// Final sumbision with all the docs
+  // Final sumbision with all the docs
   const onSubmit = async (e) => {
     console.log(inputs);
     e.preventDefault();
@@ -120,7 +160,7 @@ const Registration_valid = () => {
           "Could not updated in Database, " + err.response.data.message
         );
       }
-      window.location.reload(false);
+      //   window.location.reload(false);
     }
   };
   return (
@@ -192,9 +232,15 @@ const Registration_valid = () => {
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         value={values.mobile}
-                        error={errors.mobile && touched.mobile}
+                        error={
+                          (errors.mobile && touched.mobile) || isExist.mobile
+                        }
                         errorText={
-                          errors.mobile && touched.mobile ? errors.mobile : ""
+                          errors.mobile && touched.mobile
+                            ? errors.mobile
+                            : isExist.mobile
+                            ? "Already Existing mobile number"
+                            : ""
                         }
                       />
                       <Input
@@ -204,8 +250,14 @@ const Registration_valid = () => {
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         value={values.NIC}
-                        error={errors.NIC && touched.NIC}
-                        errorText={errors.NIC && touched.NIC ? errors.NIC : ""}
+                        error={(errors.NIC && touched.NIC) || isExist.NIC}
+                        errorText={
+                          errors.NIC && touched.NIC
+                            ? errors.NIC
+                            : isExist.NIC
+                            ? "Already Existing NIC number"
+                            : ""
+                        }
                       />
                       <Input
                         name="email"
@@ -213,14 +265,20 @@ const Registration_valid = () => {
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         value={values.email}
-                        error={errors.email && touched.email}
+                        error={(errors.email && touched.email) || isExist.email}
                         errorText={
-                          errors.email && touched.email ? errors.email : ""
+                          errors.email && touched.email
+                            ? errors.email
+                            : isExist.email
+                            ? "Already Existing email address"
+                            : ""
                         }
                       />
-                     
                       <Grid item xs={12} sm={6}>
-                        <FormControl sx={{ width: "100%" }} error={errors.jobType && touched.jobType}>
+                        <FormControl
+                          sx={{ width: "100%" }}
+                          error={errors.jobType && touched.jobType}
+                        >
                           <InputLabel id="TypeOfJob">
                             Service you wish to provide
                           </InputLabel>
@@ -250,11 +308,11 @@ const Registration_valid = () => {
                               Mason
                             </MenuItem>
                           </Select>
-                          <FormHelperText>{
-                              errors.jobType && touched.jobType
-                                ? errors.jobType
-                                : ""
-                            }</FormHelperText>
+                          <FormHelperText>
+                            {errors.jobType && touched.jobType
+                              ? errors.jobType
+                              : ""}
+                          </FormHelperText>
                         </FormControl>
                       </Grid>
                       <Grid item xs={12} sm={6}>
@@ -298,7 +356,7 @@ const Registration_valid = () => {
                           />
                         </LocalizationProvider>
                       </Grid>
-                      
+
                       <Input
                         name="password"
                         label="New Password"
@@ -315,7 +373,7 @@ const Registration_valid = () => {
                             : ""
                         }
                       />
-                      
+
                       <Grid item xs={12}>
                         <Button
                           variant="contained"

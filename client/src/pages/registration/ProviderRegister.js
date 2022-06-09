@@ -19,8 +19,8 @@ const ProviderRegister = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Registration />
-      {/* <Registration_valid /> */}
+      {/* <Registration /> */}
+      <Registration_valid />
     </ThemeProvider>
   );
 };

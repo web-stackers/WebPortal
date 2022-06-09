@@ -1,14 +1,16 @@
 const provider = require("../models/provider");
+const secondaryUser = require("../models/secondaryUser");
 const jobTypeCategory = require("../models/jobTypeCategory");
 const fs = require("fs");
 var path = require("path");
 const { getMaxListeners } = require("process");
 const transporter = require("../send-email/sendEmail");
+const bcrypt = require("bcryptjs");
 
 // check whether the emai,mobile and nic are unique while registering
 const validate_provider = async (req, res) => {
-  const { mobile, NIC , email } = req.body;
-  console.log({ mobile, NIC , email });
+  const { mobile, NIC, email } = req.body;
+  console.log({ mobile, NIC, email });
   let isMobileExist = false;
   let isNicExist = false;
   let isEmailExist = false;
@@ -21,85 +23,111 @@ const validate_provider = async (req, res) => {
     console.log(nicUser);
     console.log(emailUser);
 
-    if (mobileUser){
+    if (mobileUser) {
       isMobileExist = true;
     }
-    if (nicUser){
+    if (nicUser) {
       isNicExist = true;
     }
-    if (emailUser){
+    if (emailUser) {
       isEmailExist = true;
     }
 
-    res.status(200).json({ mobile: isMobileExist, NIC: isNicExist, email: isEmailExist});
+    res
+      .status(200)
+      .json({ mobile: isMobileExist, NIC: isNicExist, email: isEmailExist });
   } catch (error) {
     res.status(400).json({ message: error.message });
-    
+
     console.log(error);
   }
 };
 
 // Register new provider
 const post_providerType = async (req, res) => {
-  const profilePictureBuffer = fs.readFileSync(
-    // path.join(__dirname + "../../../client/public/uploads/" + "profile.png")
-    req.body.profilePath.filePath
-  );
+  let profilePictureBuffer;
+  let nicBuffer;
+  let qualificationDocBuffer;
+
+  profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
   console.log(profilePictureBuffer);
-  const nicBuffer = fs.readFileSync(
+  nicBuffer = fs.readFileSync(
     // path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
     req.body.nicPath.filePath
   );
   console.log(nicBuffer);
-  const qualificationDocBuffer = fs.readFileSync(
-    // path.join(
-    //   __dirname + "../../../client/public/uploads/" + "Degree certificate.pdf"
-    // )
-    req.body.docPath.filePath
-  );
-  const newserviceprovider = new provider({
-    name: {
-      fName: req.body.fName,
-      lName: req.body.lName,
-    },
-    contact: {
-      mobile: req.body.mobile,
-      email: req.body.email,
-    },
-    password: req.body.password,
-    DOB: req.body.DOB,
-    NIC: req.body.NIC,
-    jobType: req.body.jobType,
-    workStartedYear: req.body.workStartedYear,
-    document: [
-      {
-        type: "Profile Picture",
-        doc: {
-          data: profilePictureBuffer,
-          contentType: req.body.profilePath.type,
-        },
-      },
-      {
-        type: "NIC Scanned",
-        doc: {
-          data: nicBuffer,
-          contentType: req.body.nicPath.type,
-        }
-      },
-      {
-        type: "Qualification",
-        qualificationDocType: req.body.qualificationDocType,
-        doc: {
-          data: qualificationDocBuffer,
-          contentType: req.body.docPath.type,
-        }
-      },
-    ],
-  });
+  qualificationDocBuffer = fs.readFileSync(req.body.docPath.filePath);
 
-  //save new provider type in the database and error handling
   try {
-    const response = await newserviceprovider.save();
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    const newserviceprovider = new provider({
+      name: {
+        fName: req.body.fName,
+        lName: req.body.lName,
+      },
+      contact: {
+        mobile: req.body.mobile,
+        email: req.body.email,
+      },
+      password: hashedPassword,
+      DOB: req.body.DOB,
+      NIC: req.body.NIC,
+      jobType: req.body.jobType,
+      workStartedYear: req.body.workStartedYear,
+      document: [
+        {
+          type: "Profile Picture",
+          doc: {
+            data: profilePictureBuffer,
+            contentType: req.body.profilePath.type,
+          },
+        },
+        {
+          type: "NIC Scanned",
+          doc: {
+            data: nicBuffer,
+            contentType: req.body.nicPath.type,
+          },
+        },
+        {
+          type: "Qualification",
+          qualificationDocType: req.body.qualificationDocType,
+          doc: {
+            data: qualificationDocBuffer,
+            contentType: req.body.docPath.type,
+          },
+        },
+      ],
+    });
+    let docType = req.body.qualificationDocType;
+    if (docType == "O/L Certificate" || docType == "A/L Certificate") {
+      docType = "O/L and A/L Certificates";
+    }
+    const responsilbleSecondaryUser = await secondaryUser.findOne({
+      "verifyDocType": docType,
+    });
+    console.log(responsilbleSecondaryUser);
+  
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: responsilbleSecondaryUser.email,
+      subject: "Notification about the registration of new provider",
+      html:
+        "Hi " +
+        responsilbleSecondaryUser.name.fName +
+        ",<br><br> New provider is registered under your verification docment type with the name of "+req.body.fName+" "+req.body.lName+" .<br>Please verify that documents within a day",
+    };
+
+    //save new provider type in the database and error handling
+    const response = await newserviceprovider.save().then(() =>
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    })
+  );;
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ message: error.message });
