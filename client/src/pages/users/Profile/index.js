@@ -170,7 +170,7 @@ const Profile = () => {
             {type === "Consumers" && (
               <UserJobs type="consumer" id={profileId} />
             )}
-            {type === "Providers" && (
+            {type === "Providers" && verified && (
               <UserJobs type="provider" id={profileId} />
             )}
           </CardContent>
