@@ -17,6 +17,7 @@ const Users = () => {
     const [alert, setAlert] = useState("");
 
     // Fetch all users based on user type
+    // Need to be merged
     const fetchUsers = () => {
         setLoading(true);
         if(user==='Consumers'){

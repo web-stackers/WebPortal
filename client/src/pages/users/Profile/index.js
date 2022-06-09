@@ -34,6 +34,7 @@ const Profile = () => {
   const profilePic = require("../../../assets/proPic.jpg");
 
   // Fetch user details using id
+  // Need to be merged
   const fetchProfile = () => {
     if (type === "Consumers") {
       Consumer.fetchConsumer(profileId)
@@ -55,6 +56,7 @@ const Profile = () => {
   };
 
   // Disable or Enable a user
+  // Need to be merged
   const changeAble = (id) => {
     if (type === "Consumers") {
       Consumer.ableConsumer(id)

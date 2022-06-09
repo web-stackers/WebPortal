@@ -20,7 +20,7 @@ const UserJobs = ({ type, id }) => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // // Fetch job history of a user
+  // Fetch job history of a user
   const fetchJobs = () => {
     setLoading(true);
     Job.fetchUserJobs(type, id)
