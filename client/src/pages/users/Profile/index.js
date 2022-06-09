@@ -105,7 +105,7 @@ const Profile = () => {
                 )}
               </Typography>
               <Typography variant="subtitle1">
-                Rating : {profile.totalRating / profile.ratingCount}
+                Rating : {profile.totalRating / profile.ratingCount || 0}
               </Typography>
             </CardContent>
           </div>
