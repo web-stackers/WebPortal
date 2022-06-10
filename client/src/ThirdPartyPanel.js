@@ -5,6 +5,7 @@ import NewProviders from "./pages/thirdParty/thirdPartyPanel/newProviders/NewPro
 import NewDocumentList from "./pages/thirdParty/thirdPartyPanel/newProviders/NewDocumentList";
 import VerifiedDocumentlist from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedDocumentList";
 import VerifiedProviders from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedProviders";
+import Document from "./pages/thirdParty/thirdPartyPanel/newProviders/Document";
 
 const theme = createTheme({
   palette: {
@@ -39,6 +40,7 @@ function ThirdPartyPanel() {
                 path="/verifiedDocumentlist"
                 element={<VerifiedDocumentlist />}
               />
+              <Route exact path="/document" element={<Document />} />
             </Routes>
           </div>
         </ThirdPartyLayout>

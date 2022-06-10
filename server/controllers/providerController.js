@@ -17,7 +17,7 @@ const validate_provider = async (req, res) => {
 
   try {
     const mobileUser = await provider.findOne({ "contact.mobile": mobile });
-    const nicUser = await provider.findOne({ "NIC": NIC });
+    const nicUser = await provider.findOne({ NIC: NIC });
     const emailUser = await provider.findOne({ "contact.email": email });
     console.log(mobileUser);
     console.log(nicUser);
@@ -104,10 +104,10 @@ const post_providerType = async (req, res) => {
       docType = "O/L and A/L Certificates";
     }
     const responsilbleSecondaryUser = await secondaryUser.findOne({
-      "verifyDocType": docType,
+      verifyDocType: docType,
     });
     console.log(responsilbleSecondaryUser);
-  
+
     var mailOptions = {
       from: "webstackers19@gmail.com",
       to: responsilbleSecondaryUser.email,
@@ -115,19 +115,23 @@ const post_providerType = async (req, res) => {
       html:
         "Hi " +
         responsilbleSecondaryUser.name.fName +
-        ",<br><br> New provider is registered under your verification docment type with the name of "+req.body.fName+" "+req.body.lName+" .<br>Please verify that documents within a day",
+        ",<br><br> New provider is registered under your verification docment type with the name of " +
+        req.body.fName +
+        " " +
+        req.body.lName +
+        " .<br>Please verify that documents within a day",
     };
 
     //save new provider type in the database and error handling
     const response = await newserviceprovider.save().then(() =>
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    })
-  );;
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      })
+    );
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -425,6 +429,24 @@ const update_provider_count = async (req, res) => {
   }
 };
 
+// Fetch a particular document
+const fetch_document = async (req, res) => {
+  const { id, docType } = req.params;
+
+  try {
+    const requiredProvider = await provider.findById(id);
+    const requiredDocumentLists = requiredProvider.document;
+
+    requiredDocumentLists.map((doc) => {
+      if (doc.type === docType) {
+        res.status(200).json(doc.doc.data);
+      }
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   validate_provider,
   post_providerType,
@@ -442,4 +464,5 @@ module.exports = {
   search_provider,
   increase_provider_count,
   update_provider_count,
+  fetch_document,
 };

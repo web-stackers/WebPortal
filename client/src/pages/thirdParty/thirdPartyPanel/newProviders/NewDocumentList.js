@@ -1,18 +1,18 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import NewDocument from "../../../../services/Provider";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 import { Button, Grid, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
-import  Typography  from "@mui/material/Typography";
+import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import Sbutton from "../../../../components/Sbutton";
 import TextField from "@mui/material/TextField";
 import Provider from "../../../../services/Provider";
 import SendIcon from "@mui/icons-material/Send";
-import "../../../../index.css"
+import "../../../../index.css";
 
 const NewDocumentlist = () => {
   // get the provider id from react state
@@ -114,7 +114,12 @@ const NewDocumentlist = () => {
                 {newDoc.isAccepted === undefined ? (
                   <Stack spacing={5}>
                     <Stack direction="row" justifyContent="space-between">
-                      <Sbutton text="View" btnWidth="205px" />
+                      <Link
+                        to="/document"
+                        state={{ id: providerId, doc: newDoc.type }}
+                      >
+                        <Sbutton text="View" btnWidth="205px" />
+                      </Link>
                       <Button
                         variant="contained"
                         color="success"

@@ -71,6 +71,11 @@ const updateProviderCount = async (id) => {
   return await axios.patch(`/provider/providerCountUpdate/${id}`);
 };
 
+// Fetch a particular document
+const fetchDocument = async (id, docType) => {
+  return await axios.patch(`/provider/get/document/${id}/${docType}`);
+};
+
 export default {
   validate,
   addNew,
@@ -86,4 +91,5 @@ export default {
   updateDocumentRejected,
   updateVerification,
   updateProviderCount,
+  fetchDocument,
 };
