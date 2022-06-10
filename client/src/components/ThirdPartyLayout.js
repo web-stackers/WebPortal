@@ -21,7 +21,7 @@ const ThirdPartyLayout = ({ children }) => {
   const menuItems = [
     {
       text: "New Providers",
-      path: "/",
+      path: "/new",
       icon: <AssignmentIcon />,
     },
     {
@@ -64,7 +64,7 @@ const ThirdPartyLayout = ({ children }) => {
               key={item.text}
               onClick={() => navigate(item.path)}
               className={
-                location.pathname === item.path ? classes.active : null
+                location.pathname.startsWith(item.path) ? classes.active : null
               }
             >
               <ListItemIcon style={{ color: "white" }}>

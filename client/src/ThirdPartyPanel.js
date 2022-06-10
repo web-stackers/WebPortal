@@ -1,5 +1,10 @@
 import ThirdPartyLayout from "./components/ThirdPartyLayout";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NewProviders from "./pages/thirdParty/thirdPartyPanel/newProviders/NewProviders";
 import NewDocumentList from "./pages/thirdParty/thirdPartyPanel/newProviders/NewDocumentList";
@@ -28,19 +33,15 @@ function ThirdPartyPanel() {
         <ThirdPartyLayout>
           <div className="App">
             <Routes>
-              <Route exact path="/" element={<NewProviders />} />
-              <Route exact path="/verified" element={<VerifiedProviders />} />
+              <Route exact path="/" element={<Navigate to="/new" />} />
+              <Route path="/new" element={<NewProviders />} />
+              <Route path="/verified" element={<VerifiedProviders />} />
+              <Route path="/newDocumentlist" element={<NewDocumentList />} />
               <Route
-                exact
-                path="/newDocumentlist"
-                element={<NewDocumentList />}
-              />
-              <Route
-                exact
                 path="/verifiedDocumentlist"
                 element={<VerifiedDocumentlist />}
               />
-              <Route exact path="/document" element={<Document />} />
+              <Route path="/document" element={<Document />} />
             </Routes>
           </div>
         </ThirdPartyLayout>
