@@ -447,6 +447,26 @@ const fetch_document = async (req, res) => {
   }
 };
 
+// Update qualification
+const update_qualification = async (req, res) => {
+  const { id, qualification } = req.params;
+
+  try {
+    const updateQualification = await provider.updateOne(
+      { _id: id },
+      {
+        $set: {
+          qualification: qualification,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updateQualification);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   validate_provider,
   post_providerType,
@@ -465,4 +485,5 @@ module.exports = {
   increase_provider_count,
   update_provider_count,
   fetch_document,
+  update_qualification,
 };

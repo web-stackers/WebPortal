@@ -44,7 +44,7 @@ const NewDocumentlist = () => {
     },
 
     button: {
-      paddingRight: "70px",
+      paddingRight: "40px",
     },
   });
 
@@ -70,6 +70,22 @@ const NewDocumentlist = () => {
       });
   };
 
+  const updateQualification = (qualification) => {
+    Provider.updateQualification(providerId, qualification)
+      .then(() => {
+        fetchDocs();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const [value, setValue] = useState([]);
+
+  const handleSubmit = (event) => {
+    setValue(event.target.value);
+  };
+
   const checkVerified = () => {
     if (newDocs.some((newDoc) => newDoc.isAccepted === undefined)) {
       return null;
@@ -92,12 +108,6 @@ const NewDocumentlist = () => {
           });
       }
     }
-  };
-
-  const [reasonForRejection, setReasonForRejection] = useState([]);
-
-  const handleSubmit = (event) => {
-    setReasonForRejection(event.target.value);
   };
 
   return (
@@ -142,16 +152,14 @@ const NewDocumentlist = () => {
                         label="Reason For Rejection"
                         variant="filled"
                         marginLeft="5px"
-                        value={reasonForRejection[newDoc.type]}
+                        value={value[newDoc.type]}
                         onChange={handleSubmit}
                       />
                       <Button
                         variant="contained"
                         color="error"
                         onClick={(e) => {
-                          e.preventDefault();
-                          console.log(reasonForRejection);
-                          updateRejection(newDoc.type, reasonForRejection);
+                          updateRejection(newDoc.type, value);
                         }}
                       >
                         Reject
@@ -165,7 +173,7 @@ const NewDocumentlist = () => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Sbutton text="Download" btnWidth="150px" />
+                      <Sbutton text="View" btnWidth="150px" />
                       <Button variant="contained" disabled>
                         Accept
                       </Button>
@@ -194,7 +202,7 @@ const NewDocumentlist = () => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Sbutton text="Download" btnWidth="150px" />
+                      <Sbutton text="View" btnWidth="150px" />
                       <Button variant="contained" disabled>
                         Accept
                       </Button>
@@ -223,15 +231,32 @@ const NewDocumentlist = () => {
       </Grid>
 
       <br />
-      <Stack className={classes.button} alignItems="flex-end">
+      <Stack
+        className={classes.button}
+        direction="row"
+        alignItems="center"
+        spacing={4}
+        justifyContent="flex-end"
+      >
+        <TextField
+          required
+          id="filled-basic"
+          name="Qualification type"
+          label="Qualification Type"
+          variant="filled"
+          marginLeft="5px"
+          value={value["Qualification type"]}
+          onChange={handleSubmit}
+        />
         <Button
           variant="contained"
           endIcon={<SendIcon />}
           onClick={() => {
             if (checkVerified() === null) {
-              alert("Documents are not yet verified");
+              alert("Documents are not verified");
             } else {
-              alert("Mail send successfully");
+              updateQualification(value);
+              alert("Email sent successfully");
             }
           }}
         >

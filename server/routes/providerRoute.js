@@ -65,4 +65,10 @@ router.patch(
 // Fetch a particular document
 router.get("/get/document/:id/:docType", providerController.fetch_document);
 
+// Update qualification
+router.patch(
+  "/update/qualification/:id/:qualification",
+  providerController.update_qualification
+);
+
 module.exports = router;
