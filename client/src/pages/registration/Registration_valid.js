@@ -29,34 +29,29 @@ import * as Yup from "yup";
 const RegisterSchema = Yup.object().shape({
   fName: Yup.string()
     .required("is required")
-    .min(2, "Should be 2 chars minimum")
+    .min(2, "Should be 2 letters minimum")
     .matches(
       /^[A-Za-z]+$/,
       "Must contain only letters"
     ),
   lName: Yup.string()
     .required("is required")
-    .min(2, "Should be 2 chars minimum").matches(
+    .min(2, "Should be 2 letters minimum").matches(
       /^[A-Za-z]+$/,
       "Must contain only letters"
     ),
   mobile: Yup.string()
     .required("is required").matches(
-      /^[0][0-9]*$/,
+      /^[0][0-9]{9}$/,
       "Invalid mobile number"
-    )
-    .min(10, "Should be 10 digits minimum")
-    .max(10, "Should be 10 digits maximum"),
+    ),
     
   NIC: Yup.string()
     .required("is required")
-    // .matches(
-      //  /^[0-9]{12}$/ || /^[3-9][0-9]{8}v$/,
-    //   /^[3-9][0-9]{8}[v{1}[0-9]{3}]$/,
-    //   "Invalid NIC number"
-    // )
-    .min(10, "Should be 9 digits & end with v")
-    .max(12, "Should be 12 digits maximum"),
+    .matches(
+       /^2[0-9]{11}$|^[3-9][0-9]{8}v$/,
+      "Invalid NIC number"
+    ),
   email: Yup.string().email("Invalid email").required("is required"),
   jobType: Yup.string().required("is required"),
 
@@ -77,6 +72,7 @@ const Registration_valid = () => {
   };
   const classes = useStyles();
   const thisYear = new Date().getFullYear();
+  const maxDOB = new Date().setFullYear(thisYear-16);
   const [isExist, setIsExist] = useState({
     mobile: false,
     NIC: false,
@@ -85,8 +81,8 @@ const Registration_valid = () => {
   const [isValid, setIsValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({
-    DOB: new Date("2014-08-18T21:11:54"),
-    workStartedYear: new Date(thisYear + "-01-01T00:00:00"),
+    DOB: maxDOB,
+    workStartedYear: new Date(thisYear + "-01-01T00:01:00"),
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -233,14 +229,12 @@ const Registration_valid = () => {
                         handleBlur={handleBlur}
                         value={values.mobile}
                         error={
-                          (errors.mobile && touched.mobile) || isExist.mobile
+                          (errors.mobile && touched.mobile) || (isExist.mobile&&values.mobile==inputs.mobile)
                         }
                         errorText={
                           errors.mobile && touched.mobile
                             ? errors.mobile
-                            : isExist.mobile
-                            ? "Already Existing mobile number"
-                            : ""
+                            : ((isExist.mobile&&values.mobile==inputs.mobile)?"Already Existing mobile number":"")
                         }
                       />
                       <Input
@@ -250,13 +244,11 @@ const Registration_valid = () => {
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         value={values.NIC}
-                        error={(errors.NIC && touched.NIC) || isExist.NIC}
+                        error={(errors.NIC && touched.NIC) || (isExist.NIC&&values.NIC==inputs.NIC)}
                         errorText={
                           errors.NIC && touched.NIC
                             ? errors.NIC
-                            : isExist.NIC
-                            ? "Already Existing NIC number"
-                            : ""
+                            : ((isExist.NIC&&values.NIC==inputs.NIC)?"Already Existing NIC number":"")
                         }
                       />
                       <Input
@@ -265,18 +257,18 @@ const Registration_valid = () => {
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         value={values.email}
-                        error={(errors.email && touched.email) || isExist.email}
+                        error={(errors.email && touched.email) || (isExist.email&&values.email==inputs.email)}
                         errorText={
                           errors.email && touched.email
                             ? errors.email
-                            : isExist.email
-                            ? "Already Existing email address"
-                            : ""
+                            : ((isExist.email&&values.email==inputs.email)?"Already Existing email address":"")
                         }
                       />
                       <Grid item xs={12} sm={6}>
                         <FormControl
-                          sx={{ width: "100%" }}
+                          // sx={{ width: "100%" }}
+                          fullWidth
+                          required
                           error={errors.jobType && touched.jobType}
                         >
                           <InputLabel id="TypeOfJob">
@@ -321,6 +313,7 @@ const Registration_valid = () => {
                             views={["year"]}
                             label="From which year you have been providing this service"
                             inputFormat="dd/MM/yyyy"
+                            disableFuture
                             value={inputs.workStartedYear}
                             onChange={(newValue) => {
                               setInputs((values) => ({
@@ -344,7 +337,14 @@ const Registration_valid = () => {
                             label="Date of Birth"
                             inputFormat="dd/MM/yyyy"
                             value={inputs.DOB}
+                            maxDate={maxDOB}
                             onChange={(newValue) => {
+                              setInputs((values) => ({
+                                ...values,
+                                DOB: newValue,
+                              }));
+                            }}
+                            onAccept={(newValue) => {
                               setInputs((values) => ({
                                 ...values,
                                 DOB: newValue,
