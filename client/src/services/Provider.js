@@ -76,6 +76,13 @@ const fetchDocument = async (id, docType) => {
   return await axios.patch(`/provider/get/document/${id}/${docType}`);
 };
 
+// Update qualification
+const updateQualification = async (id, qualification) => {
+  return await axios.patch(
+    `/provider/update/qualification/${id}/${qualification}`
+  );
+};
+
 export default {
   validate,
   addNew,
@@ -92,4 +99,5 @@ export default {
   updateVerification,
   updateProviderCount,
   fetchDocument,
+  updateQualification,
 };
