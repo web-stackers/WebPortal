@@ -42,7 +42,6 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
       rating: user.totalRating / user.ratingCount || 0,
       mobile: user.contact.mobile,
       email: user.contact.email,
-      isDisabled: user.isDisabled,
       ratingCount: user.ratingCount,
       verified: user.verification ? user.verification.isAccepted : false,
     };

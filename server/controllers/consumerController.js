@@ -3,7 +3,7 @@ const consumer = require("../models/consumer");
 // Fetch all consumers
 const fetch_consumers = async (req, res) => {
   try {
-    const consumers = await consumer.find();
+    const consumers = await consumer.find().select('name contact profilePicture totalRating ratingCount');
     res.status(200).json(consumers);
   } catch (error) {
     res.status(400).json({ message: error.message });

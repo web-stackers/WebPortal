@@ -141,7 +141,7 @@ const post_providerType = async (req, res) => {
 // Fetch all providers
 const fetch_providers = async (req, res) => {
   try {
-    const providers = await provider.find();
+    const providers = await provider.find().select('name contact document totalRating ratingCount verification');
     res.status(200).json(providers);
   } catch (error) {
     res.status(400).json({ message: error.message });
