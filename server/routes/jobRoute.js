@@ -15,6 +15,9 @@ router.get("/user/userjobs/:type/:id", jobController.user_jobs);
 // Fetch job withdrawals of a user
 router.get("/user/userwithdrawals", jobController.user_withdrawals);
 
+// Fetch Quotation
+router.get("/user/userQuotation/:id", jobController.fetch_Quotation);
+
 // Add new job to the database
 router.post("/", jobController.post_job);
 
