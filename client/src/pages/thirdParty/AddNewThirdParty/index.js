@@ -23,8 +23,18 @@ const AddNewThirdParty = () => {
 
   const validate = () => {
     let temp = {};
-    temp.fName = inputs.fName ? "" : "This field is required.";
-    temp.lName = inputs.lName ? "" : "This field is required.";
+    temp.fName =
+      (inputs.fName ? "" : "This field is required.") ||
+      (/^[A-Za-z]*$/.test(inputs.fName)
+        ? ""
+        : "First name can only contain letters.") ||
+      (inputs.fName.length > 2 ? "" : "Minimum 3 characters required.");
+    temp.lName =
+      (inputs.lName ? "" : "This field is required.") ||
+      (/^[A-Za-z]*$/.test(inputs.lName)
+        ? ""
+        : "Last name can only contain letters.") ||
+      (inputs.lName.length > 2 ? "" : "Minimum 3 characters required.");
     temp.email =
       (inputs.email ? "" : "This field is required.") ||
       (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputs.email)
