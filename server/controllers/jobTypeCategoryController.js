@@ -103,6 +103,32 @@ const validate_jobType = async (req, res) => {
   }
 };
 
+// Fetch jobs in event category
+const fetch_event_jobs = async (req, res) => {
+  try {
+    const jobTypeUnique = await jobTypeCategory.find({
+      category: "Event",
+    });
+
+    res.status(200).json(jobTypeUnique);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch jobs in Construction category
+const fetch_construction_jobs = async (req, res) => {
+  try {
+    const jobTypeUnique = await jobTypeCategory.find({
+      category: "Construction",
+    });
+
+    res.status(200).json(jobTypeUnique);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   post_jobType,
   fetch_jobType,
@@ -112,4 +138,6 @@ module.exports = {
   fetch_jobCategory_count,
   fetch_jobType_count,
   validate_jobType,
+  fetch_event_jobs,
+  fetch_construction_jobs,
 };

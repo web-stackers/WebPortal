@@ -6,6 +6,11 @@ const jobTypeCategoryController = require("../controllers/jobTypeCategoryControl
 //post to job type
 router.post("/", jobTypeCategoryController.post_jobType);
 router.get("/", jobTypeCategoryController.fetch_jobTypes);
+router.get("/eventJobs", jobTypeCategoryController.fetch_event_jobs);
+router.get(
+  "/constructionJobs",
+  jobTypeCategoryController.fetch_construction_jobs
+);
 router.get("/:id", jobTypeCategoryController.fetch_jobType);
 router.delete("/:id", jobTypeCategoryController.delete_jobType);
 router.patch("/update/:id", jobTypeCategoryController.update_jobType);
