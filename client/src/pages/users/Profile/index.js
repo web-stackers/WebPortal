@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Buffer } from "buffer";
 import Card from "@mui/material//Card";
 import CardContent from "@mui/material//CardContent";
 import CardMedia from "@mui/material//CardMedia";
@@ -39,6 +40,7 @@ const Profile = () => {
     if (type === "Consumers") {
       Consumer.fetchConsumer(profileId)
         .then((response) => {
+          console.log(response.data);
           setProfile(response.data);
         })
         .catch((e) => {
@@ -47,6 +49,7 @@ const Profile = () => {
     } else {
       Provider.fetchProvider(profileId)
         .then((response) => {
+          console.log(response.data);
           setProfile(response.data);
         })
         .catch((e) => {
@@ -82,6 +85,18 @@ const Profile = () => {
     }
   };
 
+  let base64String=profilePic;
+  let mimetype="";
+  if(type==='Consumers'){
+    base64String = profilePic;
+  } else {
+    if(profile && profile.document){
+      let buffer = profile.document[0].doc.data;
+      base64String = Buffer.from(buffer).toString('base64');
+      mimetype = profile.document[0].doc.contentType;
+    }
+  }
+
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -94,7 +109,7 @@ const Profile = () => {
         <Card className={classes.root}>
           <CardMedia
             className={classes.cover}
-            image={profilePic || profile.profilePicture}
+            image={type==='Providers'? `data:${mimetype};base64,${base64String}`:profilePic}
           />
           <div className={classes.details}>
             <CardContent className={classes.content}>
