@@ -56,7 +56,7 @@ const SecondaryUserSchema = new Schema({
 
   registeredDate: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   verifyDocType: {
     type: String,
