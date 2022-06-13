@@ -21,6 +21,8 @@ import {
   MenuItem,
 } from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import SendIcon from "@mui/icons-material/Send";
 import useStyles from "./styles";
 
 import { Formik } from "formik";
@@ -30,28 +32,18 @@ const RegisterSchema = Yup.object().shape({
   fName: Yup.string()
     .required("is required")
     .min(2, "Should be 2 letters minimum")
-    .matches(
-      /^[A-Za-z]+$/,
-      "Must contain only letters"
-    ),
+    .matches(/^[A-Za-z]+$/, "Must contain only letters"),
   lName: Yup.string()
     .required("is required")
-    .min(2, "Should be 2 letters minimum").matches(
-      /^[A-Za-z]+$/,
-      "Must contain only letters"
-    ),
+    .min(2, "Should be 2 letters minimum")
+    .matches(/^[A-Za-z]+$/, "Must contain only letters"),
   mobile: Yup.string()
-    .required("is required").matches(
-      /^[0][0-9]{9}$/,
-      "Invalid mobile number"
-    ),
-    
+    .required("is required")
+    .matches(/^[0][0-9]{9}$/, "Invalid mobile number"),
+
   NIC: Yup.string()
     .required("is required")
-    .matches(
-       /^2[0-9]{11}$|^[3-9][0-9]{8}v$/,
-      "Invalid NIC number"
-    ),
+    .matches(/^[12][09][0-9]{10}$|^[3-9][0-9]{8}v$/, "Invalid NIC number"),
   email: Yup.string().email("Invalid email").required("is required"),
   jobType: Yup.string().required("is required"),
 
@@ -72,18 +64,24 @@ const Registration_valid = () => {
   };
   const classes = useStyles();
   const thisYear = new Date().getFullYear();
-  const maxDOB = new Date().setFullYear(thisYear-16);
+  const maxDOB = new Date().setFullYear(thisYear - 16);
   const [isExist, setIsExist] = useState({
     mobile: false,
     NIC: false,
     email: false,
   });
   const [isValid, setIsValid] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({
     DOB: maxDOB,
-    workStartedYear: new Date(thisYear + "-01-01T00:01:00"),
+    workStartedYear: new Date(thisYear + "-01-01T01:00:00"),
   });
+
+  const [userId, setUserId] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpErrorMsg, setOtpErrorMsg] = useState("");
+
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (event) => {
@@ -98,30 +96,52 @@ const Registration_valid = () => {
   };
   //when submitting the basic details this will check whether the email,mobile and nic are unique
   const onNext = async (validValues) => {
+    setIsExist({
+      mobile: false,
+      NIC: false,
+      email: false,
+    });
     console.log(validValues);
-    // Object.keys(validValues).forEach(key => {
-    //     setInputs((values) => ({ ...values, key: validValues[key] }));
-    //   });
-    setInputs((values) => ({
-      ...values,
-      fName: validValues.fName,
-      lName: validValues.lName,
-      mobile: validValues.mobile,
-      NIC: validValues.NIC,
-      email: validValues.email,
-      jobType: validValues.jobType,
-      password: validValues.password,
-    }));
-
-    const { mobile, NIC, email } = validValues;
-    console.log({ mobile, NIC, email });
-    console.log(inputs);
     try {
+      Object.keys(validValues).forEach((key) => {
+        setInputs((values) => ({ ...values, [key]: validValues[key] }));
+      });
+      // setInputs((values) => ({
+      //   ...values,
+      //   fName: validValues.fName,
+      //   lName: validValues.lName,
+      //   mobile: validValues.mobile,
+      //   NIC: validValues.NIC,
+      //   email: validValues.email,
+      //   jobType: validValues.jobType,
+      //   password: validValues.password,
+      // }));
+
+      const { mobile, NIC, email } = validValues;
+      console.log({ mobile, NIC, email });
+      console.log(inputs);
+
       const res = await Provider.validate({ mobile, NIC, email });
       console.log(res.data);
 
       //checking the uniqueness
       if (!res.data.mobile && !res.data.NIC && !res.data.email) {
+        // try {
+        const response = await Provider.addNew(inputs);
+        console.log(response.data);
+        setUserId(response.data);
+        // } catch (err) {
+        //   if (err.response.status === 500) {
+        //     window.alert(
+        //       "Could not updated in Database, There was a problem with the server"
+        //     );
+        //   } else {
+        //     window.alert(
+        //       "Could not updated in Database, " + err.response.data.message
+        //     );
+        //   }
+        //   //   window.location.reload(false);
+        // }
         setIsValid(!isValid);
       } else {
         setIsExist(res.data);
@@ -129,21 +149,55 @@ const Registration_valid = () => {
       }
     } catch (err) {
       if (err.response.status === 500) {
-        window.alert("There was a problem with the server, could not validate");
+        window.alert("There was a problem with the server, could not update");
       } else {
         window.alert(
-          "Something went wrong, could not validate, " +
-            err.response.data.message
+          "Something went wrong, could not update, " + err.response.data.message
         );
       }
     }
   };
-  // Final sumbision with all the docs
+  const onVerify = async (e) => {
+    e.preventDefault();
+    setOtpErrorMsg("");
+    try {
+      const res = await Provider.verifyOTP({ userId, otp });
+      console.log(res.data);
+      setIsVerified(true);
+    } catch (err) {
+      console.log(err);
+      if (err.response.status === 500) {
+        window.alert("There was a problem with the server");
+      } else {
+        setOtpErrorMsg(err.response.data.message);
+      }
+    }
+  };
+
+  const onResendOTP = async (e) => {
+    e.preventDefault();
+    setOtpErrorMsg("");
+    const email = inputs.email;
+    const fName = inputs.fName;
+    try {
+      const res = await Provider.resendOTP({ userId, email, fName });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+      if (err.response.status === 500) {
+        window.alert("There was a problem with the server");
+      } else {
+        window.alert("Could not resend OTP, " + err.response.data.message);
+      }
+    }
+  };
+
+  // Update the new provider with the documents
   const onSubmit = async (e) => {
     console.log(inputs);
     e.preventDefault();
     try {
-      const res = await Provider.addNew(inputs);
+      const res = await Provider.docUpload(inputs, userId);
       console.log(res.data);
       setIsSubmitted(true);
     } catch (err) {
@@ -162,13 +216,58 @@ const Registration_valid = () => {
   return (
     <>
       {isValid ? (
-        <Uploads
-          handleChange={handleChange}
-          value={inputs.qualificationDocType}
-          onSubmit={onSubmit}
-          setInputs={setInputs}
-          isSubmitted={isSubmitted}
-        />
+        isVerified ? (
+          <Uploads
+            handleChange={handleChange}
+            value={inputs.qualificationDocType}
+            onSubmit={onSubmit}
+            setInputs={setInputs}
+            isSubmitted={isSubmitted}
+          />
+        ) : (
+          <Container component="main" maxWidth="sm">
+            <Paper className={classes.paper} elevation={3}>
+              <Avatar className={classes.avatar}>
+                <VerifiedIcon />
+              </Avatar>
+              <Typography variant="h6">Email Verification</Typography>
+              <Typography variant="h7" mt={1} mb={2}>
+                Verification code has been sent to your email account
+              </Typography>
+              <Grid container spacing={2}>
+                <Input
+                  name="otp"
+                  label="Verification Code"
+                  half
+                  handleChange={(event) => {
+                    setOtp(event.target.value);
+                  }}
+                  value={otp}
+                  error={otpErrorMsg}
+                  errorText={otpErrorMsg}
+                />
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ height: "56px" }}
+                    endIcon={<SendIcon />}
+                    fullWidth
+                    onClick={onVerify}
+                    // disabled={!(dirty && isValid)}
+                  >
+                    Verify
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button color="primary" fullWidth onClick={onResendOTP}>
+                    Resend Verification Code
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Container>
+        )
       ) : (
         <Formik
           initialValues={initialValues}
@@ -229,12 +328,15 @@ const Registration_valid = () => {
                         handleBlur={handleBlur}
                         value={values.mobile}
                         error={
-                          (errors.mobile && touched.mobile) || (isExist.mobile&&values.mobile==inputs.mobile)
+                          (errors.mobile && touched.mobile) ||
+                          (isExist.mobile && values.mobile == inputs.mobile)
                         }
                         errorText={
                           errors.mobile && touched.mobile
                             ? errors.mobile
-                            : ((isExist.mobile&&values.mobile==inputs.mobile)?"Already Existing mobile number":"")
+                            : isExist.mobile && values.mobile == inputs.mobile
+                            ? "Already Existing mobile number"
+                            : ""
                         }
                       />
                       <Input
@@ -244,11 +346,16 @@ const Registration_valid = () => {
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         value={values.NIC}
-                        error={(errors.NIC && touched.NIC) || (isExist.NIC&&values.NIC==inputs.NIC)}
+                        error={
+                          (errors.NIC && touched.NIC) ||
+                          (isExist.NIC && values.NIC == inputs.NIC)
+                        }
                         errorText={
                           errors.NIC && touched.NIC
                             ? errors.NIC
-                            : ((isExist.NIC&&values.NIC==inputs.NIC)?"Already Existing NIC number":"")
+                            : isExist.NIC && values.NIC == inputs.NIC
+                            ? "Already Existing NIC number"
+                            : ""
                         }
                       />
                       <Input
@@ -257,11 +364,16 @@ const Registration_valid = () => {
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         value={values.email}
-                        error={(errors.email && touched.email) || (isExist.email&&values.email==inputs.email)}
+                        error={
+                          (errors.email && touched.email) ||
+                          (isExist.email && values.email == inputs.email)
+                        }
                         errorText={
                           errors.email && touched.email
                             ? errors.email
-                            : ((isExist.email&&values.email==inputs.email)?"Already Existing email address":"")
+                            : isExist.email && values.email == inputs.email
+                            ? "Already Existing email address"
+                            : ""
                         }
                       />
                       <Grid item xs={12} sm={6}>
