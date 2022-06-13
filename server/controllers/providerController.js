@@ -161,6 +161,21 @@ const fetch_provider_address = async (req, res) => {
   }
 };
 
+// Fetch provider of certain job types
+const fetch_providers_under_certain_jobType = async (req, res) => {
+  const { type } = req.params;
+  try {
+    const providers = await provider
+      .find({ jobType: type })
+      .select(
+        "name contact totalRating ratingCount verification address jobType"
+      );
+    res.status(200).json(providers);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch new providers
 const fetch_new_providers = async (req, res) => {
   try {
@@ -481,4 +496,5 @@ module.exports = {
   update_provider_count,
   update_qualification,
   fetch_provider_address,
+  fetch_providers_under_certain_jobType,
 };
