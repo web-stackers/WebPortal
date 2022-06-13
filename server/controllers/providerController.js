@@ -429,24 +429,6 @@ const update_provider_count = async (req, res) => {
   }
 };
 
-// Fetch a particular document
-const fetch_document = async (req, res) => {
-  const { id, docType } = req.params;
-
-  try {
-    const requiredProvider = await provider.findById(id);
-    const requiredDocumentLists = requiredProvider.document;
-
-    requiredDocumentLists.map((doc) => {
-      if (doc.type === docType) {
-        res.status(200).json(doc.doc.data);
-      }
-    });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
 // Update qualification
 const update_qualification = async (req, res) => {
   const { id, qualification } = req.params;
@@ -484,6 +466,5 @@ module.exports = {
   search_provider,
   increase_provider_count,
   update_provider_count,
-  fetch_document,
   update_qualification,
 };

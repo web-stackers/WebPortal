@@ -62,9 +62,6 @@ router.patch(
   providerController.update_provider_count
 );
 
-// Fetch a particular document
-router.get("/get/document/:id/:docType", providerController.fetch_document);
-
 // Update qualification
 router.patch(
   "/update/qualification/:id/:qualification",

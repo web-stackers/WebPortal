@@ -173,7 +173,7 @@ const NewDocumentlist = () => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Sbutton text="View" btnWidth="150px" />
+                      <Sbutton text="View" btnWidth="205px" />
                       <Button variant="contained" disabled>
                         Accept
                       </Button>
@@ -202,7 +202,7 @@ const NewDocumentlist = () => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Sbutton text="View" btnWidth="150px" />
+                      <Sbutton text="View" btnWidth="205px" />
                       <Button variant="contained" disabled>
                         Accept
                       </Button>
