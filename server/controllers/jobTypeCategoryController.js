@@ -106,9 +106,11 @@ const validate_jobType = async (req, res) => {
 // Fetch jobs in event category
 const fetch_event_jobs = async (req, res) => {
   try {
-    const jobTypeUnique = await jobTypeCategory.find({
-      category: "Event",
-    });
+    const jobTypeUnique = await jobTypeCategory
+      .find({
+        category: "Event",
+      })
+      .select("jobType");
 
     res.status(200).json(jobTypeUnique);
   } catch (error) {
@@ -119,9 +121,11 @@ const fetch_event_jobs = async (req, res) => {
 // Fetch jobs in Construction category
 const fetch_construction_jobs = async (req, res) => {
   try {
-    const jobTypeUnique = await jobTypeCategory.find({
-      category: "Construction",
-    });
+    const jobTypeUnique = await jobTypeCategory
+      .find({
+        category: "Construction",
+      })
+      .select("jobType");
 
     res.status(200).json(jobTypeUnique);
   } catch (error) {
