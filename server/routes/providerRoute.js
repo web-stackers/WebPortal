@@ -17,6 +17,9 @@ router.patch(
 //fetch all providers
 router.get("/", providerController.fetch_providers);
 
+//fetch providers location by ID
+router.get("/address/:id", providerController.fetch_provider_address);
+
 // Search provider
 router.get("/search/:key", providerController.search_provider);
 

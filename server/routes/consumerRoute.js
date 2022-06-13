@@ -9,6 +9,9 @@ router.get("/", consumerController.fetch_consumers);
 // Fetch consumer by id
 router.get("/:id", consumerController.fetch_consumer);
 
+//fetch consumers location by ID
+router.get("/address/:id", consumerController.fetch_consumer_address);
+
 // Search consumer
 router.get("/search/:key", consumerController.search_consumer);
 
