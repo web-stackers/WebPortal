@@ -36,6 +36,12 @@ const VerifiedProviderlist = () => {
           .includes(searchTerm.toLowerCase())
       ) {
         return verifiedProvider;
+      } else if (
+        verifiedProvider.qualification
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      ) {
+        return verifiedProvider;
       } else {
         return false;
       }
@@ -56,7 +62,7 @@ const VerifiedProviderlist = () => {
     { field: "lName", headerName: "Last Name", width: 150 },
     {
       field: "qualification",
-      headerName: "Qualification Document",
+      headerName: "Qualification",
       width: 200,
     },
     {

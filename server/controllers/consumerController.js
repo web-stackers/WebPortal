@@ -3,7 +3,9 @@ const consumer = require("../models/consumer");
 // Fetch all consumers
 const fetch_consumers = async (req, res) => {
   try {
-    const consumers = await consumer.find();
+    const consumers = await consumer
+      .find()
+      .select("name contact profilePicture totalRating ratingCount");
     res.status(200).json(consumers);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -44,6 +46,17 @@ const fetch_consumer = async (req, res) => {
   try {
     const requiredConsumer = await consumer.findById(id);
     res.status(200).json(requiredConsumer);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch consumer address
+const fetch_consumer_address = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const consumers = await consumer.findById(id).select("address");
+    res.status(200).json(consumers);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -98,4 +111,5 @@ module.exports = {
   disable_consumer,
   search_consumer,
   fetch_consumer_count,
+  fetch_consumer_address,
 };

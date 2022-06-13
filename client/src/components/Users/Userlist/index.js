@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import { Buffer } from "buffer";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import Sbutton from "../../Sbutton";
 
@@ -22,14 +23,25 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
   const profilePic = require("../../../assets/proPic.jpg");
 
   const rows = users.map((user) => {
+
+    let base64String=false;
+    let mimetype="";
+    if(type==='Providers'){
+      if(user.document){
+        let buffer = user.document[0].doc.data;
+        base64String = Buffer.from(buffer).toString('base64');
+        mimetype = user.document[0].doc.contentType;
+      }
+    }
+
     return {
       id: user._id,
-      propic: profilePic || user.profilePicture,
+      propic: base64String || profilePic,
+      mimetype: mimetype,
       name: user.name.fName + " " + user.name.lName,
       rating: user.totalRating / user.ratingCount || 0,
       mobile: user.contact.mobile,
       email: user.contact.email,
-      isDisabled: user.isDisabled,
       ratingCount: user.ratingCount,
       verified: user.verification ? user.verification.isAccepted : false,
     };
@@ -44,7 +56,11 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
       renderCell: (params) => {
         return (
           <div className={classes.userName}>
-            <img className={classes.userImage} src={params.row.propic} alt="" />
+            <img 
+              className={classes.userImage} 
+              src={type==='Providers'? `data:${params.row.mimetype};base64,${params.row.propic}`:params.row.propic} 
+              alt="" 
+            />
             {params.row.name}
             {params.row.verified && (
               <VerifiedIcon className={classes.verifiedIcon} />

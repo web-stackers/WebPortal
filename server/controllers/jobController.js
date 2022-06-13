@@ -368,6 +368,75 @@ const user_withdrawals = async (req, res) => {
   }
 };
 
+// Fetch Quotation for mobile app
+const fetch_Quotation = async (req, res) => {
+  const { id } = req.params;
+
+  var query = [
+    {
+      $lookup: {
+        from: "jobassignments",
+        let: { jid: "$_id", pid: "$providerId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$$jid", "$jobId"] },
+                  { $eq: ["$$pid", "$providerId"] },
+                ],
+              },
+            },
+          },
+        ],
+        as: "userJobs",
+      },
+    },
+    {
+      $lookup: {
+        from: "providers",
+        localField: "providerId",
+        foreignField: "_id",
+        as: "provider",
+      },
+    },
+    {
+      $lookup: {
+        from: "consumers",
+        localField: "consumerId",
+        foreignField: "_id",
+        as: "consumer",
+      },
+    },
+    {
+      $project: {
+        jobType: 1,
+        description: 1,
+        requestedTime: 1,
+        providerId: 1,
+        consumerId: 1,
+        "userJobs.quotation": 1,
+        "userJobs.state": 1,
+        "provider.name.fName": 1,
+        "consumer.name.fName": 1,
+      },
+    },
+  ];
+
+  try {
+    const jobs = await job.aggregate(query);
+
+    const userJobs = jobs.filter((job) => {
+      if (job._id == id) {
+        return job;
+      }
+    });
+    res.json(userJobs);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Get count of total complaints
 const fetch_complaint_count = async (req, res) => {
   try {
@@ -392,4 +461,5 @@ module.exports = {
   user_jobs,
   fetch_complaint_count,
   user_withdrawals,
+  fetch_Quotation,
 };

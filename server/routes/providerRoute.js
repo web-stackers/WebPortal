@@ -26,6 +26,15 @@ router.patch(
 //fetch all providers
 router.get("/", providerController.fetch_providers);
 
+//fetch providers location by ID
+router.get("/address/:id", providerController.fetch_provider_address);
+
+//fetch providers location by ID
+router.get(
+  "/jobType/:type",
+  providerController.fetch_providers_under_certain_jobType
+);
+
 // Search provider
 router.get("/search/:key", providerController.search_provider);
 
@@ -71,7 +80,10 @@ router.patch(
   providerController.update_provider_count
 );
 
-// Fetch a particular document
-router.get("/get/document/:id/:docType", providerController.fetch_document);
+// Update qualification
+router.patch(
+  "/update/qualification/:id/:qualification",
+  providerController.update_qualification
+);
 
 module.exports = router;

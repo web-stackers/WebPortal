@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 import { Grid, Stack } from "@mui/material";
@@ -54,7 +54,12 @@ const VerifiedDocumentlist = () => {
                 <br />
               </CardContent>
               <Stack alignItems="center">
-                <Sbutton text="View" btnWidth="150px" />
+                <Link
+                  to="/document"
+                  state={{ id: providerId, doc: verifiedDoc.type }}
+                >
+                  <Sbutton text="View" btnWidth="205px" />
+                </Link>
               </Stack>
             </Card>
           </Grid>

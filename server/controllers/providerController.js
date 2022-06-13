@@ -331,7 +331,35 @@ const update_uploads = async (req, res) => {
 // Fetch all providers
 const fetch_providers = async (req, res) => {
   try {
-    const providers = await provider.find();
+    const providers = await provider
+      .find()
+      .select("name contact document totalRating ratingCount verification");
+    res.status(200).json(providers);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch provider address
+const fetch_provider_address = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const providers = await provider.findById(id).select("address");
+    res.status(200).json(providers);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch provider of certain job types
+const fetch_providers_under_certain_jobType = async (req, res) => {
+  const { type } = req.params;
+  try {
+    const providers = await provider
+      .find({ jobType: type })
+      .select(
+        "name contact totalRating ratingCount verification address jobType"
+      );
     res.status(200).json(providers);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -619,19 +647,21 @@ const update_provider_count = async (req, res) => {
   }
 };
 
-// Fetch a particular document
-const fetch_document = async (req, res) => {
-  const { id, docType } = req.params;
+// Update qualification
+const update_qualification = async (req, res) => {
+  const { id, qualification } = req.params;
 
   try {
-    const requiredProvider = await provider.findById(id);
-    const requiredDocumentLists = requiredProvider.document;
-
-    requiredDocumentLists.map((doc) => {
-      if (doc.type === docType) {
-        res.status(200).json(doc.doc.data);
-      }
-    });
+    const updateQualification = await provider.updateOne(
+      { _id: id },
+      {
+        $set: {
+          qualification: qualification,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updateQualification);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -657,5 +687,7 @@ module.exports = {
   search_provider,
   increase_provider_count,
   update_provider_count,
-  fetch_document,
+  update_qualification,
+  fetch_provider_address,
+  fetch_providers_under_certain_jobType,
 };

@@ -10,7 +10,7 @@ import NewProviders from "./pages/thirdParty/thirdPartyPanel/newProviders/NewPro
 import NewDocumentList from "./pages/thirdParty/thirdPartyPanel/newProviders/NewDocumentList";
 import VerifiedDocumentlist from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedDocumentList";
 import VerifiedProviders from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedProviders";
-import Document from "./pages/thirdParty/thirdPartyPanel/newProviders/Document";
+import Document from "./pages/thirdParty/thirdPartyPanel/Document";
 
 const theme = createTheme({
   palette: {
