@@ -14,6 +14,9 @@ const fetch_secondaryUsers = async (req, res) => {
 
 // Add new secondaryUser to the database
 const post_secondaryUser = async (req, res) => {
+  // let profilePictureBuffer;
+  // profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
+  // console.log(profilePictureBuffer);
   const newSecondaryUser = new secondaryUser({
     name: {
       fName: req.body.fName,
@@ -23,6 +26,10 @@ const post_secondaryUser = async (req, res) => {
     email: req.body.email,
     address: req.body.address,
     verifyDocType: req.body.verifyDocType,
+    // profilePicture: {
+    //   data: profilePictureBuffer,
+    //   contentType: req.body.profilePath.type,
+    // },
   });
 
   var mailOptions = {

@@ -141,7 +141,20 @@ const post_providerType = async (req, res) => {
 // Fetch all providers
 const fetch_providers = async (req, res) => {
   try {
-    const providers = await provider.find().select('name contact document totalRating ratingCount verification');
+    const providers = await provider
+      .find()
+      .select("name contact document totalRating ratingCount verification");
+    res.status(200).json(providers);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch provider address
+const fetch_provider_address = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const providers = await provider.findById(id).select("address");
     res.status(200).json(providers);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -486,4 +499,5 @@ module.exports = {
   update_provider_count,
   fetch_document,
   update_qualification,
+  fetch_provider_address,
 };

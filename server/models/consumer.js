@@ -32,12 +32,14 @@ const ConsumerSchema = Schema({
   },
   address: {
     longitude: {
-      type: mongoose.Types.Decimal128,
-      required: true, //longitude must required
+      type: Number,
+      // type: mongoose.Types.Decimal128,
+      // required: true, //longitude must required
     },
     latitude: {
-      type: mongoose.Types.Decimal128,
-      required: true, //latitude must required
+      type: Number,
+      // type: mongoose.Types.Decimal128,
+      // required: true, //latitude must required
     },
   },
   profilePicture: {
