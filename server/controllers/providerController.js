@@ -1,4 +1,5 @@
 const provider = require("../models/provider");
+const providerEmailVerification = require("../models/providerEmailVerification");
 const secondaryUser = require("../models/secondaryUser");
 const jobTypeCategory = require("../models/jobTypeCategory");
 const fs = require("fs");
@@ -43,20 +44,20 @@ const validate_provider = async (req, res) => {
   }
 };
 
-// Register new provider
+// Register new provider with basic details and send OTP to email
 const post_providerType = async (req, res) => {
-  let profilePictureBuffer;
-  let nicBuffer;
-  let qualificationDocBuffer;
+  // let profilePictureBuffer;
+  // let nicBuffer;
+  // let qualificationDocBuffer;
 
-  profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
-  console.log(profilePictureBuffer);
-  nicBuffer = fs.readFileSync(
-    // path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
-    req.body.nicPath.filePath
-  );
-  console.log(nicBuffer);
-  qualificationDocBuffer = fs.readFileSync(req.body.docPath.filePath);
+  // profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
+  // console.log(profilePictureBuffer);
+  // nicBuffer = fs.readFileSync(
+  //   // path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
+  //   req.body.nicPath.filePath
+  // );
+  // console.log(nicBuffer);
+  // qualificationDocBuffer = fs.readFileSync(req.body.docPath.filePath);
 
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -74,31 +75,191 @@ const post_providerType = async (req, res) => {
       NIC: req.body.NIC,
       jobType: req.body.jobType,
       workStartedYear: req.body.workStartedYear,
-      document: [
-        {
-          type: "Profile Picture",
-          doc: {
-            data: profilePictureBuffer,
-            contentType: req.body.profilePath.type,
-          },
-        },
-        {
-          type: "NIC Scanned",
-          doc: {
-            data: nicBuffer,
-            contentType: req.body.nicPath.type,
-          },
-        },
-        {
-          type: "Qualification",
-          qualificationDocType: req.body.qualificationDocType,
-          doc: {
-            data: qualificationDocBuffer,
-            contentType: req.body.docPath.type,
-          },
-        },
-      ],
+      // document: [
+      //   {
+      //     type: "Profile Picture",
+      //     doc: {
+      //       data: profilePictureBuffer,
+      //       contentType: req.body.profilePath.type,
+      //     },
+      //   },
+      //   {
+      //     type: "NIC Scanned",
+      //     doc: {
+      //       data: nicBuffer,
+      //       contentType: req.body.nicPath.type,
+      //     },
+      //   },
+      //   {
+      //     type: "Qualification",
+      //     qualificationDocType: req.body.qualificationDocType,
+      //     doc: {
+      //       data: qualificationDocBuffer,
+      //       contentType: req.body.docPath.type,
+      //     },
+      //   },
+      // ],
     });
+    // let docType = req.body.qualificationDocType;
+    // if (docType == "O/L Certificate" || docType == "A/L Certificate") {
+    //   docType = "O/L and A/L Certificates";
+    // }
+    // const responsilbleSecondaryUser = await secondaryUser.findOne({
+    //   verifyDocType: docType,
+    // });
+    // console.log(responsilbleSecondaryUser);
+
+    // var mailOptions = {
+    //   from: "webstackers19@gmail.com",
+    //   to: responsilbleSecondaryUser.email,
+    //   subject: "Notification about the registration of new provider",
+    //   html:
+    //     "Hi " +
+    //     responsilbleSecondaryUser.name.fName +
+    //     ",<br><br> New provider is registered under your verification docment type with the name of " +
+    //     req.body.fName +
+    //     " " +
+    //     req.body.lName +
+    //     " .<br>Please verify that documents within a day",
+    // };
+
+    //save new provider type in the database and error handling
+    const response = await newserviceprovider.save();
+    // .then(() =>
+    //   transporter.sendMail(mailOptions, function (error, info) {
+    //     if (error) {
+    //       console.log(error);
+    //     } else {
+    //       console.log("Email sent: " + info.response);
+    //     }
+    //   })
+    // );
+    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: req.body.email,
+      subject: "Verify Your Email",
+      html:
+        "Hi " +
+        req.body.fName +
+        ",<br><br> Enter <b>" +
+        otp +
+        "</b> in the app to verify your email address and to continue to the uploading section of required documents.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify informations given by you will be deleted within one hour and then only you can again fill the form from the start",
+    };
+    const newOtpVerification = await new providerEmailVerification({
+      providerId: response._id,
+      otp: hashedOtp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 300000, // will expires after 5 min
+    });
+    await newOtpVerification.save();
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json(response._id);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Verification of OTP entered by the user
+const verify_OTP = async (req, res) => {
+  try {
+    let { userId, otp } = req.body;
+    if (!userId || !otp) {
+      return res
+        .status(400)
+        .json({ message: "Empty OTP details are not allowed" });
+    }
+    const providerEmailVerificationRecords =
+      await providerEmailVerification.find({ providerId: userId });
+    if (providerEmailVerificationRecords.length <= 0) {
+      return res.status(400).json({
+        message: "Account record does not exist or has been already verified",
+      });
+    }
+    const { expiresAt } = providerEmailVerificationRecords[0];
+    const hashedOtp = providerEmailVerificationRecords[0].otp;
+    if (expiresAt < Date.now()) {
+      await providerEmailVerification.deleteMany({ providerId: userId });
+      return res
+        .status(400)
+        .json({ message: "Code has been expired. Please request againt" });
+    }
+    const isOTPvalid = await bcrypt.compare(otp, hashedOtp);
+    if (!isOTPvalid) {
+      return res
+        .status(400)
+        .json({ message: "Invalid code entered. Check your email" });
+    }
+    await provider.findByIdAndUpdate(userId, { $unset: { createdAt: "" } });
+    await provider.findByIdAndUpdate(
+      userId,
+      { isEmailVerified: true },
+      { new: true }
+    );
+    await providerEmailVerification.deleteMany({ providerId: userId });
+    res.status(200).json("Email verified successfully");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Resend OTP
+const resend_OTP = async (req, res) => {
+  try {
+    let { userId, email, fName } = req.body;
+    if (!userId || !email) {
+      return res
+        .status(400)
+        .json({ message: "Empty user details are not allowed" });
+    }
+    await providerEmailVerification.deleteMany({ providerId: userId });
+
+    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: email,
+      subject: "Verify Your Email - OTP resend",
+      html:
+        "Hi " +
+        fName +
+        ",<br><br> Enter <b>" +
+        otp +
+        "</b> in the app to verify your email address and to continue to the uploading section of required documents.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify informations given by you will be deleted within one hour and then only you can again fill the form from the start",
+    };
+    const newOtpVerification = await new providerEmailVerification({
+      providerId: userId,
+      otp: hashedOtp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 300000, // will expires after 5 min
+      //3600000 == 1hr
+    });
+    await newOtpVerification.save();
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json("OTP resent successfully");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// upadate new provider after documents upload
+const update_uploads = async (req, res) => {
+  const { id } = req.params;
+  let profilePictureBuffer;
+  let nicBuffer;
+  let qualificationDocBuffer;
+  try {
+    profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
+    nicBuffer = fs.readFileSync(req.body.nicPath.filePath);
+    qualificationDocBuffer = fs.readFileSync(req.body.docPath.filePath);
+
+    // fs.unlinkSync(req.body.profilePath.filePath);
+    // fs.unlinkSync(pareq.body.nicPath.filePathth);
+    // fs.unlinkSync(req.body.docPath.filePath);
+
     let docType = req.body.qualificationDocType;
     if (docType == "O/L Certificate" || docType == "A/L Certificate") {
       docType = "O/L and A/L Certificates";
@@ -121,18 +282,47 @@ const post_providerType = async (req, res) => {
         req.body.lName +
         " .<br>Please verify that documents within a day",
     };
-
-    //save new provider type in the database and error handling
-    const response = await newserviceprovider.save().then(() =>
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email sent: " + info.response);
-        }
-      })
-    );
-    res.status(200).json(response);
+    const Updatedprovider = await provider
+      .findByIdAndUpdate(
+        id,
+        {
+          document: [
+            {
+              type: "Profile Picture",
+              doc: {
+                data: profilePictureBuffer,
+                contentType: req.body.profilePath.type,
+              },
+            },
+            {
+              type: "NIC Scanned",
+              doc: {
+                data: nicBuffer,
+                contentType: req.body.nicPath.type,
+              },
+            },
+            {
+              type: "Qualification",
+              qualificationDocType: req.body.qualificationDocType,
+              doc: {
+                data: qualificationDocBuffer,
+                contentType: req.body.docPath.type,
+              },
+            },
+          ],
+        },
+        { new: true }
+      )
+      .then(() =>
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log("Email sent: " + info.response);
+          }
+        })
+      );
+    res.status(200).json(Updatedprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -450,6 +640,9 @@ const fetch_document = async (req, res) => {
 module.exports = {
   validate_provider,
   post_providerType,
+  verify_OTP,
+  resend_OTP,
+  update_uploads,
   fetch_providers,
   fetch_provider,
   disable_provider,

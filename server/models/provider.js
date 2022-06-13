@@ -113,6 +113,12 @@ const providerSchema = Schema({
     type: Number,
     default: 0,
   },
+  createdAt: { type: Date, default: Date.now(), expires: 3600 },
+  isEmailVerified: {
+    type: Boolean,
+    required: true,
+    default: false, // default false
+  },
 });
 
 module.exports = mongoose.model("provider", providerSchema);

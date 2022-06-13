@@ -8,6 +8,15 @@ router.post("/register/validate", providerController.validate_provider);
 // Register new provider
 router.post("/register", providerController.post_providerType);
 
+// Register new provider
+router.post("/register/verifyOTP", providerController.verify_OTP);
+
+// To resend the OTP
+router.post("/register/resendOTP", providerController.resend_OTP);
+
+// upadate new provider after documents upload
+router.post("/register/upload/:id", providerController.update_uploads);
+
 //update verification details
 router.patch(
   "/updateVerification/:id/:result",

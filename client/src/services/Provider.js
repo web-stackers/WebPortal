@@ -4,9 +4,23 @@ import axios from "axios";
 const validate = async (data) => {
   return await axios.post("/provider/register/validate", data);
 };
-// Register new provider
+// Register new provider with basic details
 const addNew = async (data) => {
   return await axios.post("/provider/register", data);
+};
+
+// To verify the OTP entered by the new provider to verify email
+const verifyOTP = async (data) => {
+  return await axios.post("/provider/register/verifyOTP", data);
+};
+
+// To resend the OTP if code has expired or something went wrong
+const resendOTP = async (data) => {
+  return await axios.post("/provider/register/resendOTP", data);
+};
+// upadate new provider after documents upload
+const docUpload = async (data,id) => {
+  return await axios.post(`/provider/register/upload/${id}`, data);
 };
 
 // Fetch all providers
@@ -79,6 +93,9 @@ const fetchDocument = async (id, docType) => {
 export default {
   validate,
   addNew,
+  verifyOTP,
+  resendOTP,
+  docUpload,
   fetchProviders,
   ableProvider,
   fetchNewProviders,
