@@ -9,15 +9,9 @@ const JobAssignmentSchema = new Schema({
   },
   reason: String,
   quotation: {
-    approximatedDuration: {
-      days: {
-        type: Number,
-        min: 0,
-      },
-      minutes: {
-        type: Number,
-        min: 0,
-      },
+    estimatedTime: {
+      type: Date,
+      required: true,
     },
     amount: {
       type: Number,

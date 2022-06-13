@@ -236,10 +236,7 @@ const withdrawal_rejected = async (req, res) => {
 const insert_quotation = async (req, res) => {
   const { id } = req.params;
   const newQuotation = {
-    approximatedDuration: {
-      days: req.body.days,
-      minutes: parseInt(req.body.hours) * 60 + parseInt(req.body.minutes),
-    },
+    estimatedTime: req.body.estimatedTime,
     amount: req.body.amount,
   };
 
