@@ -126,22 +126,10 @@ const Registration_valid = () => {
 
       //checking the uniqueness
       if (!res.data.mobile && !res.data.NIC && !res.data.email) {
-        // try {
         const response = await Provider.addNew(inputs);
         console.log(response.data);
         setUserId(response.data);
-        // } catch (err) {
-        //   if (err.response.status === 500) {
-        //     window.alert(
-        //       "Could not updated in Database, There was a problem with the server"
-        //     );
-        //   } else {
-        //     window.alert(
-        //       "Could not updated in Database, " + err.response.data.message
-        //     );
-        //   }
-        //   //   window.location.reload(false);
-        // }
+
         setIsValid(!isValid);
       } else {
         setIsExist(res.data);
