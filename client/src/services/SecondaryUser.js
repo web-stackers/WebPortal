@@ -15,6 +15,11 @@ const updateThirdPartyByID = async (id, data) => {
   return await axios.patch(`/secondaryUser/update/${id}`, data);
 };
 
+//Update third party detail
+const updateProfile = async (id, data) => {
+  return await axios.patch(`/secondaryUser/profileUpdate/${id}`, data);
+};
+
 //disable or enable third party by id
 const disableEnableThirdPartyByID = async (id) => {
   return await axios.patch(`/secondaryUser/disable/${id}`);
@@ -43,4 +48,5 @@ export default {
   fetchThirdpartyCount,
   emailUniqueCheck,
   mobileUniqueCheck,
+  updateProfile,
 };

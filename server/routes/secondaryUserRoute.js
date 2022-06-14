@@ -17,6 +17,9 @@ router.patch("/disable/:id", secondaryUserController.disable_secondaryUser);
 //update third party record
 router.patch("/update/:id", secondaryUserController.update_thirdParty);
 
+//update third party record
+router.patch("/profileUpdate/:id", secondaryUserController.profile_upload);
+
 // Fetch third party count
 router.get("/thirdparty/count", secondaryUserController.fetch_thirdparty_count);
 

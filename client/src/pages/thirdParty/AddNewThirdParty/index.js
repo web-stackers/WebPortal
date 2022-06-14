@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 
 const AddNewThirdParty = () => {
   const [open, setOpen] = useState(false);
+  const [uploadedProfilePath, setUploadedProfilePath] = useState("");
   const [alert, setAlert] = useState("");
   const [inputs, setInputs] = useState({});
   const [errors, setErrors] = useState({});
@@ -87,8 +88,24 @@ const AddNewThirdParty = () => {
                 SecondaryUser.mobileUniqueCheck(inputs.mobile).then(
                   (response) => {
                     if (!response.data) {
-                      SecondaryUser.addNew(inputs);
-                      window.location.reload(false);
+                      SecondaryUser.addNew(inputs)
+                        .then(function (response) {
+                          console.log(response.data);
+                          console.log(response.data._id);
+                          SecondaryUser.updateProfile(inputs)
+                            .then(function (response) {
+                              console.log(response.data);
+                              console.log(response.data._id);
+                              window.location.reload(false);
+                            })
+                            .catch(function (error) {
+                              console.log(error);
+                              window.location.reload(false);
+                            });
+                        })
+                        .catch(function (error) {
+                          console.log(error);
+                        });
                     } else {
                       setOpen(true);
                       setAlert("Mobile is not unique!");
@@ -117,7 +134,10 @@ const AddNewThirdParty = () => {
         Register New Third Party User!
       </Typography>
       <br />
-      <ProfileUpload />
+      <ProfileUpload
+        setUploadedProfilePath={setUploadedProfilePath}
+        setInputs={setInputs}
+      />
       <br />
       <form>
         <StextField

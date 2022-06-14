@@ -146,14 +146,16 @@ import React, { Fragment, useState } from "react";
 import axios from "axios";
 import Message from "./Message";
 
-const ProfileUpload = () => {
+const ProfileUpload = ({ setUploadedProfilePath, setInputs }) => {
   const [file, setFile] = useState("");
   const [filename, setFilename] = useState("Choose profile picture");
-  const [uploadedFile, setUploadedFile] = useState({});
+  //   const [uploadedProfilePath, setUploadedProfilePath] = useState("");
+  //   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState("");
 
   const onChange = (e) => {
     console.log(e.target.files[0].name);
+    setUploadedProfilePath("");
     const file = e.target.files[0];
     if (file.type === "image/png" || file.type === "image/jpeg") {
       if (file.size <= 2097152) {
@@ -179,9 +181,14 @@ const ProfileUpload = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      const { fileName, filePath } = res.data;
-      setUploadedFile({ fileName, filePath });
+      //   const { fileName, filePath } = res.data;
+      setUploadedProfilePath(res.data.filePath);
+      //   setUploadedFile({ fileName, filePath });
       setMessage("File Uploaded");
+      setInputs((values) => ({
+        ...values,
+        profilePath: res.data,
+      }));
     } catch (err) {
       if (err.response.status === 500) {
         setMessage("There was a problem with the server");

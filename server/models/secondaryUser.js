@@ -41,10 +41,10 @@ const SecondaryUserSchema = new Schema({
     required: true,
   },
 
-  // profilePicture: {
-  //   data: Buffer,
-  //   contentType: String,
-  // },
+  profilePicture: {
+    data: Buffer,
+    contentType: String,
+  },
 
   password: {
     type: String,

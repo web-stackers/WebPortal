@@ -59,6 +59,23 @@ const post_secondaryUser = async (req, res) => {
   }
 };
 
+//update profile picture for secondary user
+const profile_upload = async (req, res) => {
+  const { id } = req.params;
+  let profilePictureBuffer;
+  try {
+    profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
+    const updateUser = await secondaryUser.findByIdAndUpdate(id, {
+      profilePicture: {
+        data: profilePictureBuffer,
+        contentType: req.body.profilePath.type,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch secondaryUser by id
 const fetch_secondaryUser = async (req, res) => {
   const { id } = req.params;
@@ -158,4 +175,5 @@ module.exports = {
   fetch_thirdparty_count,
   validate_email,
   validate_mobile,
+  profile_upload,
 };
