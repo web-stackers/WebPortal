@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material//CardMedia";
 import Typography from "@mui/material/Typography";
 import SecondaryUser from "../../services/SecondaryUser";
 import Sbutton from "../Sbutton";
@@ -92,6 +93,7 @@ const ThirdPartyList = () => {
 
   let base64String = false;
   let mimetype = "";
+  // let buffer = "";
 
   return (
     <div>
@@ -101,8 +103,22 @@ const ThirdPartyList = () => {
           {thirdParty.role === "Third Party" && (
             <>
               <Card className={classes.root}>
-                <div className={classes.details}>
-                  <CardContent>
+                <CardMedia className={classes.cover}>
+                  {/* {(let buffer = thirdParty.profilePicture.data)}
+                    {(base64String = Buffer.from(buffer).toString("base64"))}
+                    {(mimetype = thirdParty.profilePicture.contentType)} */}
+                  <img
+                    className={classes.userImage}
+                    src={`data:${
+                      thirdParty.profilePicture.contentType
+                    };base64,${Buffer.from(
+                      thirdParty.profilePicture.data
+                    ).toString("base64")}`}
+                    alt=""
+                  />
+                </CardMedia>
+                <div className={classes.content}>
+                  <CardContent className={classes.details}>
                     {/* gutterBottom - the text will have a bottom margin */}
                     <Typography gutterBottom variant="h5" component="div">
                       {thirdParty.name.fName} {thirdParty.name.lName}

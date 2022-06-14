@@ -6,22 +6,29 @@ const useStyles = makeStyles((theme) => ({
   //The flex layout allows responsive elements within a container to be automatically arranged depending upon screen size. Flex container becomes flexible by setting the display property to flex
   root: {
     display: "flex",
-    height: "200px",
+    height: "180px",
     backgroundColor: "transparent !important",
     color: "white",
   },
   //class name for div where card content tag is present
-  details: {
+  content: {
     display: "flex",
     flexDirection: "column",
     padding: 10,
-    width: "70%",
+    width: "55%",
     marginLeft: "5%",
   },
   //class name for card media
   cover: {
     width: "20%",
   },
+  userImage: {
+    width: "90%",
+    height: "100%",
+  },
+  // media: {
+  //   marginLeft: "5%",
+  // },
 }));
 
 export default useStyles;
