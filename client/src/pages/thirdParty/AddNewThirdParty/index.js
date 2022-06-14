@@ -3,6 +3,7 @@ import Sselect from "../../../components/formComponents/Sselect";
 import * as SelectList from "../../../components/formComponents/SelectList";
 import Sbutton from "../../../components/Sbutton";
 import SecondaryUser from "../../../services/SecondaryUser";
+import ProfileUpload from "../../../components/formComponents/fileUpload/ProfileUpload";
 import { useState } from "react";
 import { Typography } from "@mui/material";
 import AlertBox from "../../../components/AlertBox";
@@ -116,6 +117,8 @@ const AddNewThirdParty = () => {
         Register New Third Party User!
       </Typography>
       <br />
+      <ProfileUpload />
+      <br />
       <form>
         <StextField
           id="fName"
@@ -183,6 +186,7 @@ const AddNewThirdParty = () => {
           <Sbutton text="Cancel" btnWidth="20%" />
         </Link>
       </form>
+
       <AlertBox open={open} setOpen={setOpen} alert={alert} />
     </div>
   );
