@@ -25,7 +25,6 @@ const fetchConsumerCount = async () => {
   return await axios.get("/consumer/get/count");
 };
 
-
 export default {
   fetchConsumers,
   ableConsumer,

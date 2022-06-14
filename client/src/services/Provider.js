@@ -19,7 +19,7 @@ const resendOTP = async (data) => {
   return await axios.post("/provider/register/resendOTP", data);
 };
 // upadate new provider after documents upload
-const docUpload = async (data,id) => {
+const docUpload = async (data, id) => {
   return await axios.post(`/provider/register/upload/${id}`, data);
 };
 

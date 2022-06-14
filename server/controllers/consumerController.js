@@ -104,6 +104,17 @@ const fetch_consumer_count = async (req, res) => {
   }
 };
 
+// Fetch consumer name
+const fetch_consumer_name = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const consumers = await consumer.findById(id).select("name");
+    res.status(200).json(consumers);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
 module.exports = {
   fetch_consumers,
   post_consumer,
@@ -112,4 +123,5 @@ module.exports = {
   search_consumer,
   fetch_consumer_count,
   fetch_consumer_address,
+  fetch_consumer_name,
 };

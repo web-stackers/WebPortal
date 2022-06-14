@@ -599,6 +599,17 @@ const update_qualification = async (req, res) => {
   }
 };
 
+// Fetch provider name
+const fetch_provider_name = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const providers = await provider.findById(id).select("name");
+    res.status(200).json(providers);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   validate_provider,
   post_providerType,
@@ -622,4 +633,5 @@ module.exports = {
   update_qualification,
   fetch_provider_address,
   fetch_providers_under_certain_jobType,
+  fetch_provider_name,
 };
