@@ -65,12 +65,17 @@ const profile_upload = async (req, res) => {
   let profilePictureBuffer;
   try {
     profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
-    const updateUser = await secondaryUser.findByIdAndUpdate(id, {
-      profilePicture: {
-        data: profilePictureBuffer,
-        contentType: req.body.profilePath.type,
+    const updateUser = await secondaryUser.findByIdAndUpdate(
+      id,
+      {
+        profilePicture: {
+          data: profilePictureBuffer,
+          contentType: req.body.profilePath.type,
+        },
       },
-    });
+      { new: true }
+    );
+    res.status(200).json(Updatedprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
