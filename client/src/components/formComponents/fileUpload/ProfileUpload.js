@@ -154,8 +154,25 @@ const ProfileUpload = () => {
 
   const onChange = (e) => {
     console.log(e.target.files[0].name);
-    setFile(e.target.files[0]);
-    setFilename(e.target.files[0].name);
+    const file = e.target.files[0];
+    // setFile(e.target.files[0]);
+    // setFilename(e.target.files[0].name);
+    if (file.type === "image/png" || file.type === "image/jpeg") {
+      if (file.size <= 2097152) {
+        //max size of profile picture is 2MB
+        setFile(file);
+        setFilename(file.name);
+        setMessage("");
+      } else {
+        setFile("");
+        setFilename("Choose profile picture");
+        setMessage("Cannot upload, Maximum file size is 2MB");
+      }
+    } else {
+      setFile("");
+      setFilename("Choose profile picture");
+      setMessage("Cannot upload, Required file type is .png or .jpg");
+    }
   };
 
   const onSubmit = async (e) => {
