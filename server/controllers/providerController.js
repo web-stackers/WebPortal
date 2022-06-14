@@ -603,8 +603,8 @@ const update_qualification = async (req, res) => {
 const fetch_provider_name = async (req, res) => {
   const { id } = req.params;
   try {
-    const providers = await provider.findById(id).select("name");
-    res.status(200).json(providers);
+    const requiredProvider = await provider.findById(id);
+    res.status(200).json(requiredProvider.name);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

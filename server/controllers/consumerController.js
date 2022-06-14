@@ -108,8 +108,8 @@ const fetch_consumer_count = async (req, res) => {
 const fetch_consumer_name = async (req, res) => {
   const {id} = req.params;
   try {
-    const consumers = await consumer.findById(id).select("name");
-    res.status(200).json(consumers);
+    const requiredConsumer = await consumer.findById(id);
+    res.status(200).json(requiredConsumer.name);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
