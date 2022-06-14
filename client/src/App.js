@@ -6,7 +6,7 @@ import ResponseToComplaint from "./pages/complaints/ResponseToComplaint";
 import AddNewThirdParty from "./pages/thirdParty/AddNewThirdParty";
 import ThirdParty from "./pages/thirdParty/ThirdParty";
 import Complaint from "./pages/complaints/Complaints";
-import ThirdPartyProfile from "./pages/thirdParty/ThirdPartyProfile";
+import ThirdPartyProfile from "./pages/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import Layout from "./components/Layout";
 import Profile from "./pages/users/Profile";

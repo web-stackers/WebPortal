@@ -10,8 +10,12 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AlertBox from "../../components/AlertBox";
 import TextField from "@mui/material/TextField";
+import { Buffer } from "buffer";
+import useStyles from "./styles";
 
 const ThirdPartyProfile = () => {
+  const classes = useStyles();
+  const profilePic = require("../../assets/proPic.jpg");
   // The useLocation hook is a function that returns the location object that contains information about the current URL. Whenever the URL changes, a new location object will be returned
   const location = useLocation();
   const ID = location.state._id;
@@ -21,6 +25,9 @@ const ThirdPartyProfile = () => {
   const mobile = location.state.mobile;
   const address = location.state.address;
   const verifyDocType = location.state.verifyDocType;
+  const profilePicture = location.state.profilePicture;
+
+  console.log(profilePicture);
 
   const [inputs, setInputs] = useState({});
   const [open, setOpen] = useState(false);
@@ -54,11 +61,31 @@ const ThirdPartyProfile = () => {
       });
   };
 
+  let base64String = false;
+  let mimetype = "";
+
+  let buffer = profilePicture.data;
+  base64String = Buffer.from(buffer).toString("base64");
+  mimetype = profilePicture.contentType;
+
+  console.log(mimetype);
+  // console.log(base64String);
+
   return (
     <div>
       <Typography variant="h4" marginLeft="20%">
         {fName} {lName}
       </Typography>
+      <br />
+
+      <img
+        className={classes.userImage}
+        src={`data:${mimetype};base64,${base64String}`}
+        alt=""
+      />
+
+      <br />
+      <br />
       <br />
       <form>
         <StextField

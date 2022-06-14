@@ -8,6 +8,7 @@ import Sbutton from "../Sbutton";
 import { Link } from "react-router-dom";
 import useStyles from "./style";
 import { confirm } from "react-confirm-box";
+import { Buffer } from "buffer";
 
 const line = {
   backgroundColor: "#ffffff",
@@ -26,6 +27,7 @@ const options = {
 // The second value, setThirdParty, is the function that is used to update our state.
 
 const ThirdPartyList = () => {
+  const profilePic = require("../../assets/proPic.jpg");
   const [thirdParties, setThirdParties] = useState([]);
 
   //on click function to disable third party account and auto rerender of fetchUsers() after button click to see the change
@@ -87,6 +89,9 @@ const ThirdPartyList = () => {
   };
 
   const classes = useStyles();
+
+  let base64String = false;
+  let mimetype = "";
 
   return (
     <div>

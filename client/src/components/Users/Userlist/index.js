@@ -14,8 +14,8 @@ const CustomNoRowsOverlay = () => {
     <div className={classes.noRows}>
       <p>No Users Found</p>
     </div>
-  )
-}
+  );
+};
 
 const Userlist = ({ type, users, fetchUsers, loading }) => {
   const classes = useStyles();
@@ -23,13 +23,12 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
   const profilePic = require("../../../assets/proPic.jpg");
 
   const rows = users.map((user) => {
-
-    let base64String=false;
-    let mimetype="";
-    if(type==='Providers'){
-      if(user.document){
+    let base64String = false;
+    let mimetype = "";
+    if (type === "Providers") {
+      if (user.document) {
         let buffer = user.document[0].doc.data;
-        base64String = Buffer.from(buffer).toString('base64');
+        base64String = Buffer.from(buffer).toString("base64");
         mimetype = user.document[0].doc.contentType;
       }
     }
@@ -56,10 +55,14 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
       renderCell: (params) => {
         return (
           <div className={classes.userName}>
-            <img 
-              className={classes.userImage} 
-              src={type==='Providers'? `data:${params.row.mimetype};base64,${params.row.propic}`:params.row.propic} 
-              alt="" 
+            <img
+              className={classes.userImage}
+              src={
+                type === "Providers"
+                  ? `data:${params.row.mimetype};base64,${params.row.propic}`
+                  : params.row.propic
+              }
+              alt=""
             />
             {params.row.name}
             {params.row.verified && (
@@ -104,16 +107,16 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
 
   return (
     <div className={classes.outerBox}>
-          <DataGrid 
-            rows={rows} 
-            columns={columns} 
-            disableSelectionOnClick
-            loading={loading}
-            components={{
-              NoRowsOverlay: CustomNoRowsOverlay,
-              LoadingOverlay: LinearProgress
-            }}
-          />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        disableSelectionOnClick
+        loading={loading}
+        components={{
+          NoRowsOverlay: CustomNoRowsOverlay,
+          LoadingOverlay: LinearProgress,
+        }}
+      />
     </div>
   );
 };
