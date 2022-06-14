@@ -88,20 +88,23 @@ const AddNewThirdParty = () => {
                 SecondaryUser.mobileUniqueCheck(inputs.mobile).then(
                   (response) => {
                     if (!response.data) {
+                      console.log(inputs);
                       SecondaryUser.addNew(inputs)
                         .then(function (response) {
                           console.log(response.data);
                           console.log(response.data._id);
-                          SecondaryUser.updateProfile(inputs)
-                            .then(function (response) {
-                              console.log(response.data);
-                              console.log(response.data._id);
-                              window.location.reload(false);
-                            })
-                            .catch(function (error) {
-                              console.log(error);
-                              window.location.reload(false);
-                            });
+                          console.log(inputs.profilePath);
+                          window.location.reload(false);
+                          // SecondaryUser.updateProfile(response.data._id, inputs)
+                          //   .then(function (response) {
+                          //     console.log(response.data);
+                          //     console.log(response.data._id);
+                          //     window.location.reload(false);
+                          //   })
+                          //   .catch(function (error) {
+                          //     console.log(error);
+                          //     // window.location.reload(false);
+                          //   });
                         })
                         .catch(function (error) {
                           console.log(error);

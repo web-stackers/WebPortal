@@ -1,6 +1,7 @@
 const secondaryUser = require("../models/secondaryUser");
 const transporter = require("../send-email/sendEmail");
 var path = require("path");
+const fs = require("fs");
 
 // Fetch all secondaryUsers
 const fetch_secondaryUsers = async (req, res) => {
@@ -14,9 +15,9 @@ const fetch_secondaryUsers = async (req, res) => {
 
 // Add new secondaryUser to the database
 const post_secondaryUser = async (req, res) => {
-  // let profilePictureBuffer;
-  // profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
-  // console.log(profilePictureBuffer);
+  let profilePictureBuffer;
+  profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
+  console.log(profilePictureBuffer);
   const newSecondaryUser = new secondaryUser({
     name: {
       fName: req.body.fName,
@@ -26,10 +27,10 @@ const post_secondaryUser = async (req, res) => {
     email: req.body.email,
     address: req.body.address,
     verifyDocType: req.body.verifyDocType,
-    // profilePicture: {
-    //   data: profilePictureBuffer,
-    //   contentType: req.body.profilePath.type,
-    // },
+    profilePicture: {
+      data: profilePictureBuffer,
+      contentType: req.body.profilePath.type,
+    },
   });
 
   var mailOptions = {
@@ -61,10 +62,12 @@ const post_secondaryUser = async (req, res) => {
 
 //update profile picture for secondary user
 const profile_upload = async (req, res) => {
+  console.log("function call check");
   const { id } = req.params;
   let profilePictureBuffer;
   try {
     profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
+    console.log(profilePictureBuffer);
     const updateUser = await secondaryUser.findByIdAndUpdate(
       id,
       {
@@ -75,7 +78,7 @@ const profile_upload = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json(Updatedprovider);
+    res.status(200).json(updateUser);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

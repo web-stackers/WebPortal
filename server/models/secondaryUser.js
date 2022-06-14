@@ -49,9 +49,9 @@ const SecondaryUserSchema = new Schema({
   password: {
     type: String,
     required: true,
-    default: "@Helper#123",
+    default: "$2a$12$q2ik37BF/zLtGXjFjYDAJOntVW6x1YgBF2kGzyRc0u8qLIPwB.HaS",
     minLength: [8, "Min Length is 8 characters"],
-    maxLength: [15, "Max Length is 15 characters"],
+    maxLength: [150, "Max Length is 150 characters"],
   },
 
   registeredDate: {
