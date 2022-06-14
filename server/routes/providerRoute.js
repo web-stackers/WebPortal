@@ -86,4 +86,7 @@ router.patch(
   providerController.update_qualification
 );
 
+// Fetch provider name
+router.get("/get/provider/name/:id", providerController.fetch_provider_name);
+
 module.exports = router;

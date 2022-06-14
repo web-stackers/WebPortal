@@ -46,19 +46,6 @@ const validate_provider = async (req, res) => {
 
 // Register new provider with basic details and send OTP to email
 const post_providerType = async (req, res) => {
-  // let profilePictureBuffer;
-  // let nicBuffer;
-  // let qualificationDocBuffer;
-
-  // profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
-  // console.log(profilePictureBuffer);
-  // nicBuffer = fs.readFileSync(
-  //   // path.join(__dirname + "../../../client/public/uploads/" + "NIC scanned.pdf")
-  //   req.body.nicPath.filePath
-  // );
-  // console.log(nicBuffer);
-  // qualificationDocBuffer = fs.readFileSync(req.body.docPath.filePath);
-
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const newserviceprovider = new provider({
@@ -75,65 +62,10 @@ const post_providerType = async (req, res) => {
       NIC: req.body.NIC,
       jobType: req.body.jobType,
       workStartedYear: req.body.workStartedYear,
-      // document: [
-      //   {
-      //     type: "Profile Picture",
-      //     doc: {
-      //       data: profilePictureBuffer,
-      //       contentType: req.body.profilePath.type,
-      //     },
-      //   },
-      //   {
-      //     type: "NIC Scanned",
-      //     doc: {
-      //       data: nicBuffer,
-      //       contentType: req.body.nicPath.type,
-      //     },
-      //   },
-      //   {
-      //     type: "Qualification",
-      //     qualificationDocType: req.body.qualificationDocType,
-      //     doc: {
-      //       data: qualificationDocBuffer,
-      //       contentType: req.body.docPath.type,
-      //     },
-      //   },
-      // ],
     });
-    // let docType = req.body.qualificationDocType;
-    // if (docType == "O/L Certificate" || docType == "A/L Certificate") {
-    //   docType = "O/L and A/L Certificates";
-    // }
-    // const responsilbleSecondaryUser = await secondaryUser.findOne({
-    //   verifyDocType: docType,
-    // });
-    // console.log(responsilbleSecondaryUser);
-
-    // var mailOptions = {
-    //   from: "webstackers19@gmail.com",
-    //   to: responsilbleSecondaryUser.email,
-    //   subject: "Notification about the registration of new provider",
-    //   html:
-    //     "Hi " +
-    //     responsilbleSecondaryUser.name.fName +
-    //     ",<br><br> New provider is registered under your verification docment type with the name of " +
-    //     req.body.fName +
-    //     " " +
-    //     req.body.lName +
-    //     " .<br>Please verify that documents within a day",
-    // };
-
-    //save new provider type in the database and error handling
+  
     const response = await newserviceprovider.save();
-    // .then(() =>
-    //   transporter.sendMail(mailOptions, function (error, info) {
-    //     if (error) {
-    //       console.log(error);
-    //     } else {
-    //       console.log("Email sent: " + info.response);
-    //     }
-    //   })
-    // );
+  // OTP generation and email sending after inserting the new provider with basic details
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
     const hashedOtp = await bcrypt.hash(otp, 10);
     var mailOptions = {
@@ -667,6 +599,17 @@ const update_qualification = async (req, res) => {
   }
 };
 
+// Fetch provider name
+const fetch_provider_name = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const requiredProvider = await provider.findById(id);
+    res.status(200).json(requiredProvider.name);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   validate_provider,
   post_providerType,
@@ -690,4 +633,5 @@ module.exports = {
   update_qualification,
   fetch_provider_address,
   fetch_providers_under_certain_jobType,
+  fetch_provider_name,
 };

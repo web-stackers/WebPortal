@@ -24,4 +24,7 @@ router.post("/", consumerController.post_consumer);
 // Disable or Enable consumer
 router.patch("/able/:id", consumerController.disable_consumer);
 
+// Fetch consumer name
+router.get("/get/consumer/name/:id", consumerController.fetch_consumer_name);
+
 module.exports = router;
