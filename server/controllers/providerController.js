@@ -288,7 +288,7 @@ const fetch_providers_under_certain_jobType = async (req, res) => {
   const { type } = req.params;
   try {
     const providers = await provider
-      .find({ jobType: type })
+      .find({ jobType: type, verification: { $ne: null } })
       .select(
         "name contact totalRating ratingCount verification address jobType qualification workStartedYear DOB"
       );
