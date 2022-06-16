@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => {
     drawerPaper: {
       width: drawerWidth,
       padding: "30px 10px",
-      backgroundColor: theme.palette.primary.main + "!important",
+      backgroundColor: theme.palette.secondary.main + "!important",
       color: "white !important",
     },
     root: {
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => {
       marginLeft: theme.spacing(2),
     },
     active: {
-      backgroundColor: theme.palette.secondary.main + "!important",
+      backgroundColor: theme.palette.primary.main + "!important",
     },
     children: {
       marginTop: '20px'

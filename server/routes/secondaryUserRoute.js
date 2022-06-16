@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const secondaryUserController = require("../controllers/secondaryUserController");
 
+router.post("/signin", secondaryUserController.signIn);
+
 //Fetch all third party records
 router.get("/", secondaryUserController.fetch_secondaryUsers);
 

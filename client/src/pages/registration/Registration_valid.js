@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useReducer } from "react";
 import Provider from "../../services/Provider";
 import Input from "../../components/formComponents/Input";
 import Uploads from "./Uploads";
@@ -73,6 +74,16 @@ const Registration_valid = () => {
   const [isValid, setIsValid] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // const [state, updateState] = useReducer(
+  //   (state, updates) => ({
+  //     ...state,
+  //     ...updates,
+  //   }),
+  //   initialState
+  // );
+  // updateState({ ocupation: "postman" })
+
   const [inputs, setInputs] = useState({
     DOB: maxDOB,
     workStartedYear: new Date(thisYear + "-01-01T01:00:00"),
@@ -173,7 +184,7 @@ const Registration_valid = () => {
     } catch (err) {
       console.log(err);
       if (err.response.status === 500) {
-        window.alert("There was a problem with the server");
+        window.alert("There was a problem with the server, Could not resend OTP");
       } else {
         window.alert("Could not resend OTP, " + err.response.data.message);
       }

@@ -1,4 +1,13 @@
 import axios from "axios";
+const API = axios.create({ baseURL: 'http://localhost:5000' });
+
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem('profile')) {
+    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+  }
+
+  return req;
+});
 
 // check whether the emai,mobile and nic are unique while registering
 const validate = async (data) => {
@@ -25,69 +34,69 @@ const docUpload = async (data, id) => {
 
 // Fetch all providers
 const fetchProviders = async () => {
-  return await axios.get("/provider");
+  return await API.get("/provider");
 };
 
 // Disable or Enable provider
 const ableProvider = async (id) => {
-  return await axios.patch(`/provider/able/${id}`);
+  return await API.patch(`/provider/able/${id}`);
 };
 
 // Fetch provider by id
 const fetchProvider = async (id) => {
-  return await axios.get(`/provider/${id}`);
+  return await API.get(`/provider/${id}`);
 };
 
 //Fetch new providers
 const fetchNewProviders = async () => {
-  return await axios.get("/provider/new");
+  return await API.get("/provider/new");
 };
 
 // Fetch verified providers
 const fetchVerifiedProviders = async () => {
-  return await axios.get("/provider/verified");
+  return await API.get("/provider/verified");
 };
 
 //Fetch documentlist of a provider
 const fetchDocumentList = async (id) => {
-  return await axios.get(`/provider/document/${id}`);
+  return await API.get(`/provider/document/${id}`);
 };
 
 // Fetch verified provider count
 const fetchVerifiedProviderCount = async () => {
-  return await axios.get("/provider/count");
+  return await API.get("/provider/count");
 };
 
 // Update when document is accepted
 const updateDocumentAccepted = async (id, docType) => {
-  return await axios.patch(`/provider/documentAccepted/${id}/${docType}`);
+  return await API.patch(`/provider/documentAccepted/${id}/${docType}`);
 };
 
 // Update when document is rejected
 const updateDocumentRejected = async (id, docType, reason) => {
-  return await axios.patch(
+  return await API.patch(
     `/provider/documentRejected/${id}/${docType}/${reason}`
   );
 };
 
 // Search consumer
 const searchProvider = async (key) => {
-  return await axios.get(`/provider/search/${key}`);
+  return await API.get(`/provider/search/${key}`);
 };
 
 // Update verification
 const updateVerification = async (id, result) => {
-  return await axios.patch(`/provider/updateVerification/${id}/${result}`);
+  return await API.patch(`/provider/updateVerification/${id}/${result}`);
 };
 
 // Update provider count when enable or disable by admin
 const updateProviderCount = async (id) => {
-  return await axios.patch(`/provider/providerCountUpdate/${id}`);
+  return await API.patch(`/provider/providerCountUpdate/${id}`);
 };
 
 // Update qualification
 const updateQualification = async (id, qualification) => {
-  return await axios.patch(
+  return await API.patch(
     `/provider/update/qualification/${id}/${qualification}`
   );
 };
