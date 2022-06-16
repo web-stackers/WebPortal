@@ -11,7 +11,6 @@ const JobAssignmentSchema = new Schema({
   quotation: {
     estimatedTime: {
       type: Date,
-      required: true,
     },
     amount: {
       type: Number,

@@ -63,9 +63,9 @@ const post_providerType = async (req, res) => {
       jobType: req.body.jobType,
       workStartedYear: req.body.workStartedYear,
     });
-  
+
     const response = await newserviceprovider.save();
-  // OTP generation and email sending after inserting the new provider with basic details
+    // OTP generation and email sending after inserting the new provider with basic details
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
     const hashedOtp = await bcrypt.hash(otp, 10);
     var mailOptions = {
@@ -287,9 +287,9 @@ const fetch_providers_under_certain_jobType = async (req, res) => {
   const { type } = req.params;
   try {
     const providers = await provider
-      .find({ jobType: type })
+      .find({ jobType: type, verification: { $ne: null } })
       .select(
-        "name contact totalRating ratingCount verification address jobType"
+        "name contact totalRating ratingCount verification address jobType qualification workStartedYear DOB"
       );
     res.status(200).json(providers);
   } catch (error) {

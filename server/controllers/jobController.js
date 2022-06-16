@@ -82,6 +82,7 @@ const post_job = async (req, res) => {
       longitude: req.body.longitude,
       latitude: req.body.latitude,
     },
+    providerId: req.body.providerId,
     requestedTime: req.body.requestedTime,
     description: req.body.description,
     jobPhoto: req.body.jobPhoto,

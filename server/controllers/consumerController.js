@@ -94,6 +94,23 @@ const disable_consumer = async (req, res) => {
   }
 };
 
+// update consumer location
+const update_consumer_location = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedConsumer = await consumer.findByIdAndUpdate(id, {
+      address: {
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
+      },
+    });
+    res.status(200).json(updatedConsumer);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Get count of total consumers
 const fetch_consumer_count = async (req, res) => {
   try {
@@ -106,14 +123,14 @@ const fetch_consumer_count = async (req, res) => {
 
 // Fetch consumer name
 const fetch_consumer_name = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const requiredConsumer = await consumer.findById(id);
     res.status(200).json(requiredConsumer.name);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 module.exports = {
   fetch_consumers,
@@ -124,4 +141,5 @@ module.exports = {
   fetch_consumer_count,
   fetch_consumer_address,
   fetch_consumer_name,
+  update_consumer_location,
 };

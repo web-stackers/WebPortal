@@ -20,11 +20,12 @@ const useStyles = makeStyles((theme) => ({
   },
   //class name for card media
   cover: {
-    width: "20%",
+    width: "15%",
   },
   userImage: {
-    width: "90%",
+    width: "93%",
     height: "100%",
+    // marginLeft: "5%",
   },
   // media: {
   //   marginLeft: "5%",
