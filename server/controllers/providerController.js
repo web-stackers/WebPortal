@@ -199,7 +199,6 @@ const update_uploads = async (req, res) => {
     const responsilbleSecondaryUser = await secondaryUser.findOne({
       verifyDocType: docType,
     });
-    console.log(responsilbleSecondaryUser);
 
     var mailOptions = {
       from: "webstackers19@gmail.com",

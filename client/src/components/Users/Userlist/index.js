@@ -88,7 +88,7 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
         return (
           <div className={classes.actionBtn}>
             <Link
-              to="/users/profile"
+              to="/admin/users/profile"
               state={{ profileId, type, profileName, verified }}
               className="link"
               style={{ marginRight: "5%" }}

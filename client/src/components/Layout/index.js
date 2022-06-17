@@ -4,11 +4,19 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Button from "@mui/material//Button";
+
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import AssignmentTurnedIn from "@mui/icons-material/AssignmentTurnedIn";
+import { Buffer } from "buffer";
 
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import decode from "jwt-decode";
+import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
+import Popover from "@mui/material/Popover";
 import {
   DashboardOutlined,
   PeopleAltOutlined,
@@ -18,55 +26,152 @@ import {
 
 import useStyles from "./styles";
 
-const Layout = ({ children }) => {
+const Layout = ({ user, setUser }) => {
+  const defaultProfilePic = require("../../assets/proPic.jpg");
+  const appLogo = require("../../assets/logo.png");
+  let base64String = false;
+  const mimetype = user?.result?.profilePicture?.contentType;
+  const buffer = user?.result?.profilePicture?.data;
+  base64String = Buffer.from(buffer).toString("base64");
   const classes = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const menuItems = [
-    {
-      text: "Dashboard",
-      path: "/dashboard",
-      icon: <DashboardOutlined />,
-    },
-    {
-      text: "Users",
-      path: "/users",
-      icon: <PeopleAltOutlined />,
-    },
-    {
-      text: "Third Party",
-      path: "/thirdParty",
-      icon: <PeopleAltOutlined />,
-    },
-    {
-      text: "Jobs",
-      path: "/jobs",
-      icon: <WorkOutline />,
-    },
-    {
-      text: "Complaints",
-      path: "/complaints",
-      icon: <FeedbackOutlined />,
-    },
+  const [anchorEl, setAnchorEl] = useState(null);
 
-    {
-      text: "Withdrawals",
-      path: "/withdrawals",
-      icon: <FeedbackOutlined />,
-    },
-  ];
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  let menuItems;
+  if (user?.result?.role === "Admin") {
+    menuItems = [
+      {
+        text: "Dashboard",
+        path: "/admin/dashboard",
+        icon: <DashboardOutlined />,
+      },
+      {
+        text: "Users",
+        path: "/admin/users",
+        icon: <PeopleAltOutlined />,
+      },
+      {
+        text: "Third Party",
+        path: "/admin/thirdParty",
+        icon: <PeopleAltOutlined />,
+      },
+      {
+        text: "Jobs",
+        path: "/admin/jobs",
+        icon: <WorkOutline />,
+      },
+      {
+        text: "Complaints",
+        path: "/admin/complaints",
+        icon: <FeedbackOutlined />,
+      },
+
+      {
+        text: "Withdrawals",
+        path: "/admin/withdrawals",
+        icon: <FeedbackOutlined />,
+      },
+    ];
+  }
+  if (user?.result?.role === "Third Party") {
+    menuItems = [
+      {
+        text: "New Providers",
+        path: "/thirdParty/new",
+        icon: <AssignmentIcon />,
+      },
+      {
+        text: "Verified Providers",
+        path: "/thirdParty/verified",
+        icon: <AssignmentTurnedIn />,
+      },
+    ];
+  }
+
+  const logout = () => {
+    localStorage.clear();
+    // dispatch({ type: actionType.LOGOUT });
+
+    // history.push('/auth');
+
+    setUser(null);
+  };
+  useEffect(() => {
+    const token = user?.token;
+
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        logout();
+      }
+    }
+    setUser(() => {
+      return JSON.parse(localStorage.getItem("profile"));
+    });
+  }, [location]);
 
   return (
     <div className={classes.root}>
       {/* Appbar */}
       <AppBar className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
-          <Typography className={classes.pageTitle}>Welcome !</Typography>
-          <Typography>Gowsik</Typography>
+          <Typography className={classes.pageTitle}>
+            {user?.result?.role === "Admin"
+              ? "Admin Panel"
+              : "Third Party Panel"}
+          </Typography>
+          {/* <Typography>{user?.result?.name?.fName}</Typography> */}
+          <Button
+            aria-describedby={id}
+            // variant="contained"
+            color="tertiary"
+            onClick={handleClick}
+          >
+            {user?.result?.name?.fName}
+          </Button>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+          >
+            {/* <Typography sx={{ p: 2 }}>The content of the Popover.</Typography> */}
+            <Button
+            sx={{ p: 1 }}
+            variant="contained"
+            color="primary"
+            onClick={logout}
+          >
+            Logout
+          </Button>
+          </Popover>
+
+          
           <Avatar
             className={classes.avatar}
-            src={require("../../assets/adminPic.jpg")}
+            src={
+              base64String
+                ? `data:${mimetype};base64,${base64String}`
+                : defaultProfilePic
+            }
           />
         </Toolbar>
       </AppBar>
@@ -79,7 +184,18 @@ const Layout = ({ children }) => {
         classes={{ paper: classes.drawerPaper }}
       >
         <div className={classes.title}>
-          <Typography variant="h5">Helper</Typography>
+          <img
+            // className={classes.userImage}
+            style={{
+              width: "50%",
+              marginLeft: "25%",
+              marginRight: "25%",
+              marginTop: "15px",
+            }}
+            src={appLogo}
+            alt=""
+          />
+          {/* <Typography variant="h5">Helper</Typography> */}
         </div>
 
         {/* Menu List */}
@@ -109,7 +225,9 @@ const Layout = ({ children }) => {
       {/* Content */}
       <div className={classes.page}>
         <div className={classes.htoolbar}></div>
-        <div className={classes.children}>{children}</div>
+        <div className={classes.children}>
+          <Outlet />
+        </div>
       </div>
     </div>
   );
