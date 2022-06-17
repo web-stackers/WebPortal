@@ -81,7 +81,7 @@ const JobList = () => {
       renderCell: (params) => {
         return (
           <div>
-            <Link to="/jobs/jobEdit" state={params.row} className="link">
+            <Link to="/admin/jobs/jobEdit" state={params.row} className="link">
               <Button variant="contained" style={btnStyle}>
                 <EditIcon fontSize="small" />
               </Button>
