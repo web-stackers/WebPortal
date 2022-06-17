@@ -25,7 +25,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { profileId, type, profileName, verified } = location.state;
-  
+  const [loading, setLoading] = useState(true);
 
   const [open, setOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
@@ -40,8 +40,8 @@ const Profile = () => {
     if (type === "Consumers") {
       Consumer.fetchConsumer(profileId)
         .then((response) => {
-          console.log(response.data);
           setProfile(response.data);
+          setLoading(false);
         })
         .catch((e) => {
           console.log(e);
@@ -49,8 +49,8 @@ const Profile = () => {
     } else {
       Provider.fetchProvider(profileId)
         .then((response) => {
-          console.log(response.data);
           setProfile(response.data);
+          setLoading(false);
         })
         .catch((e) => {
           console.log(e);
@@ -61,6 +61,7 @@ const Profile = () => {
   // Disable or Enable a user
   // Need to be merged
   const changeAble = (id) => {
+    setLoading(true);
     if (type === "Consumers") {
       Consumer.ableConsumer(id)
         .then(() => {
@@ -103,7 +104,7 @@ const Profile = () => {
 
   return (
     <div className="Outerbox">
-      {!profile && <LinearProgress />}
+      {!profile || loading && <LinearProgress />}
 
       {profile && (
         <Card className={classes.root}>
@@ -166,7 +167,7 @@ const Profile = () => {
               />
             )}
 
-            <Sbutton text="Back" btnWidth="200px" onClick={() => navigate("/users")}/>
+            <Sbutton text="Back" btnWidth="200px" onClick={() => navigate("/admin/users")}/>
           </div>
         </Card>
       )}
