@@ -55,7 +55,11 @@ const NewProviderlist = () => {
         const providerId = params.row.id;
         return (
           <div>
-            <Link to="/newDocumentlist" state={providerId} className="link">
+            <Link
+              to="/thirdParty/newDocumentlist"
+              state={providerId}
+              className="link"
+            >
               <Sbutton text="Open" btnWidth="120px" />
             </Link>
           </div>
