@@ -32,9 +32,9 @@ const JobEdit = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    JobCategory.updateJobByID(location.state.id, inputs);
-    // window.location.reload(false);
-    routeChange();
+    JobCategory.updateJobByID(location.state.id, inputs).then(() => {
+      routeChange();
+    });
   };
 
   return (
