@@ -8,7 +8,7 @@ const ThirdParty = () => {
     <div>
       <div>
         {/* Adding new third party user, it will br redirected to new page */}
-        <Link to="/thirdParty/addNewThirdParty" className="link">
+        <Link to="/admin/thirdParty/addNewThirdParty" className="link">
           <Sbutton text="Add New" btnWidth="25%" />
         </Link>
         <br /> <br />

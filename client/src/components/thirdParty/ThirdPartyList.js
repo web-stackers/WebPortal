@@ -140,7 +140,7 @@ const ThirdPartyList = () => {
 
                 <CardActions>
                   <Link
-                    to="/thirdParty/thirdPartyProfile"
+                    to="/admin/thirdParty/thirdPartyProfile"
                     state={thirdParty}
                     className="link"
                     style={{ marginRight: "5%" }}

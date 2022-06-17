@@ -42,7 +42,7 @@ const ThirdPartyProfile = () => {
   //It is given as onClick function in submit button to redirect to the main page
   const navigate = useNavigate();
   const routeChange = () => {
-    let path = "/thirdParty";
+    let path = "/admin/thirdParty";
     navigate(path);
   };
 
