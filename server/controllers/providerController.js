@@ -288,10 +288,26 @@ const fetch_providers_under_certain_jobType = async (req, res) => {
   const { type } = req.params;
   try {
     const providers = await provider
-      .find({ jobType: type, verification: { $ne: null } })
+      .find({
+        jobType: type,
+        isDisabled: { $eq: false },
+        verification: { $ne: null },
+        address: { $ne: null },
+      })
       .select(
         "name contact totalRating ratingCount verification address jobType qualification workStartedYear DOB"
       );
+    res.status(200).json(providers);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch provider of certain job types
+const fetch_provider_profile_picture = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const providers = await provider.find({ id: id }).select("document");
     res.status(200).json(providers);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -633,5 +649,6 @@ module.exports = {
   update_qualification,
   fetch_provider_address,
   fetch_providers_under_certain_jobType,
+  fetch_provider_profile_picture,
   fetch_provider_name,
 };
