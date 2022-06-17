@@ -31,4 +31,7 @@ router.get("/search/:email", secondaryUserController.validate_email);
 // check whether the mobile unique or not
 router.get("/search/mobile/:mobile", secondaryUserController.validate_mobile);
 
+// Fetch thirdparty verify document type
+router.get("/verify/docType/:id", secondaryUserController.fetch_verify_doctype);
+
 module.exports = router;

@@ -1,15 +1,17 @@
 import axios from "axios";
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
 API.interceptors.request.use((req) => {
-  if (localStorage.getItem('profile')) {
-    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
   }
 
   return req;
 });
 
-const signIn = (data) => API.post('/secondaryUser/signin', data);
+const signIn = (data) => API.post("/secondaryUser/signin", data);
 
 //adding new third party user in the database
 const addNew = async (data) => {
@@ -51,6 +53,11 @@ const mobileUniqueCheck = async (mobile) => {
   return await API.get(`/secondaryUser/search/mobile/${mobile}`);
 };
 
+// Fetch thirdparty verify document type
+const fetchVerifyDocType = async (id) => {
+  return await API.get(`/secondaryUser/verify/docType/${id}`);
+};
+
 export default {
   signIn,
   addNew,
@@ -61,4 +68,5 @@ export default {
   emailUniqueCheck,
   mobileUniqueCheck,
   updateProfile,
+  fetchVerifyDocType,
 };

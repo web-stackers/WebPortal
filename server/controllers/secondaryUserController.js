@@ -205,6 +205,18 @@ const validate_mobile = async (req, res) => {
   }
 };
 
+// Fetch thirdparty verify document type
+const fetch_verify_doctype = async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    const requiredThirdParty = await secondaryUser.findById(id);
+    res.status(200).json(requiredThirdParty.verifyDocType);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
 module.exports = {
   signIn,
   fetch_secondaryUsers,
@@ -216,4 +228,5 @@ module.exports = {
   validate_email,
   validate_mobile,
   profile_upload,
+  fetch_verify_doctype,
 };
