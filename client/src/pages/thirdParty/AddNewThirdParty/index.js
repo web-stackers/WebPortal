@@ -205,7 +205,7 @@ const AddNewThirdParty = () => {
           btnWidth="20%"
           marginRight="6%"
         />
-        <Link to="/thirdParty" className="link">
+        <Link to="/admin/thirdParty" className="link">
           <Sbutton text="Cancel" btnWidth="20%" />
         </Link>
       </form>

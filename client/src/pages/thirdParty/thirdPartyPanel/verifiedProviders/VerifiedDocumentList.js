@@ -55,7 +55,7 @@ const VerifiedDocumentlist = () => {
               </CardContent>
               <Stack alignItems="center">
                 <Link
-                  to="/document"
+                  to="/thirdParty/document"
                   state={{ id: providerId, doc: verifiedDoc.type }}
                 >
                   <Sbutton text="View" btnWidth="205px" />

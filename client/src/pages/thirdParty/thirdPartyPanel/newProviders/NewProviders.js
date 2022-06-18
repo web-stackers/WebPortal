@@ -1,11 +1,13 @@
 import NewProviderlist from "./NewProviderlist";
 
 // display the list of new registered providers
-const NewProviders = () => {
+const NewProviders = ({ id }) => {
+  const thirdPartyId = id;
+
   return (
     <>
       <div>
-        <NewProviderlist />
+        <NewProviderlist id={thirdPartyId} />
       </div>
     </>
   );

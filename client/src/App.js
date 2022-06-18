@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/users/Users";
 import Jobs from "./pages/jobType/Jobs";
@@ -25,8 +25,8 @@ import VerifiedDocumentlist from "./pages/thirdParty/thirdPartyPanel/verifiedPro
 import VerifiedProviders from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedProviders";
 import Document from "./pages/thirdParty/thirdPartyPanel/Document";
 
-import ProtectedAdminRoute from "./pages/auth/ProtectedAdminRoute"
-import ProtectedThirdPartyRoute from "./pages/auth/ProtectedThirdPartyRoute"
+import ProtectedAdminRoute from "./pages/auth/ProtectedAdminRoute";
+import ProtectedThirdPartyRoute from "./pages/auth/ProtectedThirdPartyRoute";
 
 import Auth from "./pages/auth/Auth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -49,10 +49,10 @@ const theme = createTheme({
   },
 });
 
-
-
 function App() {
-  const [user, setUser] = useState(()=>{return JSON.parse(localStorage.getItem('profile'))});
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem("profile"));
+  });
   // const [user, setUser] = useState({result:{role:"Third Party"},token:"dsvdbf"});
   // const location = useLocation();
   // useEffect(() => {
@@ -62,12 +62,29 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-        <Route exact path="/" element={<Navigate to="/signin" />} />
-          <Route exact path="/signin" element={<Auth role={user?.result?.role} setUser={setUser} user={user}/>} />
+          <Route exact path="/" element={<Navigate to="/signin" />} />
+          <Route
+            exact
+            path="/signin"
+            element={
+              <Auth role={user?.result?.role} setUser={setUser} user={user} />
+            }
+          />
 
-          <Route exact path="/thirdParty" element={<ProtectedThirdPartyRoute user={user} setUser={setUser}/>}>
-            <Route exact path="/thirdParty" element={<Navigate to="/thirdParty/new" />} />
-            <Route path="new" element={<NewProviders />} />
+          <Route
+            exact
+            path="/thirdParty"
+            element={<ProtectedThirdPartyRoute user={user} setUser={setUser} />}
+          >
+            <Route
+              exact
+              path="/thirdParty"
+              element={<Navigate to="/thirdParty/new" />}
+            />
+            <Route
+              path="new"
+              element={<NewProviders id={user?.result?._id} />}
+            />
             <Route path="verified" element={<VerifiedProviders />} />
             <Route path="newDocumentlist" element={<NewDocumentList />} />
             <Route
@@ -77,8 +94,16 @@ function App() {
             <Route path="document" element={<Document />} />
           </Route>
 
-          <Route exact path="/admin" element={<ProtectedAdminRoute user={user} setUser={setUser}/>}>
-            <Route exact path="/admin" element={<Navigate to="/admin/dashboard" />} />
+          <Route
+            exact
+            path="/admin"
+            element={<ProtectedAdminRoute user={user} setUser={setUser} />}
+          >
+            <Route
+              exact
+              path="/admin"
+              element={<Navigate to="/admin/dashboard" />}
+            />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="users" element={<Users />} />
             <Route path="jobs" element={<Jobs />} />
@@ -101,8 +126,6 @@ function App() {
             <Route path="users/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Route>
-
-         
         </Routes>
       </Router>
     </ThemeProvider>

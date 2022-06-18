@@ -80,7 +80,7 @@ const VerifiedProviderlist = () => {
         return (
           <div>
             <Link
-              to="/verifiedDocumentlist"
+              to="/thirdParty/verifiedDocumentlist"
               state={providerId}
               className="link"
             >

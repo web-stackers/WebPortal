@@ -1,13 +1,27 @@
 import { useEffect, useState } from "react";
 import NewProvider from "../../../../services/Provider";
+import SecondaryUser from "../../../../services/SecondaryUser";
 import { Link } from "react-router-dom";
 import Sbutton from "../../../../components/Sbutton";
 import { DataGrid } from "@mui/x-data-grid";
 import "../../../../index.css";
 
-const NewProviderlist = () => {
+const NewProviderlist = ({ id }) => {
+  const thirdPartyId = id;
+
+  const [verifyDoctype, setVerifyDoctype] = useState("");
   const [newProviders, setNewProviders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const fetchVerifyDocType = () => {
+    SecondaryUser.fetchVerifyDocType(thirdPartyId)
+      .then((response) => {
+        setVerifyDoctype(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const fetchUsers = () => {
     NewProvider.fetchNewProviders()
@@ -55,7 +69,11 @@ const NewProviderlist = () => {
         const providerId = params.row.id;
         return (
           <div>
-            <Link to="/newDocumentlist" state={providerId} className="link">
+            <Link
+              to="/thirdParty/newDocumentlist"
+              state={providerId}
+              className="link"
+            >
               <Sbutton text="Open" btnWidth="120px" />
             </Link>
           </div>
@@ -65,6 +83,7 @@ const NewProviderlist = () => {
   ];
 
   useEffect(() => {
+    fetchVerifyDocType();
     fetchUsers();
   }, []);
 

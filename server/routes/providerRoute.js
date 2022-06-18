@@ -29,11 +29,14 @@ router.get("/", providerController.fetch_providers);
 //fetch providers location by ID
 router.get("/address/:id", providerController.fetch_provider_address);
 
-//fetch providers location by ID
+//fetch providers details under certain job type
 router.get(
   "/jobType/:type",
   providerController.fetch_providers_under_certain_jobType
 );
+
+//fetch provider profile picture by ID
+router.get("/pic/:id", providerController.fetch_provider_profile_picture);
 
 // Search provider
 router.get("/search/:key", providerController.search_provider);

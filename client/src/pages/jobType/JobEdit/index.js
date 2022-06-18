@@ -26,14 +26,15 @@ const JobEdit = () => {
   //It is given as onClick function in submit button to redirect to the main page
   const navigate = useNavigate();
   const routeChange = () => {
-    let path = "/jobs";
+    let path = "/admin/jobs";
     navigate(path);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    JobCategory.updateJobByID(location.state.id, inputs);
-    routeChange();
+    JobCategory.updateJobByID(location.state.id, inputs).then(() => {
+      routeChange();
+    });
   };
 
   return (
@@ -67,7 +68,7 @@ const JobEdit = () => {
         btnWidth="20%"
         marginRight="3%"
       />
-      <Link to="/jobs" className="link">
+      <Link to="/admin/jobs" className="link">
         <Sbutton text="Cancel" btnWidth="20%" />
       </Link>
     </div>

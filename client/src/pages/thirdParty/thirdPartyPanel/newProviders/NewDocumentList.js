@@ -125,7 +125,7 @@ const NewDocumentlist = () => {
                   <Stack spacing={5}>
                     <Stack direction="row" justifyContent="space-between">
                       <Link
-                        to="/document"
+                        to="/thirdParty/document"
                         state={{ id: providerId, doc: newDoc.type }}
                       >
                         <Sbutton text="View" btnWidth="205px" />
