@@ -74,7 +74,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
   return (
     <div className={classes.outline}>
       <div>
-        <Button variant='contained' style={{outline:'none'}} onClick={(event) => {setOpen(event.currentTarget)}}>
+        <Button variant='contained' className={classes.type} onClick={(event) => {setOpen(event.currentTarget)}}>
           {type} <ArrowDropDownIcon />
         </Button>
 
@@ -86,12 +86,10 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
           <MenuItem onClick={() => {handleClose(); setType('Consumers');}}>Consumers</MenuItem>
           <MenuItem onClick={() => {handleClose(); setType('Providers');}}>Providers</MenuItem>
         </Menu>
-      </div>
-
-      
+      </div>   
 
       <div className={classes.search}>
-        {show && <Button variant="contained" style={{marginRight:'10px'}} onClick={() => {fetchUsers(); setShow(false)}}>
+        {show && <Button variant="contained" className={classes.reset} onClick={() => {fetchUsers(); setShow(false)}}>
             Reset <CachedIcon />
         </Button>}
 
@@ -106,7 +104,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
           onChange={(event) => setSearchKey(event.target.value)}
          />
 
-        <Button variant="contained" onClick={() => {searchValidation(searchKey)}}>
+        <Button variant="contained" className={classes.searchBtn} onClick={() => {searchValidation(searchKey)}}>
           <SearchIcon />
         </Button>
       </div>

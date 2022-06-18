@@ -11,7 +11,7 @@ const Sbutton = ({ text, onClick, btnWidth, marginRight, marginLeft }) => {
   return (
     <Button
       variant="contained"
-      color="primary"
+      color="secondary"
       style={btnStyle}
       onClick={onClick}
     >

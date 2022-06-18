@@ -37,6 +37,7 @@ const Profile = () => {
   // Fetch user details using id
   // Need to be merged
   const fetchProfile = () => {
+    setLoading(true);
     if (type === "Consumers") {
       Consumer.fetchConsumer(profileId)
         .then((response) => {
@@ -65,9 +66,9 @@ const Profile = () => {
     if (type === "Consumers") {
       Consumer.ableConsumer(id)
         .then(() => {
+          fetchProfile();
           setOpen(true);
           setAlertTitle("Done");
-          fetchProfile();
         })
         .catch((e) => {
           console.log(e);
@@ -76,9 +77,9 @@ const Profile = () => {
       Provider.updateProviderCount(id);
       Provider.ableProvider(id)
         .then(() => {
+          fetchProfile();
           setOpen(true);
           setAlertTitle("Done");
-          fetchProfile();
         })
         .catch((e) => {
           console.log(e);
@@ -104,7 +105,7 @@ const Profile = () => {
 
   return (
     <div className="Outerbox">
-      {!profile || loading && <LinearProgress />}
+      {loading && <LinearProgress />}
 
       {profile && (
         <Card className={classes.root}>
@@ -121,7 +122,7 @@ const Profile = () => {
                 )}
               </Typography>
               <Typography variant="subtitle1">
-                Rating : {profile.totalRating / profile.ratingCount || 0}
+                Rating : {Math.round(profile.totalRating / profile.ratingCount) || 0}
               </Typography>
             </CardContent>
           </div>

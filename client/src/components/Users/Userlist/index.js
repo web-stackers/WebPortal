@@ -38,7 +38,7 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
       propic: base64String || profilePic,
       mimetype: mimetype,
       name: user.name.fName + " " + user.name.lName,
-      rating: user.totalRating / user.ratingCount || 0,
+      rating: Math.round(user.totalRating / user.ratingCount) || 0,
       mobile: user.contact.mobile,
       email: user.contact.email,
       ratingCount: user.ratingCount,
