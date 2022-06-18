@@ -11,11 +11,13 @@ const JobSchema = new Schema({
   },
   address: {
     longitude: {
-      type: mongoose.Types.Decimal128,
+      type: Number,
+      //type: mongoose.Types.Decimal128,
       // required: true,
     },
     latitude: {
-      type: mongoose.Types.Decimal128,
+      type: Number,
+      //type: mongoose.Types.Decimal128,
       // required: true,
     },
   },
