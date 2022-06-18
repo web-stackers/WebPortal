@@ -30,6 +30,9 @@ router.patch("/complaintHandled/:id", jobController.complaint_handled);
 // Update rating and review
 router.patch("/ratingAndReview/:id", jobController.update_ratingAndReview);
 
+// Update photo
+router.patch("/uploadPhoto/:id", jobController.upload_photo);
+
 //Fetch complaints by id
 router.get("/complaints/:id", jobController.fetch_complaints);
 

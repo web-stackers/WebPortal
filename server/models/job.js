@@ -35,7 +35,10 @@ const JobSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: "Provider",
   },
-  jobPhoto: [{ type: Buffer, contentType: String }],
+  jobPhoto: {
+    data: Buffer,
+    contentType: String,
+  },
   ratingAndReview: [
     {
       by: { type: String },

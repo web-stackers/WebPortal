@@ -154,6 +154,7 @@ const ProfileUpload = ({ setUploadedProfilePath, setInputs }) => {
   const [message, setMessage] = useState("");
 
   const onChange = (e) => {
+    console.log(e.target.files[0]);
     console.log(e.target.files[0].name);
     setUploadedProfilePath("");
     const file = e.target.files[0];

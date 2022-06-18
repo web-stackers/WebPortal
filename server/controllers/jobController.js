@@ -96,6 +96,30 @@ const post_job = async (req, res) => {
   }
 };
 
+//update profile picture for secondary user
+const upload_photo = async (req, res) => {
+  console.log("function call check");
+  const { id } = req.params;
+  let profilePictureBuffer;
+  try {
+    profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
+    console.log(profilePictureBuffer);
+    const updateJob = await secondaryUser.findByIdAndUpdate(
+      id,
+      {
+        jobPhoto: {
+          data: profilePictureBuffer,
+          contentType: req.body.profilePath.type,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updateJob);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch job by id
 const fetch_job = async (req, res) => {
   const { id } = req.params;
@@ -212,7 +236,7 @@ const update_ratingAndReview = async (req, res) => {
         );
       }
     }
-    
+
     const updatedRatingAndReview = await job.findByIdAndUpdate(
       id,
       {
@@ -466,4 +490,5 @@ module.exports = {
   fetch_complaint_count,
   user_withdrawals,
   fetch_Quotation,
+  upload_photo,
 };
