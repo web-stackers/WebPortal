@@ -475,6 +475,24 @@ const fetch_complaint_count = async (req, res) => {
   }
 };
 
+const check_provider_availability = async (req, res) => {
+  const { id, time } = req.params;
+  let isProviderExist = false;
+  try {
+    const requiredJob = await job.findOne({
+      providerId: id,
+      requestedTime: { $gte: time },
+      estimatedTime: { $lte: time },
+    });
+    if (requiredJob) {
+      isProviderExist = true;
+    }
+    res.status(200).json(isProviderExist);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   fetch_jobs,
   fetch_all_complaints_by_consumer,
@@ -491,4 +509,5 @@ module.exports = {
   user_withdrawals,
   fetch_Quotation,
   upload_photo,
+  check_provider_availability,
 };
