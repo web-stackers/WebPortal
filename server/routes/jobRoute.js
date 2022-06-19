@@ -15,6 +15,12 @@ router.get("/user/userjobs/:type/:id", jobController.user_jobs);
 // Fetch job withdrawals of a user
 router.get("/user/userwithdrawals", jobController.user_withdrawals);
 
+// Check provider availability
+router.get(
+  "/availability/:time/:id",
+  jobController.check_provider_availability
+);
+
 // Fetch Quotation
 router.get("/user/userQuotation/:id", jobController.fetch_Quotation);
 
