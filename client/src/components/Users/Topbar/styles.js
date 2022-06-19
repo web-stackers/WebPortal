@@ -17,16 +17,17 @@ const useStyles = makeStyles((theme) => {
             alignContent: "space-between",
           },
           type: {
-            outline: 'none',
-            backgroundColor: theme.palette.secondary.main + "!important"
+            outline: 'none'+"!important",
+            backgroundColor: theme.palette.secondary.main + "!important",
+            
           },
           reset: {
-            outline: 'none',
+            outline: 'none'+"!important",
             marginRight:'10px',
             backgroundColor: theme.palette.secondary.main + "!important"
           },
           searchBtn: {
-            outline: 'none',
+            outline: 'none'+"!important",
             backgroundColor: theme.palette.secondary.main + "!important"
           }
     }
