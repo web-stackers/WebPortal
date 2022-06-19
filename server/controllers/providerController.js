@@ -260,16 +260,48 @@ const update_uploads = async (req, res) => {
 };
 
 // Fetch all providers
-const fetch_providers = async (req, res) => {
+/* const fetch_providers = async (req, res) => {
   try {
     const providers = await provider
-      .find()
-      .select("name contact document totalRating ratingCount verification");
+      .find({isEmailVerified: true})
+      .select("name contact document isDisabled totalRating ratingCount verification jobType");
     res.status(200).json(providers);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-};
+}; */
+
+const fetch_providers = async (req, res) => {
+  var query = [
+    {
+      $lookup: {
+        from: "jobtypecategories",
+        localField: "jobType",
+        foreignField: "_id",
+        as: "job"
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        contact: 1,
+        //document: 1,
+        isDisabled: 1,
+        totalRating: 1,
+        ratingCount: 1,
+        verification: 1,
+        "job.jobType": 1
+      }
+    }
+  ];
+
+  try {
+    const providers = await provider.aggregate(query);
+    res.status(200).json(providers);
+  } catch {
+    res.status(400).json({ message: error.message });
+  }
+}
 
 // Fetch provider address
 const fetch_provider_address = async (req, res) => {
