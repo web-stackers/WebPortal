@@ -444,7 +444,10 @@ const fetch_Quotation = async (req, res) => {
 // Get count of total complaints
 const fetch_complaint_count = async (req, res) => {
   try {
-    const complaintCount = await job.count({ "$complaint.by": { $ne: null } });
+    const complaintCount = await job.count({ "complaint.by": { $ne: null } });
+    // const complaintCount = await job.count({
+    //   $or: [{ "complaint.by": "Consumer" }, { "complaint.by": "Provider" }],
+    // });
     res.status(200).json(complaintCount);
   } catch (error) {
     res.status(400).json({ message: error.message });

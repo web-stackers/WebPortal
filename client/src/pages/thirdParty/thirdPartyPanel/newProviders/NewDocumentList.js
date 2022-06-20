@@ -173,7 +173,12 @@ const NewDocumentlist = () => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Sbutton text="View" btnWidth="205px" />
+                      <Link
+                        to="/thirdParty/document"
+                        state={{ id: providerId, doc: newDoc.type }}
+                      >
+                        <Sbutton text="View" btnWidth="205px" />
+                      </Link>
                       <Button variant="contained" disabled>
                         Accept
                       </Button>
@@ -202,7 +207,12 @@ const NewDocumentlist = () => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Sbutton text="View" btnWidth="205px" />
+                      <Link
+                        to="/thirdParty/document"
+                        state={{ id: providerId, doc: newDoc.type }}
+                      >
+                        <Sbutton text="View" btnWidth="205px" />
+                      </Link>
                       <Button variant="contained" disabled>
                         Accept
                       </Button>
@@ -238,7 +248,7 @@ const NewDocumentlist = () => {
         spacing={4}
         justifyContent="flex-end"
       >
-        <TextField
+        {/* <TextField
           required
           id="filled-basic"
           name="Qualification type"
@@ -247,7 +257,7 @@ const NewDocumentlist = () => {
           marginLeft="5px"
           value={value["Qualification type"]}
           onChange={handleSubmit}
-        />
+        /> */}
         <Button
           variant="contained"
           endIcon={<SendIcon />}

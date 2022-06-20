@@ -315,12 +315,46 @@ const fetch_provider_profile_picture = async (req, res) => {
 
 // Fetch new providers
 const fetch_new_providers = async (req, res) => {
-  try {
-    const newProviders = await provider.find({ verification: null });
-    res.status(200).json(newProviders);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+  const { docType } = req.params;
+
+    try {
+      if (docType === "OL and AL Certificates") {
+        const newProviders = await provider
+          .find({
+            $and: [
+              {
+                isEmailVerified: true,
+              },
+              { verification: null },
+              {
+                $or: [
+                  { "document.qualificationDocType": "O/L Certificate" },
+                  { "document.qualificationDocType": "A/L Certificate" },
+                ],
+              },
+            ],
+          })
+          .select("name");
+        res.status(200).json(newProviders);
+      } else {
+        const newProviders = await provider
+          .find({
+            $and: [
+              {
+                isEmailVerified: true,
+              },
+              { verification: null },
+              {
+                "document.qualificationDocType": docType,
+              },
+            ],
+          })
+          .select("name");
+        res.status(200).json(newProviders);
+      }
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
 };
 
 // Fetch provider by search key

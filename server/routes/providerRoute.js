@@ -42,7 +42,7 @@ router.get("/pic/:id", providerController.fetch_provider_profile_picture);
 router.get("/search/:key", providerController.search_provider);
 
 //Fetch new providers
-router.get("/new", providerController.fetch_new_providers);
+router.get("/new/:docType", providerController.fetch_new_providers);
 
 //Fetch verified providers
 router.get("/verified", providerController.fetch_verified_providers);
