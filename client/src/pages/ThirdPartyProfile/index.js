@@ -12,6 +12,7 @@ import AlertBox from "../../components/AlertBox";
 import TextField from "@mui/material/TextField";
 import { Buffer } from "buffer";
 import useStyles from "./styles";
+import { confirm } from "react-confirm-box";
 
 const ThirdPartyProfile = () => {
   const classes = useStyles();
@@ -46,19 +47,34 @@ const ThirdPartyProfile = () => {
     navigate(path);
   };
 
+  const options = {
+    labels: {
+      confirmable: "Confirm",
+      cancellable: "Cancel",
+    },
+  };
+
   //onClick function when submit button is clicked. Details will be update and path will be redirected
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     console.log(inputs);
-    SecondaryUser.updateThirdPartyByID(ID, inputs)
-      .then(() => {
-        routeChange();
-      })
-      .catch((e) => {
-        console.log(e);
-        setOpen(true);
-        setAlert("Fail to update!");
-      });
+    //confirmation dialogue box
+    const result = await confirm(
+      "Are you sure to update the details ?",
+      options
+    );
+
+    if (result) {
+      SecondaryUser.updateThirdPartyByID(ID, inputs)
+        .then(() => {
+          routeChange();
+        })
+        .catch((e) => {
+          console.log(e);
+          setOpen(true);
+          setAlert("Fail to update!");
+        });
+    }
   };
 
   let base64String = false;
