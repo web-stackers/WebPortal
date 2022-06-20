@@ -63,7 +63,9 @@ const AddNewThirdParty = () => {
     // (.\w{2,3})+ specifies that the above sub-expression shall occur one or more times, e.g., ".com", ".co.uk", ".edu.sg" etc.
     temp.mobile =
       (inputs.mobile ? "" : "This field is required.") ||
-      (/^\d+$/.test(inputs.mobile) ? "" : "Phone number is not valid.") ||
+      (/^\d+$/.test(inputs.mobile)
+        ? ""
+        : "Phone number is not valid. It can only contains numbers") ||
       (inputs.mobile.length > 9 ? "" : "Minimum 10 numbers required.") ||
       (inputs.mobile.length < 11
         ? ""
