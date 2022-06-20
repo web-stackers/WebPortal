@@ -47,11 +47,11 @@ const UserJobs = ({ type, id }) => {
   });
 
   const columns = [
-    { field: "jobType", headerName: "Provider Type", width: 150 },
-    { field: "description", headerName: "Job Description", width: 300 },
+    { field: "jobType", headerName: "Provider Type", width: 150, sortable: false, },
+    { field: "description", headerName: "Job Description", width: 300, sortable: false, },
     { field: "requestedDate", headerName: "Date", width: 120 },
     { field: "requestedTime", headerName: "Time", width: 100 },
-    { field: "state", headerName: "Job Status", width: 150, sortable: false },
+    { field: "state", headerName: "Job Status", width: 150, sortable: false, sortable: false, },
     {
       field: "providerName",
       headerName: "Provider",

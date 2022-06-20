@@ -16,6 +16,20 @@ const useStyles = makeStyles((theme) => {
             justifySelf: "flex-end",
             alignContent: "space-between",
           },
+          type: {
+            outline: 'none'+"!important",
+            backgroundColor: theme.palette.secondary.main + "!important",
+            
+          },
+          reset: {
+            outline: 'none'+"!important",
+            marginRight:'10px',
+            backgroundColor: theme.palette.secondary.main + "!important"
+          },
+          searchBtn: {
+            outline: 'none'+"!important",
+            backgroundColor: theme.palette.secondary.main + "!important"
+          }
     }
 });
 

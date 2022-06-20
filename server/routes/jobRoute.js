@@ -15,6 +15,12 @@ router.get("/user/userjobs/:type/:id", jobController.user_jobs);
 // Fetch job withdrawals of a user
 router.get("/user/userwithdrawals", jobController.user_withdrawals);
 
+// Check provider availability
+router.get(
+  "/availability/:time/:id",
+  jobController.check_provider_availability
+);
+
 // Fetch Quotation
 router.get("/user/userQuotation/:id", jobController.fetch_Quotation);
 
@@ -29,6 +35,9 @@ router.patch("/complaintHandled/:id", jobController.complaint_handled);
 
 // Update rating and review
 router.patch("/ratingAndReview/:id", jobController.update_ratingAndReview);
+
+// Update photo
+router.patch("/uploadPhoto/:id", jobController.upload_photo);
 
 //Fetch complaints by id
 router.get("/complaints/:id", jobController.fetch_complaints);
