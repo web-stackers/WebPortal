@@ -12,6 +12,7 @@ import AlertBox from "../../components/AlertBox";
 import TextField from "@mui/material/TextField";
 import { Buffer } from "buffer";
 import useStyles from "./styles";
+import { confirm } from "react-confirm-box";
 
 const ThirdPartyProfile = () => {
   const classes = useStyles();
@@ -32,11 +33,13 @@ const ThirdPartyProfile = () => {
   const [inputs, setInputs] = useState({});
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
+    validate({ [name]: value });
   };
 
   //It is given as onClick function in submit button to redirect to the main page
@@ -46,19 +49,65 @@ const ThirdPartyProfile = () => {
     navigate(path);
   };
 
+  const options = {
+    labels: {
+      confirmable: "Confirm",
+      cancellable: "Cancel",
+    },
+  };
+
+  const validate = () => {
+    let temp = {};
+    console.log("email input");
+    console.log(inputs.email);
+    if (inputs.email !== undefined) {
+      temp.email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+        inputs.email
+      )
+        ? ""
+        : "Email is not valid.";
+    }
+    if (inputs.mobile !== undefined) {
+      temp.mobile =
+        (inputs.mobile ? "" : "This field is required.") ||
+        (/^\d+$/.test(inputs.mobile)
+          ? ""
+          : "Phone number is not valid. It can only contains numbers") ||
+        (inputs.mobile.length > 9 ? "" : "Minimum 10 numbers required.") ||
+        (inputs.mobile.length < 11
+          ? ""
+          : "Mobile number cannot exceed 10 digits.");
+    }
+
+    setErrors({
+      ...temp,
+    });
+    return Object.values(temp).every((x) => x === ""); //every() method tests whether all elements in the array pass the test implemented by the provided function. It retruns a boolean value
+  };
+
   //onClick function when submit button is clicked. Details will be update and path will be redirected
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     console.log(inputs);
-    SecondaryUser.updateThirdPartyByID(ID, inputs)
-      .then(() => {
-        routeChange();
-      })
-      .catch((e) => {
-        console.log(e);
-        setOpen(true);
-        setAlert("Fail to update!");
-      });
+    if (validate()) {
+      //confirmation dialogue box
+      const result = await confirm(
+        "Are you sure to update the details ?",
+        options
+      );
+
+      if (result) {
+        SecondaryUser.updateThirdPartyByID(ID, inputs)
+          .then(() => {
+            routeChange();
+          })
+          .catch((e) => {
+            console.log(e);
+            setOpen(true);
+            setAlert("Fail to update!");
+          });
+      }
+    }
   };
 
   let base64String = false;
@@ -93,21 +142,16 @@ const ThirdPartyProfile = () => {
           name="email"
           value={inputs.email || email}
           onChange={handleChange}
+          error={errors.email}
         />
 
-        <TextField
-          autoComplete="off"
-          sx={{ width: "70ch" }}
+        <StextField
           label="Mobile Number"
           name="mobile"
-          inputProps={{ maxLength: 10, minLength: 10 }}
-          type="text"
           value={inputs.mobile || mobile}
           onChange={handleChange}
+          error={errors.mobile}
         />
-
-        <br />
-        <br />
 
         <StextField
           label="Address"
