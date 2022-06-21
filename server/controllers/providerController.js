@@ -267,11 +267,11 @@ const fetch_providers = async (req, res) => {
         from: "jobtypecategories",
         localField: "jobType",
         foreignField: "_id",
-        as: "job"
+        as: "job",
       },
     },
     {
-      $match: {isEmailVerified:{$eq:true}}
+      $match: { isEmailVerified: { $eq: true } },
     },
     {
       $project: {
@@ -281,9 +281,9 @@ const fetch_providers = async (req, res) => {
         totalRating: 1,
         ratingCount: 1,
         verification: 1,
-        "job.jobType": 1
-      }
-    }
+        "job.jobType": 1,
+      },
+    },
   ];
 
   try {
@@ -292,7 +292,7 @@ const fetch_providers = async (req, res) => {
   } catch {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 // Fetch provider address
 const fetch_provider_address = async (req, res) => {
@@ -330,7 +330,8 @@ const fetch_provider_profile_picture = async (req, res) => {
   const { id } = req.params;
   try {
     const providers = await provider.find({ id: id }).select("document");
-    res.status(200).json(providers);
+    // const profile = await providers.find({}, { document: { $slice: 1 } });
+    res.status(200).json(providers[0].document[0]);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -340,44 +341,44 @@ const fetch_provider_profile_picture = async (req, res) => {
 const fetch_new_providers = async (req, res) => {
   const { docType } = req.params;
 
-    try {
-      if (docType === "OL and AL Certificates") {
-        const newProviders = await provider
-          .find({
-            $and: [
-              {
-                isEmailVerified: true,
-              },
-              { verification: null },
-              {
-                $or: [
-                  { "document.qualificationDocType": "O/L Certificate" },
-                  { "document.qualificationDocType": "A/L Certificate" },
-                ],
-              },
-            ],
-          })
-          .select("name");
-        res.status(200).json(newProviders);
-      } else {
-        const newProviders = await provider
-          .find({
-            $and: [
-              {
-                isEmailVerified: true,
-              },
-              { verification: null },
-              {
-                "document.qualificationDocType": docType,
-              },
-            ],
-          })
-          .select("name");
-        res.status(200).json(newProviders);
-      }
-    } catch (error) {
-      res.status(400).json({ message: error.message });
+  try {
+    if (docType === "OL and AL Certificates") {
+      const newProviders = await provider
+        .find({
+          $and: [
+            {
+              isEmailVerified: true,
+            },
+            { verification: null },
+            {
+              $or: [
+                { "document.qualificationDocType": "O/L Certificate" },
+                { "document.qualificationDocType": "A/L Certificate" },
+              ],
+            },
+          ],
+        })
+        .select("name");
+      res.status(200).json(newProviders);
+    } else {
+      const newProviders = await provider
+        .find({
+          $and: [
+            {
+              isEmailVerified: true,
+            },
+            { verification: null },
+            {
+              "document.qualificationDocType": docType,
+            },
+          ],
+        })
+        .select("name");
+      res.status(200).json(newProviders);
     }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 // Fetch provider by search key
@@ -434,8 +435,11 @@ const fetch_provider = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const requiredprovider = await provider.findById(id)
-    .select("name contact totalRating ratingCount isDisabled appliedDate document verification jobType");
+    const requiredprovider = await provider
+      .findById(id)
+      .select(
+        "name contact totalRating ratingCount isDisabled appliedDate document verification jobType"
+      );
     res.status(200).json(requiredprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
