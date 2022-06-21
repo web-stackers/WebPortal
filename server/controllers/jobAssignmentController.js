@@ -3,6 +3,7 @@ const job = require("../models/job");
 const transporter = require("../send-email/sendEmail");
 const provider = require("../models/provider");
 const consumer = require("../models/consumer");
+const jobController = require('../controllers/jobController');
 
 // Fetch all job assignment
 const fetch_jobAssignments = async (req, res) => {
@@ -280,6 +281,92 @@ const fetch_pending_jobcount = async (req, res) => {
   }
 };
 
+const complete_state = async (id) => {
+  try {
+    const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(
+    id,
+    {
+      state: "Job completed",
+    },
+    { new: true }
+    );
+    return JSON.stringify(updatedJobAssignment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
+const complete_jobAssignments = async (req, res) => {
+  const { type, id } = req.params;
+
+  var query = [
+    {
+      $lookup: {
+        from: "jobassignments",
+        let: { jid: "$_id", pid: "$providerId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$$jid", "$jobId"] },
+                  { $eq: ["$$pid", "$providerId"] },
+                ],
+              },
+            },
+          },
+        ],
+        as: "userJobs",
+      },
+    },
+    {
+      $match: {"userJobs.state":{$eq:"Job Pending"}}
+    },
+    {
+      $project: {
+        requestedTime: 1,
+        providerId: 1,
+        consumerId: 1,
+        "userJobs._id": 1,
+        "userJobs.state": 1,
+        "userJobs.quotation.estimatedTime": 1
+      },
+    },
+  ];
+
+  try {
+    const jobs = await job.aggregate(query);
+    let pendingJobs = [];
+
+    if (type == "consumer") {
+      pendingJobs = jobs.filter((job) => {
+        if (job.consumerId == id) {
+          return job;
+        }
+      });
+      //res.json(pendingJobs);
+    } else if (type == "provider") {
+      pendingJobs = jobs.filter((job) => {
+        if (job.providerId == id) {
+          return job;
+        }
+      });
+      //res.json(pendingJobs);
+    }
+
+    let completedJobs = pendingJobs.map((job) => {
+      if(job.userJobs[0].quotation.estimatedTime<Date.now()){
+        //return job.userJobs[0];
+        return complete_state(job.userJobs[0]._id);
+        //return "Done";
+      }
+    })
+    res.json(completedJobs);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
 module.exports = {
   post_jobAssignment,
   fetch_jobAssignments,
@@ -294,4 +381,5 @@ module.exports = {
   fetch_job_and_jobAssignments,
   fetch_completed_jobcount,
   fetch_pending_jobcount,
+  complete_jobAssignments
 };

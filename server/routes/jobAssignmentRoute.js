@@ -62,4 +62,6 @@ router.patch(
 // Insert provider's quotation
 router.patch("/quotation/:id", jobAssignmentController.insert_quotation);
 
+router.get("/state/completeJobs/:type/:id", jobAssignmentController.complete_jobAssignments);
+
 module.exports = router;
