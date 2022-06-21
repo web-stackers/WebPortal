@@ -122,7 +122,7 @@ const Profile = () => {
                 )}
               </Typography>
               <Typography variant="subtitle1">
-                Rating : {Math.round(profile.totalRating / profile.ratingCount) || 0}
+                Rating : {parseFloat((profile.totalRating / profile.ratingCount).toFixed(2)) || 0}
               </Typography>
             </CardContent>
           </div>

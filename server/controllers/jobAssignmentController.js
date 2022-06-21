@@ -281,6 +281,7 @@ const fetch_pending_jobcount = async (req, res) => {
   }
 };
 
+// Updated expired job state as completed
 const complete_state = async (id) => {
   try {
     const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(
@@ -296,6 +297,7 @@ const complete_state = async (id) => {
   }
 }
 
+// Find pending jobs and update completed jobs
 const complete_jobAssignments = async (req, res) => {
   const { type, id } = req.params;
 
@@ -344,21 +346,17 @@ const complete_jobAssignments = async (req, res) => {
           return job;
         }
       });
-      //res.json(pendingJobs);
     } else if (type == "provider") {
       pendingJobs = jobs.filter((job) => {
         if (job.providerId == id) {
           return job;
         }
       });
-      //res.json(pendingJobs);
     }
 
     let completedJobs = pendingJobs.map((job) => {
       if(job.userJobs[0].quotation.estimatedTime<Date.now()){
-        //return job.userJobs[0];
         return complete_state(job.userJobs[0]._id);
-        //return "Done";
       }
     })
     res.json(completedJobs);
