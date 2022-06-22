@@ -454,6 +454,23 @@ const fetch_provider_count = async (req, res) => {
   }
 };
 
+// Fetch provider by id for mobile edit profile
+const fetch_provider_by_id = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    //document:{type:"profilepicture",doc:1}
+    const salt = await bcrypt.genSalt(10);
+    // now we set user password to hashed password
+   // user.password = await bcrypt.hash(password, salt);
+    const requiredprovider = await provider.findById(id).select("name contact password totalRating ratingCount address");
+    res.status(200).json(requiredprovider);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
 //Get count by provider job type
 const fetch_provider_JobType_count = async (req, res) => {
   try {
