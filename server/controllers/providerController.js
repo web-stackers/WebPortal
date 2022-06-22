@@ -7,6 +7,7 @@ var path = require("path");
 const { getMaxListeners } = require("process");
 const transporter = require("../send-email/sendEmail");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 
 // check whether the emai,mobile and nic are unique while registering
 const validate_provider = async (req, res) => {
@@ -441,6 +442,36 @@ const fetch_provider = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+/* const fetch_provider = async (req, res) => {
+  const { id } = req.params;
+
+  var query = [
+    {
+      $match: {_id:mongoose.Types.ObjectId(id)}
+    },
+    {
+      $project: {
+        name: 1,
+        contact: 1,
+        isDisabled: 1,
+        totalRating: 1,
+        ratingCount: 1,
+        appliedDate: 1,
+        verification: 1,
+        jobType: 1,
+        document: 1
+      }
+    }
+  ];
+
+  try {
+    const requiredprovider = await provider.aggregate(query);
+    res.status(200).json(requiredprovider[0]);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+} */
 
 // Fetch documentlist of a provider
 const fetch_documentlist = async (req, res) => {
