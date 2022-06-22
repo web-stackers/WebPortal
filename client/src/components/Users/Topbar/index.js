@@ -96,7 +96,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
         <TextField 
           id="searchUser" 
           name="searchKey"
-          label="Type firstname" 
+          label="Type username" 
           variant="outlined"
           size= "small"
           autoComplete='off'

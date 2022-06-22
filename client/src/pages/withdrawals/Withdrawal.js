@@ -91,16 +91,16 @@ const Withdrawal = () => {
                   <div className={classes.details}>
                     <CardContent>
                       <Typography variant="body2" color="text.secondary">
-                        <b>Provider FName: </b>
+                        <b>Provider fname: </b>
                         {withdrawal.provider[0].name.fName}
                         <br /> <br />
-                        <b>Consumer FName: </b>
+                        <b>Consumer fname: </b>
                         {withdrawal.consumer[0].name.fName}
                         <br /> <br />
-                        <b>Job Type: </b>
+                        <b>Job type: </b>
                         {withdrawal.jobType}
                         <br /> <br />
-                        <b>Withdrawal request Arised By: </b>
+                        <b>Withdrawal request arised by: </b>
                         {withdrawal.userJobs[0].withdrawn.arisedBy}
                         <br /> <br />
                         <b>Reason for withdrawal: </b>

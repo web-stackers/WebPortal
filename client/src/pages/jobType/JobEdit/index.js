@@ -7,6 +7,7 @@ import * as SelectList from "../../../components/formComponents/SelectList";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import JobCategory from "../../../services/JobCategory";
+import { confirm } from "react-confirm-box";
 
 const JobEdit = () => {
   const location = useLocation();
@@ -30,11 +31,24 @@ const JobEdit = () => {
     navigate(path);
   };
 
-  const onSubmit = (e) => {
+  const options = {
+    labels: {
+      confirmable: "Confirm",
+      cancellable: "Cancel",
+    },
+  };
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    JobCategory.updateJobByID(location.state.id, inputs).then(() => {
-      routeChange();
-    });
+    const result = await confirm(
+      "Are you sure to update the details ?",
+      options
+    );
+    if (result) {
+      JobCategory.updateJobByID(location.state.id, inputs).then(() => {
+        routeChange();
+      });
+    }
   };
 
   return (

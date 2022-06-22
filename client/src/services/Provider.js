@@ -1,9 +1,11 @@
 import axios from "axios";
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
 API.interceptors.request.use((req) => {
-  if (localStorage.getItem('profile')) {
-    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
   }
 
   return req;
@@ -48,8 +50,8 @@ const fetchProvider = async (id) => {
 };
 
 //Fetch new providers
-const fetchNewProviders = async () => {
-  return await API.get("/provider/new");
+const fetchNewProviders = async (docType) => {
+  return await API.get(`/provider/new/${docType}`);
 };
 
 // Fetch verified providers

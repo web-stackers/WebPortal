@@ -13,6 +13,10 @@ const NewProviderlist = ({ id }) => {
   const [newProviders, setNewProviders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // const docType = verifyDoctype.replaceAll("/", "");
+  // const docType = "OL and AL Certificates";
+  const docType = "NVQ Certificate";
+
   const fetchVerifyDocType = () => {
     SecondaryUser.fetchVerifyDocType(thirdPartyId)
       .then((response) => {
@@ -23,15 +27,17 @@ const NewProviderlist = ({ id }) => {
       });
   };
 
-  const fetchUsers = () => {
-    NewProvider.fetchNewProviders()
-      .then((response) => {
-        setNewProviders(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  // const fetchUsers = () => {
+  //   if (verifyDoctype) {
+  //     NewProvider.fetchNewProviders(docType)
+  //       .then((response) => {
+  //         setNewProviders(response.data);
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //       });
+  //   }
+  // };
 
   const rows = newProviders
     .filter((newProvider) => {
@@ -84,7 +90,6 @@ const NewProviderlist = ({ id }) => {
 
   useEffect(() => {
     fetchVerifyDocType();
-    fetchUsers();
   }, []);
 
   return (

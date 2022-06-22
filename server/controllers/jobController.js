@@ -305,8 +305,15 @@ const user_jobs = async (req, res) => {
         providerId: 1,
         consumerId: 1,
         "userJobs.state": 1,
+        "userJobs.reason": 1,
+        "userJobs.quotation.amount": 1,
+        "userJobs.withdrawn.reason": 1,
         "provider.name.fName": 1,
+        "provider.name.lName": 1,
         "consumer.name.fName": 1,
+        "consumer.name.lName": 1,
+        "provider.totalRating":1,
+        "provider.ratingCount":1,
       },
     },
   ];
@@ -468,8 +475,29 @@ const fetch_Quotation = async (req, res) => {
 // Get count of total complaints
 const fetch_complaint_count = async (req, res) => {
   try {
-    const complaintCount = await job.count({ "$complaint.by": { $ne: null } });
+    const complaintCount = await job.count({ "complaint.by": { $ne: null } });
+    // const complaintCount = await job.count({
+    //   $or: [{ "complaint.by": "Consumer" }, { "complaint.by": "Provider" }],
+    // });
     res.status(200).json(complaintCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const check_provider_availability = async (req, res) => {
+  const { id, time } = req.params;
+  let isProviderExist = false;
+  try {
+    const requiredJob = await job.findOne({
+      providerId: id,
+      requestedTime: { $gte: time },
+      estimatedTime: { $lte: time },
+    });
+    if (requiredJob) {
+      isProviderExist = true;
+    }
+    res.status(200).json(isProviderExist);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -491,4 +519,5 @@ module.exports = {
   user_withdrawals,
   fetch_Quotation,
   upload_photo,
+  check_provider_availability,
 };

@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import useStyles from "./style";
 import { confirm } from "react-confirm-box";
 import { Buffer } from "buffer";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const line = {
   backgroundColor: "#ffffff",
@@ -30,6 +31,7 @@ const options = {
 const ThirdPartyList = () => {
   const profilePic = require("../../assets/proPic.jpg");
   const [thirdParties, setThirdParties] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //on click function to disable third party account and auto rerender of fetchUsers() after button click to see the change
   const disable = async (e, fn, ln) => {
@@ -79,9 +81,11 @@ const ThirdPartyList = () => {
 
   //Get all secondary users
   const fetchUsers = () => {
+    setLoading(true);
     SecondaryUser.fetchThirdParty()
       .then((response) => {
         setThirdParties(response.data);
+        setLoading(false);
         console.log(response.data);
       })
       .catch((e) => {
@@ -97,6 +101,7 @@ const ThirdPartyList = () => {
 
   return (
     <div>
+      {loading && <LinearProgress />}
       {/* mapping every third party inside card structure */}
       {thirdParties.map((thirdParty) => (
         <div key={thirdParty._id}>
