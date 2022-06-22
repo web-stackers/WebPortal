@@ -17,6 +17,9 @@ router.post("/register/resendOTP", providerController.resend_OTP);
 // upadate new provider after documents upload
 router.post("/register/upload/:id", providerController.update_uploads);
 
+//signin in the mobile
+router.post("/signin", providerController.signIn);
+
 //update verification details
 router.patch(
   "/updateVerification/:id/:result",
@@ -49,6 +52,9 @@ router.get("/verified", providerController.fetch_verified_providers);
 
 // Fetch provider total count
 router.get("/count", providerController.fetch_provider_count);
+
+//Fetch provider using certain id for mobile app
+router.get("/mobile/:id", providerController.fetch_provider_by_id);
 
 // Fetch provider count by provider job type
 router.get("/count/jobType", providerController.fetch_provider_JobType_count);

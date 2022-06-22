@@ -8,6 +8,8 @@ const { getMaxListeners } = require("process");
 const transporter = require("../send-email/sendEmail");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const secret = "test";
 
 // check whether the emai,mobile and nic are unique while registering
 const validate_provider = async (req, res) => {
@@ -260,6 +262,40 @@ const update_uploads = async (req, res) => {
   }
 };
 
+// signin
+const signIn = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const oldUser = await provider.findOne({ "contact.email": email });
+    // .select(
+    //   "_id name contact NIC address"
+    // );
+
+    if (!oldUser)
+      return res.status(404).json({ message: "User doesn't exist" });
+    if (!oldUser?.verification.isAccepted) {
+      if (oldUser.document[0].type) {
+        return res.status(400).json({ message: "Cannot login now" });
+      }
+      return res.status(404).json({ message: "Incomplete registration" });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
+
+    if (!isPasswordCorrect)
+      return res.status(400).json({ message: "Invalid credentials" });
+    const token = jwt.sign(
+      { email: oldUser.contact.email, id: oldUser._id },
+      secret
+    ); 
+    const {_id, name, contact, NIC, address} = oldUser;
+    res.status(200).json({ result: {_id, name, contact, NIC, address}, token });
+  } catch (err) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // Fetch all providers
 const fetch_providers = async (req, res) => {
   var query = [
@@ -268,11 +304,11 @@ const fetch_providers = async (req, res) => {
         from: "jobtypecategories",
         localField: "jobType",
         foreignField: "_id",
-        as: "job"
+        as: "job",
       },
     },
     {
-      $match: {isEmailVerified:{$eq:true}}
+      $match: { isEmailVerified: { $eq: true } },
     },
     {
       $project: {
@@ -282,9 +318,9 @@ const fetch_providers = async (req, res) => {
         totalRating: 1,
         ratingCount: 1,
         verification: 1,
-        "job.jobType": 1
-      }
-    }
+        "job.jobType": 1,
+      },
+    },
   ];
 
   try {
@@ -293,7 +329,7 @@ const fetch_providers = async (req, res) => {
   } catch {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 // Fetch provider address
 const fetch_provider_address = async (req, res) => {
@@ -331,7 +367,8 @@ const fetch_provider_profile_picture = async (req, res) => {
   const { id } = req.params;
   try {
     const providers = await provider.find({ id: id }).select("document");
-    res.status(200).json(providers);
+    // const profile = await providers.find({}, { document: { $slice: 1 } });
+    res.status(200).json(providers[0].document[0]);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -341,44 +378,44 @@ const fetch_provider_profile_picture = async (req, res) => {
 const fetch_new_providers = async (req, res) => {
   const { docType } = req.params;
 
-    try {
-      if (docType === "OL and AL Certificates") {
-        const newProviders = await provider
-          .find({
-            $and: [
-              {
-                isEmailVerified: true,
-              },
-              { verification: null },
-              {
-                $or: [
-                  { "document.qualificationDocType": "O/L Certificate" },
-                  { "document.qualificationDocType": "A/L Certificate" },
-                ],
-              },
-            ],
-          })
-          .select("name");
-        res.status(200).json(newProviders);
-      } else {
-        const newProviders = await provider
-          .find({
-            $and: [
-              {
-                isEmailVerified: true,
-              },
-              { verification: null },
-              {
-                "document.qualificationDocType": docType,
-              },
-            ],
-          })
-          .select("name");
-        res.status(200).json(newProviders);
-      }
-    } catch (error) {
-      res.status(400).json({ message: error.message });
+  try {
+    if (docType === "OL and AL Certificates") {
+      const newProviders = await provider
+        .find({
+          $and: [
+            {
+              isEmailVerified: true,
+            },
+            { verification: null },
+            {
+              $or: [
+                { "document.qualificationDocType": "O/L Certificate" },
+                { "document.qualificationDocType": "A/L Certificate" },
+              ],
+            },
+          ],
+        })
+        .select("name");
+      res.status(200).json(newProviders);
+    } else {
+      const newProviders = await provider
+        .find({
+          $and: [
+            {
+              isEmailVerified: true,
+            },
+            { verification: null },
+            {
+              "document.qualificationDocType": docType,
+            },
+          ],
+        })
+        .select("name");
+      res.status(200).json(newProviders);
     }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 // Fetch provider by search key
@@ -418,6 +455,23 @@ const fetch_provider_count = async (req, res) => {
   }
 };
 
+// Fetch provider by id for mobile edit profile
+const fetch_provider_by_id = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    //document:{type:"profilepicture",doc:1}
+    const salt = await bcrypt.genSalt(10);
+    // now we set user password to hashed password
+   // user.password = await bcrypt.hash(password, salt);
+    const requiredprovider = await provider.findById(id).select("name contact password totalRating ratingCount address");
+    res.status(200).json(requiredprovider);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
 //Get count by provider job type
 const fetch_provider_JobType_count = async (req, res) => {
   try {
@@ -435,8 +489,11 @@ const fetch_provider = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const requiredprovider = await provider.findById(id)
-    .select("name contact totalRating ratingCount isDisabled appliedDate document verification jobType");
+    const requiredprovider = await provider
+      .findById(id)
+      .select(
+        "name contact totalRating ratingCount isDisabled appliedDate document verification jobType"
+      );
     res.status(200).json(requiredprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -720,7 +777,9 @@ module.exports = {
   verify_OTP,
   resend_OTP,
   update_uploads,
+  signIn,
   fetch_providers,
+  fetch_provider_by_id ,
   fetch_provider,
   disable_provider,
   update_verification,

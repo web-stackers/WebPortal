@@ -4,6 +4,8 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const app = express();
 var path = require("path");
+const Pusher = require("pusher");
+const mongoose = require("mongoose");
 
 const jobTypeCategoryRouter = require("./routes/jobTypeCategoryRoute");
 const jobRouter = require("./routes/jobRoute");
@@ -11,6 +13,7 @@ const consumerRouter = require("./routes/consumerRoute");
 const jobAssignmentRouter = require("./routes/jobAssignmentRoute");
 const secondaryUserRoute = require("./routes/secondaryUserRoute");
 const providerRouter = require("./routes/providerRoute");
+const chatRouter = require("./routes/chatRoute");
 
 app.use(cors());
 app.use(morgan("tiny"));
@@ -26,6 +29,40 @@ app.use("/job", jobRouter);
 app.use("/jobAssignment", jobAssignmentRouter);
 app.use("/secondaryUser", secondaryUserRoute);
 app.use("/provider", providerRouter);
+app.use("/chat", chatRouter);
+
+const pusher = new Pusher({
+  appId: "1425867",
+  key: "ea04ce48ad7e2f0aaf87",
+  secret: "c177f369bebe0f7eb8f9",
+  cluster: "eu",
+  useTLS: true,
+});
+
+const db = mongoose.connection;
+
+db.once("open", () => {
+  console.log("DB connected");
+
+  const msgCollection = db.collection("chats");
+  const changeStream = msgCollection.watch();
+
+  changeStream.on("change", (change) => {
+    console.log(change);
+
+    if (change.operationType === "insert") {
+      const messageDetails = change.fullDocument;
+      pusher.trigger("messages", "inserted", {
+        name: messageDetails.name,
+        message: messageDetails.message,
+        timestamp: messageDetails.timestamp,
+        received: messageDetails.received,
+      });
+    } else {
+      console.log("Error triggering Pusher");
+    }
+  });
+});
 
 app.post("/upload", (req, res) => {
   if (req.files === null) {
