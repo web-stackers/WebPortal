@@ -9,6 +9,9 @@ router.get("/", consumerController.fetch_consumers);
 // Fetch consumer by id
 router.get("/:id", consumerController.fetch_consumer);
 
+//signin in the mobile
+router.post("/signin", consumerController.signIn);
+
 //fetch consumers location by ID
 router.get("/address/:id", consumerController.fetch_consumer_address);
 
