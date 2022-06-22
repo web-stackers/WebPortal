@@ -17,6 +17,9 @@ router.post("/register/resendOTP", providerController.resend_OTP);
 // upadate new provider after documents upload
 router.post("/register/upload/:id", providerController.update_uploads);
 
+//signin in the mobile
+router.post("/signin", providerController.signIn);
+
 //update verification details
 router.patch(
   "/updateVerification/:id/:result",

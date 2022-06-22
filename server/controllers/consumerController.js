@@ -1,4 +1,8 @@
 const consumer = require("../models/consumer");
+const transporter = require("../send-email/sendEmail");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const secret = "test";
 
 // Fetch all consumers
 const fetch_consumers = async (req, res) => {
@@ -14,6 +18,9 @@ const fetch_consumers = async (req, res) => {
 
 // Add new consumer to the database
 const post_consumer = async (req, res) => {
+  let profilePictureBuffer;
+  try {
+  profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
   const newConsumer = new consumer({
     name: {
       fName: req.body.fName,
@@ -23,19 +30,47 @@ const post_consumer = async (req, res) => {
       mobile: req.body.mobile,
       email: req.body.email,
     },
-    address: {
-      longitude: req.body.longitude,
-      latitude: req.body.latitude,
-    },
-    profilePicture: req.body.profilePicture,
+    // address: {
+    //   longitude: req.body.longitude,
+    //   latitude: req.body.latitude,
+    // },
+    profilePicture: {data: profilePictureBuffer,
+    contentType: req.body.profilePath.type,},
     password: req.body.password,
-  });
-
-  try {
+  });  
     await newConsumer.save();
     res.status(201).json(newConsumer);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+// Signin
+const signIn = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const oldUser = await consumer.findOne({ "contact.email": email });
+    // .select(
+    //   "_id name contact NIC address"
+    // );
+
+    if (!oldUser)
+      return res.status(404).json({ message: "User doesn't exist" });
+    if (!oldUser.isEmailVerified==true) {
+      return res.status(404).json({ message: "Incomplete registration" });
+    }
+    const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
+
+    if (!isPasswordCorrect)
+      return res.status(400).json({ message: "Invalid credentials" });
+    const token = jwt.sign(
+      { email: oldUser.contact.email, id: oldUser._id },
+      secret
+    ); 
+    const {_id, name, contact, address} = oldUser;
+    res.status(200).json({ result: {_id, name, contact, address}, token });
+  } catch (err) {
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -135,6 +170,7 @@ const fetch_consumer_name = async (req, res) => {
 module.exports = {
   fetch_consumers,
   post_consumer,
+  signIn,
   fetch_consumer,
   disable_consumer,
   search_consumer,

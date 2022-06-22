@@ -7,6 +7,8 @@ var path = require("path");
 const { getMaxListeners } = require("process");
 const transporter = require("../send-email/sendEmail");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const secret = "test";
 
 // check whether the emai,mobile and nic are unique while registering
 const validate_provider = async (req, res) => {
@@ -256,6 +258,40 @@ const update_uploads = async (req, res) => {
     res.status(200).json(Updatedprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+// signin
+const signIn = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const oldUser = await provider.findOne({ "contact.email": email });
+    // .select(
+    //   "_id name contact NIC address"
+    // );
+
+    if (!oldUser)
+      return res.status(404).json({ message: "User doesn't exist" });
+    if (!oldUser?.verification.isAccepted) {
+      if (oldUser.document[0].type) {
+        return res.status(400).json({ message: "Cannot login now" });
+      }
+      return res.status(404).json({ message: "Incomplete registration" });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
+
+    if (!isPasswordCorrect)
+      return res.status(400).json({ message: "Invalid credentials" });
+    const token = jwt.sign(
+      { email: oldUser.contact.email, id: oldUser._id },
+      secret
+    ); 
+    const {_id, name, contact, NIC, address} = oldUser;
+    res.status(200).json({ result: {_id, name, contact, NIC, address}, token });
+  } catch (err) {
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -693,6 +729,7 @@ module.exports = {
   verify_OTP,
   resend_OTP,
   update_uploads,
+  signIn,
   fetch_providers,
   fetch_provider,
   disable_provider,

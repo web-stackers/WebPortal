@@ -43,7 +43,7 @@ const ConsumerSchema = Schema({
     },
   },
   profilePicture: {
-    type: Buffer,
+    data: Buffer,
     contentType: String,
   },
   registeredDate: {
@@ -68,6 +68,11 @@ const ConsumerSchema = Schema({
   ratingCount: {
     type: Number,
     default: 0,
+  },
+  isEmailVerified: {
+    type: Boolean,
+    required: true,
+    default: false, // default false
   },
 });
 
