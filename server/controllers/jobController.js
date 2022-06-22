@@ -299,21 +299,14 @@ const user_jobs = async (req, res) => {
     },
     {
       $project: {
-        jobType: 1,
         description: 1,
         requestedTime: 1,
         providerId: 1,
         consumerId: 1,
+        "userJobs._id":1,
         "userJobs.state": 1,
-        "userJobs.reason": 1,
-        "userJobs.quotation.amount": 1,
-        "userJobs.withdrawn.reason": 1,
         "provider.name.fName": 1,
-        "provider.name.lName": 1,
         "consumer.name.fName": 1,
-        "consumer.name.lName": 1,
-        "provider.totalRating":1,
-        "provider.ratingCount":1,
       },
     },
   ];
@@ -342,6 +335,86 @@ const user_jobs = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+// Fetch job history of a user for state transition
+const user_job_assignments = async (req, res) => {
+  const { type, id } = req.params;
+
+  var query = [
+    {
+      $lookup: {
+        from: "jobassignments",
+        localField: "_id",
+        foreignField: "jobId",
+        as: "jobassignment",
+      }
+    },
+    {
+      $lookup: {
+        from: "providers",
+        localField: "providerId",
+        foreignField: "_id",
+        as: "provider",
+      },
+    },
+    {
+      $lookup: {
+        from: "consumers",
+        localField: "consumerId",
+        foreignField: "_id",
+        as: "consumer",
+      },
+    },
+    {
+      $project: {
+        jobType: 1,
+        initializedDate:1,
+        jobAssignmentId: 1,
+        description: 1,
+        requestedTime: 1,
+        providerId: 1,
+        consumerId: 1,
+        "ratingAndReview.by":1,
+        "complaint.by":1,
+        "jobassignment._id":1,
+        "jobassignment.state": 1,
+        "jobassignment.reason": 1,
+        "jobassignment.quotation.amount": 1,
+        "jobassignment.quotation.estimatedTime": 1,
+        "jobassignment.withdrawn.reason": 1,
+        "provider.name.fName": 1,
+        "provider.name.lName": 1,
+        "consumer.name.fName": 1,
+        "consumer.name.lName": 1,
+        "provider.totalRating":1,
+        "provider.ratingCount":1,
+      },
+    },
+  ];
+
+  try {
+    const jobs = await job.aggregate(query);
+
+    if (type == "consumer") {
+      const userJobs = jobs.filter((job) => {
+        if (job.consumerId == id) {
+          return job;
+        }
+      });
+      res.json(userJobs);
+    } else if (type == "provider") {
+      const userJobs = jobs.filter((job) => {
+        if (job.providerId == id) {
+          return job;
+        }
+      });
+      res.json(userJobs);
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 
 // Fetch job withdrawals of a user
 const user_withdrawals = async (req, res) => {
@@ -515,6 +588,7 @@ module.exports = {
   complaint_handled,
   update_ratingAndReview,
   user_jobs,
+  user_job_assignments,
   fetch_complaint_count,
   user_withdrawals,
   fetch_Quotation,
