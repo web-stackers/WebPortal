@@ -64,6 +64,11 @@ const fetchDocumentList = async (id) => {
   return await API.get(`/provider/document/${id}`);
 };
 
+// Fetch provider by id for mobile app
+const fetchProviderById = async (id) => {
+  return await API.get(`/provider/mobile/${id}`);
+};
+
 // Fetch verified provider count
 const fetchVerifiedProviderCount = async () => {
   return await API.get("/provider/count");
@@ -114,6 +119,7 @@ export default {
   fetchNewProviders,
   fetchVerifiedProviders,
   fetchDocumentList,
+  fetchProviderById,
   searchProvider,
   fetchProvider,
   fetchVerifiedProviderCount,
