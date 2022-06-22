@@ -299,6 +299,7 @@ const user_jobs = async (req, res) => {
     },
     {
       $project: {
+        jobType: 1,
         description: 1,
         requestedTime: 1,
         providerId: 1,
