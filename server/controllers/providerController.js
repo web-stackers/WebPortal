@@ -748,6 +748,7 @@ module.exports = {
   update_uploads,
   signIn,
   fetch_providers,
+  fetch_provider_by_id ,
   fetch_provider,
   disable_provider,
   update_verification,
