@@ -92,7 +92,7 @@ const Profile = () => {
   if(type==='Consumers'){
     base64String = profilePic;
   } else {
-    if(profile && profile.document){
+    if(profile && profile.document && verified){
       let buffer = profile.document[0].doc.data;
       base64String = Buffer.from(buffer).toString('base64');
       mimetype = profile.document[0].doc.contentType;
@@ -111,7 +111,7 @@ const Profile = () => {
         <Card className={classes.root}>
           <CardMedia
             className={classes.cover}
-            image={type==='Providers'? `data:${mimetype};base64,${base64String}`:profilePic}
+            image={type==='Providers' && verified? `data:${mimetype};base64,${base64String}`:profilePic}
           />
           <div className={classes.details}>
             <CardContent className={classes.content}>
