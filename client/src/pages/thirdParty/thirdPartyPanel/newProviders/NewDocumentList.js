@@ -98,8 +98,7 @@ const NewDocumentlist = () => {
           .catch((e) => {
             console.log(e);
           });
-      }
-      else {
+      } else {
         Provider.deleteRejectedProvider(providerId)
           .then(() => {
             fetchDocs();

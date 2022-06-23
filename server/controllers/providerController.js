@@ -198,17 +198,22 @@ const update_uploads = async (req, res) => {
     if (docType == "O/L Certificate" || docType == "A/L Certificate") {
       docType = "O/L and A/L Certificates";
     }
-    let notificationMsg = "under your verification docment type with the name of";
+    let notificationMsg =
+      "under your verification docment type with the name of";
     let msg = "Please verify that documents within a day";
     let responsilbleSecondaryUser = await secondaryUser.findOne({
       verifyDocType: docType,
     });
-    if(responsilbleSecondaryUser===null){
+    if (responsilbleSecondaryUser === null) {
       responsilbleSecondaryUser = await secondaryUser.findOne({
-        "role": "Admin",
+        role: "Admin",
       });
-    notificationMsg = "and there is no responsible third party available right now uder the verification docment type which is given by the new provider. The name of the new provider is";
-    msg = "Admin, please add a new third party under the category of "+docType+" to verify that documennts as soon as possible.";
+      notificationMsg =
+        "and there is no responsible third party available right now uder the verification docment type which is given by the new provider. The name of the new provider is";
+      msg =
+        "Admin, please add a new third party under the category of " +
+        docType +
+        " to verify that documennts as soon as possible.";
     }
     var mailOptions = {
       from: "webstackers19@gmail.com",
@@ -217,11 +222,15 @@ const update_uploads = async (req, res) => {
       html:
         "Hi " +
         responsilbleSecondaryUser.name.fName +
-        ",<br><br> New provider is registered "+notificationMsg+" " +
+        ",<br><br> New provider is registered " +
+        notificationMsg +
+        " " +
         req.body.fName +
         " " +
         req.body.lName +
-        " .<br>"+msg+".",
+        " .<br>" +
+        msg +
+        ".",
     };
     const Updatedprovider = await provider
       .findByIdAndUpdate(
@@ -263,7 +272,7 @@ const update_uploads = async (req, res) => {
           }
         })
       );
-      await provider.findByIdAndUpdate(id, { $unset: { createdAt: "" } });
+    await provider.findByIdAndUpdate(id, { $unset: { createdAt: "" } });
     res.status(200).json(Updatedprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -682,8 +691,7 @@ const update_verification = async (req, res) => {
     // send email
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      // to: requiredprovider.contact.email,
-      to: "kathurshanasivalingham@gmail.com",
+      to: requiredprovider.contact.email,
       subject: "Verification of the uploaded documents of Helper App",
       html: `
         <body>
@@ -821,6 +829,8 @@ const delete_rejected_provider = async (req, res) => {
     });
 
     htmlBody = htmlBody.concat(`</div>
+                                  <p>Please sign up again to the system by providing the proper documents to provide services through Helper.</p>
+
                                   <div>
                                     <p>From,<br>Helper Community</p>
                                     </div>
@@ -828,8 +838,7 @@ const delete_rejected_provider = async (req, res) => {
 
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      // to: requiredprovider.contact.email,
-      to: "kathurshanasivalingham@gmail.com",
+      to: requiredprovider.contact.email,
       subject: "Verification of the uploaded documents of Helper App",
       html: htmlBody,
     };
