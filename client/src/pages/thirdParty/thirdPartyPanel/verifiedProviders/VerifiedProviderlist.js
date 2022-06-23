@@ -7,11 +7,18 @@ import { DataGrid } from "@mui/x-data-grid";
 import dateFormat from "dateformat";
 
 const VerifiedProviderlist = () => {
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem("profile"));
+  });
+
+  const docType = user.result.verifyDocType;
+  const verifyDoctype = docType.replaceAll("/", "");
+
   const [verifiedProviders, setVerifiedProviders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const fetchUsers = () => {
-    VerifiedProvider.fetchVerifiedProviders()
+    VerifiedProvider.fetchVerifiedProviders(verifyDoctype)
       .then((response) => {
         setVerifiedProviders(response.data);
       })
@@ -19,6 +26,10 @@ const VerifiedProviderlist = () => {
         console.log(e);
       });
   };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const rows = verifiedProviders
     .filter((verifiedProvider) => {
@@ -36,13 +47,16 @@ const VerifiedProviderlist = () => {
           .includes(searchTerm.toLowerCase())
       ) {
         return verifiedProvider;
-      } else if (
-        verifiedProvider.qualification
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase())
-      ) {
-        return verifiedProvider;
-      } else {
+      } 
+      // else if (
+      //   verifiedProvider.qualification
+      //     .toLowerCase()
+      //     .includes(searchTerm.toLowerCase())
+      // ) 
+      // {
+      //   return verifiedProvider;
+      // } 
+      else {
         return false;
       }
     })
@@ -51,25 +65,24 @@ const VerifiedProviderlist = () => {
         id: verifiedProvider._id,
         fName: verifiedProvider.name.fName,
         lName: verifiedProvider.name.lName,
-        qualification: verifiedProvider.qualification,
-        // date: verifiedProvider.verification.date,
-        date: dateFormat(verifiedProvider.verification.date, "yyyy-mm-dd"),
+        // qualification: verifiedProvider.qualification,
+        // date: dateFormat(verifiedProvider.verification.date, "yyyy-mm-dd"),
       };
     });
 
   const columns = [
     { field: "fName", headerName: "First Name", width: 150 },
     { field: "lName", headerName: "Last Name", width: 150 },
-    {
-      field: "qualification",
-      headerName: "Qualification",
-      width: 200,
-    },
-    {
-      field: "date",
-      headerName: "Verified Date",
-      width: 150,
-    },
+    // {
+    //   field: "qualification",
+    //   headerName: "Qualification",
+    //   width: 200,
+    // },
+    // {
+    //   field: "date",
+    //   headerName: "Verified Date",
+    //   width: 150,
+    // },
     {
       field: "action",
       headerName: "Action",
@@ -91,10 +104,6 @@ const VerifiedProviderlist = () => {
       },
     },
   ];
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   return (
     <div>

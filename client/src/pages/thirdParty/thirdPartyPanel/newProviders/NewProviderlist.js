@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import NewProvider from "../../../../services/Provider";
-import SecondaryUser from "../../../../services/SecondaryUser";
 import { Link } from "react-router-dom";
 import Sbutton from "../../../../components/Sbutton";
 import { DataGrid } from "@mui/x-data-grid";
@@ -26,6 +25,10 @@ const NewProviderlist = () => {
         console.log(e);
       });
   };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const rows = newProviders
     .filter((newProvider) => {
@@ -75,10 +78,6 @@ const NewProviderlist = () => {
       },
     },
   ];
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   return (
     <div>

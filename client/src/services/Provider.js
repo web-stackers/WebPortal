@@ -55,8 +55,8 @@ const fetchNewProviders = async (docType) => {
 };
 
 // Fetch verified providers
-const fetchVerifiedProviders = async () => {
-  return await API.get("/provider/verified");
+const fetchVerifiedProviders = async (docType) => {
+  return await API.get(`/provider/verified/${docType}`);
 };
 
 //Fetch documentlist of a provider

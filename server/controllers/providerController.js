@@ -418,6 +418,49 @@ const fetch_new_providers = async (req, res) => {
   }
 };
 
+// Fetch verified providers
+const fetch_verified_providers = async (req, res) => {
+   const { docType } = req.params;
+
+  try {
+    if (docType === "OL and AL Certificates") {
+      const verifiedProviders = await provider
+        .find({
+          $and: [
+            {
+              "verification.isAccepted": true,
+            },
+            {
+              $or: [
+                { "document.qualificationDocType": "O/L Certificate" },
+                { "document.qualificationDocType": "A/L Certificate" },
+              ],
+            },
+          ],
+        })
+        .select("name");
+        res.status(200).json(verifiedProviders);
+    }
+    else {
+      const verifiedProviders = await provider
+        .find({
+          $and: [
+            {
+              "verification.isAccepted": true,
+            },
+            {
+              "document.qualificationDocType": docType,
+            },
+          ],
+        })
+        .select("name");
+      res.status(200).json(verifiedProviders);
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch provider by search key
 const search_provider = async (req, res) => {
   const { key } = req.params;
@@ -433,17 +476,7 @@ const search_provider = async (req, res) => {
   }
 };
 
-// Fetch verified providers
-const fetch_verified_providers = async (req, res) => {
-  try {
-    const verifiedProviders = await provider.find({
-      "verification.isAccepted": true,
-    });
-    res.status(200).json(verifiedProviders);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
+
 
 // Get count of total providers
 const fetch_provider_count = async (req, res) => {

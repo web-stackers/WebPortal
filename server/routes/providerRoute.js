@@ -48,7 +48,7 @@ router.get("/search/:key", providerController.search_provider);
 router.get("/new/:docType", providerController.fetch_new_providers);
 
 //Fetch verified providers
-router.get("/verified", providerController.fetch_verified_providers);
+router.get("/verified/:docType", providerController.fetch_verified_providers);
 
 // Fetch provider total count
 router.get("/count", providerController.fetch_provider_count);
