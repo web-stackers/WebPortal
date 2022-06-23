@@ -20,6 +20,12 @@ router.post("/register/upload/:id", providerController.update_uploads);
 //signin in the mobile
 router.post("/signin", providerController.signIn);
 
+//generating OTP to change new password in the forgot password section, in the mobile
+router.post("/forgotPassword", providerController.forgot_password);
+
+//Update new password in forgot password
+router.patch("/forgotPassword/changePassword/:id", providerController.change_forgot_password);
+
 //Update provider location by ID
 router.patch("/addressUpdate/:id", providerController.update_provider_location);
 

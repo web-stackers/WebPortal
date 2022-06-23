@@ -178,8 +178,9 @@ const Registration_valid = () => {
     setOtpErrorMsg("");
     const email = inputs.email;
     const fName = inputs.fName;
+    const isEmailVerification = true;
     try {
-      const res = await Provider.resendOTP({ userId, email, fName });
+      const res = await Provider.resendOTP({ userId, email, fName, isEmailVerification });
       console.log(res.data);
     } catch (err) {
       console.log(err);

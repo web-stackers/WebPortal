@@ -97,7 +97,7 @@ const post_providerType = async (req, res) => {
   }
 };
 
-// Verification of OTP entered by the user
+// Verification of OTP entered by the user when email verification and forgot password
 const verify_OTP = async (req, res) => {
   try {
     let { userId, otp } = req.body;
@@ -133,16 +133,28 @@ const verify_OTP = async (req, res) => {
       { new: true }
     );
     await providerEmailVerification.deleteMany({ providerId: userId });
-    res.status(200).json("Email verified successfully");
+    res.status(200).json("OTP verified successfully");
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-// Resend OTP
+// Resend OTP in register and forgot password
 const resend_OTP = async (req, res) => {
   try {
-    let { userId, email, fName } = req.body;
+    let { userId, email, fName, isEmailVerification } = req.body;
+    let subject;
+    let msg;
+
+    if (isEmailVerification) {
+      subject = "Verify Your Email - OTP resend";
+      msg =
+        "to verify your email address and to continue to the uploading section of required documents.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify informations given by you will be deleted within one hour and then only you can again fill the form from the start";
+    } else {
+      subject = "Verify You - OTP resend";
+      msg =
+        "to confirm the OTP and to change new password.<br>This code will <b>expires in 5 minutes</b>";
+    }
     if (!userId || !email) {
       return res
         .status(400)
@@ -155,13 +167,15 @@ const resend_OTP = async (req, res) => {
     var mailOptions = {
       from: "webstackers19@gmail.com",
       to: email,
-      subject: "Verify Your Email - OTP resend",
+      subject: subject,
       html:
         "Hi " +
         fName +
         ",<br><br> Enter <b>" +
         otp +
-        "</b> in the app to verify your email address and to continue to the uploading section of required documents.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify informations given by you will be deleted within one hour and then only you can again fill the form from the start",
+        "</b> in the app " +
+        msg +
+        ".",
     };
     const newOtpVerification = await new providerEmailVerification({
       providerId: userId,
@@ -198,17 +212,22 @@ const update_uploads = async (req, res) => {
     if (docType == "O/L Certificate" || docType == "A/L Certificate") {
       docType = "O/L and A/L Certificates";
     }
-    let notificationMsg = "under your verification docment type with the name of";
+    let notificationMsg =
+      "under your verification docment type with the name of";
     let msg = "Please verify that documents within a day";
     let responsilbleSecondaryUser = await secondaryUser.findOne({
       verifyDocType: docType,
     });
-    if(responsilbleSecondaryUser===null){
+    if (responsilbleSecondaryUser === null) {
       responsilbleSecondaryUser = await secondaryUser.findOne({
-        "role": "Admin",
+        role: "Admin",
       });
-    notificationMsg = "and there is no responsible third party available right now uder the verification docment type which is given by the new provider. The name of the new provider is";
-    msg = "Admin, please add a new third party under the category of "+docType+" to verify that documennts as soon as possible.";
+      notificationMsg =
+        "and there is no responsible third party available right now uder the verification docment type which is given by the new provider. The name of the new provider is";
+      msg =
+        "Admin, please add a new third party under the category of " +
+        docType +
+        " to verify that documennts as soon as possible.";
     }
     var mailOptions = {
       from: "webstackers19@gmail.com",
@@ -217,11 +236,15 @@ const update_uploads = async (req, res) => {
       html:
         "Hi " +
         responsilbleSecondaryUser.name.fName +
-        ",<br><br> New provider is registered "+notificationMsg+" " +
+        ",<br><br> New provider is registered " +
+        notificationMsg +
+        " " +
         req.body.fName +
         " " +
         req.body.lName +
-        " .<br>"+msg+".",
+        " .<br>" +
+        msg +
+        ".",
     };
     const Updatedprovider = await provider
       .findByIdAndUpdate(
@@ -263,7 +286,7 @@ const update_uploads = async (req, res) => {
           }
         })
       );
-      await provider.findByIdAndUpdate(id, { $unset: { createdAt: "" } });
+    await provider.findByIdAndUpdate(id, { $unset: { createdAt: "" } });
     res.status(200).json(Updatedprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -306,18 +329,85 @@ const signIn = async (req, res) => {
   }
 };
 
+//generating OTP to change new password in the forgot password section, in the mobile
+const forgot_password = async (req, res) => {
+  try {
+    let { email } = req.body;
+    const subject = "Verify You to Change New Password";
+    const msg =
+      "to confirm the OTP and to change new password.<br>This code will <b>expires in 5 minutes</b>";
+
+    const user = await provider.findOne({ "contact.email": email });
+    if (!user)
+      return res.status(404).json({ message: "User doesn't exist" });
+    if (!user?.verification.isAccepted) {
+      if (user.document[0].type) {
+        return res.status(400).json({ message: "Cannot login now" });
+      }
+      return res.status(404).json({ message: "Incomplete registration" });
+    }
+    const userId = user._id;
+    const fName = user.name.fName;
+    const isEmailVerification = false;
+
+    await providerEmailVerification.deleteMany({ providerId: userId });
+
+    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: email,
+      subject: subject,
+      html:
+        "Hi " +
+        fName +
+        ",<br><br> Enter <b>" +
+        otp +
+        "</b> in the app " +
+        msg +
+        ".",
+    };
+    const newOtpVerification = await new providerEmailVerification({
+      providerId: userId,
+      otp: hashedOtp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 300000, // will expires after 5 min
+      //3600000 == 1hr
+    });
+    await newOtpVerification.save();
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({userId, email, fName, isEmailVerification});
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// update the new password - forgot password
+const change_forgot_password = async (req, res) => {
+  const { id } = req.params;
+  const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
+  try {
+    const updatedProvider = await provider.findByIdAndUpdate(id, {
+      password:hashedPassword,
+    },{ new: true });
+    res.status(200).json("Password changed successfully");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // insert residential location after the 1st login
 const update_provider_location = async (req, res) => {
   const { id } = req.params;
-
   try {
-    const updatedConsumer = await provider.findByIdAndUpdate(id, {
+    const updatedProvider = await provider.findByIdAndUpdate(id, {
       address: {
         longitude: req.body.longitude,
         latitude: req.body.latitude,
       },
     });
-    res.status(200).json(updatedConsumer);
+    res.status(200).json("location updated successfuly");
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -857,6 +947,8 @@ module.exports = {
   resend_OTP,
   update_uploads,
   signIn,
+  forgot_password,
+  change_forgot_password,
   update_provider_location,
   fetch_providers,
   fetch_provider_by_id,
