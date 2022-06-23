@@ -49,7 +49,9 @@ const VerifiedDocumentlist = () => {
             <Card variant="outlined" sx={{ minHeight: 150, maxWidth: 300 }}>
               <CardContent>
                 <Typography variant="h5" textAlign="center">
-                  {verifiedDoc.type}
+                  {verifiedDoc.type === "Qualification"
+                    ? verifiedDoc.qualificationDocType
+                    : verifiedDoc.type}
                 </Typography>
                 <br />
               </CardContent>

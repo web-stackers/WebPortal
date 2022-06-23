@@ -32,9 +32,9 @@ app.use("/provider", providerRouter);
 app.use("/chat", chatRouter);
 
 const pusher = new Pusher({
-  appId: "1425867",
-  key: "ea04ce48ad7e2f0aaf87",
-  secret: "c177f369bebe0f7eb8f9",
+  appId: "1427195",
+  key: "830065486460bbe58d2f",
+  secret: "b1f2c2d5adfe1c85fc37",
   cluster: "eu",
   useTLS: true,
 });
@@ -48,15 +48,15 @@ db.once("open", () => {
   const changeStream = msgCollection.watch();
 
   changeStream.on("change", (change) => {
-    console.log(change);
+    // console.log(change);
 
     if (change.operationType === "insert") {
       const messageDetails = change.fullDocument;
       pusher.trigger("messages", "inserted", {
-        name: messageDetails.name,
+        jobAssignmentId: messageDetails.jobAssignmentId,
         message: messageDetails.message,
+        arisedBy: messageDetails.arisedBy,
         timestamp: messageDetails.timestamp,
-        received: messageDetails.received,
       });
     } else {
       console.log("Error triggering Pusher");

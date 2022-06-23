@@ -1,43 +1,34 @@
 import { useEffect, useState } from "react";
 import NewProvider from "../../../../services/Provider";
-import SecondaryUser from "../../../../services/SecondaryUser";
 import { Link } from "react-router-dom";
 import Sbutton from "../../../../components/Sbutton";
 import { DataGrid } from "@mui/x-data-grid";
 import "../../../../index.css";
 
-const NewProviderlist = ({ id }) => {
-  const thirdPartyId = id;
+const NewProviderlist = () => {
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem("profile"));
+  });
 
-  const [verifyDoctype, setVerifyDoctype] = useState("");
+  const docType = user.result.verifyDocType;
+  const verifyDoctype = docType.replaceAll("/", "");
+
   const [newProviders, setNewProviders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // const docType = verifyDoctype.replaceAll("/", "");
-  // const docType = "OL and AL Certificates";
-  const docType = "NVQ Certificate";
-
-  const fetchVerifyDocType = () => {
-    SecondaryUser.fetchVerifyDocType(thirdPartyId)
+  const fetchUsers = () => {
+    NewProvider.fetchNewProviders(verifyDoctype)
       .then((response) => {
-        setVerifyDoctype(response.data);
+        setNewProviders(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  // const fetchUsers = () => {
-  //   if (verifyDoctype) {
-  //     NewProvider.fetchNewProviders(docType)
-  //       .then((response) => {
-  //         setNewProviders(response.data);
-  //       })
-  //       .catch((e) => {
-  //         console.log(e);
-  //       });
-  //   }
-  // };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const rows = newProviders
     .filter((newProvider) => {
@@ -87,10 +78,6 @@ const NewProviderlist = ({ id }) => {
       },
     },
   ];
-
-  useEffect(() => {
-    fetchVerifyDocType();
-  }, []);
 
   return (
     <div>

@@ -81,10 +81,7 @@ function App() {
               path="/thirdParty"
               element={<Navigate to="/thirdParty/new" />}
             />
-            <Route
-              path="new"
-              element={<NewProviders id={user?.result?._id} />}
-            />
+            <Route path="new" element={<NewProviders />} />
             <Route path="verified" element={<VerifiedProviders />} />
             <Route path="newDocumentlist" element={<NewDocumentList />} />
             <Route

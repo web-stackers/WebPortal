@@ -51,10 +51,13 @@ router.get("/search/:key", providerController.search_provider);
 router.get("/new/:docType", providerController.fetch_new_providers);
 
 //Fetch verified providers
-router.get("/verified", providerController.fetch_verified_providers);
+router.get("/verified/:docType", providerController.fetch_verified_providers);
 
 // Fetch provider total count
 router.get("/count", providerController.fetch_provider_count);
+
+//Fetch provider using certain id for mobile app
+router.get("/mobile/:id", providerController.fetch_provider_by_id);
 
 // Fetch provider count by provider job type
 router.get("/count/jobType", providerController.fetch_provider_JobType_count);
@@ -97,5 +100,8 @@ router.patch(
 
 // Fetch provider name
 router.get("/get/provider/name/:id", providerController.fetch_provider_name);
+
+// Delete rejected provider
+router.delete("/:id", providerController.delete_rejected_provider);
 
 module.exports = router;

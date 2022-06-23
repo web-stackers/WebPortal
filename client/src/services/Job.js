@@ -31,6 +31,11 @@ const fetchUserJobs = async (type, id) => {
   return await API.get(`/job/user/userjobs/${type}/${id}`);
 };
 
+// Fetch job history of a user using assignments
+const fetchUserJobsAssignments = async (type, id) => {
+  return await API.get(`/job/user/userassignments/${type}/${id}`);
+};
+
 // Fetch job withdrawals of a user
 const fetchUserWithdrawals = async () => {
   return await API.get("/job/user/userwithdrawals");
@@ -51,6 +56,7 @@ export default {
   fetchJobByConsumerComplaints,
   fetchComplaintsById,
   fetchUserJobs,
+  fetchUserJobsAssignments,
   fetchComplaintCount,
   complaintHandled,
   fetchUserWithdrawals,

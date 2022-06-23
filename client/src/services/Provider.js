@@ -55,13 +55,18 @@ const fetchNewProviders = async (docType) => {
 };
 
 // Fetch verified providers
-const fetchVerifiedProviders = async () => {
-  return await API.get("/provider/verified");
+const fetchVerifiedProviders = async (docType) => {
+  return await API.get(`/provider/verified/${docType}`);
 };
 
 //Fetch documentlist of a provider
 const fetchDocumentList = async (id) => {
   return await API.get(`/provider/document/${id}`);
+};
+
+// Fetch provider by id for mobile app
+const fetchProviderById = async (id) => {
+  return await API.get(`/provider/mobile/${id}`);
 };
 
 // Fetch verified provider count
@@ -103,6 +108,11 @@ const updateQualification = async (id, qualification) => {
   );
 };
 
+// Delete rejected provider
+const deleteRejectedProvider = async (id) => {
+  return await API.delete(`/provider/${id}`);
+};
+
 export default {
   validate,
   addNew,
@@ -114,6 +124,7 @@ export default {
   fetchNewProviders,
   fetchVerifiedProviders,
   fetchDocumentList,
+  fetchProviderById,
   searchProvider,
   fetchProvider,
   fetchVerifiedProviderCount,
@@ -122,4 +133,5 @@ export default {
   updateVerification,
   updateProviderCount,
   updateQualification,
+  deleteRejectedProvider,
 };
