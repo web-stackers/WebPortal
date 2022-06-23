@@ -389,6 +389,8 @@ const user_job_assignments = async (req, res) => {
         "consumer.name.lName": 1,
         "provider.totalRating":1,
         "provider.ratingCount":1,
+        "consumer.totalRating":1,
+        "consumer.ratingCount":1,
       },
     },
   ];
