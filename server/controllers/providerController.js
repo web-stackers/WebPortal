@@ -127,7 +127,6 @@ const verify_OTP = async (req, res) => {
         .status(400)
         .json({ message: "Invalid code entered. Check your email" });
     }
-    await provider.findByIdAndUpdate(userId, { $unset: { createdAt: "" } });
     await provider.findByIdAndUpdate(
       userId,
       { isEmailVerified: true },
@@ -199,10 +198,18 @@ const update_uploads = async (req, res) => {
     if (docType == "O/L Certificate" || docType == "A/L Certificate") {
       docType = "O/L and A/L Certificates";
     }
-    const responsilbleSecondaryUser = await secondaryUser.findOne({
+    let notificationMsg = "under your verification docment type with the name of";
+    let msg = "Please verify that documents within a day";
+    let responsilbleSecondaryUser = await secondaryUser.findOne({
       verifyDocType: docType,
     });
-
+    if(responsilbleSecondaryUser===null){
+      responsilbleSecondaryUser = await secondaryUser.findOne({
+        "role": "Admin",
+      });
+    notificationMsg = "and there is no responsible third party available right now uder the verification docment type which is given by the new provider. The name of the new provider is";
+    msg = "Admin, please add a new third party under the category of "+docType+" to verify that documennts as soon as possible.";
+    }
     var mailOptions = {
       from: "webstackers19@gmail.com",
       to: responsilbleSecondaryUser.email,
@@ -210,11 +217,11 @@ const update_uploads = async (req, res) => {
       html:
         "Hi " +
         responsilbleSecondaryUser.name.fName +
-        ",<br><br> New provider is registered under your verification docment type with the name of " +
+        ",<br><br> New provider is registered "+notificationMsg+" " +
         req.body.fName +
         " " +
         req.body.lName +
-        " .<br>Please verify that documents within a day",
+        " .<br>"+msg+".",
     };
     const Updatedprovider = await provider
       .findByIdAndUpdate(
@@ -256,6 +263,7 @@ const update_uploads = async (req, res) => {
           }
         })
       );
+      await provider.findByIdAndUpdate(id, { $unset: { createdAt: "" } });
     res.status(200).json(Updatedprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -295,6 +303,23 @@ const signIn = async (req, res) => {
       .json({ result: { _id, name, contact, NIC, address }, token });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// insert residential location after the 1st login
+const update_provider_location = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedConsumer = await provider.findByIdAndUpdate(id, {
+      address: {
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
+      },
+    });
+    res.status(200).json(updatedConsumer);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -832,6 +857,7 @@ module.exports = {
   resend_OTP,
   update_uploads,
   signIn,
+  update_provider_location,
   fetch_providers,
   fetch_provider_by_id,
   fetch_provider,

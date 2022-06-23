@@ -20,6 +20,9 @@ router.post("/register/upload/:id", providerController.update_uploads);
 //signin in the mobile
 router.post("/signin", providerController.signIn);
 
+//Update provider location by ID
+router.patch("/addressUpdate/:id", providerController.update_provider_location);
+
 //update verification details
 router.patch(
   "/updateVerification/:id/:result",
