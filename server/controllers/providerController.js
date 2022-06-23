@@ -50,11 +50,17 @@ const validate_provider = async (req, res) => {
 // Register new provider with basic details and send OTP to email
 const post_providerType = async (req, res) => {
   try {
+    let fName = req.body.fName;
+    let lName = req.body.lName;
+    let NIC = req.body.NIC;
+    fName = fName.charAt(0).toUpperCase() + fName.slice(1).toLowerCase();
+    lName = lName.charAt(0).toUpperCase() + lName.slice(1).toLowerCase();
+    NIC = NIC.toUpperCase();
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const newserviceprovider = new provider({
       name: {
-        fName: req.body.fName,
-        lName: req.body.lName,
+        fName: fName,
+        lName: lName,
       },
       contact: {
         mobile: req.body.mobile,
@@ -62,7 +68,7 @@ const post_providerType = async (req, res) => {
       },
       password: hashedPassword,
       DOB: req.body.DOB,
-      NIC: req.body.NIC,
+      NIC: NIC,
       jobType: req.body.jobType,
       workStartedYear: req.body.workStartedYear,
     });
@@ -386,8 +392,9 @@ const forgot_password = async (req, res) => {
 // update the new password - forgot password
 const change_forgot_password = async (req, res) => {
   const { id } = req.params;
-  const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
+  console.log(req.body.newPassword);
   try {
+  const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
     const updatedProvider = await provider.findByIdAndUpdate(id, {
       password:hashedPassword,
     },{ new: true });

@@ -23,7 +23,7 @@ router.post("/register/resendOTP", consumerController.resend_OTP);
 router.post("/forgotPassword", consumerController.forgot_password);
 
 //Update new password in forgot password
-router.patch("/forgotPassword/changePassword/:id", consumerController.change_forgot_password);
+router.post("/forgotPassword/changePassword/:id", consumerController.change_forgot_password);
 
 
 

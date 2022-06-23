@@ -1,7 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useReducer } from "react";
 import Provider from "../../services/Provider";
+import JobCategory from "../../services/JobCategory";
 import Input from "../../components/formComponents/Input";
 import Uploads from "./Uploads";
 import Button from "@mui/material//Button";
@@ -44,7 +45,7 @@ const RegisterSchema = Yup.object().shape({
 
   NIC: Yup.string()
     .required("is required")
-    .matches(/^[12][09][0-9]{10}$|^[3-9][0-9]{8}v$/, "Invalid NIC number"),
+    .matches(/^[12][09][0-9]{10}$|^[3-9][0-9]{8}[vV]$/, "Invalid NIC number"),
   email: Yup.string().email("Invalid email").required("is required"),
   jobType: Yup.string().required("is required"),
 
@@ -94,6 +95,28 @@ const Registration_valid = () => {
   const [otpErrorMsg, setOtpErrorMsg] = useState("");
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [jobTypes, setJobTypes] = useState([]);
+
+  const fetchAllJobTypes = async () => {
+    try {
+      const res = await JobCategory.fetchJobCategory();
+      console.log(res.data);
+      setJobTypes(() => {
+        return res.data;
+      });
+    } catch (err) {
+      if (err.response.status === 500) {
+        window.alert(
+          "There was a problem with the server, could not get the jobTypes"
+        );
+      } else {
+        window.alert(
+          "Something went wrong, could not get the jobTypes, " +
+            err.response.data.message
+        );
+      }
+    }
+  };
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -180,12 +203,19 @@ const Registration_valid = () => {
     const fName = inputs.fName;
     const isEmailVerification = true;
     try {
-      const res = await Provider.resendOTP({ userId, email, fName, isEmailVerification });
+      const res = await Provider.resendOTP({
+        userId,
+        email,
+        fName,
+        isEmailVerification,
+      });
       console.log(res.data);
     } catch (err) {
       console.log(err);
       if (err.response.status === 500) {
-        window.alert("There was a problem with the server, Could not resend OTP");
+        window.alert(
+          "There was a problem with the server, Could not resend OTP"
+        );
       } else {
         window.alert("Could not resend OTP, " + err.response.data.message);
       }
@@ -213,6 +243,10 @@ const Registration_valid = () => {
       //   window.location.reload(false);
     }
   };
+  useEffect(() => {
+    fetchAllJobTypes();
+  }, []);
+
   return (
     <>
       {isValid ? (
@@ -292,7 +326,7 @@ const Registration_valid = () => {
                     <AppRegistrationIcon />
                   </Avatar>
                   <Typography variant="h5">
-                    Register As Service Provider
+                    Register as Service Provider
                   </Typography>
                   <form className={classes.form}>
                     <Grid container spacing={2}>
@@ -393,7 +427,14 @@ const Registration_valid = () => {
                             label="TypeOfJob"
                             onChange={handleChange}
                           >
-                            <MenuItem value="6220b8375e554dac97b488bc">
+                            {jobTypes.map((jobType) => {
+                              return (
+                                <MenuItem key={jobType._id} value={jobType._id}>
+                                  {jobType.jobType}
+                                </MenuItem>
+                              );
+                            })}
+                            {/* <MenuItem value="6220b8375e554dac97b488bc">
                               Plumber
                             </MenuItem>
                             <MenuItem value="6220e2ca5e554dac97b48938">
@@ -410,7 +451,7 @@ const Registration_valid = () => {
                             </MenuItem>
                             <MenuItem value="6230165745f952ef9a1f4d1b">
                               Mason
-                            </MenuItem>
+                            </MenuItem> */}
                           </Select>
                           <FormHelperText>
                             {errors.jobType && touched.jobType
