@@ -28,7 +28,7 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
     let job = "";
     if (type === "Providers") {
       verifiedText = user.verification?.isAccepted? "Yes":"No";
-      job = user.job? user.job[0].jobType:"";
+      job = user.job? user?.job[0]?.jobType:"";
     } 
 
     return {
