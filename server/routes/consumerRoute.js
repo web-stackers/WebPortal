@@ -9,6 +9,24 @@ router.get("/", consumerController.fetch_consumers);
 // Fetch consumer by id
 router.get("/:id", consumerController.fetch_consumer);
 
+// Register new consumer
+router.post("/register", consumerController.post_consumer);
+
+
+// OTP verification in registration and forgot password
+router.post("/register/verifyOTP", consumerController.verify_OTP);
+
+// To resend the OTP in registration and forgot password
+router.post("/register/resendOTP", consumerController.resend_OTP);
+
+//generating OTP to change new password in the forgot password section, in the mobile
+router.post("/forgotPassword", consumerController.forgot_password);
+
+//Update new password in forgot password
+router.patch("/forgotPassword/changePassword/:id", consumerController.change_forgot_password);
+
+
+
 //signin in the mobile
 router.post("/signin", consumerController.signIn);
 
