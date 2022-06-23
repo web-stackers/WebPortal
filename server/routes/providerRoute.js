@@ -98,4 +98,7 @@ router.patch(
 // Fetch provider name
 router.get("/get/provider/name/:id", providerController.fetch_provider_name);
 
+// Delete rejected provider
+router.delete("/:id", providerController.delete_rejected_provider);
+
 module.exports = router;

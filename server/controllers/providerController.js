@@ -288,9 +288,11 @@ const signIn = async (req, res) => {
     const token = jwt.sign(
       { email: oldUser.contact.email, id: oldUser._id },
       secret
-    ); 
-    const {_id, name, contact, NIC, address} = oldUser;
-    res.status(200).json({ result: {_id, name, contact, NIC, address}, token });
+    );
+    const { _id, name, contact, NIC, address } = oldUser;
+    res
+      .status(200)
+      .json({ result: { _id, name, contact, NIC, address }, token });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -420,7 +422,7 @@ const fetch_new_providers = async (req, res) => {
 
 // Fetch verified providers
 const fetch_verified_providers = async (req, res) => {
-   const { docType } = req.params;
+  const { docType } = req.params;
 
   try {
     if (docType === "OL and AL Certificates") {
@@ -439,9 +441,8 @@ const fetch_verified_providers = async (req, res) => {
           ],
         })
         .select("name");
-        res.status(200).json(verifiedProviders);
-    }
-    else {
+      res.status(200).json(verifiedProviders);
+    } else {
       const verifiedProviders = await provider
         .find({
           $and: [
@@ -476,8 +477,6 @@ const search_provider = async (req, res) => {
   }
 };
 
-
-
 // Get count of total providers
 const fetch_provider_count = async (req, res) => {
   try {
@@ -496,14 +495,15 @@ const fetch_provider_by_id = async (req, res) => {
     //document:{type:"profilepicture",doc:1}
     const salt = await bcrypt.genSalt(10);
     // now we set user password to hashed password
-   // user.password = await bcrypt.hash(password, salt);
-    const requiredprovider = await provider.findById(id).select("name contact password totalRating ratingCount address");
+    // user.password = await bcrypt.hash(password, salt);
+    const requiredprovider = await provider
+      .findById(id)
+      .select("name contact password totalRating ratingCount address");
     res.status(200).json(requiredprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 //Get count by provider job type
 const fetch_provider_JobType_count = async (req, res) => {
@@ -655,13 +655,12 @@ const update_verification = async (req, res) => {
     );
 
     // send email
-    if (result === "true") {
-      var mailOptions = {
-        from: "webstackers19@gmail.com",
-        // to: requiredprovider.contact.email,
-        to: "kathurshanasivalingham@gmail.com",
-        subject: "Verification of the uploaded documents of Helper App",
-        html: `
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      // to: requiredprovider.contact.email,
+      to: "kathurshanasivalingham@gmail.com",
+      subject: "Verification of the uploaded documents of Helper App",
+      html: `
         <body>
           <div>
             <p>Hi ${requiredprovider.name.fName} ${requiredprovider.name.lName},</p>
@@ -675,39 +674,7 @@ const update_verification = async (req, res) => {
             <p>From,<br>Helper Community</p>
           </div>
         </body>`,
-      };
-    } else {
-      var htmlBody = `<body>
-          <div>
-            <p>Hi ${requiredprovider.name.fName} ${requiredprovider.name.lName},</p>
-          </div>
-          <div>
-            <p>We are sorry to inform you that your registration is not accepted by our Helper App because of the following rejected documents.</p>
-          </div>
-          <div>`;
-
-      requiredDocumentLists.map((doc) => {
-        if (doc.isAccepted === false) {
-          var data = `<p><b>Document -</b> ${doc.type}<br>
-                      <b>Reason For Rejection -</b> ${doc.reasonForRejection}</p>`;
-          htmlBody = htmlBody.concat(data);
-        }
-      });
-
-      htmlBody = htmlBody.concat(`</div>
-                                  <div>
-                                    <p>From,<br>Helper Community</p>
-                                    </div>
-                                  </body>`);
-
-      var mailOptions = {
-        from: "webstackers19@gmail.com",
-        // to: requiredprovider.contact.email,
-        to: "kathurshanasivalingham@gmail.com",
-        subject: "Verification of the uploaded documents of Helper App",
-        html: htmlBody,
-      };
-    }
+    };
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
@@ -804,6 +771,60 @@ const fetch_provider_name = async (req, res) => {
   }
 };
 
+// Delete rejected providers
+const delete_rejected_provider = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const requiredprovider = await provider.findById(id);
+    const requiredDocumentLists = await requiredprovider.document;
+
+    var htmlBody = `<body>
+          <div>
+            <p>Hi ${requiredprovider.name.fName} ${requiredprovider.name.lName},</p>
+          </div>
+          <div>
+            <p>We are sorry to inform you that your registration is not accepted by our Helper App because of the following rejected documents.</p>
+          </div>
+          <div>`;
+
+    requiredDocumentLists.map((doc) => {
+      if (doc.isAccepted === false) {
+        var data = `<p><b>Document -</b> ${doc.type}<br>
+                      <b>Reason For Rejection -</b> ${doc.reasonForRejection}</p>`;
+        htmlBody = htmlBody.concat(data);
+      }
+    });
+
+    htmlBody = htmlBody.concat(`</div>
+                                  <div>
+                                    <p>From,<br>Helper Community</p>
+                                    </div>
+                                  </body>`);
+
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      // to: requiredprovider.contact.email,
+      to: "kathurshanasivalingham@gmail.com",
+      subject: "Verification of the uploaded documents of Helper App",
+      html: htmlBody,
+    };
+
+    await provider.deleteOne({ _id: id });
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    res.status(200).json("Provider deleted");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   validate_provider,
   post_providerType,
@@ -812,7 +833,7 @@ module.exports = {
   update_uploads,
   signIn,
   fetch_providers,
-  fetch_provider_by_id ,
+  fetch_provider_by_id,
   fetch_provider,
   disable_provider,
   update_verification,
@@ -831,4 +852,5 @@ module.exports = {
   fetch_providers_under_certain_jobType,
   fetch_provider_profile_picture,
   fetch_provider_name,
+  delete_rejected_provider,
 };

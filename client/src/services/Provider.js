@@ -108,6 +108,11 @@ const updateQualification = async (id, qualification) => {
   );
 };
 
+// Delete rejected provider
+const deleteRejectedProvider = async (id) => {
+  return await API.delete(`/provider/${id}`);
+};
+
 export default {
   validate,
   addNew,
@@ -128,4 +133,5 @@ export default {
   updateVerification,
   updateProviderCount,
   updateQualification,
+  deleteRejectedProvider,
 };

@@ -98,8 +98,9 @@ const NewDocumentlist = () => {
           .catch((e) => {
             console.log(e);
           });
-      } else {
-        Provider.updateVerification(providerId, false)
+      }
+      else {
+        Provider.deleteRejectedProvider(providerId)
           .then(() => {
             fetchDocs();
           })
