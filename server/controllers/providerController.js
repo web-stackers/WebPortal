@@ -562,7 +562,7 @@ const fetch_verified_providers = async (req, res) => {
             },
           ],
         })
-        .select("name");
+        .select("name verification");
       res.status(200).json(verifiedProviders);
     } else {
       const verifiedProviders = await provider
@@ -576,7 +576,7 @@ const fetch_verified_providers = async (req, res) => {
             },
           ],
         })
-        .select("name");
+        .select("name verification");
       res.status(200).json(verifiedProviders);
     }
   } catch (error) {

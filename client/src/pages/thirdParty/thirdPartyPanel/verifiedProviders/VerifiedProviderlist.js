@@ -47,26 +47,27 @@ const VerifiedProviderlist = () => {
           .includes(searchTerm.toLowerCase())
       ) {
         return verifiedProvider;
-      } 
+      }
       // else if (
       //   verifiedProvider.qualification
       //     .toLowerCase()
       //     .includes(searchTerm.toLowerCase())
-      // ) 
+      // )
       // {
       //   return verifiedProvider;
-      // } 
+      // }
       else {
         return false;
       }
     })
     .map((verifiedProvider) => {
+      console.log(verifiedProvider);
       return {
         id: verifiedProvider._id,
         fName: verifiedProvider.name.fName,
         lName: verifiedProvider.name.lName,
         // qualification: verifiedProvider.qualification,
-        // date: dateFormat(verifiedProvider.verification.date, "yyyy-mm-dd"),
+        date: dateFormat(verifiedProvider.verification.date, "yyyy-mm-dd"),
       };
     });
 
@@ -78,11 +79,11 @@ const VerifiedProviderlist = () => {
     //   headerName: "Qualification",
     //   width: 200,
     // },
-    // {
-    //   field: "date",
-    //   headerName: "Verified Date",
-    //   width: 150,
-    // },
+    {
+      field: "date",
+      headerName: "Verified Date",
+      width: 150,
+    },
     {
       field: "action",
       headerName: "Action",
