@@ -322,7 +322,7 @@ const complete_jobAssignments = async (req, res) => {
       },
     },
     {
-      $match: {"userJobs.state":{$eq:"Job Pending"}}
+      $match: {"userJobs.state":{$eq:"Job pending"}}
     },
     {
       $project: {
