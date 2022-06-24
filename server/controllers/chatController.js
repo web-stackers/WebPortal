@@ -6,7 +6,7 @@ const post_messages = async (req, res) => {
     jobAssignmentId: req.body.jobAssignmentId,
     message: req.body.message,
     arisedBy: req.body.arisedBy,
-    timestamp: new Date(),
+    timestamp: req.body.timestamp,
   });
 
   try {
