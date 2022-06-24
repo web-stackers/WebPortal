@@ -880,6 +880,28 @@ const update_qualification = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+// update provider profile
+const update_provider_profile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    const updateProvider = await provider.findByIdAndUpdate(id, {
+       name:{
+        fName:req.body.fName,
+        lName:req.body.lName,
+      },
+       contact:{
+        mobile:req.body.mobile
+      },
+      //totalRating:req.body.rating,
+     password:hashedPassword
+    }
+    );
+    res.status(200).json(updateProvider);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 // Fetch provider name
 const fetch_provider_name = async (req, res) => {
@@ -976,6 +998,7 @@ module.exports = {
   fetch_provider_address,
   fetch_providers_under_certain_jobType,
   fetch_provider_profile_picture,
+  update_provider_profile,
   fetch_provider_name,
   delete_rejected_provider,
 };

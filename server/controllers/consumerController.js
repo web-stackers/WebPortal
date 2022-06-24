@@ -350,6 +350,29 @@ const update_consumer_location = async (req, res) => {
   }
 };
 
+// update consumer profile
+const update_consumer_profile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    const updateConsumer = await consumer.findByIdAndUpdate(id, {
+       name:{
+        fName:req.body.fName,
+        lName:req.body.lName,
+      },
+       contact:{
+        mobile:req.body.mobile
+      },
+      //totalRating:req.body.rating,
+     password:hashedPassword
+    }
+    );
+    res.status(200).json(updateConsumer);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Get count of total consumers
 const fetch_consumer_count = async (req, res) => {
   try {
@@ -386,4 +409,5 @@ module.exports = {
   fetch_consumer_address,
   fetch_consumer_name,
   update_consumer_location,
+  update_consumer_profile,
 };

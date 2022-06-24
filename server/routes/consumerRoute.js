@@ -36,6 +36,9 @@ router.get("/address/:id", consumerController.fetch_consumer_address);
 //Update consumers location by ID
 router.patch("/addressUpdate/:id", consumerController.update_consumer_location);
 
+//Update consumers profile by ID
+router.patch("/profileUpdate/:id", consumerController.update_consumer_profile);
+
 // Search consumer
 router.get("/search/:key", consumerController.search_consumer);
 
