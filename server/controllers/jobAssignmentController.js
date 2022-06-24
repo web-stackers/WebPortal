@@ -379,5 +379,5 @@ module.exports = {
   fetch_job_and_jobAssignments,
   fetch_completed_jobcount,
   fetch_pending_jobcount,
-  complete_jobAssignments
+  complete_jobAssignments,
 };

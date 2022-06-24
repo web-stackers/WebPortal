@@ -62,6 +62,9 @@ router.get("/count/jobType", providerController.fetch_provider_JobType_count);
 //Fetch provider using certain id
 router.get("/:id", providerController.fetch_provider);
 
+//Update providers profile by ID
+router.patch("/profileUpdate/:id", providerController.update_provider_profile);
+
 //Fetch documentlist of a provider
 router.get("/document/:id", providerController.fetch_documentlist);
 
