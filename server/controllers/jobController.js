@@ -304,7 +304,7 @@ const user_jobs = async (req, res) => {
         requestedTime: 1,
         providerId: 1,
         consumerId: 1,
-        "userJobs._id":1,
+        "userJobs._id": 1,
         "userJobs.state": 1,
         "provider.name.fName": 1,
         "consumer.name.fName": 1,
@@ -348,7 +348,7 @@ const user_job_assignments = async (req, res) => {
         localField: "_id",
         foreignField: "jobId",
         as: "jobassignment",
-      }
+      },
     },
     {
       $lookup: {
@@ -369,15 +369,15 @@ const user_job_assignments = async (req, res) => {
     {
       $project: {
         jobType: 1,
-        initializedDate:1,
+        initializedDate: 1,
         jobAssignmentId: 1,
         description: 1,
         requestedTime: 1,
         providerId: 1,
         consumerId: 1,
-        "ratingAndReview.by":1,
-        "complaint.by":1,
-        "jobassignment._id":1,
+        "ratingAndReview.by": 1,
+        "complaint.by": 1,
+        "jobassignment._id": 1,
         "jobassignment.state": 1,
         "jobassignment.reason": 1,
         "jobassignment.quotation.amount": 1,
@@ -387,10 +387,10 @@ const user_job_assignments = async (req, res) => {
         "provider.name.lName": 1,
         "consumer.name.fName": 1,
         "consumer.name.lName": 1,
-        "provider.totalRating":1,
-        "provider.ratingCount":1,
-        "consumer.totalRating":1,
-        "consumer.ratingCount":1,
+        "provider.totalRating": 1,
+        "provider.ratingCount": 1,
+        "consumer.totalRating": 1,
+        "consumer.ratingCount": 1,
       },
     },
   ];
@@ -417,7 +417,6 @@ const user_job_assignments = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 // Fetch job withdrawals of a user
 const user_withdrawals = async (req, res) => {
@@ -551,10 +550,9 @@ const fetch_Quotation = async (req, res) => {
 // Get count of total complaints
 const fetch_complaint_count = async (req, res) => {
   try {
-    const complaintCount = await job.count({ "complaint.by": { $ne: null } });
-    // const complaintCount = await job.count({
-    //   $or: [{ "complaint.by": "Consumer" }, { "complaint.by": "Provider" }],
-    // });
+    const cComplaintCount = await job.count({ "complaint.by": "Consumer" });
+    const pComplaintCount = await job.count({ "complaint.by": "Provider" });
+    const complaintCount = cComplaintCount + pComplaintCount;
     res.status(200).json(complaintCount);
   } catch (error) {
     res.status(400).json({ message: error.message });
