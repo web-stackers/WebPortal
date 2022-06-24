@@ -59,7 +59,7 @@ const ConsumerSchema = Schema({
     type: String,
     required: true,
     minLength: [8, "Min Length is 8 characters"],
-    maxLength: [15, "Max Length is 15 characters"],
+    maxLength: [100, "Max Length is 100 characters"],
   },
   totalRating: {
     type: Number,
@@ -69,6 +69,7 @@ const ConsumerSchema = Schema({
     type: Number,
     default: 0,
   },
+  createdAt: { type: Date, default: Date.now(), expires: 3600 },
   isEmailVerified: {
     type: Boolean,
     required: true,

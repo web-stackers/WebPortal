@@ -20,6 +20,15 @@ router.post("/register/upload/:id", providerController.update_uploads);
 //signin in the mobile
 router.post("/signin", providerController.signIn);
 
+//generating OTP to change new password in the forgot password section, in the mobile
+router.post("/forgotPassword", providerController.forgot_password);
+
+//Update new password in forgot password
+router.post("/forgotPassword/changePassword/:id", providerController.change_forgot_password);
+
+//Update provider location by ID
+router.patch("/addressUpdate/:id", providerController.update_provider_location);
+
 //update verification details
 router.patch(
   "/updateVerification/:id/:result",
@@ -48,7 +57,7 @@ router.get("/search/:key", providerController.search_provider);
 router.get("/new/:docType", providerController.fetch_new_providers);
 
 //Fetch verified providers
-router.get("/verified", providerController.fetch_verified_providers);
+router.get("/verified/:docType", providerController.fetch_verified_providers);
 
 // Fetch provider total count
 router.get("/count", providerController.fetch_provider_count);
@@ -100,5 +109,8 @@ router.patch(
 
 // Fetch provider name
 router.get("/get/provider/name/:id", providerController.fetch_provider_name);
+
+// Delete rejected provider
+router.delete("/:id", providerController.delete_rejected_provider);
 
 module.exports = router;

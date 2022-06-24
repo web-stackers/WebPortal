@@ -50,11 +50,17 @@ const validate_provider = async (req, res) => {
 // Register new provider with basic details and send OTP to email
 const post_providerType = async (req, res) => {
   try {
+    let fName = req.body.fName;
+    let lName = req.body.lName;
+    let NIC = req.body.NIC;
+    fName = fName.charAt(0).toUpperCase() + fName.slice(1).toLowerCase();
+    lName = lName.charAt(0).toUpperCase() + lName.slice(1).toLowerCase();
+    NIC = NIC.toUpperCase();
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const newserviceprovider = new provider({
       name: {
-        fName: req.body.fName,
-        lName: req.body.lName,
+        fName: fName,
+        lName: lName,
       },
       contact: {
         mobile: req.body.mobile,
@@ -62,7 +68,7 @@ const post_providerType = async (req, res) => {
       },
       password: hashedPassword,
       DOB: req.body.DOB,
-      NIC: req.body.NIC,
+      NIC: NIC,
       jobType: req.body.jobType,
       workStartedYear: req.body.workStartedYear,
     });
@@ -97,7 +103,7 @@ const post_providerType = async (req, res) => {
   }
 };
 
-// Verification of OTP entered by the user
+// Verification of OTP entered by the user when email verification and forgot password
 const verify_OTP = async (req, res) => {
   try {
     let { userId, otp } = req.body;
@@ -127,23 +133,34 @@ const verify_OTP = async (req, res) => {
         .status(400)
         .json({ message: "Invalid code entered. Check your email" });
     }
-    await provider.findByIdAndUpdate(userId, { $unset: { createdAt: "" } });
     await provider.findByIdAndUpdate(
       userId,
       { isEmailVerified: true },
       { new: true }
     );
     await providerEmailVerification.deleteMany({ providerId: userId });
-    res.status(200).json("Email verified successfully");
+    res.status(200).json("OTP verified successfully");
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-// Resend OTP
+// Resend OTP in register and forgot password
 const resend_OTP = async (req, res) => {
   try {
-    let { userId, email, fName } = req.body;
+    let { userId, email, fName, isEmailVerification } = req.body;
+    let subject;
+    let msg;
+
+    if (isEmailVerification) {
+      subject = "Verify Your Email - OTP resend";
+      msg =
+        "to verify your email address and to continue to the uploading section of required documents.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify informations given by you will be deleted within one hour and then only you can again fill the form from the start";
+    } else {
+      subject = "Verify You - OTP resend";
+      msg =
+        "to confirm the OTP and to change new password.<br>This code will <b>expires in 5 minutes</b>";
+    }
     if (!userId || !email) {
       return res
         .status(400)
@@ -156,13 +173,15 @@ const resend_OTP = async (req, res) => {
     var mailOptions = {
       from: "webstackers19@gmail.com",
       to: email,
-      subject: "Verify Your Email - OTP resend",
+      subject: subject,
       html:
         "Hi " +
         fName +
         ",<br><br> Enter <b>" +
         otp +
-        "</b> in the app to verify your email address and to continue to the uploading section of required documents.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify informations given by you will be deleted within one hour and then only you can again fill the form from the start",
+        "</b> in the app " +
+        msg +
+        ".",
     };
     const newOtpVerification = await new providerEmailVerification({
       providerId: userId,
@@ -199,10 +218,23 @@ const update_uploads = async (req, res) => {
     if (docType == "O/L Certificate" || docType == "A/L Certificate") {
       docType = "O/L and A/L Certificates";
     }
-    const responsilbleSecondaryUser = await secondaryUser.findOne({
+    let notificationMsg =
+      "under your verification docment type with the name of";
+    let msg = "Please verify that documents within a day";
+    let responsilbleSecondaryUser = await secondaryUser.findOne({
       verifyDocType: docType,
     });
-
+    if (responsilbleSecondaryUser === null) {
+      responsilbleSecondaryUser = await secondaryUser.findOne({
+        role: "Admin",
+      });
+      notificationMsg =
+        "and there is no responsible third party available right now uder the verification docment type which is given by the new provider. The name of the new provider is";
+      msg =
+        "Admin, please add a new third party under the category of " +
+        docType +
+        " to verify that documennts as soon as possible.";
+    }
     var mailOptions = {
       from: "webstackers19@gmail.com",
       to: responsilbleSecondaryUser.email,
@@ -210,11 +242,15 @@ const update_uploads = async (req, res) => {
       html:
         "Hi " +
         responsilbleSecondaryUser.name.fName +
-        ",<br><br> New provider is registered under your verification docment type with the name of " +
+        ",<br><br> New provider is registered " +
+        notificationMsg +
+        " " +
         req.body.fName +
         " " +
         req.body.lName +
-        " .<br>Please verify that documents within a day",
+        " .<br>" +
+        msg +
+        ".",
     };
     const Updatedprovider = await provider
       .findByIdAndUpdate(
@@ -256,6 +292,7 @@ const update_uploads = async (req, res) => {
           }
         })
       );
+    await provider.findByIdAndUpdate(id, { $unset: { createdAt: "" } });
     res.status(200).json(Updatedprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -289,10 +326,97 @@ const signIn = async (req, res) => {
       { email: oldUser.contact.email, id: oldUser._id },
       secret
     );
-    const {_id, name, contact, NIC, address} = oldUser;
-    res.status(200).json({ result: {_id, name, contact, NIC, address}, token });
+    const { _id, name, contact, NIC, address } = oldUser;
+    res
+      .status(200)
+      .json({ result: { _id, name, contact, NIC, address }, token });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+//generating OTP to change new password in the forgot password section, in the mobile
+const forgot_password = async (req, res) => {
+  try {
+    let { email } = req.body;
+    const subject = "Verify You to Change New Password";
+    const msg =
+      "to confirm the OTP and to change new password.<br>This code will <b>expires in 5 minutes</b>";
+
+    const user = await provider.findOne({ "contact.email": email });
+    if (!user)
+      return res.status(404).json({ message: "User doesn't exist" });
+    if (!user?.verification.isAccepted) {
+      if (user.document[0].type) {
+        return res.status(400).json({ message: "Cannot login now" });
+      }
+      return res.status(404).json({ message: "Incomplete registration" });
+    }
+    const userId = user._id;
+    const fName = user.name.fName;
+    const isEmailVerification = false;
+
+    await providerEmailVerification.deleteMany({ providerId: userId });
+
+    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: email,
+      subject: subject,
+      html:
+        "Hi " +
+        fName +
+        ",<br><br> Enter <b>" +
+        otp +
+        "</b> in the app " +
+        msg +
+        ".",
+    };
+    const newOtpVerification = await new providerEmailVerification({
+      providerId: userId,
+      otp: hashedOtp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 300000, // will expires after 5 min
+      //3600000 == 1hr
+    });
+    await newOtpVerification.save();
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({userId, email, fName, isEmailVerification});
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// update the new password - forgot password
+const change_forgot_password = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.body.newPassword);
+  try {
+  const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
+    const updatedProvider = await provider.findByIdAndUpdate(id, {
+      password:hashedPassword,
+    },{ new: true });
+    res.status(200).json("Password changed successfully");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// insert residential location after the 1st login
+const update_provider_location = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedProvider = await provider.findByIdAndUpdate(id, {
+      address: {
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
+      },
+    });
+    res.status(200).json("location updated successfuly");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -418,6 +542,48 @@ const fetch_new_providers = async (req, res) => {
   }
 };
 
+// Fetch verified providers
+const fetch_verified_providers = async (req, res) => {
+  const { docType } = req.params;
+
+  try {
+    if (docType === "OL and AL Certificates") {
+      const verifiedProviders = await provider
+        .find({
+          $and: [
+            {
+              "verification.isAccepted": true,
+            },
+            {
+              $or: [
+                { "document.qualificationDocType": "O/L Certificate" },
+                { "document.qualificationDocType": "A/L Certificate" },
+              ],
+            },
+          ],
+        })
+        .select("name verification");
+      res.status(200).json(verifiedProviders);
+    } else {
+      const verifiedProviders = await provider
+        .find({
+          $and: [
+            {
+              "verification.isAccepted": true,
+            },
+            {
+              "document.qualificationDocType": docType,
+            },
+          ],
+        })
+        .select("name verification");
+      res.status(200).json(verifiedProviders);
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch provider by search key
 const search_provider = async (req, res) => {
   const { key } = req.params;
@@ -428,18 +594,6 @@ const search_provider = async (req, res) => {
       $or: [{ "name.fName": searchKey }, { "name.lName": searchKey }],
     });
     res.status(200).json(searchResult);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
-// Fetch verified providers
-const fetch_verified_providers = async (req, res) => {
-  try {
-    const verifiedProviders = await provider.find({
-      "verification.isAccepted": true,
-    });
-    res.status(200).json(verifiedProviders);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -463,14 +617,15 @@ const fetch_provider_by_id = async (req, res) => {
     //document:{type:"profilepicture",doc:1}
     const salt = await bcrypt.genSalt(10);
     // now we set user password to hashed password
-   // user.password = await bcrypt.hash(password, salt);
-    const requiredprovider = await provider.findById(id).select("name contact password totalRating ratingCount address");
+    // user.password = await bcrypt.hash(password, salt);
+    const requiredprovider = await provider
+      .findById(id)
+      .select("name contact password totalRating ratingCount address");
     res.status(200).json(requiredprovider);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 //Get count by provider job type
 const fetch_provider_JobType_count = async (req, res) => {
@@ -622,13 +777,11 @@ const update_verification = async (req, res) => {
     );
 
     // send email
-    if (result === "true") {
-      var mailOptions = {
-        from: "webstackers19@gmail.com",
-        // to: requiredprovider.contact.email,
-        to: "kathurshanasivalingham@gmail.com",
-        subject: "Verification of the uploaded documents of Helper App",
-        html: `
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: requiredprovider.contact.email,
+      subject: "Verification of the uploaded documents of Helper App",
+      html: `
         <body>
           <div>
             <p>Hi ${requiredprovider.name.fName} ${requiredprovider.name.lName},</p>
@@ -642,39 +795,7 @@ const update_verification = async (req, res) => {
             <p>From,<br>Helper Community</p>
           </div>
         </body>`,
-      };
-    } else {
-      var htmlBody = `<body>
-          <div>
-            <p>Hi ${requiredprovider.name.fName} ${requiredprovider.name.lName},</p>
-          </div>
-          <div>
-            <p>We are sorry to inform you that your registration is not accepted by our Helper App because of the following rejected documents.</p>
-          </div>
-          <div>`;
-
-      requiredDocumentLists.map((doc) => {
-        if (doc.isAccepted === false) {
-          var data = `<p><b>Document -</b> ${doc.type}<br>
-                      <b>Reason For Rejection -</b> ${doc.reasonForRejection}</p>`;
-          htmlBody = htmlBody.concat(data);
-        }
-      });
-
-      htmlBody = htmlBody.concat(`</div>
-                                  <div>
-                                    <p>From,<br>Helper Community</p>
-                                    </div>
-                                  </body>`);
-
-      var mailOptions = {
-        from: "webstackers19@gmail.com",
-        // to: requiredprovider.contact.email,
-        to: "kathurshanasivalingham@gmail.com",
-        subject: "Verification of the uploaded documents of Helper App",
-        html: htmlBody,
-      };
-    }
+    };
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
@@ -793,6 +914,61 @@ const fetch_provider_name = async (req, res) => {
   }
 };
 
+// Delete rejected providers
+const delete_rejected_provider = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const requiredprovider = await provider.findById(id);
+    const requiredDocumentLists = await requiredprovider.document;
+
+    var htmlBody = `<body>
+          <div>
+            <p>Hi ${requiredprovider.name.fName} ${requiredprovider.name.lName},</p>
+          </div>
+          <div>
+            <p>We are sorry to inform you that your registration is not accepted by our Helper App because of the following rejected documents.</p>
+          </div>
+          <div>`;
+
+    requiredDocumentLists.map((doc) => {
+      if (doc.isAccepted === false) {
+        var data = `<p><b>Document -</b> ${doc.type}<br>
+                      <b>Reason For Rejection -</b> ${doc.reasonForRejection}</p>`;
+        htmlBody = htmlBody.concat(data);
+      }
+    });
+
+    htmlBody = htmlBody.concat(`</div>
+                                  <p>Please sign up again to the system by providing the proper documents to provide services through Helper.</p>
+
+                                  <div>
+                                    <p>From,<br>Helper Community</p>
+                                    </div>
+                                  </body>`);
+
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: requiredprovider.contact.email,
+      subject: "Verification of the uploaded documents of Helper App",
+      html: htmlBody,
+    };
+
+    await provider.deleteOne({ _id: id });
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    res.status(200).json("Provider deleted");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   validate_provider,
   post_providerType,
@@ -800,8 +976,11 @@ module.exports = {
   resend_OTP,
   update_uploads,
   signIn,
+  forgot_password,
+  change_forgot_password,
+  update_provider_location,
   fetch_providers,
-  fetch_provider_by_id ,
+  fetch_provider_by_id,
   fetch_provider,
   disable_provider,
   update_verification,
@@ -821,4 +1000,5 @@ module.exports = {
   fetch_provider_profile_picture,
   update_provider_profile,
   fetch_provider_name,
+  delete_rejected_provider,
 };

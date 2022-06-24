@@ -1,4 +1,5 @@
 const consumer = require("../models/consumer");
+const consumerEmailVerification = require("../models/consumerEmailVerification");
 const transporter = require("../send-email/sendEmail");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -18,28 +19,162 @@ const fetch_consumers = async (req, res) => {
 
 // Add new consumer to the database
 const post_consumer = async (req, res) => {
-  let profilePictureBuffer;
+  // let profilePictureBuffer;
+  let isMobileExist = false;
+  let isEmailExist = false;
+
   try {
-  profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
-  const newConsumer = new consumer({
-    name: {
-      fName: req.body.fName,
-      lName: req.body.lName,
-    },
-    contact: {
-      mobile: req.body.mobile,
-      email: req.body.email,
-    },
-    // address: {
-    //   longitude: req.body.longitude,
-    //   latitude: req.body.latitude,
-    // },
-    profilePicture: {data: profilePictureBuffer,
-    contentType: req.body.profilePath.type,},
-    password: req.body.password,
-  });
-    await newConsumer.save();
-    res.status(201).json(newConsumer);
+    const mobileUser = await provider.findOne({ "contact.mobile": mobile });
+    const emailUser = await provider.findOne({ "contact.email": email });
+    if (mobileUser) {
+      isMobileExist = true;
+    }
+    if (emailUser) {
+      isEmailExist = true;
+    }
+    if (isMobileExist || isEmailExist) {
+      return res
+        .status(404)
+        .json({ message: { mobile: isMobileExist, email: isEmailExist } });
+    }
+
+    // profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    const newConsumer = new consumer({
+      name: {
+        fName: req.body.fName,
+        lName: req.body.lName,
+      },
+      contact: {
+        mobile: req.body.mobile,
+        email: req.body.email,
+      },
+      // profilePicture: {data: profilePictureBuffer,
+      // contentType: req.body.profilePath.type,},
+      password: hashedPassword,
+    });
+    const response = await newConsumer.save();
+    // OTP generation and email sending after inserting the new consumer with basic details
+    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: req.body.email,
+      subject: "Verify Your Email",
+      html:
+        "Hi " +
+        req.body.fName +
+        ",<br><br> Enter <b>" +
+        otp +
+        "</b> in the app to verify your email address and to finish the registration.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify, informations given by you will be deleted within one hour and then only you can again fill the form from the start",
+    };
+    const newOtpVerification = await new consumerEmailVerification({
+      consumerId: response._id,
+      otp: hashedOtp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 300000, // will expires after 5 min
+    });
+    await newOtpVerification.save();
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json(response._id);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Verification of OTP entered by the user when email verification and forgot password
+const verify_OTP = async (req, res) => {
+  try {
+    let { userId, otp } = req.body;
+    if (!userId || !otp) {
+      return res
+        .status(400)
+        .json({ message: "Empty OTP details are not allowed" });
+    }
+    const consumerEmailVerificationRecords =
+      await consumerEmailVerification.find({ consumerId: userId });
+    if (consumerEmailVerificationRecords.length <= 0) {
+      return res.status(400).json({
+        message: "Account record does not exist or has been already verified",
+      });
+    }
+    const { expiresAt } = consumerEmailVerificationRecords[0];
+    const hashedOtp = consumerEmailVerificationRecords[0].otp;
+    if (expiresAt < Date.now()) {
+      await consumerEmailVerification.deleteMany({ consumerId: userId });
+      return res
+        .status(400)
+        .json({ message: "Code has been expired. Please request againt" });
+    }
+    const isOTPvalid = await bcrypt.compare(otp, hashedOtp);
+    if (!isOTPvalid) {
+      return res
+        .status(400)
+        .json({ message: "Invalid code entered. Check your email" });
+    }
+    await consumer.findByIdAndUpdate(
+      userId,
+      { isEmailVerified: true },
+      { new: true }
+    );
+    await consumer.findByIdAndUpdate(userId, { $unset: { createdAt: "" } });
+    await consumerEmailVerification.deleteMany({ consumerId: userId });
+    res.status(200).json("OTP verified successfully");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Resend OTP in register and forgot password
+const resend_OTP = async (req, res) => {
+  try {
+    let { userId, email, fName, isEmailVerification } = req.body;
+    let subject;
+    let msg;
+
+    if (isEmailVerification) {
+      subject = "Verify Your Email - OTP resend";
+      msg =
+        "to verify your email address and to finish the registration.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify, informations given by you will be deleted within one hour and then only you can again fill the form from the start";
+    } else {
+      subject = "Verify You - OTP resend";
+      msg =
+        "to confirm the OTP and to change new password.<br>This code will <b>expires in 5 minutes</b>";
+    }
+    if (!userId || !email) {
+      return res
+        .status(400)
+        .json({ message: "Empty user details are not allowed" });
+    }
+    await consumerEmailVerification.deleteMany({ consumerId: userId });
+
+    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: email,
+      subject: subject,
+      html:
+        "Hi " +
+        fName +
+        ",<br><br> Enter <b>" +
+        otp +
+        "</b> in the app " +
+        msg +
+        ".",
+    };
+    const newOtpVerification = await new consumerEmailVerification({
+      consumerId: userId,
+      otp: hashedOtp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 300000, // will expires after 5 min
+      //3600000 == 1hr
+    });
+    await newOtpVerification.save();
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json("OTP resent successfully");
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -56,7 +191,7 @@ const signIn = async (req, res) => {
 
     if (!oldUser)
       return res.status(404).json({ message: "User doesn't exist" });
-    if (!oldUser.isEmailVerified==true) {
+    if (!oldUser.isEmailVerified == true) {
       return res.status(404).json({ message: "Incomplete registration" });
     }
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
@@ -67,10 +202,79 @@ const signIn = async (req, res) => {
       { email: oldUser.contact.email, id: oldUser._id },
       secret
     );
-    const {_id, name, contact, address} = oldUser;
-    res.status(200).json({ result: {_id, name, contact, address}, token });
+    const { _id, name, contact, address } = oldUser;
+    res.status(200).json({ result: { _id, name, contact, address }, token });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+//generating OTP to change new password in the forgot password section, in the mobile
+const forgot_password = async (req, res) => {
+  try {
+    let { email } = req.body;
+    const subject = "Verify You to Change New Password";
+    const msg =
+      "to confirm the OTP and to change new password.<br>This code will <b>expires in 5 minutes</b>";
+
+    const user = await consumer.findOne({ "contact.email": email });
+    if (!user)
+      return res.status(404).json({ message: "User doesn't exist" });
+    if (!user.isEmailVerified == true) {
+      return res.status(404).json({ message: "Incomplete registration" });
+    }
+    const userId = user._id;
+    const fName = user.name.fName;
+    const isEmailVerification = false;
+
+    await consumerEmailVerification.deleteMany({ consumerId: userId });
+
+    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    var mailOptions = {
+      from: "webstackers19@gmail.com",
+      to: email,
+      subject: subject,
+      html:
+        "Hi " +
+        fName +
+        ",<br><br> Enter <b>" +
+        otp +
+        "</b> in the app " +
+        msg +
+        ".",
+    };
+    const newOtpVerification = await new consumerEmailVerification({
+      consumerId: userId,
+      otp: hashedOtp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 300000, // will expires after 5 min
+      //3600000 == 1hr
+    });
+    await newOtpVerification.save();
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ userId, email, fName, isEmailVerification });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// update the new password - forgot password
+const change_forgot_password = async (req, res) => {
+  const { id } = req.params;
+  const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
+  try {
+    const updatedConsumer = await consumer.findByIdAndUpdate(
+      id,
+      {
+        password: hashedPassword,
+      },
+      { new: true }
+    );
+    res.status(200).json("Password changed successfully");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -140,7 +344,7 @@ const update_consumer_location = async (req, res) => {
         latitude: req.body.latitude,
       },
     });
-    res.status(200).json(updatedConsumer);
+    res.status(200).json("location updated successfuly");
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -193,7 +397,11 @@ const fetch_consumer_name = async (req, res) => {
 module.exports = {
   fetch_consumers,
   post_consumer,
+  verify_OTP,
+  resend_OTP,
   signIn,
+  forgot_password,
+  change_forgot_password,
   fetch_consumer,
   disable_consumer,
   search_consumer,

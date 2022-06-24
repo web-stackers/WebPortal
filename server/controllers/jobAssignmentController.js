@@ -75,7 +75,7 @@ const quotation_accepted = async (req, res) => {
     );
     const updatedJobPending = await jobAssignment.findByIdAndUpdate(
       id,
-      { state: "Job Pending" },
+      { state: "Job pending" },
       { new: true }
     );
     res.status(200).json(updatedJobPending);
@@ -130,7 +130,7 @@ const withdrawal_pending = async (req, res) => {
     const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(
       id,
       {
-        state: "Withdrawal Pending",
+        state: "Withdrawal pending",
         withdrawn: {
           arisedBy: req.body.arisedBy,
           reason: req.body.reason,
@@ -171,7 +171,7 @@ const withdrawal_accepted = async (req, res) => {
         ". <br> Sorry for your inconvinience caused.",
     };
     const updatedJobWithdrawn = await jobAssignment.findByIdAndUpdate(id, {
-      state: "Job withdrawed",
+      state: "Job withdrawn",
       withdrawn: {
         //If we didn't update the fields of object again, those will be deleted. So we fetch them from the database and update with the same.
         arisedBy: requiredJobAssignment.withdrawn.arisedBy,
@@ -245,7 +245,7 @@ const insert_quotation = async (req, res) => {
     const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(
       id,
       {
-        state: "Quotation Sent",
+        state: "Quotation sent",
         quotation: newQuotation,
       },
       { new: true }

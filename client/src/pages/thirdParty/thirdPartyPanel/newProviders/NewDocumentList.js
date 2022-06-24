@@ -99,7 +99,7 @@ const NewDocumentlist = () => {
             console.log(e);
           });
       } else {
-        Provider.updateVerification(providerId, false)
+        Provider.deleteRejectedProvider(providerId)
           .then(() => {
             fetchDocs();
           })
@@ -118,7 +118,9 @@ const NewDocumentlist = () => {
             <Card variant="outlined" sx={{ minHeight: 250, maxWidth: 350 }}>
               <CardContent>
                 <Typography variant="h5" textAlign="center">
-                  {newDoc.type}
+                  {newDoc.type === "Qualification"
+                    ? newDoc.qualificationDocType
+                    : newDoc.type}
                 </Typography>
                 <br />
                 {newDoc.isAccepted === undefined ? (

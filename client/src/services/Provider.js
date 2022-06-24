@@ -55,8 +55,8 @@ const fetchNewProviders = async (docType) => {
 };
 
 // Fetch verified providers
-const fetchVerifiedProviders = async () => {
-  return await API.get("/provider/verified");
+const fetchVerifiedProviders = async (docType) => {
+  return await API.get(`/provider/verified/${docType}`);
 };
 
 //Fetch documentlist of a provider
@@ -108,6 +108,11 @@ const updateQualification = async (id, qualification) => {
   );
 };
 
+// Delete rejected provider
+const deleteRejectedProvider = async (id) => {
+  return await API.delete(`/provider/${id}`);
+};
+
 export default {
   validate,
   addNew,
@@ -128,4 +133,5 @@ export default {
   updateVerification,
   updateProviderCount,
   updateQualification,
+  deleteRejectedProvider,
 };
