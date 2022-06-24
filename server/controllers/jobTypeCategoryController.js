@@ -13,7 +13,9 @@ const fetch_jobTypes = async (req, res) => {
 // create and save new job type
 const post_jobType = async (req, res) => {
   const newType = new jobTypeCategory({
-    jobType: req.body.jobType,
+    jobType:
+      req.body.jobType.charAt(0).toUpperCase() +
+      req.body.jobType.slice(1).toLowerCase(),
     category: req.body.category,
     description: req.body.description,
   });
