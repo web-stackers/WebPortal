@@ -61,7 +61,6 @@ const VerifiedProviderlist = () => {
       }
     })
     .map((verifiedProvider) => {
-      console.log(verifiedProvider);
       return {
         id: verifiedProvider._id,
         fName: verifiedProvider.name.fName,

@@ -68,7 +68,7 @@ const NewProviderlist = () => {
           <div>
             <Link
               to="/thirdParty/newDocumentlist"
-              state={providerId}
+              state={{ id: providerId, thirdPartyId: user.result._id }}
               className="link"
             >
               <Sbutton text="Open" btnWidth="120px" />
