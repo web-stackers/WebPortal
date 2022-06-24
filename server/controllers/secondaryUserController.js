@@ -6,29 +6,33 @@ const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const secret = 'test';
+const secret = "test";
 
 const signIn = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     if (!email) return res.status(400).json({ message: "email is required" });
-    if (!password) return res.status(400).json({ message: "password is required" });
-    const oldUser = await secondaryUser.findOne({ "email":email })
+    if (!password)
+      return res.status(400).json({ message: "password is required" });
+    const oldUser = await secondaryUser.findOne({ email: email });
     // .select(
     //   "_id role name verifyDocType"
     // );
 
-    if (!oldUser) return res.status(404).json({ message: "User doesn't exist" });
+    if (!oldUser)
+      return res.status(404).json({ message: "User doesn't exist" });
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
-    if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isPasswordCorrect)
+      return res.status(400).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
+    const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
+      expiresIn: "1h",
+    });
 
     res.status(200).json({ result: oldUser, token });
-    
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -51,8 +55,12 @@ const post_secondaryUser = async (req, res) => {
   console.log(profilePictureBuffer);
   const newSecondaryUser = new secondaryUser({
     name: {
-      fName: req.body.fName,
-      lName: req.body.lName,
+      fName:
+        req.body.fName.charAt(0).toUpperCase() +
+        req.body.fName.slice(1).toLowerCase(),
+      lName:
+        req.body.lName.charAt(0).toUpperCase() +
+        req.body.lName.slice(1).toLowerCase(),
     },
     mobile: req.body.mobile,
     email: req.body.email,
@@ -207,7 +215,7 @@ const validate_mobile = async (req, res) => {
 
 // Fetch thirdparty verify document type
 const fetch_verify_doctype = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
 
   try {
     const requiredThirdParty = await secondaryUser.findById(id);
@@ -215,7 +223,7 @@ const fetch_verify_doctype = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 module.exports = {
   signIn,
