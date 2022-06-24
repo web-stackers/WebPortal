@@ -384,6 +384,8 @@ const user_job_assignments = async (req, res) => {
         "jobassignment.quotation.amount": 1,
         "jobassignment.quotation.estimatedTime": 1,
         "jobassignment.withdrawn.reason": 1,
+        "jobassignment.withdrawn.arisedBy": 1,
+        "jobassignment.withdrawn.adminResponse": 1,
         "provider.name.fName": 1,
         "provider.name.lName": 1,
         "consumer.name.fName": 1,
