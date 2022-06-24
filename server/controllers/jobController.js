@@ -143,6 +143,7 @@ const update_complaint = async (req, res) => {
           complaint: {
             by: req.body.by,
             category: req.body.category,
+            othercategory: req.body.othercategory,
             description: req.body.description,
             date: new Date(),
             adminResponse: "Pending",
