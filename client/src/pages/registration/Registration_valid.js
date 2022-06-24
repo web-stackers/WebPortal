@@ -33,11 +33,11 @@ import * as Yup from "yup";
 const RegisterSchema = Yup.object().shape({
   fName: Yup.string()
     .required("is required")
-    .min(2, "Should be 2 letters minimum")
+    .min(3, "Should be 3 letters minimum")
     .matches(/^[A-Za-z]+$/, "Must contain only letters"),
   lName: Yup.string()
     .required("is required")
-    .min(2, "Should be 2 letters minimum")
+    .min(3, "Should be 3 letters minimum")
     .matches(/^[A-Za-z]+$/, "Must contain only letters"),
   mobile: Yup.string()
     .required("is required")
@@ -51,7 +51,11 @@ const RegisterSchema = Yup.object().shape({
 
   password: Yup.string()
     .required("is required")
-    .min(8, "Password is too short - should be 8 chars minimum"),
+    .min(8, "Password is too short - should be 8 characters minimum")
+    .matches(
+      /^(?=.*\d)(?=.*[A-Z]).{8,}$/,
+      "Must contain atleast a number and a capital letter"
+    ),
 });
 
 const Registration_valid = () => {
