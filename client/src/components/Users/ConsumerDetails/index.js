@@ -17,9 +17,9 @@ const ConsumerDetails = ({user, id}) => {
                         Personal
                     </Typography>
                     <Typography variant="subtitle1">
-                        <b>Mobile </b> <br/> {user.contact.mobile} <br/>
-                        <b>Email </b> <br/> {user.contact.email} <br/>
-                        <b>Registered Date </b> <br/> {dateFormat(user.appliedDate, "yyyy-mm-dd")}
+                        <b>Mobile </b> <br/> {user?.contact?.mobile} <br/>
+                        <b>Email </b> <br/> {user?.contact?.email} <br/>
+                        <b>Registered Date </b> <br/> {dateFormat(user?.appliedDate, "yyyy-mm-dd")}
                     </Typography>
                 </CardContent>
             </Card>
