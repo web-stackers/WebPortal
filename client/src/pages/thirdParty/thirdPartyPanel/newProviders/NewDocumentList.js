@@ -19,11 +19,10 @@ const NewDocumentlist = () => {
   // get the provider id from react state
   const location = useLocation();
   const providerId = location.state.id;
-  const thirdpartyId = location.state.thirdPartyId;
+  // const thirdpartyId = location.state.thirdPartyId;
 
   const [newDocs, setNewDocs] = useState([]);
   const [open, setOpen] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
   const [alert, setAlert] = useState("");
 
   const navigate = useNavigate();
@@ -81,15 +80,15 @@ const NewDocumentlist = () => {
       });
   };
 
-  const updateQualification = (qualification) => {
-    Provider.updateQualification(providerId, qualification)
-      .then(() => {
-        fetchDocs();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  // const updateQualification = (qualification) => {
+  //   Provider.updateQualification(providerId, qualification)
+  //     .then(() => {
+  //       fetchDocs();
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
 
   const [value, setValue] = useState([]);
 
@@ -126,8 +125,8 @@ const NewDocumentlist = () => {
   return (
     <Box>
       <Grid container className={classes.gridContainer}>
-        {newDocs.map((newDoc) => (
-          <Grid item xs={4}>
+        {newDocs.map((newDoc, index) => (
+          <Grid item xs={4} key={index}>
             <Card variant="outlined" sx={{ minHeight: 250, maxWidth: 350 }}>
               <CardContent>
                 <Typography variant="h5" textAlign="center">
@@ -166,7 +165,6 @@ const NewDocumentlist = () => {
                         name={newDoc.type}
                         label="Reason For Rejection"
                         variant="filled"
-                        marginLeft="5px"
                         value={value[newDoc.type]}
                         onChange={handleSubmit}
                       />
@@ -208,7 +206,6 @@ const NewDocumentlist = () => {
                         id="filled-basic"
                         label="Reason For Rejection"
                         variant="filled"
-                        marginLeft="5px"
                       />
                       <Button variant="contained" disabled>
                         Reject
@@ -241,7 +238,6 @@ const NewDocumentlist = () => {
                         disabled
                         id="filled-basic"
                         variant="filled"
-                        marginLeft="5px"
                       />
                       <Button variant="contained" disabled>
                         Reject

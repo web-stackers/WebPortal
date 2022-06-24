@@ -82,7 +82,7 @@ const NewProviderlist = () => {
   return (
     <div>
       <div className="input-icons">
-        <i class="fa fa-search icon"></i>
+        <i className="fa fa-search icon"></i>
         <input
           className="input-field"
           type="text"
