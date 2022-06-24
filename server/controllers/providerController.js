@@ -650,7 +650,7 @@ const fetch_provider = async (req, res) => {
     const requiredprovider = await provider
       .findById(id)
       .select(
-        "name contact totalRating ratingCount isDisabled appliedDate document verification jobType"
+        "name contact totalRating ratingCount isDisabled appliedDate document verification jobType DOB"
       );
     res.status(200).json(requiredprovider);
   } catch (error) {

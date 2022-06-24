@@ -53,6 +53,8 @@ function App() {
   const [user, setUser] = useState(() => {
     return JSON.parse(localStorage.getItem("profile"));
   });
+
+  const [primaryUser, setPrimaryUser] = useState('Consumers');
   // const [user, setUser] = useState({result:{role:"Third Party"},token:"dsvdbf"});
   // const location = useLocation();
   // useEffect(() => {
@@ -102,7 +104,7 @@ function App() {
               element={<Navigate to="/admin/dashboard" />}
             />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="users" element={<Users />} />
+            <Route path="users" element={<Users primaryUser={primaryUser} setPrimaryUser={setPrimaryUser} />} />
             <Route path="jobs" element={<Jobs />} />
             <Route path="jobs/jobEdit" element={<JobEdit />} />
             <Route path="complaints" element={<Complaint />} />

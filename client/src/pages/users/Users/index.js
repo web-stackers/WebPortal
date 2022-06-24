@@ -8,8 +8,8 @@ import Userlist from "../../../components/Users/Userlist";
 import Consumer from "../../../services/Consumer";
 import Provider from "../../../services/Provider";
 
-const Users = () => {
-    const [user, setUser] = useState('Consumers');
+const Users = ({primaryUser, setPrimaryUser}) => {
+    //const [user, setUser] = useState('Consumers');
     const [users, setUsers] = useState([]);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const Users = () => {
     // Need to be merged
     const fetchUsers = () => {
         setLoading(true);
-        if(user==='Consumers'){
+        if(primaryUser==='Consumers'){
           Consumer.fetchConsumers()
             .then((response) => {
               setUsers(response.data);
@@ -44,8 +44,8 @@ const Users = () => {
     return ( 
         <>
             <Topbar 
-              type={user}  
-              setType={setUser} 
+              type={primaryUser}  
+              setType={setPrimaryUser} 
               setUsers={setUsers} 
               fetchUsers={fetchUsers}
               setAlertTitle={setAlertTitle}
@@ -55,7 +55,7 @@ const Users = () => {
             />
 
             <Userlist 
-              type={user} 
+              type={primaryUser} 
               users={users} 
               fetchUsers={fetchUsers} 
               loading={loading}

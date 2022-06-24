@@ -32,13 +32,13 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
     } 
 
     return {
-      id: user._id,
-      name: user.name.fName + " " + user.name.lName,
-      rating: parseFloat((user.totalRating / user.ratingCount).toFixed(2)) || 0,
-      isDisabled: user.isDisabled? "Yes":"No",
-      mobile: user.contact.mobile,
-      email: user.contact.email,
-      ratingCount: user.ratingCount,
+      id: user?._id,
+      name: user?.name?.fName + " " + user?.name?.lName,
+      rating: parseFloat((user?.totalRating / user?.ratingCount).toFixed(2)) || 0,
+      isDisabled: user?.isDisabled? "Yes":"No",
+      mobile: user?.contact?.mobile,
+      email: user?.contact?.email,
+      ratingCount: user?.ratingCount,
       verified: user.verification ? user.verification.isAccepted : false,
       verifiedText: verifiedText,
       job: job
