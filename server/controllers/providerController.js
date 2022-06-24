@@ -344,8 +344,7 @@ const forgot_password = async (req, res) => {
       "to confirm the OTP and to change new password.<br>This code will <b>expires in 5 minutes</b>";
 
     const user = await provider.findOne({ "contact.email": email });
-    if (!user)
-      return res.status(404).json({ message: "User doesn't exist" });
+    if (!user) return res.status(404).json({ message: "User doesn't exist" });
     if (!user?.verification.isAccepted) {
       if (user.document[0].type) {
         return res.status(400).json({ message: "Cannot login now" });
@@ -383,7 +382,7 @@ const forgot_password = async (req, res) => {
     await newOtpVerification.save();
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({userId, email, fName, isEmailVerification});
+    res.status(200).json({ userId, email, fName, isEmailVerification });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -394,10 +393,14 @@ const change_forgot_password = async (req, res) => {
   const { id } = req.params;
   console.log(req.body.newPassword);
   try {
-  const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
-    const updatedProvider = await provider.findByIdAndUpdate(id, {
-      password:hashedPassword,
-    },{ new: true });
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, 12);
+    const updatedProvider = await provider.findByIdAndUpdate(
+      id,
+      {
+        password: hashedPassword,
+      },
+      { new: true }
+    );
     res.status(200).json("Password changed successfully");
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -788,7 +791,7 @@ const update_verification = async (req, res) => {
           </div>
           <div>
             <p>Congratulations !!!</p>
-            <p>You have successfully registered as a Service Provider to the Helper App. From now onwards you will receive job opportunities from our consumers.</p>
+            <p>All your uploaded documents are accepted and you have successfully verified as a Service Provider to the Helper App. Download the Helper mobile app to login to the system by providing the appropriate credentials. From now onwards you will receive job opportunities from our consumers.</p>
             <p>We warmly welcome you to our Helper Community. Good Luck to you.</p>
           </div>
           <div>
@@ -886,17 +889,16 @@ const update_provider_profile = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const updateProvider = await provider.findByIdAndUpdate(id, {
-       name:{
-        fName:req.body.fName,
-        lName:req.body.lName,
+      name: {
+        fName: req.body.fName,
+        lName: req.body.lName,
       },
-       contact:{
-        mobile:req.body.mobile
+      contact: {
+        mobile: req.body.mobile,
       },
       //totalRating:req.body.rating,
-     password:hashedPassword
-    }
-    );
+      password: hashedPassword,
+    });
     res.status(200).json(updateProvider);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -939,7 +941,7 @@ const delete_rejected_provider = async (req, res) => {
     });
 
     htmlBody = htmlBody.concat(`</div>
-                                  <p>Please sign up again to the system by providing the proper documents to provide services through Helper.</p>
+                                  <p>Please sign up again to the system by submitting the proper documents to provide services through Helper.</p>
 
                                   <div>
                                     <p>From,<br>Helper Community</p>
