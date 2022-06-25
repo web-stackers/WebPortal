@@ -4,13 +4,10 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ProviderRegister from "./pages/registration/ProviderRegister";
-import Uploads from "./pages/registration/Uploads";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
-
-    {/* <Uploads/> */}
     {/* <ProviderRegister /> */}
   </React.StrictMode>,
   document.getElementById("root")

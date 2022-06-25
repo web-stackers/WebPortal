@@ -11,6 +11,7 @@ import ThirdPartyProfile from "./pages/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import Profile from "./pages/users/Profile";
 import NotFound from "./pages/NotFound";
+import Registration_valid from "./pages/registration/Registration_valid";
 import {
   BrowserRouter as Router,
   Route,
@@ -55,11 +56,6 @@ function App() {
   });
 
   const [primaryUser, setPrimaryUser] = useState('Consumers');
-  // const [user, setUser] = useState({result:{role:"Third Party"},token:"dsvdbf"});
-  // const location = useLocation();
-  // useEffect(() => {
-  //   setUser(JSON.parse(localStorage.getItem('profile')));
-  // }, [location]);
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -72,7 +68,13 @@ function App() {
               <Auth role={user?.result?.role} setUser={setUser} user={user} />
             }
           />
-
+          <Route
+            exact
+            path="/register"
+            element={
+              <Registration_valid />
+            }
+          />
           <Route
             exact
             path="/thirdParty"
@@ -91,6 +93,7 @@ function App() {
               element={<VerifiedDocumentlist />}
             />
             <Route path="document" element={<Document />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
 
           <Route
