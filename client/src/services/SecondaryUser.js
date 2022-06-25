@@ -74,6 +74,11 @@ const fetchVerifyDocType = async (id) => {
   return await API.get(`/secondaryUser/verify/docType/${id}`);
 };
 
+// Sending the queries to the admin by thirdparty
+const sendMail = async (id, issue) => {
+  return await API.post(`/secondaryUser/mail/${id}/${issue}`);
+}
+
 export default {
   signIn,
   forgotPassword,
@@ -89,4 +94,5 @@ export default {
   mobileUniqueCheck,
   updateProfile,
   fetchVerifyDocType,
+  sendMail,
 };

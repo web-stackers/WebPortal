@@ -761,11 +761,10 @@ const document_rejected = async (req, res) => {
 
 // Update verification details
 const update_verification = async (req, res) => {
-  const { id, result } = req.params;
+  const { id, result, thirdPartyId } = req.params;
 
   try {
     const requiredprovider = await provider.findById(id);
-    const requiredDocumentLists = await requiredprovider.document;
 
     const updatedVerification = await provider.findByIdAndUpdate(
       id,
@@ -773,7 +772,7 @@ const update_verification = async (req, res) => {
         verification: {
           isAccepted: result,
           date: new Date(),
-          // thirdParty: req.body.thirdParty,
+          thirdParty: thirdPartyId,
         },
       },
       { new: true }

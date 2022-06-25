@@ -381,6 +381,53 @@ const fetch_verify_doctype = async (req, res) => {
   }
 };
 
+// Sending the queries to the admin by thirdparty
+const send_mail = async (req, res) => {
+  const { id, issue } = req.params;
+try {
+  const requiredThirdParty = await secondaryUser.findById(id);
+  var mailOptions = {
+    from: requiredThirdParty.email,
+    to: "kathurshanasivalingham@gmail.com",
+    subject: "Request from Thirdparty person of Helper",
+    html: `Hi,
+          <body>
+            <div> 
+              <p>This mail is from a thirdparty of Helper to inform or request the queries.</p>
+            </div>
+            <div>
+              <h3>Details of the thirdparty person</h3>
+            </div>
+            <div>
+              <p>Name - ${requiredThirdParty.name.fName} ${requiredThirdParty.name.lName}</p>
+              <p>Mobile - ${requiredThirdParty.mobile}</p>
+              <p>Verification Document Type - ${requiredThirdParty.verifyDocType}</p>
+            </div>
+            <div>
+              <h3>The queries from ${requiredThirdParty.name.fName} ${requiredThirdParty.name.lName}</h3>
+            </div>
+            <div>
+            ${issue}
+            </div>
+            <div>
+              <p>From,<br>${requiredThirdParty.name.fName} ${requiredThirdParty.name.lName}</p>
+            </div>
+          </body>
+          `,
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+  res.status(200).json("Email sent");
+} catch (error) {
+  res.status(400).json({ message: error.message });
+}
+}
+
 module.exports = {
   signIn,
   forgot_password,
@@ -397,4 +444,5 @@ module.exports = {
   validate_mobile,
   profile_upload,
   fetch_verify_doctype,
+  send_mail,
 };

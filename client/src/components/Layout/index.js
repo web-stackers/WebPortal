@@ -5,6 +5,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Button from "@mui/material//Button";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import Stack from "@mui/material/Stack";
+import Paper from "@mui/material/Paper";
 
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AssignmentTurnedIn from "@mui/icons-material/AssignmentTurnedIn";
@@ -12,9 +18,9 @@ import { Buffer } from "buffer";
 
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import decode from "jwt-decode";
-import { useLocation, useNavigate, Outlet } from "react-router-dom";
+import { useLocation, useNavigate, Outlet, Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Popover from "@mui/material/Popover";
 import {
@@ -135,44 +141,108 @@ const Layout = ({ user, setUser }) => {
               : "Third Party Panel"}
           </Typography>
           {/* <Typography>{user?.result?.name?.fName}</Typography> */}
-          <Button
-            aria-describedby={id}
-            // variant="contained"
-            color="tertiary"
-            onClick={handleClick}
-          >
-            {user?.result?.name?.fName}
-          </Button>
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-          >
-            {/* <Typography sx={{ p: 2 }}>The content of the Popover.</Typography> */}
-            <Button
-            sx={{ p: 1 }}
-            variant="contained"
-            color="primary"
-            onClick={logout}
-          >
-            Logout
-          </Button>
-          </Popover>
+          {user?.result?.role === "Admin" ? (
+            <React.Fragment>
+              <Button
+                aria-describedby={id}
+                // variant="contained"
+                color="tertiary"
+                onClick={handleClick}
+              >
+                {user?.result?.name?.fName}
+              </Button>
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+              >
+                {/* <Typography sx={{ p: 2 }}>The content of the Popover.</Typography> */}
+                <Button
+                  sx={{ p: 1 }}
+                  variant="contained"
+                  color="primary"
+                  onClick={logout}
+                >
+                  Logout
+                </Button>
+              </Popover>
 
-          
-          <Avatar
-            className={classes.avatar}
-            src={
-              base64String
-                ? `data:${mimetype};base64,${base64String}`
-                : defaultProfilePic
-            }
-          />
+              <Avatar
+                className={classes.avatar}
+                src={
+                  base64String
+                    ? `data:${mimetype};base64,${base64String}`
+                    : defaultProfilePic
+                }
+              />
+            </React.Fragment>
+          ) : null}
+
+          {user?.result?.role === "Third Party" ? (
+            <React.Fragment>
+              <Typography color="tertiary">
+                {user?.result?.name?.fName}
+              </Typography>
+              <Tooltip title="Account settings">
+                <IconButton
+                  className={classes.button}
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2, width: 35, height: 35 }}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                >
+                  <Avatar
+                    className={classes.avatar}
+                    sx={{ width: 40, height: 40, mr: 2 }}
+                    src={
+                      base64String
+                        ? `data:${mimetype};base64,${base64String}`
+                        : defaultProfilePic
+                    }
+                  />
+                </IconButton>
+              </Tooltip>
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                onClick={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                }}
+              >
+                <Stack direction="row" spacing={2}>
+                  <Paper>
+                    <MenuList>
+                      <MenuItem>
+                        <Link to="/thirdParty/thirdPartyPanelProfile">
+                          <Button>Profile</Button>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link to="/thirdParty/sendMail">
+                          <Button>Help</Button>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Button sx={{ p: 1 }} onClick={logout}>
+                          Logout
+                        </Button>
+                      </MenuItem>
+                    </MenuList>
+                  </Paper>
+                </Stack>
+              </Popover>
+            </React.Fragment>
+          ) : null}
         </Toolbar>
       </AppBar>
 
