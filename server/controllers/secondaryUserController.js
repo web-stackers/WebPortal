@@ -79,7 +79,7 @@ const post_secondaryUser = async (req, res) => {
     html:
       "Hi " +
       req.body.fName +
-      ",<br><br> We are warmly welcome you to our Helper App. <br>You have successfully registered as a Third party user. From now onwards you can able to verify the documents of provider on Helper webportal. When you are logging on web portal, please use the credentials. <br> UserName: Your email address <br> password:@Helper#123 Thereafter you can able to change the password for your account. Good Luck ",
+      ",<br><br> We are warmly welcome you to our Helper App. <br>You have successfully registered as a Third party user. From now onwards you can able to verify the documents of provider on Helper webportal. When you are logging on web portal, please use the credentials. <br> UserName: Your email address <br> password:@Helper#123 <br>Thereafter you can able to change the password for your account. Good Luck ",
   };
 
   try {
@@ -228,13 +228,13 @@ const fetch_verify_doctype = async (req, res) => {
 // Sending the queries to the admin by thirdparty
 const send_mail = async (req, res) => {
   const { id, issue } = req.params;
-try {
-  const requiredThirdParty = await secondaryUser.findById(id);
-  var mailOptions = {
-    from: requiredThirdParty.email,
-    to: "kathurshanasivalingham@gmail.com",
-    subject: "Request from Thirdparty person of Helper",
-    html: `Hi,
+  try {
+    const requiredThirdParty = await secondaryUser.findById(id);
+    var mailOptions = {
+      from: requiredThirdParty.email,
+      to: "kathurshanasivalingham@gmail.com",
+      subject: "Request from Thirdparty person of Helper",
+      html: `Hi,
           <body>
             <div> 
               <p>This mail is from a thirdparty of Helper to inform or request the queries.</p>
@@ -258,19 +258,19 @@ try {
             </div>
           </body>
           `,
-  };
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
-  res.status(200).json("Email sent");
-} catch (error) {
-  res.status(400).json({ message: error.message });
-}
-}
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+    res.status(200).json("Email sent");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 module.exports = {
   signIn,
