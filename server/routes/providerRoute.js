@@ -31,7 +31,7 @@ router.patch("/addressUpdate/:id", providerController.update_provider_location);
 
 //update verification details
 router.patch(
-  "/updateVerification/:id/:result",
+  "/updateVerification/:id/:result/:thirdPartyId",
   providerController.update_verification
 );
 

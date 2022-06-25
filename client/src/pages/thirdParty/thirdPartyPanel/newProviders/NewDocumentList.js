@@ -19,7 +19,7 @@ const NewDocumentlist = () => {
   // get the provider id from react state
   const location = useLocation();
   const providerId = location.state.id;
-  // const thirdpartyId = location.state.thirdPartyId;
+  const thirdpartyId = location.state.thirdPartyId;
 
   const [newDocs, setNewDocs] = useState([]);
   const [open, setOpen] = useState(false);
@@ -103,7 +103,7 @@ const NewDocumentlist = () => {
       if (newDocs.every((newDoc) => newDoc.isAccepted === true)) {
         setOpen(true);
         setAlert("Email sent successfully");
-        Provider.updateVerification(providerId, true)
+        Provider.updateVerification(providerId, true, thirdpartyId)
           .then(() => {
             fetchDocs();
           })
@@ -234,11 +234,7 @@ const NewDocumentlist = () => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <TextField
-                        disabled
-                        id="filled-basic"
-                        variant="filled"
-                      />
+                      <TextField disabled id="filled-basic" variant="filled" />
                       <Button variant="contained" disabled>
                         Reject
                       </Button>
