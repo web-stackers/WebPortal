@@ -141,19 +141,19 @@ const Registration_valid = () => {
     });
     console.log(validValues);
     try {
-      Object.keys(validValues).forEach((key) => {
-        setInputs((values) => ({ ...values, [key]: validValues[key] }));
-      });
-      // setInputs((values) => ({
-      //   ...values,
-      //   fName: validValues.fName,
-      //   lName: validValues.lName,
-      //   mobile: validValues.mobile,
-      //   NIC: validValues.NIC,
-      //   email: validValues.email,
-      //   jobType: validValues.jobType,
-      //   password: validValues.password,
-      // }));
+      // Object.keys(validValues).forEach((key) => {
+      //   setInputs((values) => ({ ...values, [key]: validValues[key] }));
+      // });
+      setInputs((values) => ({
+        ...values,
+        fName: validValues.fName,
+        lName: validValues.lName,
+        mobile: validValues.mobile,
+        NIC: validValues.NIC,
+        email: validValues.email,
+        jobType: validValues.jobType,
+        password: validValues.password,
+      }));
 
       const { mobile, NIC, email } = validValues;
       console.log({ mobile, NIC, email });
