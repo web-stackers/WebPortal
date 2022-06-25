@@ -8,7 +8,7 @@ import { Buffer } from "buffer";
 import Button from "@mui/material//Button";
 import SendIcon from "@mui/icons-material/Send";
 import { Link } from "react-router-dom";
-import Sbutton from "../../../../components/Sbutton";
+import dateFormat from "dateformat";
 
 const Profile = () => {
   const classes = useStyles();
@@ -50,7 +50,7 @@ const Profile = () => {
                   Address - {user.result.address}
                 </Typography>
                 <Typography variant="subtitle1">
-                  Registered Date - {user.result.registeredDate}
+                  Registered Date - {dateFormat(user.result.registeredDate, "yyyy-mm-dd")}
                 </Typography>
                 <Typography variant="subtitle1">
                   Document Type - {user.result.verifyDocType}

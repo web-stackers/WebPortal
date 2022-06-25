@@ -7,24 +7,22 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: "transparent !important",
       width: "60%",
       margin: "auto",
-      alignItems:'center'
     },
+
+    card: { width: "80%", margin: "auto" },
+
     details: {
       display: "flex",
       flexDirection: "column",
       padding: 10,
       width: "80%",
     },
-    content: {
-      color:'primary', fontSize:12, textAlign:'center'
-    },
-    cover: {
-      width: "20%",
-    },
+
     div: {
-      justifyItems: "center"
+      marginBottom: 20,
     },
-    btn: { marginTop: 15, alignItems: "flex-end" },
+
+    btn: { width: 200, align: "center" },
   };
 });
 

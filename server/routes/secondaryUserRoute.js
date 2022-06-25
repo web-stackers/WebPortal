@@ -34,4 +34,7 @@ router.get("/search/mobile/:mobile", secondaryUserController.validate_mobile);
 // Fetch thirdparty verify document type
 router.get("/verify/docType/:id", secondaryUserController.fetch_verify_doctype);
 
+// Sending the queries to the admin by thirdparty
+router.post("/mail/:id/:issue", secondaryUserController.send_mail);
+
 module.exports = router;
