@@ -52,6 +52,7 @@ const JobSchema = new Schema({
     {
       by: { type: String },
       category: { type: String },
+      othercategory: { type: String },
       date: { type: Date },
       description: { type: String },
       adminResponse: { type: String },

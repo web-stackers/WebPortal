@@ -11,6 +11,7 @@ import ThirdPartyProfile from "./pages/ThirdPartyProfile";
 import Withdrawal from "./pages/withdrawals/Withdrawal";
 import Profile from "./pages/users/Profile";
 import NotFound from "./pages/NotFound";
+import Registration_valid from "./pages/registration/Registration_valid";
 import {
   BrowserRouter as Router,
   Route,
@@ -24,6 +25,8 @@ import NewDocumentList from "./pages/thirdParty/thirdPartyPanel/newProviders/New
 import VerifiedDocumentlist from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedDocumentList";
 import VerifiedProviders from "./pages/thirdParty/thirdPartyPanel/verifiedProviders/VerifiedProviders";
 import Document from "./pages/thirdParty/thirdPartyPanel/Document";
+import ThirdPartyPanelProfile from "./pages/thirdParty/thirdPartyPanel/profile/Profile";
+import SendMail from "./pages/thirdParty/thirdPartyPanel/Email/Email";
 
 import ProtectedAdminRoute from "./pages/auth/ProtectedAdminRoute";
 import ProtectedThirdPartyRoute from "./pages/auth/ProtectedThirdPartyRoute";
@@ -53,11 +56,8 @@ function App() {
   const [user, setUser] = useState(() => {
     return JSON.parse(localStorage.getItem("profile"));
   });
-  // const [user, setUser] = useState({result:{role:"Third Party"},token:"dsvdbf"});
-  // const location = useLocation();
-  // useEffect(() => {
-  //   setUser(JSON.parse(localStorage.getItem('profile')));
-  // }, [location]);
+
+  const [primaryUser, setPrimaryUser] = useState("Consumers");
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -70,7 +70,7 @@ function App() {
               <Auth role={user?.result?.role} setUser={setUser} user={user} />
             }
           />
-
+          <Route exact path="/register" element={<Registration_valid />} />
           <Route
             exact
             path="/thirdParty"
@@ -89,6 +89,12 @@ function App() {
               element={<VerifiedDocumentlist />}
             />
             <Route path="document" element={<Document />} />
+            <Route
+              path="thirdPartyPanelProfile"
+              element={<ThirdPartyPanelProfile />}
+            />
+            <Route path="sendMail" element={<SendMail />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
 
           <Route
@@ -102,7 +108,15 @@ function App() {
               element={<Navigate to="/admin/dashboard" />}
             />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="users" element={<Users />} />
+            <Route
+              path="users"
+              element={
+                <Users
+                  primaryUser={primaryUser}
+                  setPrimaryUser={setPrimaryUser}
+                />
+              }
+            />
             <Route path="jobs" element={<Jobs />} />
             <Route path="jobs/jobEdit" element={<JobEdit />} />
             <Route path="complaints" element={<Complaint />} />

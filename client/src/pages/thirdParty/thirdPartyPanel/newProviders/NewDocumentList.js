@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import NewDocument from "../../../../services/Provider";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
@@ -13,13 +13,23 @@ import TextField from "@mui/material/TextField";
 import Provider from "../../../../services/Provider";
 import SendIcon from "@mui/icons-material/Send";
 import "../../../../index.css";
+import AlertBox from "../../../../components/AlertBox";
 
 const NewDocumentlist = () => {
   // get the provider id from react state
   const location = useLocation();
-  const providerId = location.state;
+  const providerId = location.state.id;
+  const thirdpartyId = location.state.thirdPartyId;
 
   const [newDocs, setNewDocs] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [alert, setAlert] = useState("");
+
+  const navigate = useNavigate();
+  const routeChange = () => {
+    let path = "/thirdParty/new";
+    navigate(path);
+  };
 
   // get the document list for the particular provider
   const fetchDocs = () => {
@@ -70,15 +80,15 @@ const NewDocumentlist = () => {
       });
   };
 
-  const updateQualification = (qualification) => {
-    Provider.updateQualification(providerId, qualification)
-      .then(() => {
-        fetchDocs();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  // const updateQualification = (qualification) => {
+  //   Provider.updateQualification(providerId, qualification)
+  //     .then(() => {
+  //       fetchDocs();
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
 
   const [value, setValue] = useState([]);
 
@@ -91,7 +101,9 @@ const NewDocumentlist = () => {
       return null;
     } else {
       if (newDocs.every((newDoc) => newDoc.isAccepted === true)) {
-        Provider.updateVerification(providerId, true)
+        setOpen(true);
+        setAlert("Email sent successfully");
+        Provider.updateVerification(providerId, true, thirdpartyId)
           .then(() => {
             fetchDocs();
           })
@@ -113,8 +125,8 @@ const NewDocumentlist = () => {
   return (
     <Box>
       <Grid container className={classes.gridContainer}>
-        {newDocs.map((newDoc) => (
-          <Grid item xs={4}>
+        {newDocs.map((newDoc, index) => (
+          <Grid item xs={4} key={index}>
             <Card variant="outlined" sx={{ minHeight: 250, maxWidth: 350 }}>
               <CardContent>
                 <Typography variant="h5" textAlign="center">
@@ -153,7 +165,6 @@ const NewDocumentlist = () => {
                         name={newDoc.type}
                         label="Reason For Rejection"
                         variant="filled"
-                        marginLeft="5px"
                         value={value[newDoc.type]}
                         onChange={handleSubmit}
                       />
@@ -195,7 +206,6 @@ const NewDocumentlist = () => {
                         id="filled-basic"
                         label="Reason For Rejection"
                         variant="filled"
-                        marginLeft="5px"
                       />
                       <Button variant="contained" disabled>
                         Reject
@@ -224,12 +234,7 @@ const NewDocumentlist = () => {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <TextField
-                        disabled
-                        id="filled-basic"
-                        variant="filled"
-                        marginLeft="5px"
-                      />
+                      <TextField disabled id="filled-basic" variant="filled" />
                       <Button variant="contained" disabled>
                         Reject
                       </Button>
@@ -265,16 +270,20 @@ const NewDocumentlist = () => {
           endIcon={<SendIcon />}
           onClick={() => {
             if (checkVerified() === null) {
-              alert("Documents are not verified");
+              setOpen(true);
+              setAlert(
+                "You need to verify all three documents to send the email !!!"
+              );
             } else {
-              updateQualification(value);
-              alert("Email sent successfully");
+              routeChange();
+              window.location.reload();
             }
           }}
         >
           Send Mail
         </Button>
       </Stack>
+      <AlertBox open={open} setOpen={setOpen} alert={alert} />
     </Box>
   );
 };

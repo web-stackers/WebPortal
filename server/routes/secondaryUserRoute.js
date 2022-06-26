@@ -4,6 +4,17 @@ const secondaryUserController = require("../controllers/secondaryUserController"
 
 router.post("/signin", secondaryUserController.signIn);
 
+router.post("/forgotPassword", secondaryUserController.forgot_password);
+
+// verify OTP in forgot password
+router.post("/forgotPassword/verifyOTP", secondaryUserController.verify_OTP);
+
+// To resend the OTP in forgot password
+router.post("/forgotPassword/resendOTP", secondaryUserController.resend_OTP);
+
+// change password if singin for the first time or due to forgot password 
+router.post("/changePassword/:id", secondaryUserController.change_password);
+
 //Fetch all third party records
 router.get("/", secondaryUserController.fetch_secondaryUsers);
 
@@ -33,5 +44,8 @@ router.get("/search/mobile/:mobile", secondaryUserController.validate_mobile);
 
 // Fetch thirdparty verify document type
 router.get("/verify/docType/:id", secondaryUserController.fetch_verify_doctype);
+
+// Sending the queries to the admin by thirdparty
+router.post("/mail/:id/:issue", secondaryUserController.send_mail);
 
 module.exports = router;

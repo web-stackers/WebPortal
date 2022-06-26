@@ -32,13 +32,13 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
     } 
 
     return {
-      id: user._id,
-      name: user.name.fName + " " + user.name.lName,
-      rating: parseFloat((user.totalRating / user.ratingCount).toFixed(2)) || 0,
-      isDisabled: user.isDisabled? "Yes":"No",
-      mobile: user.contact.mobile,
-      email: user.contact.email,
-      ratingCount: user.ratingCount,
+      id: user?._id,
+      name: user?.name?.fName + " " + user?.name?.lName,
+      rating: parseFloat((user?.totalRating / user?.ratingCount).toFixed(2)) || 0,
+      isDisabled: user?.isDisabled? "Yes":"No",
+      mobile: user?.contact?.mobile,
+      email: user?.contact?.email,
+      ratingCount: user?.ratingCount,
       verified: user.verification ? user.verification.isAccepted : false,
       verifiedText: verifiedText,
       job: job
@@ -62,13 +62,36 @@ const Userlist = ({ type, users, fetchUsers, loading }) => {
         );
       },
     },
-    { field: "job", headerName: "Job", width: 150, hide: hide },
+    {
+      field: "job",
+      headerName: "Job",
+      width: 150,
+      hide: hide,
+      sortable: false,
+    },
     { field: "rating", headerName: "Average Rating", width: 120 },
     { field: "ratingCount", headerName: "No of Ratings", width: 120 },
     { field: "mobile", headerName: "Mobile No", width: 120, sortable: false },
-    { field: "email", headerName: "Email", width: 250, sortable: false, hide: !hide },
-    { field: "isDisabled", headerName: "Disabled", width: 100, sortable: false },
-    { field: "verifiedText", headerName: "Verified", width: 100, sortable: false, hide: hide },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 250,
+      sortable: false,
+      hide: !hide,
+    },
+    {
+      field: "isDisabled",
+      headerName: "Disabled",
+      width: 100,
+      sortable: false,
+    },
+    {
+      field: "verifiedText",
+      headerName: "Verified",
+      width: 100,
+      sortable: false,
+      hide: hide,
+    },
     {
       field: "Action",
       headerName: "Action",

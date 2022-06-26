@@ -92,8 +92,10 @@ const searchProvider = async (key) => {
 };
 
 // Update verification
-const updateVerification = async (id, result) => {
-  return await API.patch(`/provider/updateVerification/${id}/${result}`);
+const updateVerification = async (id, result, thirdPartyId) => {
+  return await API.patch(
+    `/provider/updateVerification/${id}/${result}/${thirdPartyId}`
+  );
 };
 
 // Update provider count when enable or disable by admin

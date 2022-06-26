@@ -68,7 +68,7 @@ const NewProviderlist = () => {
           <div>
             <Link
               to="/thirdParty/newDocumentlist"
-              state={providerId}
+              state={{ id: providerId, thirdPartyId: user.result._id }}
               className="link"
             >
               <Sbutton text="Open" btnWidth="120px" />
@@ -82,7 +82,7 @@ const NewProviderlist = () => {
   return (
     <div>
       <div className="input-icons">
-        <i class="fa fa-search icon"></i>
+        <i className="fa fa-search icon"></i>
         <input
           className="input-field"
           type="text"

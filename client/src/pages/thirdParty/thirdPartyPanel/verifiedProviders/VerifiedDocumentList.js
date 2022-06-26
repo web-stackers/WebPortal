@@ -44,8 +44,8 @@ const VerifiedDocumentlist = () => {
   return (
     <Box>
       <Grid container className={classes.gridContainer}>
-        {verifiedDocs.map((verifiedDoc) => (
-          <Grid item xs={4}>
+        {verifiedDocs.map((verifiedDoc, index) => (
+          <Grid item xs={4} key={index}>
             <Card variant="outlined" sx={{ minHeight: 150, maxWidth: 300 }}>
               <CardContent>
                 <Typography variant="h5" textAlign="center">

@@ -41,16 +41,16 @@ const UserJobs = ({ type, id }) => {
       requestedDate: dateFormat(job?.requestedTime, "yyyy-mm-dd"),
       requestedTime: dateFormat(job?.requestedTime, "hh:MM TT"),
       state: job?.userJobs[0].state,
-      providerName: job?.provider[0].name.fName,
-      consumerName: job?.consumer[0].name.fName,
+      providerName: job?.provider[0]?.name?.fName,
+      consumerName: job?.consumer[0]?.name?.fName,
     };
   });
 
   const columns = [
     { field: "jobType", headerName: "Provider Type", width: 150, sortable: false, },
     { field: "description", headerName: "Job Description", width: 300, sortable: false, },
-    { field: "requestedDate", headerName: "Date", width: 120 },
-    { field: "requestedTime", headerName: "Time", width: 100 },
+    { field: "requestedDate", headerName: "Req. Date", width: 120 },
+    { field: "requestedTime", headerName: "Req. Time", width: 100 },
     { field: "state", headerName: "Job Status", width: 150, sortable: false, sortable: false, },
     {
       field: "providerName",

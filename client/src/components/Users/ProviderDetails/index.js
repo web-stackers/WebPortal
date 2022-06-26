@@ -39,11 +39,11 @@ const ProviderDetails = ({user, verified, id}) => {
                                 Personal
                             </Typography>
                             <Typography variant="subtitle1">
-                                <b>Mobile : </b> <br/> {user.contact.mobile} <br/>
-                                <b>Email : </b> <br/> {user.contact.email} <br/>
-                                <b>Applied Date : </b> <br/> {dateFormat(user.appliedDate, "yyyy-mm-dd")} <br/>
+                                <b>Mobile : </b> <br/> {user?.contact?.mobile} <br/>
+                                <b>Email : </b> <br/> {user?.contact?.email} <br/>
+                                <b>Applied Date : </b> <br/> {dateFormat(user?.appliedDate, "yyyy-mm-dd")} <br/>
                                 {verified && <b>Verified Date : </b>} <br/>
-                                {verified && dateFormat(user.verification.date, "yyyy-mm-dd")} <br/>
+                                {verified && dateFormat(user?.verification?.date, "yyyy-mm-dd")} <br/>
                             </Typography>
                         </CardContent>
                     </Card>

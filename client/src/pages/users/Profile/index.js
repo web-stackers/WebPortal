@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Buffer } from "buffer";
+import dateFormat from "dateformat";
 import Card from "@mui/material//Card";
 import CardContent from "@mui/material//CardContent";
 import CardMedia from "@mui/material//CardMedia";
@@ -124,6 +125,13 @@ const Profile = () => {
               <Typography variant="subtitle1">
                 Rating : {parseFloat((profile.totalRating / profile.ratingCount).toFixed(2)) || 0}
               </Typography>
+              {type==='Providers' && <Typography variant="subtitle1">
+                Date of Birth : {dateFormat(profile.DOB, "yyyy-mm-dd")}
+              </Typography>}
+              {type==='Providers' && verified && profile.qualification && 
+              <Typography variant="subtitle1">
+                Qualification: {profile.qualification}
+              </Typography>}
             </CardContent>
           </div>
           <div className={classes.btngrp}>

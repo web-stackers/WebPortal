@@ -22,32 +22,47 @@ const post_consumer = async (req, res) => {
   // let profilePictureBuffer;
   let isMobileExist = false;
   let isEmailExist = false;
+  let email = req.body.email; 
+  let mobile = req.body.mobile; 
 
   try {
-    const mobileUser = await provider.findOne({ "contact.mobile": mobile });
-    const emailUser = await provider.findOne({ "contact.email": email });
+    const mobileUser = await consumer.findOne({ "contact.mobile": mobile });
+    const emailUser = await consumer.findOne({ "contact.email": email });
     if (mobileUser) {
       isMobileExist = true;
     }
     if (emailUser) {
       isEmailExist = true;
     }
-    if (isMobileExist || isEmailExist) {
+    if (isMobileExist && isEmailExist) {
       return res
         .status(404)
-        .json({ message: { mobile: isMobileExist, email: isEmailExist } });
+        .json({ message: "Both mobile number and email address are already exist" });
     }
-
+    if (isMobileExist) {
+      return res
+        .status(404)
+        .json({ message: "Mobile number is already existing one" });
+    }
+    if (isEmailExist) {
+      return res
+        .status(404)
+        .json({ message: "Email address is already existing one" });
+    }
+    let fName = req.body.fName;
+    let lName = req.body.lName;
+    fName = fName.charAt(0).toUpperCase() + fName.slice(1).toLowerCase();
+    lName = lName.charAt(0).toUpperCase() + lName.slice(1).toLowerCase();
     // profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const newConsumer = new consumer({
       name: {
-        fName: req.body.fName,
-        lName: req.body.lName,
+        fName: fName,
+        lName: lName,
       },
       contact: {
-        mobile: req.body.mobile,
-        email: req.body.email,
+        mobile: mobile,
+        email: email,
       },
       // profilePicture: {data: profilePictureBuffer,
       // contentType: req.body.profilePath.type,},
@@ -57,19 +72,21 @@ const post_consumer = async (req, res) => {
     // OTP generation and email sending after inserting the new consumer with basic details
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
     const hashedOtp = await bcrypt.hash(otp, 10);
+    const userId = response._id;
+    const isEmailVerification = true;
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: req.body.email,
+      to: email,
       subject: "Verify Your Email",
       html:
         "Hi " +
-        req.body.fName +
+        fName +
         ",<br><br> Enter <b>" +
         otp +
         "</b> in the app to verify your email address and to finish the registration.<br>This code will <b>expires in 5 minutes</b>.<br>If you failed to verify, informations given by you will be deleted within one hour and then only you can again fill the form from the start",
     };
     const newOtpVerification = await new consumerEmailVerification({
-      consumerId: response._id,
+      consumerId: userId,
       otp: hashedOtp,
       createdAt: Date.now(),
       expiresAt: Date.now() + 300000, // will expires after 5 min
@@ -77,7 +94,7 @@ const post_consumer = async (req, res) => {
     await newOtpVerification.save();
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json(response._id);
+    res.status(200).json({ userId, email, fName, isEmailVerification });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
