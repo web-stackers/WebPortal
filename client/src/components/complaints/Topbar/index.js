@@ -44,7 +44,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
     }
   }
 
-  // Search user by the username 
+  // Search user by the username
   const searchUser = () => {
     if(type=='Consumers'){
       Consumer.searchConsumer(searchKey)
@@ -88,17 +88,17 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
         </Menu>
       </div>
 
-      
 
-      <div className={classes.search}>
+
+      {/* <div className={classes.search}>
         {show && <Button variant="contained" style={{marginRight:'10px'}} onClick={() => {fetchUsers(); setShow(false)}}>
             Reset <CachedIcon />
         </Button>}
 
-        <TextField 
-          id="searchUser" 
+        <TextField
+          id="searchUser"
           name="searchKey"
-          label="Type firstname" 
+          label="Type firstname"
           variant="outlined"
           size= "small"
           autoComplete='off'
@@ -109,7 +109,7 @@ const Topbar = ({ type, setType, setUsers, fetchUsers, setAlertTitle, setAlert, 
         <Button variant="contained" onClick={() => {searchValidation(searchKey)}}>
           <SearchIcon />
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };

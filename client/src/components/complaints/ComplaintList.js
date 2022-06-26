@@ -50,6 +50,7 @@ const ComplaintList = ({ type, listOfComplaints, fetchAllComplaints }) => {
     },
   ];
 
+
   return (
     <div style={{ height: 350, width: "100%" }}>
       <div style={{ display: "flex", height: "100%" }}>
@@ -58,6 +59,7 @@ const ComplaintList = ({ type, listOfComplaints, fetchAllComplaints }) => {
         </div>
       </div>
     </div>
+
   );
 };
 

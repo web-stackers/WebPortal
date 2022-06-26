@@ -6,7 +6,6 @@ import Topbar from "../../components/complaints/Topbar";
 import AlertBox from '../../components/AlertBox';
 
 import ComplaintList from "../../components/complaints/ComplaintList";
-
 const Complaint = () => {
   const [user, setUser] = useState("Consumers");
   const [listOfComplaints, setListOfComplaints] = useState([]);
@@ -47,7 +46,7 @@ const Complaint = () => {
         setAlertOpen={setOpen}
         setLoading={setLoading}
       />
-      <ComplaintList
+       <ComplaintList
         type={user}
         listOfComplaints={listOfComplaints}
         setListOfComplaints={setListOfComplaints}

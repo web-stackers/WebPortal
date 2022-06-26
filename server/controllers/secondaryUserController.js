@@ -213,6 +213,7 @@ const fetch_secondaryUsers = async (req, res) => {
 
 // Add new secondaryUser to the database
 const post_secondaryUser = async (req, res) => {
+  const hashedPassword = await bcrypt.hash("@Helper#123", 12);
   let profilePictureBuffer;
   profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
   console.log(profilePictureBuffer);
@@ -228,6 +229,7 @@ const post_secondaryUser = async (req, res) => {
     mobile: req.body.mobile,
     email: req.body.email,
     address: req.body.address,
+    password: hashedPassword,
     verifyDocType: req.body.verifyDocType,
     profilePicture: {
       data: profilePictureBuffer,

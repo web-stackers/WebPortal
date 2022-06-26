@@ -30,9 +30,6 @@ router.post("/", jobController.post_job);
 // Fetch job history of a user assignments
 router.get("/user/userassignments/:type/:id", jobController.user_job_assignments);
 
-/* // Fetch job history of a user assignments
-router.get("/user/chatassignments/:type/:id", jobController.user_chat_assignments); */
-
 // Update complaint
 router.patch("/complaint/:id", jobController.update_complaint);
 

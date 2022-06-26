@@ -256,6 +256,7 @@ const Auth = ({ role, setUser, user }) => {
                   fullWidth
                   variant="contained"
                   color="primary"
+                  disabled={!form.email || !form.password}
                 >
                   Sign in
                 </Button>

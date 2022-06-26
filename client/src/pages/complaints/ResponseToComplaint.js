@@ -27,33 +27,56 @@ const ResponseToComplaint = () => {
   };
 
   const [reply, setReply] = useState({});
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setReply((values) => ({ ...values, [name]: value }));
+    validate({ [name]: value });
   };
 
   //It is given as onClick function in submit button to redirect to the main page
   const navigate = useNavigate();
   const routeChange = () => {
-    let path = "/complaints";
+    let path = "/admin/complaints";
     navigate(path);
   };
 
   //onClick function when submit button is clicked. Details will be update and path will be redirected
-  const onSubmit = async () => {
-    const result = await confirm("Are you sure to sending response?", options);
-    if (result) {
-      Job.complaintHandled(ID, reply)
-        .then(() => {
-          routeChange();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      return;
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (validate()) {
+      const result = await confirm(
+        "Are you sure to sending response?",
+        options
+      );
+      if (result) {
+        Job.complaintHandled(ID, reply)
+          .then(() => {
+            routeChange();
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+        return;
+      }
     }
+  };
+
+  const validate = () => {
+    let temp = {};
+    temp.adminResponse =
+      (reply.adminResponse ? "" : "This field is required.") ||
+      (/^[A-Za-z\s]*$/.test(reply.adminResponse)
+        ? ""
+        : "Response can only contain letters.") ||
+      (reply.adminResponse.length > 4 ? "" : "Minimum 5 characters required.");
+
+    setErrors({
+      ...temp,
+    });
+    return Object.values(temp).every((x) => x === ""); //every() method tests whether all elements in the array pass the test implemented by the provided function. It retruns a boolean value
   };
 
   return (
@@ -78,6 +101,7 @@ const ResponseToComplaint = () => {
             name="adminResponse"
             value={reply.adminResponse || " "}
             onChange={handleChange}
+            error={errors.adminResponse}
           />
         </div>
         <CardActions>
@@ -89,7 +113,7 @@ const ResponseToComplaint = () => {
             marginRight="5%"
           />
           <Link
-            to="/complaints"
+            to="/admin/complaints"
             className="link"
             style={{ marginRight: "50%" }}
           >
