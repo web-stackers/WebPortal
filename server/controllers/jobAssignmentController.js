@@ -3,7 +3,7 @@ const job = require("../models/job");
 const transporter = require("../send-email/sendEmail");
 const provider = require("../models/provider");
 const consumer = require("../models/consumer");
-const jobController = require('../controllers/jobController');
+const jobController = require("../controllers/jobController");
 
 // Fetch all job assignment
 const fetch_jobAssignments = async (req, res) => {
@@ -117,6 +117,24 @@ const job_rejected = async (req, res) => {
       { new: true }
     );
     res.status(200).json(updatedJobRejected);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Update state  when job request is cancelled by consumer
+const job_cancelled = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedJobCancelled = await jobAssignment.findByIdAndUpdate(
+      id,
+      {
+        state: "Request cancelled",
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedJobCancelled);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -285,17 +303,17 @@ const fetch_pending_jobcount = async (req, res) => {
 const complete_state = async (id) => {
   try {
     const updatedJobAssignment = await jobAssignment.findByIdAndUpdate(
-    id,
-    {
-      state: "Job completed",
-    },
-    { new: true }
+      id,
+      {
+        state: "Job completed",
+      },
+      { new: true }
     );
     return JSON.stringify(updatedJobAssignment);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 // Find pending jobs and update completed jobs
 const complete_jobAssignments = async (req, res) => {
@@ -322,7 +340,7 @@ const complete_jobAssignments = async (req, res) => {
       },
     },
     {
-      $match: {"userJobs.state":{$eq:"Job pending"}}
+      $match: { "userJobs.state": { $eq: "Job pending" } },
     },
     {
       $project: {
@@ -331,7 +349,7 @@ const complete_jobAssignments = async (req, res) => {
         consumerId: 1,
         "userJobs._id": 1,
         "userJobs.state": 1,
-        "userJobs.quotation.estimatedTime": 1
+        "userJobs.quotation.estimatedTime": 1,
       },
     },
   ];
@@ -355,15 +373,15 @@ const complete_jobAssignments = async (req, res) => {
     }
 
     let completedJobs = pendingJobs.map((job) => {
-      if(job.userJobs[0].quotation.estimatedTime<Date.now()){
+      if (job.userJobs[0].quotation.estimatedTime < Date.now()) {
         return complete_state(job.userJobs[0]._id);
       }
-    })
+    });
     res.json(completedJobs);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-}
+};
 
 module.exports = {
   post_jobAssignment,
@@ -380,4 +398,5 @@ module.exports = {
   fetch_completed_jobcount,
   fetch_pending_jobcount,
   complete_jobAssignments,
+  job_cancelled,
 };
