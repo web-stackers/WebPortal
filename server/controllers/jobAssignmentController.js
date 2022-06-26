@@ -269,6 +269,64 @@ const fetch_completed_jobcount = async (req, res) => {
   }
 };
 
+// Fetch completed job count by provider id
+const fetch_completed_provider_jobcount = async (req, res) => {
+  const {id}=req.params;
+  try {
+    const completedJobCount = await jobAssignment.count({
+      state: { $regex: /Job completed/i },
+      providerId:id,
+    });
+    res.status(200).json(completedJobCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Fetch completed job count by consumer id
+const fetch_completed_consumer_jobcount = async (req, res) => {
+  const {id}=req.params;
+  var query = [
+    {
+      $lookup: {
+        from: "jobassignments",
+        localField: "_id",
+        foreignField: "jobId",
+        as: "jobassignment",
+      },
+    },
+    {
+      $lookup: {
+        from: "consumers",
+        localField: "consumerId",
+        foreignField: "_id",
+        as: "consumer",
+      },
+    },
+    {
+      $project: {
+        "jobassignment.state": 1,
+      },
+    },
+  ];
+
+  try {
+    const jobs = await job.aggregate(query);
+    //console.log(jobs);
+    let count=0;
+    jobs.forEach(element => {
+      if(element.jobassignment[0].state == "Job completed"){
+        console.log(element);
+        count++;
+      }
+
+    });
+    res.status(200).json(count);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Fetch pending job count
 const fetch_pending_jobcount = async (req, res) => {
   try {
@@ -380,4 +438,6 @@ module.exports = {
   fetch_completed_jobcount,
   fetch_pending_jobcount,
   complete_jobAssignments,
+  fetch_completed_provider_jobcount,
+  fetch_completed_consumer_jobcount,
 };
