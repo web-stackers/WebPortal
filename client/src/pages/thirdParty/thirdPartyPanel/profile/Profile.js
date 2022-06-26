@@ -36,7 +36,7 @@ const Profile = () => {
           />
           <div className={classes.details}>
             <CardContent className={classes.content}>
-              <Typography variant="h5" marginBottom={3}>
+              <Typography variant="h5" marginTop={-1} marginBottom={1}>
                 {user.result.name.fName + " " + user.result.name.lName}
               </Typography>
               <div className={classes.div}>
