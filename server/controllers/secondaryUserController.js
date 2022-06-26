@@ -21,9 +21,10 @@ const signIn = async (req, res) => {
     const oldUser = await secondaryUser.findOne({ email: email });
 
     if (!oldUser)
-      return res
-        .status(404)
-        .json({ message: "User doesn't exist"});
+      return res.status(404).json({ message: "User doesn't exist" });
+
+    if (oldUser.isDisabled)
+      return res.status(404).json({ message: "You are disabled" });
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
@@ -36,7 +37,9 @@ const signIn = async (req, res) => {
     );
 
     if (isFirstTimeSignin)
-      return res.status(400).json({ message: "First time signin", userId: oldUser._id  });
+      return res
+        .status(400)
+        .json({ message: "First time signin", userId: oldUser._id });
 
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
       expiresIn: "1h",
@@ -58,6 +61,10 @@ const forgot_password = async (req, res) => {
 
     const user = await secondaryUser.findOne({ email: email });
     if (!user) return res.status(404).json({ message: "User doesn't exist" });
+
+    if (user.isDisabled)
+      return res.status(404).json({ message: "You are disabled" });
+
     const userId = user._id;
     const fName = user.name.fName;
 
@@ -206,6 +213,7 @@ const fetch_secondaryUsers = async (req, res) => {
 
 // Add new secondaryUser to the database
 const post_secondaryUser = async (req, res) => {
+  const hashedPassword = await bcrypt.hash("@Helper#123", 12);
   let profilePictureBuffer;
   profilePictureBuffer = fs.readFileSync(req.body.profilePath.filePath);
   console.log(profilePictureBuffer);
@@ -221,6 +229,7 @@ const post_secondaryUser = async (req, res) => {
     mobile: req.body.mobile,
     email: req.body.email,
     address: req.body.address,
+    password: hashedPassword,
     verifyDocType: req.body.verifyDocType,
     profilePicture: {
       data: profilePictureBuffer,

@@ -57,7 +57,10 @@ router.patch(
 );
 
 // update job assignment when job request is rejected by the provider
-router.patch('/requestRejected/:id', jobAssignmentController.job_rejected);
+router.patch("/requestRejected/:id", jobAssignmentController.job_rejected);
+
+// update job assignment when job request is cancelled by the consumer
+router.patch("/requestCancelled/:id", jobAssignmentController.job_cancelled);
 
 //update job assignment when withdrawl is pending
 router.patch(
@@ -80,6 +83,9 @@ router.patch(
 // Insert provider's quotation
 router.patch("/quotation/:id", jobAssignmentController.insert_quotation);
 
-router.get("/state/completeJobs/:type/:id", jobAssignmentController.complete_jobAssignments);
+router.get(
+  "/state/completeJobs/:type/:id",
+  jobAssignmentController.complete_jobAssignments
+);
 
 module.exports = router;

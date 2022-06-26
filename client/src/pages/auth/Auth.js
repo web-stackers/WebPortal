@@ -79,24 +79,20 @@ const Auth = ({ role, setUser, user }) => {
       } else {
         const errorMsg = err.response.data.message;
         const _id = err.response.data.userId;
-        // if (errorMsg === "email is required") {
-        //   setEmailErrorMsg(errorMsg);
-        // }
-        // if (errorMsg === "password is required") {
-        //   setPasswordErrorMsg(errorMsg);
-        // }
-        // if (errorMsg === "User doesn't exist") {
-        //   setEmailErrorMsg(errorMsg);
-        // }
-       
+      
         if (errorMsg === "First time signin") {
           setUserId(_id);
           console.log(userId);
           setIsChangePassword(true);
-        } else if (errorMsg === "Invalid credentials"||errorMsg === "User doesn't exist") {
-          setEmailErrorMsg("Invalid credentials");
-          setPasswordErrorMsg("Invalid credentials");
-        } else {
+        } else if (errorMsg === "Invalid credentials") {
+          setEmailErrorMsg(errorMsg);
+          setPasswordErrorMsg(errorMsg);
+        }else if (errorMsg === "You are disabled") {
+          setEmailErrorMsg(errorMsg);
+          setPasswordErrorMsg(errorMsg);
+        } else if (errorMsg === "User doesn't exist") {
+          setEmailErrorMsg(errorMsg);
+        }else{
           window.alert("Something went wrong, Colud not sign in");
         }
       }
@@ -122,9 +118,11 @@ const Auth = ({ role, setUser, user }) => {
         );
       } else {
         const errorMsg = err.response.data.message;
-        if (errorMsg === "User doesn't exist") {
+        if (errorMsg === "You are disabled") {
           setEmailErrorMsg(errorMsg);
-        } else {
+        } else if (errorMsg === "User doesn't exist") {
+          setEmailErrorMsg(errorMsg);
+        }else {
           window.alert("Something went wrong, " + errorMsg);
         }
       }
@@ -258,6 +256,7 @@ const Auth = ({ role, setUser, user }) => {
                   fullWidth
                   variant="contained"
                   color="primary"
+                  disabled={!form.email || !form.password}
                 >
                   Sign in
                 </Button>

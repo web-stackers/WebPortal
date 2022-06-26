@@ -570,6 +570,7 @@ const check_provider_availability = async (req, res) => {
   try {
     const requiredJob = await job.findOne({
       providerId: id,
+      state: "Job pending",
       requestedTime: { $gte: time },
       estimatedTime: { $lte: time },
     });

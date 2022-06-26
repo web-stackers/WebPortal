@@ -49,7 +49,7 @@ const SecondaryUserSchema = new Schema({
   password: {
     type: String,
     required: true,
-    default: "$2a$12$IrsQHK6uFE5T4jUgux/7buJTxJLTVqCVrh.Hpqexj.o/2/cnO2lha",
+    // default: "$2a$12$IrsQHK6uFE5T4jUgux/7buJTxJLTVqCVrh.Hpqexj.o/2/cnO2lha",
     minLength: [8, "Min Length is 8 characters"],
     maxLength: [150, "Max Length is 150 characters"],
   },

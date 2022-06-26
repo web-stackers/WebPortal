@@ -224,14 +224,14 @@ const update_uploads = async (req, res) => {
     let responsilbleSecondaryUser = await secondaryUser.findOne({
       verifyDocType: docType,
     });
-    if (responsilbleSecondaryUser === null) {
+    if (responsilbleSecondaryUser === null || responsilbleSecondaryUser.isDisabled ) {
       responsilbleSecondaryUser = await secondaryUser.findOne({
         role: "Admin",
       });
       notificationMsg =
-        "and there is no responsible third party available right now uder the verification docment type which is given by the new provider. The name of the new provider is";
+        "and there is no responsible third party available right now or disabled, under the verification docment type which is given by the new provider. The name of the new provider is";
       msg =
-        "Admin, please add a new third party under the category of " +
+        "Admin, please add a new  or enable third party under the category of " +
         docType +
         " to verify that documennts as soon as possible.";
     }
@@ -781,7 +781,8 @@ const update_verification = async (req, res) => {
     // send email
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: requiredprovider.contact.email,
+      // to: requiredprovider.contact.email,
+      to:"kathurshanasivalingham@gmail.com",
       subject: "Verification of the uploaded documents of Helper App",
       html: `
         <body>
@@ -934,7 +935,7 @@ const delete_rejected_provider = async (req, res) => {
     });
 
     htmlBody = htmlBody.concat(`</div>
-                                  <p>Please sign up again to the system by submitting the proper documents to provide services through Helper.</p>
+                                  <p><a href="http://localhost:3000/register">Click here</a> to sign up again to the system by submitting the proper documents to provide services through Helper.</p>
 
                                   <div>
                                     <p>From,<br>Helper Community</p>
@@ -943,7 +944,8 @@ const delete_rejected_provider = async (req, res) => {
 
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: requiredprovider.contact.email,
+      // to: requiredprovider.contact.email,
+      to:"kathurshanasivalingham@gmail.com",
       subject: "Verification of the uploaded documents of Helper App",
       html: htmlBody,
     };
