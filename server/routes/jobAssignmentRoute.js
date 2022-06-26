@@ -29,6 +29,12 @@ router.get(
   jobAssignmentController.fetch_completed_consumer_jobcount
 );
 
+// Delete the request cancelled
+router.delete(
+  "/cancelled/consumer/:id",
+  jobAssignmentController.cancel_request_sent
+);
+
 // Fetch pending job count
 router.get(
   "/get/pending/count",

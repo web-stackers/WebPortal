@@ -61,6 +61,18 @@ const fetch_jobAssignment = async (req, res) => {
   }
 };
 
+// Cancel the request sent
+const cancel_request_sent = async (req, res) => {
+  const { id } = req.params;
+  try {
+   const cancel_request=jobAssignment.deleteOne({ _id: id });
+    res.status(200).json(cancel_request);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
 // Update when quotation is accepted
 const quotation_accepted = async (req, res) => {
   const { id } = req.params;
@@ -440,4 +452,5 @@ module.exports = {
   complete_jobAssignments,
   fetch_completed_provider_jobcount,
   fetch_completed_consumer_jobcount,
+  cancel_request_sent,
 };

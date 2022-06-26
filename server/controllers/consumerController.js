@@ -22,8 +22,8 @@ const post_consumer = async (req, res) => {
   // let profilePictureBuffer;
   let isMobileExist = false;
   let isEmailExist = false;
-  let email = req.body.email; 
-  let mobile = req.body.mobile; 
+  let email = req.body.email;
+  let mobile = req.body.mobile;
 
   try {
     const mobileUser = await consumer.findOne({ "contact.mobile": mobile });
