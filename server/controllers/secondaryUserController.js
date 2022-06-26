@@ -21,9 +21,10 @@ const signIn = async (req, res) => {
     const oldUser = await secondaryUser.findOne({ email: email });
 
     if (!oldUser)
-      return res
-        .status(404)
-        .json({ message: "User doesn't exist"});
+      return res.status(404).json({ message: "User doesn't exist" });
+
+    if (oldUser.isDisabled)
+      return res.status(404).json({ message: "You are disabled" });
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
@@ -36,7 +37,9 @@ const signIn = async (req, res) => {
     );
 
     if (isFirstTimeSignin)
-      return res.status(400).json({ message: "First time signin", userId: oldUser._id  });
+      return res
+        .status(400)
+        .json({ message: "First time signin", userId: oldUser._id });
 
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
       expiresIn: "1h",
@@ -58,6 +61,10 @@ const forgot_password = async (req, res) => {
 
     const user = await secondaryUser.findOne({ email: email });
     if (!user) return res.status(404).json({ message: "User doesn't exist" });
+
+    if (user.isDisabled)
+      return res.status(404).json({ message: "You are disabled" });
+
     const userId = user._id;
     const fName = user.name.fName;
 
@@ -384,13 +391,13 @@ const fetch_verify_doctype = async (req, res) => {
 // Sending the queries to the admin by thirdparty
 const send_mail = async (req, res) => {
   const { id, issue } = req.params;
-try {
-  const requiredThirdParty = await secondaryUser.findById(id);
-  var mailOptions = {
-    from: requiredThirdParty.email,
-    to: "kathurshanasivalingham@gmail.com",
-    subject: "Request from Thirdparty person of Helper",
-    html: `Hi,
+  try {
+    const requiredThirdParty = await secondaryUser.findById(id);
+    var mailOptions = {
+      from: requiredThirdParty.email,
+      to: "kathurshanasivalingham@gmail.com",
+      subject: "Request from Thirdparty person of Helper",
+      html: `Hi,
           <body>
             <div> 
               <p>This mail is from a thirdparty of Helper to inform or request the queries.</p>
@@ -414,19 +421,19 @@ try {
             </div>
           </body>
           `,
-  };
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
-  res.status(200).json("Email sent");
-} catch (error) {
-  res.status(400).json({ message: error.message });
-}
-}
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+    res.status(200).json("Email sent");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 module.exports = {
   signIn,
