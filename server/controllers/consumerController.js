@@ -9,7 +9,7 @@ const secret = "test";
 const fetch_consumers = async (req, res) => {
   try {
     const consumers = await consumer
-      .find()
+      .find({isEmailVerified: true})
       .select("name contact profilePicture isDisabled totalRating ratingCount");
     res.status(200).json(consumers);
   } catch (error) {
