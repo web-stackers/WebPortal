@@ -71,6 +71,11 @@ const Email = () => {
               >
                 Submit
               </Button>
+              <Link to="/thirdParty/new">
+                <Button className={classes.btn} variant="contained">
+                  Back
+                </Button>
+              </Link>
             </Stack>
           </div>
         ) : (

@@ -781,7 +781,8 @@ const update_verification = async (req, res) => {
     // send email
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: requiredprovider.contact.email,
+      // to: requiredprovider.contact.email,
+      to:"kathurshanasivalingham@gmail.com",
       subject: "Verification of the uploaded documents of Helper App",
       html: `
         <body>
@@ -940,7 +941,7 @@ const delete_rejected_provider = async (req, res) => {
     });
 
     htmlBody = htmlBody.concat(`</div>
-                                  <p>Please sign up again to the system by submitting the proper documents to provide services through Helper.</p>
+                                  <p><a href="http://localhost:3000/register">Click here</a> to sign up again to the system by submitting the proper documents to provide services through Helper.</p>
 
                                   <div>
                                     <p>From,<br>Helper Community</p>
@@ -949,7 +950,8 @@ const delete_rejected_provider = async (req, res) => {
 
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: requiredprovider.contact.email,
+      // to: requiredprovider.contact.email,
+      to:"kathurshanasivalingham@gmail.com",
       subject: "Verification of the uploaded documents of Helper App",
       html: htmlBody,
     };

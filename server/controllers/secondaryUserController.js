@@ -234,7 +234,7 @@ try {
     from: requiredThirdParty.email,
     to: "kathurshanasivalingham@gmail.com",
     subject: "Request from Thirdparty person of Helper",
-    html: `Hi,
+    html: `Hi Theepana,
           <body>
             <div> 
               <p>This mail is from a thirdparty of Helper to inform or request the queries.</p>
