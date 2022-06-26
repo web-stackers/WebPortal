@@ -128,6 +128,10 @@ const Profile = () => {
               {type==='Providers' && <Typography variant="subtitle1">
                 Date of Birth : {dateFormat(profile.DOB, "yyyy-mm-dd")}
               </Typography>}
+              {type==='Providers' && verified && profile.qualification && 
+              <Typography variant="subtitle1">
+                Qualification: {profile.qualification}
+              </Typography>}
             </CardContent>
           </div>
           <div className={classes.btngrp}>
