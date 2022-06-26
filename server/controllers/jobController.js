@@ -2,6 +2,7 @@ const job = require("../models/job");
 const JobAssignment = require("../models/jobAssignment");
 const provider = require("../models/provider");
 const consumer = require("../models/consumer");
+const chats = require("../models/chat");
 
 const transporter = require("../send-email/sendEmail");
 
@@ -421,6 +422,81 @@ const user_job_assignments = async (req, res) => {
   }
 };
 
+/* // Fetch chat history of a user for assignmentId
+const user_chat_assignments = async (req, res) => {
+  const { type, id } = req.params;
+
+  var query = [
+    {
+      $lookup: {
+        from: "chats",
+        localField: "_id",
+        foreignField: "jobAssignmentId",
+        as: "chat",
+      },
+    },
+
+
+     {
+      $lookup: {
+        from: "jobs",
+        localField: "jobId",
+        foreignField: "_id",
+        as: "job",
+      },
+    },
+    {
+      $lookup: {
+        from: "providers",
+        localField: "providerId",
+        foreignField: "_id",
+        as: "provider",
+      },
+    },
+    {
+      $lookup: {
+        from: "consumers",
+        localField: "job.consumerId",
+        foreignField: "_id",
+        as: "consumer",
+      },
+    },
+    {
+      $project: {
+        jobId: 1,
+        state: 1,
+        providerId: 1,
+        "chat._id": 1,
+        "chat.arisedBy":1,
+        "job.jobType":1,
+        "provider.name": 1,
+        "provider._id": 1,
+        "consumer.name": 1,
+        "consumer._id": 1,
+      },
+    },
+  ];
+
+  try {
+    const JobAssignments = await JobAssignment.aggregate(query);
+    JobAssignments.forEach(element => {
+      if((element.state == "Job completed" || element.state == "Job pending") ){
+        console.log(element);
+        res.json(element);
+        } else if (type == "provider") {
+            if (element.provider._id == id) {
+              console.log(element);
+              res.json(element);
+              //return element;
+            };
+
+        }
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+}; */
+
 // Fetch job withdrawals of a user
 const user_withdrawals = async (req, res) => {
   var query = [
@@ -599,4 +675,5 @@ module.exports = {
   fetch_Quotation,
   upload_photo,
   check_provider_availability,
+  /* user_chat_assignments, */
 };

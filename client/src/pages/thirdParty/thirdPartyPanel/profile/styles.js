@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => {
     },
     content: {
       flex: "1 0 auto",
+      marginLeft:20
     },
     cover: {
       width: "20%",
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => {
     div: {
       marginLeft: 20,
     },
-    btn: {marginTop:15, alignItems:'flex-end'},
+    btn: {marginTop:25, alignItems:'flex-end'},
   };
 });
 

@@ -199,7 +199,7 @@ const resend_OTP = async (req, res) => {
   }
 };
 
-// upadate new provider after documents upload
+// update new provider after documents upload
 const update_uploads = async (req, res) => {
   const { id } = req.params;
   let profilePictureBuffer;
@@ -224,14 +224,14 @@ const update_uploads = async (req, res) => {
     let responsilbleSecondaryUser = await secondaryUser.findOne({
       verifyDocType: docType,
     });
-    if (responsilbleSecondaryUser === null) {
+    if (responsilbleSecondaryUser === null || responsilbleSecondaryUser.isDisabled ) {
       responsilbleSecondaryUser = await secondaryUser.findOne({
         role: "Admin",
       });
       notificationMsg =
-        "and there is no responsible third party available right now uder the verification docment type which is given by the new provider. The name of the new provider is";
+        "and there is no responsible third party available right now or disabled, under the verification docment type which is given by the new provider. The name of the new provider is";
       msg =
-        "Admin, please add a new third party under the category of " +
+        "Admin, please add a new  or enable third party under the category of " +
         docType +
         " to verify that documennts as soon as possible.";
     }
@@ -781,7 +781,8 @@ const update_verification = async (req, res) => {
     // send email
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: requiredprovider.contact.email,
+      // to: requiredprovider.contact.email,
+      to:"kathurshanasivalingham@gmail.com",
       subject: "Verification of the uploaded documents of Helper App",
       html: `
         <body>
@@ -886,18 +887,12 @@ const update_qualification = async (req, res) => {
 const update_provider_profile = async (req, res) => {
   const { id } = req.params;
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const updateProvider = await provider.findByIdAndUpdate(id, {
-      name: {
-        fName: req.body.fName,
-        lName: req.body.lName,
-      },
-      contact: {
-        mobile: req.body.mobile,
-      },
-      //totalRating:req.body.rating,
-      password: hashedPassword,
-    });
+      $set: {
+        'contact.mobile': req.body.mobile,
+     }
+    }
+    );
     res.status(200).json(updateProvider);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -940,7 +935,7 @@ const delete_rejected_provider = async (req, res) => {
     });
 
     htmlBody = htmlBody.concat(`</div>
-                                  <p>Please sign up again to the system by submitting the proper documents to provide services through Helper.</p>
+                                  <p><a href="http://localhost:3000/register">Click here</a> to sign up again to the system by submitting the proper documents to provide services through Helper.</p>
 
                                   <div>
                                     <p>From,<br>Helper Community</p>
@@ -949,7 +944,8 @@ const delete_rejected_provider = async (req, res) => {
 
     var mailOptions = {
       from: "webstackers19@gmail.com",
-      to: requiredprovider.contact.email,
+      // to: requiredprovider.contact.email,
+      to:"kathurshanasivalingham@gmail.com",
       subject: "Verification of the uploaded documents of Helper App",
       html: htmlBody,
     };
@@ -965,6 +961,32 @@ const delete_rejected_provider = async (req, res) => {
     });
 
     res.status(200).json("Provider deleted");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+//Update provider password
+const change_password = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const requiredProvider = await provider.findById(id);
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const password = await requiredProvider.password;
+    const isMatch = await bcrypt.compare(oldPassword, password);
+    if (!isMatch) {
+      res.status(200).send({
+        success: false,
+        message: "Your old password does not match!",
+      });
+    } else {
+      const hashpassword = bcrypt.hashSync(newPassword, 12);
+      const updatePassword = await provider.findByIdAndUpdate(id, {
+        password: hashpassword,
+      });
+      res.status(200).json(updatePassword);
+    }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -1002,4 +1024,5 @@ module.exports = {
   update_provider_profile,
   fetch_provider_name,
   delete_rejected_provider,
+  change_password,
 };

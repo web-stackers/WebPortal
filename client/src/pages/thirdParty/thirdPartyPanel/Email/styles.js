@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: "transparent !important",
       width: "60%",
       margin: "auto",
+      paddingBottom:15
     },
 
     card: { width: "80%", margin: "auto" },
@@ -19,7 +20,8 @@ const useStyles = makeStyles((theme) => {
     },
 
     div: {
-      marginBottom: 20,
+      marginTop:15,
+      marginBottom: 15,
     },
 
     btn: { width: 200, align: "center" },

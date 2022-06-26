@@ -17,6 +17,18 @@ router.get(
   jobAssignmentController.fetch_completed_jobcount
 );
 
+// Fetch completed job count by provider id
+router.get(
+  "/completed/provider/count/:id",
+  jobAssignmentController.fetch_completed_provider_jobcount
+);
+
+// Fetch completed job count by provider id
+router.get(
+  "/completed/consumer/count/:id",
+  jobAssignmentController.fetch_completed_consumer_jobcount
+);
+
 // Fetch pending job count
 router.get(
   "/get/pending/count",

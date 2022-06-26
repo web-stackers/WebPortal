@@ -103,6 +103,7 @@ const NewDocumentlist = () => {
       if (newDocs.every((newDoc) => newDoc.isAccepted === true)) {
         setOpen(true);
         setAlert("Email sent successfully");
+        Provider.updateDocumentAccepted(providerId);
         Provider.updateVerification(providerId, true, thirdpartyId)
           .then(() => {
             fetchDocs();
