@@ -25,7 +25,8 @@ router.post("/forgotPassword", consumerController.forgot_password);
 //Update new password in forgot password
 router.post("/forgotPassword/changePassword/:id", consumerController.change_forgot_password);
 
-
+//Update new password in change password
+router.patch("/changePassword/:id", consumerController.change_password);
 
 //signin in the mobile
 router.post("/signin", consumerController.signIn);

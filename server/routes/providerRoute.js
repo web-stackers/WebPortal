@@ -71,6 +71,9 @@ router.get("/count/jobType", providerController.fetch_provider_JobType_count);
 //Fetch provider using certain id
 router.get("/:id", providerController.fetch_provider);
 
+//Update new password in change password
+router.patch("/changePassword/:id", providerController.change_password);
+
 //Update providers profile by ID
 router.patch("/profileUpdate/:id", providerController.update_provider_profile);
 

@@ -11,7 +11,23 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-const signIn = (data) => API.post("/secondaryUser/signin", data);
+const signIn = (data) => axios.post("/secondaryUser/signin", data);
+
+// when pressing the forgot password button in signin 
+const forgotPassword = (data) => axios.post("/secondaryUser/forgotPassword", data);
+
+// when pressing the change password button in change new password screen
+const changePassword = (data,id) => axios.post(`/secondaryUser/changePassword/${id}`, data);
+
+// To verify the OTP entered by the secondaryUser to change password
+const verifyOTP = async (data) => {
+  return await axios.post("/secondaryUser/forgotPassword/verifyOTP", data);
+};
+
+// To resend the OTP if code has expired or something went wrong
+const resendOTP = async (data) => {
+  return await axios.post("/secondaryUser/forgotPassword/resendOTP", data);
+};
 
 //adding new third party user in the database
 const addNew = async (data) => {
@@ -65,6 +81,10 @@ const sendMail = async (id, issue) => {
 
 export default {
   signIn,
+  forgotPassword,
+  verifyOTP,
+  resendOTP,
+  changePassword,
   addNew,
   fetchThirdParty,
   updateThirdPartyByID,

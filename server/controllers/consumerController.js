@@ -235,8 +235,7 @@ const forgot_password = async (req, res) => {
       "to confirm the OTP and to change new password.<br>This code will <b>expires in 5 minutes</b>";
 
     const user = await consumer.findOne({ "contact.email": email });
-    if (!user)
-      return res.status(404).json({ message: "User doesn't exist" });
+    if (!user) return res.status(404).json({ message: "User doesn't exist" });
     if (!user.isEmailVerified == true) {
       return res.status(404).json({ message: "Incomplete registration" });
     }
@@ -371,18 +370,15 @@ const update_consumer_location = async (req, res) => {
 const update_consumer_profile = async (req, res) => {
   const { id } = req.params;
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 12);
-    const updateConsumer = await consumer.findByIdAndUpdate(id, {
-       name:{
-        fName:req.body.fName,
-        lName:req.body.lName,
+    const updateConsumer = await consumer.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          'name.fName': req.body.fName,
+          'name.lName': req.body.lName,
+          'contact.mobile': req.body.mobile,
+       }
       },
-       contact:{
-        mobile:req.body.mobile
-      },
-      //totalRating:req.body.rating,
-     password:hashedPassword
-    }
     );
     res.status(200).json(updateConsumer);
   } catch (error) {
@@ -411,6 +407,32 @@ const fetch_consumer_name = async (req, res) => {
   }
 };
 
+//Update consumer password
+const change_password = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const requiredConsumer = await consumer.findById(id);
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const password = await requiredConsumer.password;
+    const isMatch = await bcrypt.compare(oldPassword, password);
+    if (!isMatch) {
+      res.status(200).send({
+        success: false,
+        message: "Your old password does not match!",
+      });
+    } else {
+      const hashpassword = bcrypt.hashSync(newPassword, 12);
+      const updatePassword = await consumer.findByIdAndUpdate(id, {
+        password: hashpassword,
+      });
+      res.status(200).json(updatePassword);
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   fetch_consumers,
   post_consumer,
@@ -427,4 +449,5 @@ module.exports = {
   fetch_consumer_name,
   update_consumer_location,
   update_consumer_profile,
+  change_password,
 };
