@@ -44,7 +44,7 @@ const Email = () => {
     <Card className={classes.root}>
       <CardContent className={classes.card}>
         <div className={classes.div}>
-          <Typography color="primary" textAlign="center" variant="h5">
+          <Typography textAlign="center" variant="h5">
             Mention your queries below
           </Typography>
         </div>
@@ -63,6 +63,11 @@ const Email = () => {
               />
             </div>
             <Stack direction="row" justifyContent="space-between">
+              <Link to="/thirdParty/new">
+                <Button className={classes.btn} variant="contained">
+                  Back
+                </Button>
+              </Link>
               <Button
                 className={classes.btn}
                 disabled
@@ -71,11 +76,6 @@ const Email = () => {
               >
                 Submit
               </Button>
-              <Link to="/thirdParty/new">
-                <Button className={classes.btn} variant="contained">
-                  Back
-                </Button>
-              </Link>
             </Stack>
           </div>
         ) : (
@@ -86,7 +86,7 @@ const Email = () => {
                 variant="outlined"
                 color="primary"
                 multiline
-                rows={8}
+                rows={6}
                 required
                 fullWidth
                 onChange={(e) => setValue(e.target.value)}
@@ -94,6 +94,11 @@ const Email = () => {
             </div>
 
             <Stack direction="row" justifyContent="space-between">
+              <Link to="/thirdParty/new">
+                <Button className={classes.btn} variant="contained">
+                  Back
+                </Button>
+              </Link>
               <Button
                 className={classes.btn}
                 variant="contained"
@@ -102,11 +107,6 @@ const Email = () => {
               >
                 Submit
               </Button>
-              <Link to="/thirdParty/new">
-                <Button className={classes.btn} variant="contained">
-                  Back
-                </Button>
-              </Link>
             </Stack>
           </div>
         )}
