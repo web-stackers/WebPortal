@@ -11,7 +11,6 @@ import CardContent from "@mui/material/CardContent";
 import Sbutton from "../../../../components/Sbutton";
 import TextField from "@mui/material/TextField";
 import Provider from "../../../../services/Provider";
-import SendIcon from "@mui/icons-material/Send";
 import "../../../../index.css";
 import AlertBox from "../../../../components/AlertBox";
 
@@ -24,12 +23,7 @@ const NewDocumentlist = () => {
   const [newDocs, setNewDocs] = useState([]);
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState("");
-
-  const navigate = useNavigate();
-  const routeChange = () => {
-    let path = "/thirdParty/new";
-    navigate(path);
-  };
+  const [isUpdated, setIsUpdated] = useState(false);
 
   // get the document list for the particular provider
   const fetchDocs = () => {
@@ -54,9 +48,19 @@ const NewDocumentlist = () => {
     },
 
     button: {
-      paddingRight: "40px",
+      paddingRight: "80px",
+    },
+
+    clr: {
+      width: "150px",
     },
   });
+
+  const navigate = useNavigate();
+  const routeChange = () => {
+    let path = "/thirdParty/new";
+    navigate(path);
+  };
 
   const classes = useStyles();
 
@@ -80,46 +84,48 @@ const NewDocumentlist = () => {
       });
   };
 
-  // const updateQualification = (qualification) => {
-  //   Provider.updateQualification(providerId, qualification)
-  //     .then(() => {
-  //       fetchDocs();
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // };
+  const updateQualification = (qualification) => {
+    Provider.updateQualification(providerId, qualification)
+      .then(() => {
+        fetchDocs();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState("");
 
   const handleSubmit = (event) => {
     setValue(event.target.value);
   };
 
-  const checkVerified = () => {
+  const isAllVerified = () => {
     if (newDocs.some((newDoc) => newDoc.isAccepted === undefined)) {
-      return null;
+      return false;
     } else {
-      if (newDocs.every((newDoc) => newDoc.isAccepted === true)) {
-        setOpen(true);
-        setAlert("Email sent successfully");
-        Provider.updateDocumentAccepted(providerId);
-        Provider.updateVerification(providerId, true, thirdpartyId)
-          .then(() => {
-            fetchDocs();
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else {
-        Provider.deleteRejectedProvider(providerId)
-          .then(() => {
-            fetchDocs();
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
+      return true;
+    }
+  };
+
+  const updateVerification = () => {
+    if (newDocs.every((newDoc) => newDoc.isAccepted === true)) {
+      Provider.updateProviderCount(providerId);
+      Provider.updateVerification(providerId, true, thirdpartyId)
+        .then(() => {
+          fetchDocs();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      Provider.deleteRejectedProvider(providerId)
+        .then(() => {
+          fetchDocs();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
@@ -181,38 +187,101 @@ const NewDocumentlist = () => {
                     </Stack>
                   </Stack>
                 ) : newDoc.isAccepted === true ? (
-                  <Stack spacing={5}>
-                    <Stack
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Link
-                        to="/thirdParty/document"
-                        state={{ id: providerId, doc: newDoc.type }}
+                  newDoc.type === "Qualification" ? (
+                    <Stack spacing={5}>
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
                       >
-                        <Sbutton text="View" btnWidth="205px" />
-                      </Link>
-                      <Button variant="contained" disabled>
-                        Accept
-                      </Button>
+                        <Link
+                          to="/thirdParty/document"
+                          state={{ id: providerId, doc: newDoc.type }}
+                        >
+                          <Sbutton text="View" btnWidth="205px" />
+                        </Link>
+                        <Button variant="contained" disabled>
+                          Accept
+                        </Button>
+                      </Stack>
+                      {isUpdated ? (
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <TextField disabled variant="filled" />
+                          <Sbutton disabled text="Update" />
+                        </Stack>
+                      ) : (
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <TextField
+                            required
+                            id="filled-basic"
+                            name="Qualification"
+                            label="Qualification"
+                            variant="filled"
+                            marginLeft="5px"
+                            value={value["Qualification"]}
+                            onChange={handleSubmit}
+                          />
+                          <Sbutton
+                            text="Update"
+                            onClick={() => {
+                              if (value === "") {
+                                setOpen(true);
+                                setAlert(
+                                  "You need to provide the qualification of the provider !!!"
+                                );
+                              } else {
+                                updateQualification(value);
+                                setIsUpdated(true);
+                                setOpen(true);
+                                setAlert("Qualification updated");
+                              }
+                            }}
+                          />
+                        </Stack>
+                      )}
                     </Stack>
-                    <Stack
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <TextField
-                        disabled
-                        id="filled-basic"
-                        label="Reason For Rejection"
-                        variant="filled"
-                      />
-                      <Button variant="contained" disabled>
-                        Reject
-                      </Button>
+                  ) : (
+                    <Stack spacing={5}>
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <Link
+                          to="/thirdParty/document"
+                          state={{ id: providerId, doc: newDoc.type }}
+                        >
+                          <Sbutton text="View" btnWidth="205px" />
+                        </Link>
+                        <Button variant="contained" disabled>
+                          Accept
+                        </Button>
+                      </Stack>
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
+                        <TextField
+                          disabled
+                          id="filled-basic"
+                          label="Reason For Rejection"
+                          variant="filled"
+                        />
+                        <Button variant="contained" disabled>
+                          Reject
+                        </Button>
+                      </Stack>
                     </Stack>
-                  </Stack>
+                  )
                 ) : (
                   <Stack spacing={5}>
                     <Stack
@@ -256,33 +325,28 @@ const NewDocumentlist = () => {
         spacing={4}
         justifyContent="flex-end"
       >
-        {/* <TextField
-          required
-          id="filled-basic"
-          name="Qualification type"
-          label="Qualification Type"
-          variant="filled"
-          marginLeft="5px"
-          value={value["Qualification type"]}
-          onChange={handleSubmit}
-        /> */}
-        <Button
-          variant="contained"
-          endIcon={<SendIcon />}
+        <Sbutton
+          text="Verify"
+          btnWidth="150px"
           onClick={() => {
-            if (checkVerified() === null) {
+            if (isAllVerified() === false) {
               setOpen(true);
-              setAlert(
-                "You need to verify all three documents to send the email !!!"
-              );
+              setAlert("You need to verify all three documents !!!");
             } else {
-              routeChange();
-              window.location.reload();
+              if (value === "") {
+                setOpen(true);
+                setAlert(
+                  "You need to update the qualification of the provider !!!"
+                );
+              } else {
+                setIsUpdated(true);
+                updateVerification();
+                routeChange();
+                window.location.reload();
+              }
             }
           }}
-        >
-          Send Mail
-        </Button>
+        />
       </Stack>
       <AlertBox open={open} setOpen={setOpen} alert={alert} />
     </Box>
